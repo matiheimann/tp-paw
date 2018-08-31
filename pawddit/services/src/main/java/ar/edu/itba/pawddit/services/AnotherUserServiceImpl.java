@@ -1,5 +1,7 @@
 package ar.edu.itba.pawddit.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.services.UserService;
@@ -9,7 +11,13 @@ import ar.edu.itba.pawddit.model.User;
 public class AnotherUserServiceImpl implements UserService {
 
 	@Override
-	public User findById(int id) {
+	public Optional<User> findById(final long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User create(final String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,5 +1,7 @@
 package ar.edu.itba.pawddit.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,13 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	@Override
-	public User findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<User> findById(final long id) {
+		return userDao.findById(id);
+	}
+
+	@Override
+	public User create(final String username) {
+		return userDao.create(username);
 	}
 	
 }

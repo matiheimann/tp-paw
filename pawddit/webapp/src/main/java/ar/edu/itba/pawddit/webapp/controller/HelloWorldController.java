@@ -23,7 +23,7 @@ public class HelloWorldController {
 		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
 		return mav;
 	}
-	
+		
 	@RequestMapping("/create")
 	public ModelAndView create(@RequestParam(value = "name", required = true) final String username) {
 		final User u = us.create(username);

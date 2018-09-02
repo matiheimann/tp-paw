@@ -1,0 +1,115 @@
+/*E85A4F
+E98074
+EDEAE5*/
+.main-font {
+	font-family: 'Roboto', sans-serif;
+	background-color: #EDEAE5;
+}
+
+.navbar-component {
+	align-items: center;
+	background-color: white;
+	display: flex;
+	height: 70px;
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+	-webkit-box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
+	-moz-box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
+	box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
+}
+
+.logo {
+	border: 3px solid black;
+	border-radius: 10px;
+  	font-family: 'Kosugi', sans-serif;
+  	color: black;
+ 	margin: 10px;
+ 	padding:4px;
+}
+
+.create-post {
+	background-color: #E85A4F;
+	color: white;
+	margin-left: auto;
+	margin-right: 10px;
+	height: 40px;
+}
+
+.dropdown-component {
+	color: black;
+}
+
+.center-content{
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	padding-top: 100px;	
+	
+}
+
+.post-container {
+	background-color: white;
+	border-radius: 10px;
+	height: 300px;
+	margin: 15px 10px;
+	overflow: hidden;
+	padding: 8px 15px;
+	width: 90%;
+	max-width: 600px;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+.post-header {
+	align-items: center;
+	display: flex;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+
+.header-button{
+	background-color: #E85A4F;
+	color: white;
+	border-radius: 5px;
+	display: inline-block;
+	height: 23px;
+	padding: 2px 5px;
+	margin: 0 10px;
+}
+
+
+.post-description {
+	background-color:transparent;
+	overflow: hidden;
+	z-index: 1;
+	height: 135px;
+	position: relative;
+	-webkit-box-shadow: inset 0px -147px 163px -77px rgba(255,255,255,1);
+	-moz-box-shadow: inset 0px -147px 163px -77px rgba(255,255,255,1);
+	box-shadow: inset 0px -147px 163px -77px rgba(255,255,255,1);
+}
+
+.position-up {
+	position: relative;
+	top: -135px;
+	margin-bottom: 10px;
+}
+.post-description-text {
+	background-color: transparent;
+	height: 135px;
+	overflow: hidden;
+}
+
+.post-info {
+	align-items: center;
+	display: flex;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.info-item{
+	margin:3px 10px;
+}

@@ -17,7 +17,7 @@ public class AnotherUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User create(final String username) {
+	public User create(final String username, String password, String email, int score) {
 		// TODO Auto-generated method stub
 		return null;
 	}

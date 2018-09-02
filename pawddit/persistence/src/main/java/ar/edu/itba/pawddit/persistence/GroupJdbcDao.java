@@ -38,10 +38,12 @@ public class GroupJdbcDao implements GroupDao{
 				.withTableName("group");
 	}
 	
+	@Override
 	public Optional<Group> findByName(String name){
 		return jdbcTemplate.query("SELECT * FROM group WHERE name = ?", ROW_MAPPER, name).stream().findFirst();
 	}
 	
+	@Override
 	public Group create(String name, Timestamp date, String description, long owner) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("name", name);

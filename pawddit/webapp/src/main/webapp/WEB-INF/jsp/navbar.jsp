@@ -1,5 +1,5 @@
 <nav class="navbar-component">
-	<h2 class="logo clickable">Pawddit.</h2>
+	<h2 class="logo clickable" onclick="location.href='<c:url value="index" />'">Pawddit.</h2>
 	<button  type="button" class="btn create-post">CREATE THREAD
 	</button>
 	<div class="nav-item dropdown">

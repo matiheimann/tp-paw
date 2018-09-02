@@ -10,7 +10,7 @@ public class User {
 	public User(String username, String password, String email, int score, long userid) {
 		this.username = username;
 		this.password = password;
-		this.setEmail(email);
+		this.email = email;
 		this.score = score;
 		this.userid = userid;
 	}

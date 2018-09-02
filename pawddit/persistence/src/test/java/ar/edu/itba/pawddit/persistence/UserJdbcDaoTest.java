@@ -20,7 +20,9 @@ import ar.edu.itba.pawddit.model.User;
 @Sql("classpath:schema.sql")
 public class UserJdbcDaoTest {
 	private static final String USERNAME = "Username";
-	//private static final String PASSWORD = "Password";
+	private static final String PASSWORD = "Password";
+	private static final String EMAIL = "Email";
+	private static final int SCORE = 1;
 	
 	@Autowired
 	private DataSource ds;
@@ -37,10 +39,12 @@ public class UserJdbcDaoTest {
 	
 	@Test
 	public void testCreate() {
-		final User user = userDao.create(USERNAME, "a", "a", 0);
+		final User user = userDao.create(USERNAME, PASSWORD, EMAIL, SCORE);
 		Assert.assertNotNull(user);
 		Assert.assertEquals(USERNAME, user.getUsername());
-		//Assert.assertEquals(PASSWORD, user.getPassword());
+		Assert.assertEquals(PASSWORD, user.getPassword());
+		Assert.assertEquals(EMAIL, user.getEmail());
+		Assert.assertEquals(SCORE, user.getScore());
 		Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
 	}
 }

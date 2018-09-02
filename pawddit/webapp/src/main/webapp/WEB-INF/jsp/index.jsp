@@ -12,22 +12,8 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	</head> 
 	<body class="main-font">
-		<nav class="navbar-component">
-			<h2 class="logo">Pawddit.</h2>
-			<button  type="button" class="btn create-post">CREATE THREAD
-			</button>
-			<div class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle dropdown-component" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<c:out value="${user.username}" escapeXml="true"/>
-       			 </a>
-	        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	          		<a class="dropdown-item" href="#">My Profile</a>
-	          		<a class="dropdown-item" href="#">Settings</a>
-	          		<div class="dropdown-divider"></div>
-	          		<a class="dropdown-item" href="#">Log Out</a>
-	        	</div>
-      		</div>
-		</nav>
+		<i class="fas fa-city background-image"></i>
+		<%@include file="navbar.jsp" %>
 		<div class="center-content container">
 			<div class="post-container">
 				<div class="post-header">
@@ -107,7 +93,10 @@
      				</div>
 				</div>
 			</div>
+			<button  type="button" class="btn load-btn">MORE
+			</button>
 		</div>
+		<%@include file="footer.jsp" %>
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

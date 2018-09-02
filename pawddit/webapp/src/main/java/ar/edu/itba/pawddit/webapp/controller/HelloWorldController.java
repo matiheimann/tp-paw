@@ -23,6 +23,24 @@ public class HelloWorldController {
 		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
 		return mav;
 	}
+	
+	@RequestMapping("/welcome")
+	public ModelAndView welcome() {
+		final ModelAndView mav = new ModelAndView("welcome");
+		return mav;
+	}
+	
+	@RequestMapping("/login")
+	public ModelAndView login() {
+		final ModelAndView mav = new ModelAndView("login");
+		return mav;
+	}
+	
+	@RequestMapping("/register")
+	public ModelAndView register() {
+		final ModelAndView mav = new ModelAndView("register");
+		return mav;
+	}
 		
 	@RequestMapping("/create")
 	public ModelAndView create(@RequestParam(value = "name", required = true) final String username) {

@@ -1,10 +1,12 @@
 /*E85A4F
 E98074
 EDEAE5*/
+
 .main-font {
 	font-family: 'Roboto', sans-serif;
 	background-color: #EDEAE5;
 }
+
 
 .navbar-component {
 	align-items: center;
@@ -12,7 +14,7 @@ EDEAE5*/
 	display: flex;
 	height: 70px;
 	position: fixed;
-	z-index: 1;
+	z-index: 2;
 	width: 100%;
 	-webkit-box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
 	-moz-box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
@@ -45,7 +47,8 @@ EDEAE5*/
 	display: flex;
 	flex-direction: column;
 	padding-top: 100px;	
-	
+	height: 100%;
+	position: relative;
 }
 
 .post-container {
@@ -112,4 +115,25 @@ EDEAE5*/
 
 .info-item{
 	margin:3px 10px;
+}
+
+
+.footer-component {
+	background-color: lightgrey;
+	color: white;
+	width: 100%;
+	height: 120px;
+	margin-top: 30px;
+	min-height: 100px;
+}
+
+.load-btn {
+	background-color: #7482c1;
+	color: white;
+	height: 40px;
+	margin: 20px;
+}
+
+.clickable {
+	cursor: pointer;
 }

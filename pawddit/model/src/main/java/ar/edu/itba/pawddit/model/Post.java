@@ -9,6 +9,14 @@ public class Post {
 	private long owner;
 	private long postid;
 	
+	public Post(String content, Timestamp date, String group, long owner, long postid) {
+		this.content = content;
+		this.date = date;
+		this.group = group;
+		this.owner = owner;
+		this.postid = postid;
+	}
+	
 	public String getContent() {
 		return content;
 	}

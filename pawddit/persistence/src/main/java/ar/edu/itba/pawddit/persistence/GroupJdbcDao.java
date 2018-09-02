@@ -20,7 +20,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.services.UserService;
 
 @Repository
-public class GroupJdbcDao {
+public class GroupJdbcDao implements GroupDao{
 	
 	@Autowired
 	@Qualifier("userServiceImpl")

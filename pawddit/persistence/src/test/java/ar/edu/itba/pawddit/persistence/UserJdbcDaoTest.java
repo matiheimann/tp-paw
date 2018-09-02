@@ -37,7 +37,7 @@ public class UserJdbcDaoTest {
 	
 	@Test
 	public void testCreate() {
-		final User user = userDao.create(USERNAME);
+		final User user = userDao.create(USERNAME, "a", "a", 0);
 		Assert.assertNotNull(user);
 		Assert.assertEquals(USERNAME, user.getUsername());
 		//Assert.assertEquals(PASSWORD, user.getPassword());

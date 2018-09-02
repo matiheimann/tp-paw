@@ -26,7 +26,7 @@ public class HelloWorldController {
 		
 	@RequestMapping("/create")
 	public ModelAndView create(@RequestParam(value = "name", required = true) final String username) {
-		final User u = us.create(username);
+		final User u = us.create(username, "a", "a", 0);
 		return new ModelAndView("redirect:/?userId=" + u.getUserid());
 	}
 }

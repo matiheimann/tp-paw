@@ -6,10 +6,10 @@ public class Post {
 	private String content;
 	private Timestamp date;
 	private String group;
-	private long owner;
+	private User owner;
 	private long postid;
 	
-	public Post(String content, Timestamp date, String group, long owner, long postid) {
+	public Post(String content, Timestamp date, String group, User owner, long postid) {
 		this.content = content;
 		this.date = date;
 		this.group = group;
@@ -41,11 +41,11 @@ public class Post {
 		this.group = group;
 	}
 	
-	public long getOwner() {
+	public User getOwner() {
 		return owner;
 	}
 	
-	public void setOwner(long owner) {
+	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 	

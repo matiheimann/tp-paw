@@ -28,14 +28,14 @@ public class GroupJdbcDao implements GroupDao{
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Group> ROW_MAPPER = (rs, rowNum) ->
-		new Group(rs.getString("name"), rs.getTimestamp("date"),
+		new Group(rs.getString("name"), rs.getTimestamp("creationDate"),
 				rs.getString("description"), us.findById(rs.getInt("owner")).get());
 	
 	@Autowired
 	public GroupJdbcDao(final DataSource ds) {
 		jdbcTemplate = new JdbcTemplate(ds);
 		jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-				.withTableName("group");
+				.withTableName("groups");
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class GroupJdbcDao implements GroupDao{
 	public Group create(String name, Timestamp date, String description, long owner) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("name", name);
-		args.put("date", date);
+		args.put("creationDate", date);
 		args.put("description", description);
 		args.put("owner", owner);
 		jdbcInsert.executeAndReturnKey(args);

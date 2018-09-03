@@ -13,7 +13,7 @@ import ar.edu.itba.pawddit.services.UserService;
 public class HelloWorldController {
 
 	@Autowired
-	private static UserService us;
+	private UserService us;
 
 	@RequestMapping("/")
 	public ModelAndView index(@RequestParam(value = "userId", required = true) final int id) {

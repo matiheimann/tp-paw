@@ -1,6 +1,9 @@
 package ar.edu.itba.pawddit.model;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.LinkedList;
+
 
 public class Group {
 	
@@ -8,12 +11,14 @@ public class Group {
 	private String name;
 	private Timestamp date;
 	private String description;
+	private Collection<User> followers;
 	
 	public Group(String name, Timestamp date, String description, User owner) {
 		this.name = name;
 		this.date = date;
 		this.description = description;
 		this.owner = owner;
+		this.followers = new LinkedList<>();
 	}
 	
 	public String getName() {
@@ -46,6 +51,14 @@ public class Group {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public Collection<User> getFollowers() {
+		return followers;
+	}
+
+	public void newFollower(User us) {
+		
 	}
 
 }

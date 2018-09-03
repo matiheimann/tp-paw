@@ -58,7 +58,11 @@ public class Group {
 	}
 
 	public void newFollower(User us) {
-		
+		this.followers.add(us);
+	}
+	
+	public void unfollow(User us) {
+		this.followers.remove(us);
 	}
 
 }

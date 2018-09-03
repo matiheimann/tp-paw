@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -23,7 +22,6 @@ import ar.edu.itba.pawddit.services.UserService;
 public class GroupJdbcDao implements GroupDao{
 	
 	@Autowired
-	@Qualifier("userServiceImpl")
 	private static UserService us;
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
@@ -50,7 +48,7 @@ public class GroupJdbcDao implements GroupDao{
 		args.put("creationDate", date);
 		args.put("description", description);
 		args.put("owner", owner);
-		jdbcInsert.executeAndReturnKey(args);
+		jdbcInsert.execute(args);
 		return new Group(name, date, description, us.findById(owner).get()); 
 	}
 	

@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -21,7 +20,6 @@ import ar.edu.itba.pawddit.services.UserService;
 public class PostJdbcDao implements PostDao{
 
 	@Autowired
-	@Qualifier("userServiceImpl")
 	private static UserService us;
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
@@ -29,6 +27,7 @@ public class PostJdbcDao implements PostDao{
 	new Post(rs.getString("content"), rs.getTimestamp("creationDate"), rs.getString("groupName"), 
 			us.findById(rs.getInt("user")).get(), rs.getInt("postId"));
 	
+	@Autowired
 	public PostJdbcDao(final DataSource ds) {
 			jdbcTemplate = new JdbcTemplate(ds);
 			jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)

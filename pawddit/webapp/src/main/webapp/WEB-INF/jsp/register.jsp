@@ -16,6 +16,8 @@
 		<%@include file="external-navbar.jsp" %>
 		<div class="center-content container">
 			<div class="register form-container">
+				<h2>Register</h2>
+				<br>
 				<form>
 	  				<div class="form-group">
 		    			<label for="exampleInputEmail1">Email address</label>

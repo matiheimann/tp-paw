@@ -93,7 +93,7 @@
      				</div>
 				</div>
 			</div>
-			<button  type="button" class="btn load-btn">MORE
+			<button  type="button" class="btn load-btn btn-secondary">MORE
 			</button>
 		</div>
 		<%@include file="footer.jsp" %>

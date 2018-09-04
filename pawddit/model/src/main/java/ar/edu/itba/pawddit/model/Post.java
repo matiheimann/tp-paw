@@ -5,11 +5,11 @@ import java.sql.Timestamp;
 public class Post {
 	private String content;
 	private Timestamp date;
-	private String group;
+	private Group group;
 	private User owner;
 	private long postid;
 	
-	public Post(String content, Timestamp date, String group, User owner, long postid) {
+	public Post(String content, Timestamp date, Group group, User owner, long postid) {
 		this.content = content;
 		this.date = date;
 		this.group = group;
@@ -33,11 +33,11 @@ public class Post {
 		this.date = date;
 	}
 	
-	public String getGroup() {
+	public Group getGroup() {
 		return group;
 	}
 	
-	public void setGroup(String group) {
+	public void setGroup(Group group) {
 		this.group = group;
 	}
 	

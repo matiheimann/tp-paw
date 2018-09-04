@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ar.edu.itba.pawddit.model.Group;
+import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.GroupDao;
 
 public class GroupServiceImpl implements GroupService {
@@ -19,8 +20,8 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group create(String name, Timestamp date, String description, long idUser) {
-		return groupDao.create(name, date, description, idUser);
+	public Group create(String name, Timestamp date, String description, User user) {
+		return groupDao.create(name, date, description, user);
 	}
 	
 }

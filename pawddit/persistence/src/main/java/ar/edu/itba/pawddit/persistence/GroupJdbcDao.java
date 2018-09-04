@@ -16,18 +16,16 @@ import org.springframework.jdbc.core.RowMapper;
 
 
 import ar.edu.itba.pawddit.model.Group;
-import ar.edu.itba.pawddit.services.UserService;
+import ar.edu.itba.pawddit.model.User;
 
 @Repository
 public class GroupJdbcDao implements GroupDao{
 	
-	@Autowired
-	private static UserService us;
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Group> ROW_MAPPER = (rs, rowNum) ->
-		new Group(rs.getString("name"), rs.getTimestamp("creationDate"),
-				rs.getString("description"), us.findById(rs.getInt("owner")).get());
+		new Group(rs.getString("name"), rs.getTimestamp("creationDate"), rs.getString("description"), 
+				new User(rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getInt("score"), rs.getInt("userId")));
 	
 	@Autowired
 	public GroupJdbcDao(final DataSource ds) {
@@ -38,18 +36,18 @@ public class GroupJdbcDao implements GroupDao{
 	
 	@Override
 	public Optional<Group> findByName(String name){
-		return jdbcTemplate.query("SELECT * FROM group WHERE name = ?", ROW_MAPPER, name).stream().findFirst();
+		return jdbcTemplate.query("SELECT * FROM groups INNER JOIN users ON groups.owner = users.userId WHERE name = ?", ROW_MAPPER, name).stream().findFirst();
 	}
 	
 	@Override
-	public Group create(String name, Timestamp date, String description, long owner) {
+	public Group create(String name, Timestamp date, String description, User owner) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("name", name);
 		args.put("creationDate", date);
 		args.put("description", description);
-		args.put("owner", owner);
+		args.put("owner", owner.getUserid());
 		jdbcInsert.execute(args);
-		return new Group(name, date, description, us.findById(owner).get()); 
+		return new Group(name, date, description, owner); 
 	}
 	
 }

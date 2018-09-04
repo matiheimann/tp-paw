@@ -13,19 +13,20 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
-import ar.edu.itba.pawddit.services.UserService;
+import ar.edu.itba.pawddit.model.User;
 
 @Repository
 public class PostJdbcDao implements PostDao{
 
-	@Autowired
-	private static UserService us;
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Post> ROW_MAPPER = (rs, rowNum) ->
-	new Post(rs.getString("content"), rs.getTimestamp("creationDate"), rs.getString("groupName"), 
-			us.findById(rs.getInt("userId")).get(), rs.getInt("postId"));
+	new Post(rs.getString("content"), rs.getTimestamp("creationDate"), 
+			new Group(rs.getString("name"), rs.getTimestamp("groups.creationDate"), rs.getString("description"), new User(rs.getString("users2.username"), rs.getString("users2.password"), rs.getString("users2.email"), rs.getInt("users2.score"), rs.getInt("users2.userId"))), 
+			new User(rs.getString("users1.username"), rs.getString("users1.password"), rs.getString("users1.email"), rs.getInt("users1.score"), rs.getInt("users1.userId")), 
+			rs.getInt("postId"));
 	
 	@Autowired
 	public PostJdbcDao(final DataSource ds) {
@@ -37,18 +38,22 @@ public class PostJdbcDao implements PostDao{
 	
 	@Override
 	public Optional<Post> findById(long id) {
-		return jdbcTemplate.query("SELECT * FROM post WHERE id = ?", ROW_MAPPER, id).stream().findFirst();
+		return jdbcTemplate.query("SELECT * FROM posts" + 
+				" INNER JOIN users users1 ON users1.idUser = posts.idUser" + 
+				" INNER JOIN groups ON posts.groupName = groups.name" + 
+				" INNER JOIN users users2 ON groups.userId = users2.userId WHERE idPost = ?"
+				, ROW_MAPPER, id).stream().findFirst();
 	}
 
 	@Override
-	public Post create(String content, Timestamp date, String group, long user) {
+	public Post create(String content, Timestamp date, Group group, User user) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("content", content); 
 		args.put("creationDate", date);
-		args.put("groupName", group);
-		args.put("userId", user);
+		args.put("groupName", group.getName());
+		args.put("userId", user.getUserid());
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
-		return new Post(content, date, group, us.findById(user).get(), postId.longValue());
+		return new Post(content, date, group, user, postId.longValue());
 	}
 
 

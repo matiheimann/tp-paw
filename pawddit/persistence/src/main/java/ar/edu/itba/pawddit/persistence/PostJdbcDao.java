@@ -25,7 +25,7 @@ public class PostJdbcDao implements PostDao{
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Post> ROW_MAPPER = (rs, rowNum) ->
 	new Post(rs.getString("content"), rs.getTimestamp("creationDate"), rs.getString("groupName"), 
-			us.findById(rs.getInt("user")).get(), rs.getInt("postId"));
+			us.findById(rs.getInt("userId")).get(), rs.getInt("postId"));
 	
 	@Autowired
 	public PostJdbcDao(final DataSource ds) {
@@ -46,7 +46,7 @@ public class PostJdbcDao implements PostDao{
 		args.put("content", content); // la key es el nombre de la columna
 		args.put("creationDate", date);
 		args.put("groupName", group);
-		args.put("user", user);
+		args.put("userId", user);
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
 		return new Post(content, date, group, us.findById(user).get(), postId.longValue());
 	}

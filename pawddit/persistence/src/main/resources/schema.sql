@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS posts (
 	creationdate TIMESTAMP NOT NULL,
 	groupname TEXT NOT NULL,
 	userid INT NOT NULL,
-	FOREIGN KEY(userId) REFERENCES users(userid) ON DELETE CASCADE,
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(groupName) REFERENCES groups(name) ON DELETE CASCADE
 );
 
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS voteposts (
 	valuevote INT NOT NULL,
 	postid INT NOT NULL,
 	userid INT NOT NULL,
-	FOREIGN KEY(userID) REFERENCES users(userid) ON DELETE CASCADE,
-	FOREIGN KEY(postId) REFERENCES posts(postid) ON DELETE CASCADE
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
+	FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS votecomments (
@@ -60,9 +60,3 @@ CREATE TABLE IF NOT EXISTS votecomments (
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(commentid) REFERENCES comments(commentid) ON DELETE CASCADE
 );
-
-
-
-
-
-

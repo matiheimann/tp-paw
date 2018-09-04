@@ -30,7 +30,7 @@ public class PostJdbcDao implements PostDao {
 			jdbcTemplate = new JdbcTemplate(ds);
 			jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
 					.withTableName("posts")
-					.usingGeneratedKeyColumns("postId");
+					.usingGeneratedKeyColumns("postid");
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class PostJdbcDao implements PostDao {
 
 	@Override
 	public List<Post> findByGroup(final Group group) {
-		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.owner = users.userid WHERE groupname = ?", ROW_MAPPER, group.getName());
+		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE groupname = ?", ROW_MAPPER, group.getName());
 	}
 
 	

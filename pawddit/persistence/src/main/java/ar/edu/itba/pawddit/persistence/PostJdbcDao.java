@@ -43,7 +43,7 @@ public class PostJdbcDao implements PostDao{
 	@Override
 	public Post create(String content, Timestamp date, String group, long user) {
 		final Map<String, Object> args = new HashMap<>();
-		args.put("content", content); // la key es el nombre de la columna
+		args.put("content", content); 
 		args.put("creationDate", date);
 		args.put("groupName", group);
 		args.put("userId", user);

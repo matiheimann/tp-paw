@@ -40,9 +40,10 @@ public class HelloWorldController {
 		return mav;
 	}
 		
-	@RequestMapping("/create")
+	@RequestMapping("/createUser")
 	public ModelAndView create(@RequestParam(value = "name", required = true) final String username) {
 		final User u = us.create(username, "a", "a", 0);
 		return new ModelAndView("redirect:/?userId=" + u.getUserid());
 	}
+	
 }

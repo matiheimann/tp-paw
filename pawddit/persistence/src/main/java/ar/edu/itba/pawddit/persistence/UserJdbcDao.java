@@ -36,7 +36,7 @@ public class UserJdbcDao implements UserDao {
 	}
 
 	@Override
-	public User create(String username, String password, String email, int score) {
+	public User create(final String username, final String password, final String email, int score) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("username", username); // la key es el nombre de la columna
 		args.put("password", password);

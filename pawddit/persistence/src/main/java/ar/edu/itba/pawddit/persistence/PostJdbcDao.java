@@ -2,9 +2,8 @@ package ar.edu.itba.pawddit.persistence;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,13 @@ import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 
 @Repository
-public class PostJdbcDao implements PostDao{
+public class PostJdbcDao implements PostDao {
 
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
+	
 	private final static RowMapper<Post> ROW_MAPPER = (rs, rowNum) ->
-	new Post(rs.getString("content"), rs.getTimestamp("creationDate"), 
-			new Group(rs.getString("name"), rs.getTimestamp("groups.creationDate"), rs.getString("description"), new User(rs.getString("users2.username"), rs.getString("users2.password"), rs.getString("users2.email"), rs.getInt("users2.score"), rs.getInt("users2.userId"))), 
-			new User(rs.getString("users1.username"), rs.getString("users1.password"), rs.getString("users1.email"), rs.getInt("users1.score"), rs.getInt("users1.userId")), 
-			rs.getInt("postId"));
+	new Post(rs.getString("content"), rs.getTimestamp("creationdate"), new Group(rs.getString("groupname"), null, null, null), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("userid")), rs.getInt("postid"));
 	
 	@Autowired
 	public PostJdbcDao(final DataSource ds) {
@@ -35,27 +32,22 @@ public class PostJdbcDao implements PostDao{
 					.withTableName("posts")
 					.usingGeneratedKeyColumns("postId");
 	}
-	
-	@Override
-	public Optional<Post> findById(long id) {
-		return jdbcTemplate.query("SELECT * FROM posts" + 
-				" INNER JOIN users users1 ON users1.idUser = posts.idUser" + 
-				" INNER JOIN groups ON posts.groupName = groups.name" + 
-				" INNER JOIN users users2 ON groups.userId = users2.userId WHERE idPost = ?"
-				, ROW_MAPPER, id).stream().findFirst();
-	}
 
 	@Override
-	public Post create(String content, Timestamp date, Group group, User user) {
+	public Post create(final String content, final Timestamp date, final Group group, final User user) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("content", content); 
-		args.put("creationDate", date);
-		args.put("groupName", group.getName());
-		args.put("userId", user.getUserid());
+		args.put("creationdate", date);
+		args.put("groupname", group.getName());
+		args.put("userid", user.getUserid());
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
 		return new Post(content, date, group, user, postId.longValue());
 	}
 
+	@Override
+	public List<Post> findByGroup(final Group group) {
+		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.owner = users.userid WHERE groupname = ?", ROW_MAPPER, group.getName());
+	}
 
 	
 }

@@ -15,12 +15,12 @@ public class GroupServiceImpl implements GroupService {
 	GroupDao groupDao;
 
 	@Override
-	public Optional<Group> findByName(String name) {
+	public Optional<Group> findByName(final String name) {
 		return groupDao.findByName(name);
 	}
 
 	@Override
-	public Group create(String name, Timestamp date, String description, User user) {
+	public Group create(final String name, final Timestamp date, final String description, final User user) {
 		return groupDao.create(name, date, description, user);
 	}
 	

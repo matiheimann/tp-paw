@@ -4,10 +4,10 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
-	private int score;
+	private Integer score;
 	private long userid;
 	
-	public User(String username, String password, String email, int score, long userid) {
+	public User(String username, String password, String email, Integer score, long userid) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -43,7 +43,7 @@ public class User {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 	

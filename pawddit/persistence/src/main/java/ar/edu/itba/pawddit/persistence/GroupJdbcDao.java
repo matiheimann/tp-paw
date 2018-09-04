@@ -19,13 +19,13 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 
 @Repository
-public class GroupJdbcDao implements GroupDao{
+public class GroupJdbcDao implements GroupDao {
 	
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Group> ROW_MAPPER = (rs, rowNum) ->
-		new Group(rs.getString("name"), rs.getTimestamp("creationDate"), rs.getString("description"), 
-				new User(rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getInt("score"), rs.getInt("userId")));
+		new Group(rs.getString("name"), rs.getTimestamp("creationdate"), rs.getString("description"), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("userid")));
+		
 	
 	@Autowired
 	public GroupJdbcDao(final DataSource ds) {
@@ -35,15 +35,15 @@ public class GroupJdbcDao implements GroupDao{
 	}
 	
 	@Override
-	public Optional<Group> findByName(String name){
-		return jdbcTemplate.query("SELECT * FROM groups INNER JOIN users ON groups.owner = users.userId WHERE name = ?", ROW_MAPPER, name).stream().findFirst();
+	public Optional<Group> findByName(final String name){
+		return jdbcTemplate.query("SELECT * FROM groups JOIN users ON groups.owner = users.userid WHERE name = ?", ROW_MAPPER, name).stream().findFirst();
 	}
 	
 	@Override
-	public Group create(String name, Timestamp date, String description, User owner) {
+	public Group create(final String name, final Timestamp date, final String description, final User owner) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("name", name);
-		args.put("creationDate", date);
+		args.put("creationdate", date);
 		args.put("description", description);
 		args.put("owner", owner.getUserid());
 		jdbcInsert.execute(args);

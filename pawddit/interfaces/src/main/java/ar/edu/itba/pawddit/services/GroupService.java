@@ -11,5 +11,4 @@ public interface GroupService {
 	public Optional<Group> findByName(final String name);
 	public Group create(final String name, final Timestamp date, final String description, final User user);
 	
-	
 }

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -17,27 +18,32 @@
 		<div class="center-content container">
 			<div class="register form-container">
 				<h2>Register</h2>
-				<br>
-				<form>
+				<br>				
+				<c:url value="/createUser" var="postPath"/>
+				<form:form modelAttribute="registerForm" action="${postPath}" method="post">	
 	  				<div class="form-group">
-		    			<label for="exampleInputEmail1">Email address</label>
-		   				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+		    			<form:label for="exampleInputEmail1" path="email">Email address</form:label>
+		   				<form:input type="email" path="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
 		    			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		    			<form:errors path="email" cssClass="formError" element="p"/>
 	 			 	</div>
 	  				<div class="form-group">
-	    				<label for="exampleInputUsername">Username</label>
-	   					<input type="text" class="form-control" id="exampleInputUsername" placeholder="Enter username">
+	    				<form:label for="exampleInputUsername" path="username">Username</form:label>
+	   					<form:input type="text" path="username" class="form-control" id="exampleInputUsername" placeholder="Enter username"/>
+	   					<form:errors path="username" cssClass="formError" element="p"/>
 	 			 	</div>
 				  	<div class="form-group">
-				 		<label for="exampleInputPassword1">Password</label>
-				    	<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				 		<form:label for="exampleInputPassword1" path="password">Password</form:label>
+				    	<form:input type="password" path="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
+				    	<form:errors path="password" cssClass="formError" element="p"/>
 				  	</div>
 				  	<div class="form-group">
-				 		<label for="exampleInputConfirmPassword">Confirm Password</label>
-				    	<input type="password" class="form-control" id="exampleInputConfirmPassword" placeholder="Reenter password">
+				 		<form:label for="exampleInputConfirmPassword" path="repeatPassword">Confirm Password</form:label>
+				    	<form:input type="password" path="repeatPassword" class="form-control" id="exampleInputConfirmPassword" placeholder="Reenter password"/>
+				  		<form:errors path="repeatPassword" cssClass="formError" element="p"/>
 				  	</div>
 				  	<button type="submit" class="btn login-btn">Submit</button>
-				</form>
+				</form:form>
 			</div>
 		</div>
 		<%@include file="footer.jsp" %>

@@ -1,5 +1,5 @@
 <nav class="navbar-component">
-	<h2 class="logo clickable" onclick="location.href='<c:url value="?userId= ${user.userid}" />'">Pawddit.</h2>
+	<h2 class="logo clickable" onclick="location.href='<c:url value="/?userId= ${user.userid}" />'">Pawddit.</h2>
 	<button  type="button" class="btn create-post">CREATE POST
 	</button>
 	<div class="nav-item dropdown">

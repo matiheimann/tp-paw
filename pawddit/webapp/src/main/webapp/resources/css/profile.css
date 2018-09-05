@@ -1,0 +1,72 @@
+.profile {
+	display: flex;
+}
+
+.profile-component {
+	align-items: center;
+	background-color: white;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+	min-height: 300px;
+	margin: 15px 10px;
+	overflow: hidden;
+	padding: 8px 15px;
+	width: 300px;
+	min-width: 300px;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+
+.activity-component {
+	background-color: white;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 700px;
+	margin: 15px 10px;
+	overflow: hidden;
+	padding: 8px 15px;
+	width: 90%;
+	min-width: 650px;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+
+
+.activity {
+	margin-top: 20px;
+	width: 100%;
+}
+.username-title {
+	margin-bottom: 20px;
+}
+
+.margin-title {
+	margin-left: 5px;
+}
+
+.user-image-container {
+	color: lightgrey;
+	text-align: center;
+	border: 2px solid lightgrey;
+	border-radius: 10px;
+	height: 130px;
+	min-height: 130px;
+	margin: 25px 15px 8px 15px;
+	width: 130px;
+	min-width: 130px;
+	padding: 4px;
+}
+
+.center-column {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}

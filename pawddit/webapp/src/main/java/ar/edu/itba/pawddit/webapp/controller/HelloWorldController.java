@@ -32,23 +32,24 @@ public class HelloWorldController {
 	private PostService ps;
 
 	@RequestMapping("/")
-	public ModelAndView index(@RequestParam(value = "userId", required = true) final int id) {
-		final ModelAndView mav = new ModelAndView("index");
-		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
-		return mav;
+	public ModelAndView index(@RequestParam(value = "userId", required = false) final Integer id)
+	{
+		if (id == null) {
+			final ModelAndView mav = new ModelAndView("welcome");
+			mav.addObject("posts", ps.findAll());
+			return mav;
+		}
+		else {
+			final ModelAndView mav = new ModelAndView("index");
+			mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+			return mav;
+		}
 	}
 	
 	@RequestMapping("/profile")
-	public ModelAndView profile(@RequestParam(value = "userId", required = true) final int id) {
+	public ModelAndView profile(@RequestParam(value = "userId", required = true) final Integer id) {
 		final ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
-		return mav;
-	}
-	
-	@RequestMapping("/welcome")
-	public ModelAndView welcome() {
-		final ModelAndView mav = new ModelAndView("welcome");
-		mav.addObject("posts", ps.findAll());
 		return mav;
 	}
 	

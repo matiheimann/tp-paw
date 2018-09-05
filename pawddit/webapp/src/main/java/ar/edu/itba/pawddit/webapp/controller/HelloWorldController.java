@@ -38,9 +38,17 @@ public class HelloWorldController {
 		return mav;
 	}
 	
+	@RequestMapping("/profile")
+	public ModelAndView profile(@RequestParam(value = "userId", required = true) final int id) {
+		final ModelAndView mav = new ModelAndView("profile");
+		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+		return mav;
+	}
+	
 	@RequestMapping("/welcome")
 	public ModelAndView welcome() {
 		final ModelAndView mav = new ModelAndView("welcome");
+		int i = ps.findAll().size();
 		mav.addObject("posts", ps.findAll());
 		return mav;
 	}

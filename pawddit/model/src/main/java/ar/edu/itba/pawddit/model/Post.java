@@ -11,7 +11,7 @@ public class Post {
 	private long postid;
 	
 	public Post(String title, String content, Timestamp date, Group group, User owner, long postid) {
-		this.setTitle(title);
+		this.title = title;
 		this.content = content;
 		this.date = date;
 		this.group = group;

@@ -42,6 +42,7 @@ public class HelloWorldController {
 		else {
 			final ModelAndView mav = new ModelAndView("index");
 			mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+			mav.addObject("posts", ps.findAll());
 			return mav;
 		}
 	}
@@ -50,6 +51,7 @@ public class HelloWorldController {
 	public ModelAndView profile(@RequestParam(value = "userId", required = true) final Integer id) {
 		final ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+		mav.addObject("posts", ps.findByUser(new User(null, null, null, null, id)));
 		return mav;
 	}
 	

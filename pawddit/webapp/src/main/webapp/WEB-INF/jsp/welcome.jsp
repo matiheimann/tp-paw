@@ -20,6 +20,7 @@
 					<div class="post-container">
 						<div class="post-header">
 							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
+							<span><strong>posted in</strong></span>
 							<span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
 							<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
 						</div>

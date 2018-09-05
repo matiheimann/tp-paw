@@ -16,9 +16,8 @@
 .form-container {
 	background-color: white;
 	border-radius: 10px;
-	height: 300px;
 	margin: 15px 10px;
-	overflow: hidden;
+	overflow: auto;
 	padding: 8px 15px;
 	width: 90%;
 	max-width: 600px;
@@ -29,11 +28,9 @@
 }
 
 .login {
-	min-height: 360px;
-	height: 360px;
+
 }
 
 .register {
-	min-height: 530px;
-	height: 530px;
+	
 }

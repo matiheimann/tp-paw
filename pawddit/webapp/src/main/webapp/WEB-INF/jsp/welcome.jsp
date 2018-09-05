@@ -1,4 +1,3 @@
-<%@ taglib prefix = "d" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
 <html>
@@ -17,20 +16,20 @@
 	<body class="main-font">
 		<%@include file="external-navbar.jsp" %>
 			<div class="center-content container">
-				<d:forEach items="${posts}" var="post">
+				<c:forEach items="${posts}" var="post">
 					<div class="post-container">
 						<div class="post-header">
-							<span class="header-button"><d:out value="${post.owner.username}"/></span>
-							<span class="header-button"><d:out value="${post.group.name}"/></span>
-							<span><strong><d:out value="${post.date}"/></strong></span>
+							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
+							<span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
+							<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
 						</div>
 					<hr>
-					<h2><d:out value="${post.title}"/></h2>
+					<h2><c:out value="${post.title}" escapeXml="true"/></h2>
 					<div class="post-description">
 						
 					</div>
 					<div class="post-description-text position-up">
-						<d:out value="${post.content}"/>
+						<c:out value="${post.content}" escapeXml="true"/>
 					</div>
 					<hr class="position-up">
 					<div class="post-info position-up">
@@ -42,7 +41,7 @@
 	     				</div>
 					</div>
 				</div>
-			</d:forEach>
+			</c:forEach>
 				<button  type="button" class="btn load-btn btn-secondary">MORE
 				</button>
 			</div>

@@ -4,15 +4,17 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.GroupDao;
 
+@Service
 public class GroupServiceImpl implements GroupService {
 	
 	@Autowired
-	GroupDao groupDao;
+	private GroupDao groupDao;
 
 	@Override
 	public Optional<Group> findByName(final String name) {

@@ -4,16 +4,17 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.model.Comment;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.CommentDao;
 
+@Service
 public class CommentServiceImpl implements CommentService {
-
-	@Autowired
-	CommentDao commentDao;
+	
+	private CommentDao commentDao;
 	
 	@Override
 	public Optional<Comment> getCommentById(final long id) {

@@ -31,4 +31,11 @@ public class PostServiceImpl implements PostService {
 		return postDao.findByGroup(group);
 	}
 
+	@Override
+	public List<Post> findByUser(final User user) {
+		return postDao.findByUser(user);
+	}
+	
+	
+
 }

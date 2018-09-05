@@ -11,5 +11,6 @@ public interface PostDao {
 	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user);
 	public List<Post> findAll();
 	public List<Post> findByGroup(final Group group);
+	public List<Post> findByUser(final User user);
 	
 }

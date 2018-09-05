@@ -54,5 +54,10 @@ public class PostJdbcDao implements PostDao {
 		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE groupname = ?", ROW_MAPPER, group.getName());
 	}
 
+	@Override
+	public List<Post> findByUser(final User user) {
+		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = ?", ROW_MAPPER, user.getUserid());
+	}
+
 	
 }

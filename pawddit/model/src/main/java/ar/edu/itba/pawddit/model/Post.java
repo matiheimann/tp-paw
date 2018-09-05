@@ -3,13 +3,15 @@ package ar.edu.itba.pawddit.model;
 import java.sql.Timestamp;
 
 public class Post {
+	private String title;
 	private String content;
 	private Timestamp date;
 	private Group group;
 	private User owner;
 	private long postid;
 	
-	public Post(String content, Timestamp date, Group group, User owner, long postid) {
+	public Post(String title, String content, Timestamp date, Group group, User owner, long postid) {
+		this.setTitle(title);
 		this.content = content;
 		this.date = date;
 		this.group = group;
@@ -17,10 +19,18 @@ public class Post {
 		this.postid = postid;
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	public String getContent() {
 		return content;
 	}
-	
+
 	public void setContent(String content) {
 		this.content = content;
 	}

@@ -8,7 +8,7 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface PostService {
 
-	public Post create(final String content, final Timestamp date, final Group group, final User user);
+	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user);
 	public List<Post> findByGroup(final Group group);
 	
 }

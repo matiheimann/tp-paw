@@ -15,8 +15,8 @@ public class PostServiceImpl implements PostService {
 	PostDao postDao;
 
 	@Override
-	public Post create(final String content, final Timestamp date, final Group group, final User user) {
-		return postDao.create(content, date, group, user);
+	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user) {
+		return postDao.create(title, content, date, group, user);
 	}
 	
 	@Override

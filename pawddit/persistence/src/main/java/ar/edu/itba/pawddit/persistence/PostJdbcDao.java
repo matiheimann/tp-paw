@@ -23,7 +23,7 @@ public class PostJdbcDao implements PostDao {
 	private final SimpleJdbcInsert jdbcInsert;
 	
 	private final static RowMapper<Post> ROW_MAPPER = (rs, rowNum) ->
-	new Post(rs.getString("content"), rs.getTimestamp("creationdate"), new Group(rs.getString("groupname"), null, null, null), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("userid")), rs.getInt("postid"));
+	new Post(rs.getString("title"), rs.getString("content"), rs.getTimestamp("creationdate"), new Group(rs.getString("groupname"), null, null, null), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("userid")), rs.getInt("postid"));
 	
 	@Autowired
 	public PostJdbcDao(final DataSource ds) {
@@ -34,14 +34,14 @@ public class PostJdbcDao implements PostDao {
 	}
 
 	@Override
-	public Post create(final String content, final Timestamp date, final Group group, final User user) {
+	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("content", content); 
 		args.put("creationdate", date);
 		args.put("groupname", group.getName());
 		args.put("userid", user.getUserid());
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
-		return new Post(content, date, group, user, postId.longValue());
+		return new Post(title, content, date, group, user, postId.longValue());
 	}
 
 	@Override

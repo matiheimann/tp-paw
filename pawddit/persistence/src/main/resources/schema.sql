@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS groups (
 
 CREATE TABLE IF NOT EXISTS posts (
 	postid SERIAL PRIMARY KEY,
+	title TEXT NOT NULL,
 	content TEXT NOT NULL,
 	creationdate TIMESTAMP NOT NULL,
 	groupname TEXT NOT NULL,

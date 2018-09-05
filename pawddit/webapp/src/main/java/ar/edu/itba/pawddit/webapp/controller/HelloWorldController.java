@@ -35,6 +35,7 @@ public class HelloWorldController {
 	@RequestMapping("/welcome")
 	public ModelAndView welcome() {
 		final ModelAndView mav = new ModelAndView("welcome");
+		int i = ps.findAll().size();
 		mav.addObject("posts", ps.findAll());
 		return mav;
 	}

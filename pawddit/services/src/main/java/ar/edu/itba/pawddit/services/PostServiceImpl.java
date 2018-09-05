@@ -20,6 +20,11 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
+	public List<Post> findAll() {
+		return postDao.findAll();
+	}
+	
+	@Override
 	public List<Post> findByGroup(final Group group) {
 		return postDao.findByGroup(group);
 	}

@@ -43,6 +43,11 @@ public class PostJdbcDao implements PostDao {
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
 		return new Post(title, content, date, group, user, postId.longValue());
 	}
+	
+	@Override
+	public List<Post> findAll() {
+		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid", ROW_MAPPER);
+	}
 
 	@Override
 	public List<Post> findByGroup(final Group group) {

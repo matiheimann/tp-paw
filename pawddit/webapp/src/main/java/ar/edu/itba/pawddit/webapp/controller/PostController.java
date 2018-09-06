@@ -45,6 +45,19 @@ public class PostController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
+	public ModelAndView createPostPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("postForm") final CreatePostNoGroupForm form, final BindingResult errors) {
+		if(errors.hasErrors()) {
+			return createPost(id, form);
+		}
+		
+		final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
+		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
+		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, u);
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid() + "?userId=" + u.getUserid());
+		return mav;
+	}
+	
 	@RequestMapping("/group/{groupName}/createPost")
 	public ModelAndView createPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("postForm") final CreatePostForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");

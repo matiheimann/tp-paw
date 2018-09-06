@@ -19,7 +19,7 @@
 			<div class="register form-container">
 				<h2>Register</h2>
 				<br>				
-				<c:url value="/createUser" var="postPath"/>
+				<c:url value="/register" var="postPath"/>
 				<form:form modelAttribute="registerForm" action="${postPath}" method="post">	
 	  				<div class="form-group">
 		    			<form:label for="exampleInputEmail1" path="email">Email address</form:label>
@@ -39,7 +39,7 @@
 				  	</div>
 				  	<div class="form-group">
 				 		<form:label for="exampleInputConfirmPassword" path="repeatPassword">Confirm Password</form:label>
-				    	<form:input type="password" path="repeatPassword" class="form-control" id="exampleInputConfirmPassword" placeholder="Reenter password"/>
+				    	<form:input type="password" path="repeatPassword" class="form-control" id="exampleInputConfirmPassword" placeholder="Repeat password"/>
 				  		<form:errors path="repeatPassword" cssClass="formError" element="p"/>
 				  	</div>
 				  	<button type="submit" class="btn login-btn">Submit</button>

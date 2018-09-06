@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,10 @@ public class PostJdbcDao implements PostDao {
 	public List<Post> findByUser(final User user) {
 		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = ?", ROW_MAPPER, user.getUserid());
 	}
-
+	
+	@Override
+	public Optional<Post> findById(final long id) {
+		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE postid = ?", ROW_MAPPER, id).stream().findFirst();
+	}
 	
 }

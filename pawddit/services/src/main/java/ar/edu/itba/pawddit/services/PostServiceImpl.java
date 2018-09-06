@@ -2,6 +2,8 @@ package ar.edu.itba.pawddit.services;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,9 @@ public class PostServiceImpl implements PostService {
 		return postDao.findByUser(user);
 	}
 	
-	
+	@Override
+	public Optional<Post> findById(final long id) {
+		return postDao.findById(id);
+	}
 
 }

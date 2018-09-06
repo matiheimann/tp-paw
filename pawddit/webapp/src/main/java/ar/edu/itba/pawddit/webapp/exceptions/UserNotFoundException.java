@@ -1,4 +1,4 @@
-package ar.edu.itba.pawddit.webapp.controller;
+package ar.edu.itba.pawddit.webapp.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
 

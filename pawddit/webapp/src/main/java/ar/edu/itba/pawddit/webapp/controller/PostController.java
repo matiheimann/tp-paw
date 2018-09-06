@@ -65,6 +65,7 @@ public class PostController {
 		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
 		return mav;
 	}
+
 	
 	@RequestMapping(value = "/group/{groupName}/createPost", method = { RequestMethod.POST })
 	public ModelAndView createPostPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("postForm") final CreatePostForm form, final BindingResult errors) {

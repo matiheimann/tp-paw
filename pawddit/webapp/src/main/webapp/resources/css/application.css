@@ -33,9 +33,12 @@ EDEAE5*/
 .create-post {
 	background-color: #E85A4F;
 	color: white;
+	height: 40px;
+}
+
+.create-post-ref {
 	margin-left: auto;
 	margin-right: 10px;
-	height: 40px;
 }
 
 .dropdown-component {

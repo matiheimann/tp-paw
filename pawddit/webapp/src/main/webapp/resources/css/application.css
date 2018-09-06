@@ -2,6 +2,18 @@
 E98074
 EDEAE5*/
 
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: #E85A4F !important;
+    border-color: #E85A4F !important;
+    height: 40px;
+}
+
+
+
 .main-font {
 	font-family: 'Roboto', sans-serif;
 	background-color: #EDEAE5;
@@ -36,9 +48,16 @@ EDEAE5*/
 	height: 40px;
 }
 
-.create-post-ref {
-	margin-left: auto;
-	margin-right: 10px;
+a.create-post:hover
+{
+	text-decoration: none;
+	color: white;
+}
+
+
+.create-post:link {
+   color: white;
+   text-decoration: none;
 }
 
 .dropdown-component {

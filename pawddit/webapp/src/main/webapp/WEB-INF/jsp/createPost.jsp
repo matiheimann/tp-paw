@@ -35,8 +35,10 @@
 					  </div>
 					  <div class="form-group">
 					    <label for="post-content">Content</label>
-					    <textarea class="form-control" id="post-content" rows="4"></textarea>
+					    <textarea class="form-control" id="post-content" rows="6"></textarea>
 					  </div>
+					  <button type="submit" class="btn btn-primary ">Create</button>
+					  <button type="submit" class="btn login-btn btn-secondary">Cancel</button>
 				</form>
 			</div>
 		</div>

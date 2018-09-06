@@ -50,7 +50,7 @@ public class GroupController {
 		}
 		
 		final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
-		final Group g = gs.create(form.getTitle(), new Timestamp(System.currentTimeMillis()), form.getDescription(), u);
+		final Group g = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), u);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "?userId=" + u.getUserid());
 		return mav;
 	}

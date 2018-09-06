@@ -24,6 +24,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
+import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 
 @Controller
 public class PostController {
@@ -36,6 +37,13 @@ public class PostController {
 	
 	@Autowired
 	private PostService ps;
+	
+	@RequestMapping("/createPost")
+	public ModelAndView createPost(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("postForm") final CreatePostNoGroupForm form) {
+		final ModelAndView mav = new ModelAndView("createPost");
+		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+		return mav;
+	}
 	
 	@RequestMapping("/group/{groupName}/createPost")
 	public ModelAndView createPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("postForm") final CreatePostForm form) {

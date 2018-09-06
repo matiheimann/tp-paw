@@ -5,17 +5,17 @@ import javax.validation.constraints.Size;
 public class CreateGroupForm {
 	
 	@Size(min = 4, max = 32)
-	private String title;
+	private String name;
 	
 	@Size(min = 6, max = 100)
 	private String description;
 	
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {

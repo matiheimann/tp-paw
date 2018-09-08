@@ -3,7 +3,6 @@ package ar.edu.itba.pawddit.services;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.model.Comment;

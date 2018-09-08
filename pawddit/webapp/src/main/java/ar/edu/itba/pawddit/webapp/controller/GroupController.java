@@ -36,7 +36,7 @@ public class GroupController {
 	private PostService ps;
 	
 	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("groupForm") final CreateGroupForm form) {
+	public ModelAndView createGroup(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("createGroupForm") final CreateGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createGroup");
 		final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
 		mav.addObject("user", u);
@@ -44,7 +44,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
-	public ModelAndView createGroupPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("groupForm") final CreateGroupForm form, final BindingResult errors) {
+	public ModelAndView createGroupPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
 			return createGroup(id, form);
 		}

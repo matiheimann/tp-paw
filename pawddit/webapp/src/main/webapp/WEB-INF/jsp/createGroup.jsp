@@ -21,12 +21,12 @@
     			<div class="create-post-component">
     				<h2>Create Group</h2>
     				<br>
-    				<c:url value="/createGrup/?userId=${user.userid}" var="postPath"/>
+    				<c:url value="/createGroup/?userId=${user.userid}" var="postPath"/>
     				<form:form modelAttribute="createGroupForm" action="${groupPath}" method="post">
     					  <div class="form-group">
     					    <form:label for="group-name" path="name">Group Name</form:label>
-    					    <form:input type="text" path="title" class="form-control" id="group-name" placeholder="Group Name"/>
-    					    <form:errors path="title" cssClass="formError" element="p"/>
+    					    <form:input type="text" path="name" class="form-control" id="group-name" placeholder="Group Name"/>
+    					    <form:errors path="name" cssClass="formError" element="p"/>
     					  </div>
     					  <div class="form-group">
     					    <form:label for="group-description" path="description">Description</form:label>

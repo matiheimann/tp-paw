@@ -20,7 +20,7 @@
          		<a class="dropdown-item" href="<c:url value='/profile?userId=${user.userid}'/>">My Profile</a>
          		<a class="dropdown-item" href="#">Settings</a>
          		<div class="dropdown-divider"></div>
-         		<a class="dropdown-item" href="#">Log Out</a>
+         		<a class="dropdown-item" href="<c:url value='/'/>">Log Out</a>
        	</div>
     </div>
 </nav>

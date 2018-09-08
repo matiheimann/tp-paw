@@ -1,8 +1,8 @@
 <nav class="navbar-component">
-	<a class="no-underline" href="<c:url value="/?userId= ${user.userid}"/>">
+	<a class="no-underline" href="<c:url value="/?userId=${user.userid}"/>">
 		<h2 class="logo">Pawddit.</h2>
 	</a>
-	<a class="create-post" href="<c:url value="/createPost/?userId= ${user.userid}"/>">
+	<a class="create-post" href="<c:url value="/createPost/?userId=${user.userid}"/>">
 		<button class="app-btn-primary" role="button">
 				CREATE POST
 		</button>

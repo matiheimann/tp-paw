@@ -1,0 +1,51 @@
+.app-btn-primary,
+.app-btn-primary:visited,
+.app-btn-primary:focus {
+    color: white;
+    cursor: pointer;
+    background-color: #E85A4F;
+    border-color: #E85A4F;
+    border-radius: 0.25rem;
+    height: 40px;
+}
+
+.app-btn-primary:focus {
+  outline-color: #BD4940;
+}
+
+.app-btn-primary:hover {
+  background-color: #BD4940;
+  border-color: #BD4940;
+}
+
+.app-btn-primary:active {
+  background-color: #BD4940;
+  border-color: #BD4940;
+  outline-color: #BD4940;
+}
+
+.app-btn-secondary,
+.app-btn-secondary:visited,
+.app-btn-secondary:focus {
+    color: white;
+    cursor: pointer;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    border-radius: 0.25rem;
+    height: 40px;
+}
+
+.app-btn-secondary:focus {
+  outline-color: #5A6269;
+}
+
+.app-btn-secondary:hover {
+  background-color: #5A6269;
+  border-color: #5A6269;
+}
+
+.app-btn-secondary:active {
+  background-color: #5A6269;
+  border-color: #5A6269;
+  outline-color: #5A6269;
+}

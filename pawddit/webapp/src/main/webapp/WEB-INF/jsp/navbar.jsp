@@ -1,11 +1,15 @@
 <nav class="navbar-component">
-	<h2 class="logo clickable" onclick="location.href='<c:url value="/?userId=${user.userid}" />'">Pawddit.</h2>
-	<a class="create-post-ref btn create-post" role="button" href="<c:url value='/createPost/?userId=${user.userid}'/>">
-			CREATE POST
+	<h2 class="logo clickable">Pawddit.</h2>
+	<a class="create-post" href="<c:url value="/createPost/?userId= ${user.userid}"/>">
+		<button class="app-btn-primary" role="button">
+				CREATE POST
+		</button>
 	</a>
-	<button class="btn btn-secondary">
-		CREATE GROUP
-	</button>
+	<a href="<c:url value="/createGroup/?userId= ${user.userid}"/>">
+		<button class="app-btn-secondary" role="button">
+			CREATE GROUP
+		</button>
+	</a>
 	<div class="nav-item dropdown">
 		<a class="nav-link dropdown-toggle dropdown-component" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<c:out value="${user.username}" escapeXml="true"/>

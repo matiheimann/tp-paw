@@ -6,30 +6,33 @@
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />
+		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/buttons.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/account.css" />" />
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Kosugi" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-	</head> 
-	<body class="main-font">
+	</head>
+	<body class="main-font application-background">
 		<%@include file="external-navbar.jsp" %>
-		<div class="center-content container">
-			<div class="login form-container">
-				<h2>Login</h2>
-				<br>
-				<form>
-	  				<div class="form-group">
-	    			<label for="exampleInputEmail1">Email address</label>
-	   				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-	    			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-	 			 </div>
-				 <div class="form-group">
-				 	<label for="exampleInputPassword1">Password</label>
-				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-				  </div>
-				  <button type="submit" class="btn login-btn">Submit</button>
-				</form>
+		<div class="application-background">
+			<div class="center-content container">
+				<div class="login form-container">
+					<h2>Login</h2>
+					<br>
+					<form>
+		  				<div class="form-group">
+		    			<label for="exampleInputEmail1">Email address</label>
+		   				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+		    			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		 			 </div>
+					 <div class="form-group">
+					 	<label for="exampleInputPassword1">Password</label>
+					    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+					  </div>
+					  <button type="submit" class="app-btn-primary login-btn">Submit</button>
+					</form>
+				</div>
 			</div>
 		</div>
 		<%@include file="footer.jsp" %>

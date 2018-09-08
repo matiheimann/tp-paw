@@ -20,7 +20,7 @@
     		<div class="center-content container">
     			<div class="create-post-component">
     				<h2>Create Post</h2>
-    				<br>				
+    				<br>
     				<c:url value="/createPost/?userId=${user.userid}" var="postPath"/>
     				<form:form modelAttribute="createPostForm" action="${postPath}" method="post">
     					  <div class="form-group">
@@ -38,8 +38,8 @@
     					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>
     					    <form:errors path="content" cssClass="formError" element="p"/>
     					  </div>
-    					  <button type="submit" class="app-btn-primary">Create</button>
-    					  <button type="button" class="login-btn app-btn-secondary">Cancel</button>
+    					  <button type="submit" class="create-post-btn app-btn-primary">Create</button>
+    					  <button type="button" class="app-btn-secondary">Cancel</button>
     				</form:form>
     			</div>
     		</div>

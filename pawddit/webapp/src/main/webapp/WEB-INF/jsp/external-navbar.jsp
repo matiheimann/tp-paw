@@ -1,5 +1,7 @@
 <nav class="navbar-component">
-	<h2 class="logo clickable" onclick="location.href='<c:url value="/" />'">Pawddit.</h2>
+	<a class="no-underline" href="<c:url value="/"/>">
+		<h2 class="logo">Pawddit.</h2>
+	</a>
 	<a class="login-btn" href="<c:url value="/login" />">
 		<button  role="button" class="app-btn-primary login-btn">
 			Login

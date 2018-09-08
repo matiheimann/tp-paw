@@ -1,6 +1,7 @@
 package ar.edu.itba.pawddit.services;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Group create(final String name, final Timestamp date, final String description, final User user) {
 		return groupDao.create(name, date, description, user);
+	}
+	
+	@Override
+	public List<Group> findAll() {
+		return groupDao.findAll();
 	}
 	
 }

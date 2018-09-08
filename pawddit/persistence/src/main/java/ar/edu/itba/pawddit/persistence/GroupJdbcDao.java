@@ -2,6 +2,7 @@ package ar.edu.itba.pawddit.persistence;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 
 import ar.edu.itba.pawddit.model.Group;
+import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 
 @Repository
@@ -48,6 +50,11 @@ public class GroupJdbcDao implements GroupDao {
 		args.put("owner", owner.getUserid());
 		jdbcInsert.execute(args);
 		return new Group(name, date, description, owner); 
+	}
+	
+	@Override
+	public List<Group> findAll() {
+		return jdbcTemplate.query("SELECT * FROM groups JOIN users ON groups.owner = users.userid", ROW_MAPPER);
 	}
 	
 }

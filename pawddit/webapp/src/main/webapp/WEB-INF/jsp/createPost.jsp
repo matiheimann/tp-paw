@@ -18,28 +18,27 @@
 		<div class="center-content container">
 			<div class="create-post-component">
 				<h2>Create Post</h2>
-				<form>
+				<br>				
+				<c:url value="/createPost/?userId=${user.userid}" var="postPath"/>
+				<form:form modelAttribute="createPostForm" action="${postPath}" method="post">
 					  <div class="form-group">
-					    <label for="post-title">Title</label>
-					    <input type="text" class="form-control" id="post-title" placeholder="Post Title">
+					    <form:label for="post-title" path="title">Title</form:label>
+					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="Post Title"/>
+					    <form:errors path="title" cssClass="formError" element="p"/>
 					  </div>
 					  <div class="form-group">
-					    <label for="post-group-select">Select a Group:</label>
-					    <select multiple class="form-control" id="post-group-select">
-					      <option>Group 1</option>
-					      <option>Group 2</option>
-					      <option>Group 3</option>
-					      <option>Group 4</option>
-					      <option>Group 5</option>
-					    </select>
+					    <form:label for="post-group-select" path="groupName">Select a Group:</form:label>
+					    <form:select required="required" multiple="multiple" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
+					    <form:errors path="groupName" cssClass="formError" element="p"/>
 					  </div>
 					  <div class="form-group">
-					    <label for="post-content">Content</label>
-					    <textarea class="form-control" id="post-content" rows="6"></textarea>
+					    <form:label for="post-content" path="content">Content</form:label>
+					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>
+					    <form:errors path="content" cssClass="formError" element="p"/>
 					  </div>
 					  <button type="submit" class="btn btn-primary ">Create</button>
-					  <button type="submit" class="btn login-btn btn-secondary">Cancel</button>
-				</form>
+					  <button type="button" class="btn login-btn btn-secondary">Cancel</button>
+				</form:form>
 			</div>
 		</div>
 		<%@include file="footer.jsp" %>

@@ -39,14 +39,15 @@ public class PostController {
 	private PostService ps;
 	
 	@RequestMapping("/createPost")
-	public ModelAndView createPost(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("postForm") final CreatePostNoGroupForm form) {
+	public ModelAndView createPost(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
 		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+		mav.addObject("groups", gs.findAll());
 		return mav;
 	}
 	
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("postForm") final CreatePostNoGroupForm form, final BindingResult errors) {
+	public ModelAndView createPostPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
 			return createPost(id, form);
 		}
@@ -59,7 +60,7 @@ public class PostController {
 	}
 	
 	@RequestMapping("/group/{groupName}/createPost")
-	public ModelAndView createPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("postForm") final CreatePostForm form) {
+	public ModelAndView createPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("createPostForm") final CreatePostForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
 		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
 		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
@@ -68,7 +69,7 @@ public class PostController {
 
 	
 	@RequestMapping(value = "/group/{groupName}/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("postForm") final CreatePostForm form, final BindingResult errors) {
+	public ModelAndView createPostPost(@PathVariable final String groupName, @RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
 			return createPost(groupName, id, form);
 		}

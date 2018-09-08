@@ -38,6 +38,7 @@ public class PostJdbcDao implements PostDao {
 	@Override
 	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user) {
 		final Map<String, Object> args = new HashMap<>();
+		args.put("title", title); 
 		args.put("content", content); 
 		args.put("creationdate", date);
 		args.put("groupname", group.getName());

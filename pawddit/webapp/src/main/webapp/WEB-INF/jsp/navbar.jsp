@@ -7,7 +7,7 @@
 				CREATE POST
 		</button>
 	</a>
-	<a href="<c:url value="/createGroup/?userId= ${user.userid}"/>">
+	<a href="<c:url value="/createGroup/?userId=${user.userid}"/>">
 		<button class="app-btn-secondary" role="button">
 			CREATE GROUP
 		</button>

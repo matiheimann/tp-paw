@@ -67,4 +67,12 @@ public class PostJdbcDao implements PostDao {
 		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE postid = ?", ROW_MAPPER, id).stream().findFirst();
 	}
 	
+	@Override
+	public List<Post> findBySubscriptions(final User user) {
+		return jdbcTemplate.query("SELECT * FROM posts " + 
+				"INNER JOIN users ON users.userId = posts.userId " + 
+				"INNER JOIN groups ON groups.name = posts.groupname " + 
+				"WHERE EXISTS (SELECT postid from subscriptions WHERE userId = ? and posts.groupname LIKE subscriptions.groupname)", ROW_MAPPER, user.getUserid());
+	}
+	
 }

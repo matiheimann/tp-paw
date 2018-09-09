@@ -42,5 +42,10 @@ public class PostServiceImpl implements PostService {
 	public Optional<Post> findById(final long id) {
 		return postDao.findById(id);
 	}
+	
+	@Override
+	public List<Post> findBySubscriptions(final User user){
+		return postDao.findBySubscriptions(user);
+	}
 
 }

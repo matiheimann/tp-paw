@@ -15,5 +15,6 @@ public interface PostDao {
 	public List<Post> findByGroup(final Group group);
 	public List<Post> findByUser(final User user);
 	public Optional<Post> findById(final long id);
+	public List<Post> findBySubscriptions(final User user);
 	
 }

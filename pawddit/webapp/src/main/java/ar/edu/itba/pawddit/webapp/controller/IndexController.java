@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
@@ -33,8 +34,9 @@ public class IndexController {
 		}
 		else {
 			final ModelAndView mav = new ModelAndView("index");
-			mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
-			mav.addObject("posts", ps.findAll());
+			final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
+			mav.addObject("user", u);
+			mav.addObject("posts", ps.findBySubscriptions(u));
 			return mav;
 		}
 	}

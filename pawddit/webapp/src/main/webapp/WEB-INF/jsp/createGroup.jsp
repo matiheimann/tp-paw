@@ -18,7 +18,7 @@
 		<%@include file="navbar.jsp" %>
 		<div class="application-background">
     		<div class="center-content container">
-    			<div class="create-post-component">
+    			<div class="create-group-component">
     				<h2>Create Group</h2>
     				<br>
     				<c:url value="/createGroup/?userId=${user.userid}" var="postPath"/>

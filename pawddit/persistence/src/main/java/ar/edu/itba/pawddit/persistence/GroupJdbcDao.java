@@ -55,7 +55,7 @@ public class GroupJdbcDao implements GroupDao {
 	
 	@Override
 	public List<Group> findAll() {
-		return jdbcTemplate.query("SELECT SELECT name, username, email, password, score, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers* FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
+		return jdbcTemplate.query("SELECT name, username, email, password, score, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
 				"GROUP BY name, username, email, password, score;", ROW_MAPPER);
 	}
 	

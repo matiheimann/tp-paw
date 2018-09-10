@@ -8,12 +8,14 @@ public class Group {
 	private String name;
 	private Timestamp date;
 	private String description;
+	private int suscriptors;
 	
-	public Group(String name, Timestamp date, String description, User owner) {
+	public Group(String name, Timestamp date, String description, User owner, int suscriptors) {
 		this.name = name;
 		this.date = date;
 		this.description = description;
 		this.owner = owner;
+		this.suscriptors = suscriptors;
 	}
 	
 	public String getName() {
@@ -46,5 +48,13 @@ public class Group {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public int getSuscriptors() {
+		return suscriptors;
+	}
+
+	public void setSuscriptors(int suscriptors) {
+		this.suscriptors = suscriptors;
 	}
 }

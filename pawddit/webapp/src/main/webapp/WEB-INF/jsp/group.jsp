@@ -6,7 +6,7 @@
 	<hr>
 	<div class="group-footer">
 		<div class="info-item">
-		  <strong><i class="fas fa-users"></i></i> 140 members</strong>
+		  <strong><i class="fas fa-users"></i></i> ${group.suscriptors} members</strong>
 		</div>
 		<div class="info-item">
 			<a href="<c:url value="/...."/>">

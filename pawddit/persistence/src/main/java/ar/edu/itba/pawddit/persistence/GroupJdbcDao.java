@@ -26,7 +26,7 @@ public class GroupJdbcDao implements GroupDao {
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Group> ROW_MAPPER = (rs, rowNum) ->
-		new Group(rs.getString("name"), rs.getTimestamp("creationdate"), rs.getString("description"), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("userid")));
+		new Group(rs.getString("name"), rs.getTimestamp("creationdate"), rs.getString("description"), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("owner")), rs.getInt("followers"));
 		
 	
 	@Autowired
@@ -38,7 +38,8 @@ public class GroupJdbcDao implements GroupDao {
 	
 	@Override
 	public Optional<Group> findByName(final String name){
-		return jdbcTemplate.query("SELECT * FROM groups JOIN users ON groups.owner = users.userid WHERE name = ?", ROW_MAPPER, name).stream().findFirst();
+		return jdbcTemplate.query("SELECT name, username, email, password, score, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname" +  
+				" WHERE name = ? GROUP BY name, username, email, password, score;", ROW_MAPPER, name).stream().findFirst();
 	}
 	
 	@Override
@@ -49,12 +50,13 @@ public class GroupJdbcDao implements GroupDao {
 		args.put("description", description);
 		args.put("owner", owner.getUserid());
 		jdbcInsert.execute(args);
-		return new Group(name, date, description, owner); 
+		return new Group(name, date, description, owner, 0); 
 	}
 	
 	@Override
 	public List<Group> findAll() {
-		return jdbcTemplate.query("SELECT * FROM groups JOIN users ON groups.owner = users.userid", ROW_MAPPER);
+		return jdbcTemplate.query("SELECT SELECT name, username, email, password, score, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers* FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
+				"GROUP BY name, username, email, password, score;", ROW_MAPPER);
 	}
 	
 }

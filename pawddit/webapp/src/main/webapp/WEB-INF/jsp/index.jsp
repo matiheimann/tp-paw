@@ -21,9 +21,6 @@
 				<c:if test="${!empty group}">
 					<%@include file="group.jsp" %>
 				</c:if>
-				<c:if test="${empty group}">
-					<div class="upper-pad"></div>
-				</c:if>
 				<c:forEach items="${posts}" var="post">
 						<div class="post-container">
 							<div class="post-header">

@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/buttons.css" />" />
-		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/group.css" />" />
+		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/post.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/account.css" />" />
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Kosugi" rel="stylesheet">
@@ -18,7 +18,61 @@
 		<%@include file="navbar.jsp" %>
 		<div class="application-background">
 			<div class="center-content">
-			     
+			   <div class="post-component">
+           <div class="post-header">
+             <span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
+             <span><strong>posted in</strong></span>
+             <a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
+               <span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
+             </a>
+             <span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
+           </div>
+           <hr>
+           <h2><c:out value="${post.title}" escapeXml="true"/></h2>
+           <div class="post-component-content">
+             <c:out value="${post.content}" escapeXml="true"/>
+           </div>
+           <br>
+           <div class="post-info">
+             <div class="info-item">
+                   <strong><i class="far fa-comment"></i> 222 Comments</strong>
+               </div>
+             <div class="info-item">
+                   <strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong>
+               </div>
+           </div>
+           <hr>
+           <div class="post-component-comments">
+             <h4>Comments:</h4>
+             <div class="comment">
+               <div class="comment-header">
+                 <span class=""><strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong></span>
+                 <span class="header-button"><c:out value="PUVLIM" escapeXml="true"/></span>
+                 <span><strong><c:out value="2h ago" escapeXml="true"/></strong></span>
+               </div>
+               <hr class="comment-separator">
+              <div class="comment-component-content">
+                Nice comment!
+             </div>
+             <div class="comment-component-replies">
+               <div class="comment">
+                 <div class="comment-header">
+                   <span class=""><strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong></span>
+                   <span class="header-button"><c:out value="ElCRA" escapeXml="true"/></span>
+                   <span><strong><c:out value="3h ago" escapeXml="true"/></strong></span>
+                 </div>
+                 <hr class="comment-separator">
+                <div class="comment-component-content">
+                  Creazy comment dude!
+               </div>
+               <div class="comment-component-replies">
+
+               </div>
+              </div>
+             </div>
+            </div>
+          </div>
+        </div>
 			</div>
 		</div>
 		<%@include file="footer.jsp" %>

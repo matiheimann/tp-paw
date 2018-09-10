@@ -22,15 +22,15 @@
 					<%@include file="group.jsp" %>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
-						<div class="post-container">
-							<div class="post-header">
-								<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
-								<span><strong>posted in</strong></span>
-								<a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
-									<span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
-								</a>
-								<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
-							</div>
+					<div class="post-container">
+						<div class="post-header">
+							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
+							<span><strong>posted in</strong></span>
+							<a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
+								<span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
+							</a>
+							<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
+						</div>
 						<hr>
 						<h2><c:out value="${post.title}" escapeXml="true"/></h2>
 						<div class="post-description">
@@ -45,7 +45,7 @@
 		     				</div>
 							<div class="info-item">
 		         				<strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong>
-		     				</div>
+		     			</div>
 						</div>
 					</div>
 				</c:forEach>

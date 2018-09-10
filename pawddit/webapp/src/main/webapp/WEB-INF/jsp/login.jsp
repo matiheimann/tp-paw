@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Home Page</title>
+		<title>Login</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />
@@ -17,7 +17,7 @@
 	<body class="main-font">
 		<%@include file="navbar.jsp" %>
 		<div class="application-background">
-			<div class="center-content container">
+			<div class="center-content">
 				<div class="login form-container">
 					<h2>Login</h2>
 					<br>

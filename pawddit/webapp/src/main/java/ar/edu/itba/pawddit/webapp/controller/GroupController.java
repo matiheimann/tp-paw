@@ -25,16 +25,16 @@ import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
 public class GroupController {
-	
+
 	@Autowired
 	private UserService us;
-	
+
 	@Autowired
 	private GroupService gs;
-	
+
 	@Autowired
 	private PostService ps;
-	
+
 	@RequestMapping("/createGroup")
 	public ModelAndView createGroup(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("createGroupForm") final CreateGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createGroup");
@@ -42,19 +42,19 @@ public class GroupController {
 		mav.addObject("user", u);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
 	public ModelAndView createGroupPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
 			return createGroup(id, form);
 		}
-		
+
 		final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
 		final Group g = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), u);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "?userId=" + u.getUserid());
 		return mav;
 	}
-	
+
 	@RequestMapping("/group/{groupName}")
 	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(value = "userId", required = false) final Integer id) {
 		final ModelAndView mav = new ModelAndView("index");

@@ -1,0 +1,23 @@
+.group-component {
+	background-color: white;
+  border-bottom: 1px solid lightgrey;
+	overflow: auto;
+	width: 100%;
+  padding: 30px 10px 10px 10px;
+	position: relative;
+}
+
+.group-description {
+  text-align: center;
+  padding: 5px 25px;
+}
+
+.group-footer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.group-component-title {
+  text-align: center;
+}

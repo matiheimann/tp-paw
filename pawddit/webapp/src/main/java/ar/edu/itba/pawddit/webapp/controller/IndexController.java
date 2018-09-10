@@ -27,18 +27,16 @@ public class IndexController {
 	@RequestMapping("/")
 	public ModelAndView index(@RequestParam(value = "userId", required = false) final Integer id)
 	{
+		final ModelAndView mav = new ModelAndView("index");
 		if (id == null) {
-			final ModelAndView mav = new ModelAndView("welcome");
 			mav.addObject("posts", ps.findAll());
-			return mav;
 		}
 		else {
-			final ModelAndView mav = new ModelAndView("index");
 			final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
 			mav.addObject("user", u);
 			mav.addObject("posts", ps.findBySubscriptions(u));
-			return mav;
 		}
+		return mav;
 	}
 
 }

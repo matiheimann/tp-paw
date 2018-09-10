@@ -2,9 +2,22 @@
 	<a class="no-underline" href="<c:url value="/?userId=${user.userid}"/>">
 		<h2 class="logo">Pawddit.</h2>
 	</a>
+	<c:if test="${empty user}">
+	<a class="login-btn" href="<c:url value="/login"/>">
+		<button  role="button" class="app-btn-primary login-btn">
+			Login
+		</button>
+	</a>
+	<a class="register-btn" href="<c:url value="/register"/>">
+		<button  role="button" class="app-btn-primary">
+			Register
+		</button>
+	</a>
+	</c:if>
+	<c:if test="${not empty user}">
 	<a class="create-post" href="<c:url value="/createPost/?userId=${user.userid}"/>">
 		<button class="app-btn-primary" role="button">
-				CREATE POST
+			CREATE POST
 		</button>
 	</a>
 	<a href="<c:url value="/createGroup/?userId=${user.userid}"/>">
@@ -23,4 +36,5 @@
          		<a class="dropdown-item" href="<c:url value='/'/>">Log Out</a>
        	</div>
     </div>
+    </c:if>
 </nav>

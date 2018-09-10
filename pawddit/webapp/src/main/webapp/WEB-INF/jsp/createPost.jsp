@@ -28,11 +28,13 @@
     					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="Post Title"/>
     					    <form:errors path="title" cssClass="formError" element="p"/>
     					  </div>
+    					  <c:if test="${empty group}">
     					  <div class="form-group">
     					    <form:label for="post-group-select" path="groupName">Select a Group:</form:label>
     					    <form:select required="required" multiple="multiple" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
     					    <form:errors path="groupName" cssClass="formError" element="p"/>
     					  </div>
+    					  </c:if>
     					  <div class="form-group">
     					    <form:label for="post-content" path="content">Content</form:label>
     					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>

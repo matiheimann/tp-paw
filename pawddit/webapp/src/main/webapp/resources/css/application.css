@@ -8,6 +8,7 @@ EDEAE5*/
 
 .application-background {
   background-size:cover;
+	background-attachment: fixed;
   background-position: center bottom;
   background-color: #EDEAE5;
   background-image: url('../svg/Flat-Mountains.svg');

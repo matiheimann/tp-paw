@@ -25,7 +25,7 @@
 					<form:form modelAttribute="registerForm" action="${postPath}" method="post">
 		  				<div class="form-group">
 			    			<form:label for="exampleInputEmail1" path="email">Email address</form:label>
-			   				<form:input type="email" path="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
+			   				<form:input path="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
 			    			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 			    			<form:errors path="email" cssClass="formError" element="p"/>
 		 			 	</div>

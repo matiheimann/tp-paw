@@ -1,8 +1,7 @@
-<div class="upper-pad"></div>
 <div class="group-component">
-	<h2 class="group-component-title">Group Title</h2>
+	<h2 class="group-component-title"><c:out value="${group.name}" escapeXml="true"/></h2>
 	<p class="group-description">
-	    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<c:out value="${group.description}" escapeXml="true"/>
 	</p>
 	<hr>
 	<div class="group-footer">

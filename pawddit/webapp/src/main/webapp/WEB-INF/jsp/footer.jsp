@@ -1,4 +1,5 @@
 <footer class="footer-component">
-	Pawddit is registered trademark. Authors: Matías Heimann, Lóránt Mikolás,
-	Diego Bruno y Johnathan Katán.
+	<div class="footer-logo-container"><h1 class="logo footer-logo">Pawddit.</h1></div>
+	Pawddit&#174; is registered trademark. Authors: Matï¿½as Heimann, Lï¿½rï¿½nt Mikolï¿½s,
+	Diego Bruno y Johnathan Katï¿½n.
 </footer>

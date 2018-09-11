@@ -5,6 +5,7 @@
 		<title>Home Page</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/buttons.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/group.css" />" />
@@ -27,7 +28,7 @@
 							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
 							<span><strong>posted in</strong></span>
 							<a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
-								<span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
+								<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
 							</a>
 							<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
 						</div>

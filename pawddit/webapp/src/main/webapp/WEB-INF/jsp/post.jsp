@@ -5,6 +5,7 @@
 		<title>Post</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/buttons.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/post.css" />" />

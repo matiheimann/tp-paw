@@ -23,7 +23,7 @@
 					<%@include file="group.jsp" %>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
-					<div class="post-container">
+					<div class="post-container clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}/?userId=${user.userid}'/>"'>
 						<div class="post-header">
 							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
 							<span><strong>posted in</strong></span>
@@ -34,7 +34,7 @@
 						</div>
 						<hr>
 						<h2><c:out value="${post.title}" escapeXml="true"/></h2>
-						<div class="post-description">
+						<div class="post-fade">
 						</div>
 						<div class="post-description-text position-up">
 							<c:out value="${post.content}" escapeXml="true"/>

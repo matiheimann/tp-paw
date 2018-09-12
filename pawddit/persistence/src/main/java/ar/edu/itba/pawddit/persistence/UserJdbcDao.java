@@ -50,4 +50,9 @@ public class UserJdbcDao implements UserDao {
 	public Optional<User> login(final String email, final String password) {
 		return jdbcTemplate.query("SELECT * FROM users WHERE email = ? AND password = ?", ROW_MAPPER, email, password).stream().findFirst();
 	}
+
+	@Override
+	public Optional<User> findByUsername(final String username) {
+		return jdbcTemplate.query("SELECT * FROM users WHERE username = ?", ROW_MAPPER, username).stream().findFirst();
+	}
 }

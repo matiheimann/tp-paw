@@ -29,5 +29,10 @@ public class UserServiceImpl implements UserService {
 	public Optional<User> login(final String email, final String password) {
 		return userDao.login(email, password);
 	}
+
+	@Override
+	public Optional<User> findByUsername(final String username) {
+		return userDao.findByUsername(username);
+	}
 	
 }

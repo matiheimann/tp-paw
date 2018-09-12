@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -23,20 +22,21 @@
 					<h2>Login</h2>
 					<br>
 					<c:url value="/login" var="postPath"/>
-					<form:form modelAttribute="loginForm" action="${postPath}" method="post">
+					<form action="${postPath}" method="post" enctype="application/x-www-form-urlencoded">
 		  				<div class="form-group">
-		    			<form:label for="exampleInputEmail1" path="email">Email address</form:label>
-		   				<form:input type="email" path="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
-		    			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-		    			<form:errors path="email" cssClass="formError" element="p"/>
-		 			 </div>
-					 <div class="form-group">
-					 	<form:label for="exampleInputPassword1" path="password">Password</form:label>
-					    <form:input type="password" path="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
-					    <form:errors path="password" cssClass="formError" element="p"/>
-					  </div>
-					  <button type="submit" class="app-btn-primary login-btn">Submit</button>
-					</form:form>
+		    				<label for="username">Username</label>
+		   					<input type="text" class="form-control" id="username" name="j_username" placeholder="Enter username"/>
+		 				</div>
+						<div class="form-group">
+					 		<label for="password">Password</label>
+					    	<input type="password" class="form-control" id="password" name="j_password" placeholder="Password"/>
+						</div>
+						<div>
+							<label>Remember me</label>
+							<input type="checkbox" name="j_rememberme"/> 
+						</div>
+						<button type="submit" class="app-btn-primary login-btn">Submit</button>
+					</form>
 				</div>
 			</div>
 		</div>

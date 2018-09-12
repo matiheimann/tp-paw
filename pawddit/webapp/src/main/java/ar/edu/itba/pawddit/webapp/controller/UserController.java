@@ -1,7 +1,5 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
-import ar.edu.itba.pawddit.webapp.form.UserLoginForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
@@ -35,8 +32,7 @@ public class UserController {
 	
 	@RequestMapping("/register")
 	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
-		final ModelAndView mav = new ModelAndView("register");
-		return mav;
+		return new ModelAndView("register");
 	}
 		
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
@@ -50,19 +46,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login")
-	public ModelAndView login(@ModelAttribute("loginForm") final UserLoginForm form) {
-		final ModelAndView mav = new ModelAndView("login");
-		return mav;
-	}
-	
-	@RequestMapping(value = "/login", method = { RequestMethod.POST })
-	public ModelAndView loginPost(@Valid @ModelAttribute("loginForm") final UserLoginForm form, final BindingResult errors) {
-		if(errors.hasErrors()) {
-			return login(form);
-		}
-		
-		final User u = us.login(form.getEmail(), form.getPassword()).orElseThrow(UserNotFoundException::new);
-		return new ModelAndView("redirect:/?userId=" + u.getUserid());
+	public ModelAndView login() {
+		return new ModelAndView("login");
 	}
 	
 	@RequestMapping("/profile")

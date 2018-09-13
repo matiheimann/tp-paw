@@ -1,8 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Login</title>
+		<title>
+			<spring:message code="login.title"/>
+		</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
@@ -19,23 +22,35 @@
 		<div class="application-background">
 			<div class="center-content">
 				<div class="login form-container">
-					<h2>Login</h2>
+					<h2>
+						<spring:message code="login.title"/>
+					</h2>
 					<br>
 					<c:url value="/login" var="postPath"/>
 					<form action="${postPath}" method="post" enctype="application/x-www-form-urlencoded">
 		  				<div class="form-group">
-		    				<label for="username">Username</label>
-		   					<input type="text" class="form-control" id="username" name="j_username" placeholder="Enter username"/>
+		    				<label for="username">
+								<spring:message code="loginUsernameField.title"/>
+							</label>
+							<spring:message code="loginUsername.placeholder" var="loginPlaceholder"/>
+		   					<input type="text" class="form-control" id="username" name="j_username" placeholder="${loginPlaceholder}"/>
 		 				</div>
 						<div class="form-group">
-					 		<label for="password">Password</label>
-					    	<input type="password" class="form-control" id="password" name="j_password" placeholder="Password"/>
+					 		<label for="password">
+								<spring:message code="loginPasswordField.title"/>
+							</label>
+							<spring:message code="loginPassword.placeholder" var="passwordPlaceholder"/>
+					    	<input type="password" class="form-control" id="password" name="j_password" placeholder="${passwordPlaceholder}"/>
 						</div>
 						<div>
-							<label>Remember me</label>
+							<label>
+								<spring:message code="loginRememberMe.title"/>
+							</label>
 							<input type="checkbox" name="j_rememberme"/> 
 						</div>
-						<button type="submit" class="app-btn-primary login-btn">Submit</button>
+						<button type="submit" class="app-btn-primary login-btn">
+							<spring:message code="loginSubmit.button.message"/>
+						</button>
 					</form>
 				</div>
 			</div>

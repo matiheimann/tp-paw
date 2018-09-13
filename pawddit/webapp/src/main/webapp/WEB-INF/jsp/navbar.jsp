@@ -5,24 +5,24 @@
 	<c:if test="${empty user}">
 	<a class="login-btn" href="<c:url value="/login"/>">
 		<button  role="button" class="app-btn-primary login-btn">
-			Login
+			<spring:message code="login.button.message"/>
 		</button>
 	</a>
 	<a class="register-btn" href="<c:url value="/register"/>">
 		<button  role="button" class="app-btn-primary">
-			Register
+			<spring:message code="register.button.message"/>
 		</button>
 	</a>
 	</c:if>
 	<c:if test="${not empty user}">
 	<a class="create-post" href="<c:url value="/createPost/?userId=${user.userid}"/>">
 		<button class="app-btn-primary" role="button">
-			CREATE POST
+			<spring:message code="createPost.button.message"/>
 		</button>
 	</a>
 	<a href="<c:url value="/createGroup/?userId=${user.userid}"/>">
 		<button class="app-btn-secondary" role="button">
-			CREATE GROUP
+			<spring:message code="createGroup.button.message"/>
 		</button>
 	</a>
 	<div class="nav-item dropdown">
@@ -30,10 +30,16 @@
 			<c:out value="${user.username}" escapeXml="true"/>
      	</a>
        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-         		<a class="dropdown-item" href="<c:url value='/profile?userId=${user.userid}'/>">My Profile</a>
-         		<a class="dropdown-item" href="#">Settings</a>
+         		<a class="dropdown-item" href="<c:url value='/profile?userId=${user.userid}'/>">
+					<spring:message code="myProfile.message"/>
+				</a>
+         		<a class="dropdown-item" href="#">
+					<spring:message code="settings.message"/>
+				</a>
          		<div class="dropdown-divider"></div>
-         		<a class="dropdown-item" href="<c:url value='/'/>">Log Out</a>
+         		<a class="dropdown-item" href="<c:url value='/'/>">
+					<spring:message code="logOut.button.message"/>
+				</a>
        	</div>
     </div>
     </c:if>

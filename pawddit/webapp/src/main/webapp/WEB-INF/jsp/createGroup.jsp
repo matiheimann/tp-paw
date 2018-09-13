@@ -1,9 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Create Group</title>
+		<title>
+			<spring:message code="createGroup.title"/>
+		</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
@@ -20,22 +23,33 @@
 		<div class="application-background">
     		<div class="center-content">
     			<div class="create-group-component">
-    				<h2>Create Group</h2>
+    				<h2>
+						<spring:message code="createGroup.title"/>
+					</h2>
     				<br>
     				<c:url value="/createGroup/?userId=${user.userid}" var="postPath"/>
     				<form:form modelAttribute="createGroupForm" action="${groupPath}" method="post">
     					  <div class="form-group">
-    					    <form:label for="group-name" path="name">Group Name</form:label>
-    					    <form:input type="text" path="name" class="form-control" id="group-name" placeholder="Group Name"/>
+    					    <form:label for="group-name" path="name">
+								<spring:message code="groupName.title"/>
+							</form:label>
+							<spring:message code="groupName.placeholder" var="groupNamePlaceholder"/>
+    					    <form:input type="text" path="name" class="form-control" id="group-name" placeholder="${groupNamePlaceholder}"/>
     					    <form:errors path="name" cssClass="formError" element="p"/>
     					  </div>
     					  <div class="form-group">
-    					    <form:label for="group-description" path="description">Description</form:label>
+    					    <form:label for="group-description" path="description">
+								<spring:message code="groupDescription.title"/>								
+							</form:label>
     					    <form:textarea path="description" class="form-control" id="group-description" rows="6"></form:textarea>
     					    <form:errors path="description" cssClass="formError" element="p"/>
     					  </div>
-    					  <button type="submit" class="create-group-btn app-btn-primary">Create</button>
-    					  <button type="button" class="app-btn-secondary">Cancel</button>
+    					  <button type="submit" class="create-group-btn app-btn-primary">
+							<spring:message code="createGroupConfirmation.button.message"/>	
+						  </button>
+    					  <button type="button" class="app-btn-secondary">
+							<spring:message code="cancelGroupCreation.button.message"/>	
+   						  </button>
     				</form:form>
     			</div>
     		</div>

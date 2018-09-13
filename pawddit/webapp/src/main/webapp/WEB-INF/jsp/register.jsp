@@ -1,9 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Register</title>
+		<title>
+			<spring:message code="register.title"/>
+		</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
@@ -20,32 +23,50 @@
 		<div class="application-background">
 			<div class="center-content">
 				<div class="register form-container">
-					<h2>Register</h2>
+					<h2>
+						<spring:message code="register.title"/>
+					</h2>
 					<br>
 					<c:url value="/register" var="postPath"/>
 					<form:form modelAttribute="registerForm" action="${postPath}" method="post">
 		  				<div class="form-group">
-			    			<form:label for="exampleInputEmail1" path="email">Email address</form:label>
-			   				<form:input path="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
-			    			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+			    			<form:label for="exampleInputEmail1" path="email">
+								<spring:message code="registerEmailAddress.title"/>
+							</form:label>
+							<spring:message code="registerEmailAddress.placeholder" var="emailAddressPlaceholder"/>
+			   				<form:input path="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="${emailAddressPlaceholder}"/>
+			    			<small id="emailHelp" class="form-text text-muted">
+								<spring:message code="weWillNeverShareYourEmail.message"/>
+							</small>
 			    			<form:errors path="email" cssClass="formError" element="p"/>
 		 			 	</div>
 		  				<div class="form-group">
-		    				<form:label for="exampleInputUsername" path="username">Username</form:label>
-		   					<form:input type="text" path="username" class="form-control" id="exampleInputUsername" placeholder="Enter username"/>
+		    				<form:label for="exampleInputUsername" path="username">
+								<spring:message code="registerUsername.title"/>
+							</form:label>
+							<spring:message code="registerUsername.placeholder" var="usernamePlaceholder"/>
+		   					<form:input type="text" path="username" class="form-control" id="exampleInputUsername" placeholder="${usernamePlaceholder}"/>
 		   					<form:errors path="username" cssClass="formError" element="p"/>
 		 			 	</div>
 					  	<div class="form-group">
-					 		<form:label for="exampleInputPassword1" path="password">Password</form:label>
-					    	<form:input type="password" path="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
+					 		<form:label for="exampleInputPassword1" path="password">
+								<spring:message code="registerPassword.title"/>
+							</form:label>
+							<spring:message code="registerPassword.placeholder" var="passwordPlaceholder"/>
+					    	<form:input type="password" path="password" class="form-control" id="exampleInputPassword1" placeholder="${passwordPlaceholder}"/>
 					    	<form:errors path="password" cssClass="formError" element="p"/>
 					  	</div>
 					  	<div class="form-group">
-					 		<form:label for="exampleInputConfirmPassword" path="repeatPassword">Confirm Password</form:label>
-					    	<form:input type="password" path="repeatPassword" class="form-control" id="exampleInputConfirmPassword" placeholder="Repeat password"/>
+					 		<form:label for="exampleInputConfirmPassword" path="repeatPassword">
+								<spring:message code="registerConfirmPassword.title"/>
+							</form:label>
+							<spring:message code="registerConfirmPassword.placeholder" var="confirmPasswordPlaceholder"/>
+					    	<form:input type="password" path="repeatPassword" class="form-control" id="exampleInputConfirmPassword" placeholder="${confirmPasswordPlaceholder}"/>
 					  		<form:errors path="repeatPassword" cssClass="formError" element="p"/>
 					  	</div>
-					  	<button type="submit" class="app-btn-primary login-btn">Submit</button>
+					  	<button type="submit" class="app-btn-primary login-btn">
+							<spring:message code="registerSubmit.button.message"/>
+						</button>
 					</form:form>
 				</div>
 			</div>

@@ -1,12 +1,19 @@
 package ar.edu.itba.pawddit.webapp.form;
 
 import javax.validation.constraints.Pattern;
+
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import ar.edu.itba.pawddit.webapp.form.formAnnotations.MatchingPasswords;
+
+@MatchingPasswords
 public class UserRegisterForm {
 	
+	@NotEmpty
 	@Email
 	private String email;
 	
@@ -17,7 +24,6 @@ public class UserRegisterForm {
 	@Size(min = 6, max = 100)
 	private String password;
 	
-	@Size(min = 6, max = 100)
 	private String repeatPassword;
 	
 	public String getUsername() {

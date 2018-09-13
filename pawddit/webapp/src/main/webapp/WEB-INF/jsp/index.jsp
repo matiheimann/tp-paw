@@ -1,8 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Home Page</title>
+		<title>
+			<spring:message code="homePage.title"/>
+		</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
@@ -26,7 +29,9 @@
 					<div class="post-container clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}/?userId=${user.userid}'/>"'>
 						<div class="post-header">
 							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
-							<span><strong>posted in</strong></span>
+							<span><strong>
+								<spring:message code="postedIn.message"/>
+							</strong></span>
 							<a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
 								<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
 							</a>
@@ -42,15 +47,20 @@
 						<hr class="position-up">
 						<div class="post-info position-up">
 							<div class="info-item">
-		         				<strong><i class="far fa-comment"></i> 222 Comments</strong>
+		         				<strong><i class="far fa-comment"></i>
+		         				222 <spring:message code="comments.message"/>
+		         				</strong>
 		     				</div>
 							<div class="info-item">
-		         				<strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong>
-		     			</div>
+		         				<strong><i class="far fa-thumbs-up"></i> 
+		         				104 <spring:message code="upvotes.message"/>
+		         				</strong>
+		     				</div>
 						</div>
 					</div>
 				</c:forEach>
-				<button role="button" class="initial-space app-btn-secondary">MORE
+				<button role="button" class="initial-space app-btn-secondary">
+				<spring:message code="more.button.message"/>
 				</button>
 			</div>
 		</div>

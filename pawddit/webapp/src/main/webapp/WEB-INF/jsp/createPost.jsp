@@ -1,9 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Create Post</title>
+		<title>
+			<spring:message code="createPost.title"/>
+		</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
@@ -20,29 +23,42 @@
 		<div class="application-background">
     		<div class="center-content">
     			<div class="create-post-component">
-    				<h2>Create Post</h2>
+    				<h2>
+						<spring:message code="createPost.title"/>
+					</h2>
     				<br>
     				<c:url value="/createPost/?userId=${user.userid}" var="postPath"/>
     				<form:form modelAttribute="createPostForm" action="${postPath}" method="post">
     					  <div class="form-group">
-    					    <form:label for="post-title" path="title">Title</form:label>
-    					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="Post Title"/>
+    					    <form:label for="post-title" path="title">
+								<spring:message code="postTitleField.title"/>
+							</form:label>
+							<spring:message code="postTitle.placeholder" var="postTitlePlaceholder"/>
+    					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="${postTitlePlaceholder}"/>
     					    <form:errors path="title" cssClass="formError" element="p"/>
     					  </div>
     					  <c:if test="${empty group}">
     					  <div class="form-group">
-    					    <form:label for="post-group-select" path="groupName">Select a Group:</form:label>
+    					    <form:label for="post-group-select" path="groupName">
+								<spring:message code="selectGroupOnPostCreate.title"/>
+							</form:label>
     					    <form:select required="required" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
     					    <form:errors path="groupName" cssClass="formError" element="p"/>
     					  </div>
     					  </c:if>
     					  <div class="form-group">
-    					    <form:label for="post-content" path="content">Content</form:label>
+    					    <form:label for="post-content" path="content">
+								<spring:message code="postContent.title"/>
+							</form:label>
     					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>
     					    <form:errors path="content" cssClass="formError" element="p"/>
     					  </div>
-    					  <button type="submit" class="create-post-btn app-btn-primary">Create</button>
-    					  <button type="button" class="app-btn-secondary">Cancel</button>
+    					  <button type="submit" class="create-post-btn app-btn-primary">
+							<spring:message code="createPostConfirmation.button.message"/>
+						  </button>
+    					  <button type="button" class="app-btn-secondary">
+							<spring:message code="cancelPostCreation.button.message"/>
+						  </button>
     				</form:form>
     			</div>
     		</div>

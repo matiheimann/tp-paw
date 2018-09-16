@@ -5,13 +5,15 @@ import java.sql.Timestamp;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.Group;
@@ -36,30 +38,33 @@ public class GroupController {
 	private PostService ps;
 
 	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@RequestParam(value = "userId", required = true) final Integer id, @ModelAttribute("createGroupForm") final CreateGroupForm form) {
+	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createGroup");
-		final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 		mav.addObject("user", u);
 		return mav;
 	}
 
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
-	public ModelAndView createGroupPost(@RequestParam(value = "userId", required = true) final Integer id, @Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors) {
+	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
-			return createGroup(id, form);
+			return createGroup(form);
 		}
 
-		final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 		final Group g = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), u);
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "?userId=" + u.getUserid());
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName());
 		return mav;
 	}
 
 	@RequestMapping("/group/{groupName}")
-	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(value = "userId", required = false) final Integer id) {
+	public ModelAndView showGroup(@PathVariable final String groupName) {
 		final ModelAndView mav = new ModelAndView("index");
-		if (id != null) {
-			mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+			mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));
 		}
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		mav.addObject("group", g);

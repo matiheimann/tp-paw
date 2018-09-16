@@ -27,7 +27,7 @@
 						<spring:message code="createPost.title"/>
 					</h2>
     				<br>
-    				<c:url value="/createPost/?userId=${user.userid}" var="postPath"/>
+    				<c:url value="/createPost" var="postPath"/>
     				<form:form modelAttribute="createPostForm" action="${postPath}" method="post">
     					  <div class="form-group">
     					    <form:label for="post-title" path="title">

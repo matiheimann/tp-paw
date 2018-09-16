@@ -27,7 +27,7 @@
 						<spring:message code="createGroup.title"/>
 					</h2>
     				<br>
-    				<c:url value="/createGroup/?userId=${user.userid}" var="postPath"/>
+    				<c:url value="/createGroup" var="postPath"/>
     				<form:form modelAttribute="createGroupForm" action="${groupPath}" method="post">
     					  <div class="form-group">
     					    <form:label for="group-name" path="name">

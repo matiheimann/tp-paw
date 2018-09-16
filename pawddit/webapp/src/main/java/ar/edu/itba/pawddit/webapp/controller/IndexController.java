@@ -1,9 +1,11 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
@@ -25,14 +27,16 @@ public class IndexController {
 	private PostService ps;
 
 	@RequestMapping("/")
-	public ModelAndView index(@RequestParam(value = "userId", required = false) final Integer id)
+	public ModelAndView index()
 	{
 		final ModelAndView mav = new ModelAndView("index");
-		if (id == null) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
 			mav.addObject("posts", ps.findAll());
 		}
 		else {
-			final User u = us.findById(id).orElseThrow(UserNotFoundException::new);
+			final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 			mav.addObject("user", u);
 			mav.addObject("posts", ps.findBySubscriptions(u));
 		}

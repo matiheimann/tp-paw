@@ -26,13 +26,13 @@
 					<%@include file="group.jsp" %>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
-					<div class="post-container clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}/?userId=${user.userid}'/>"'>
+					<div class="post-container clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'>
 						<div class="post-header">
 							<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
 							<span><strong>
 								<spring:message code="postedIn.message"/>
 							</strong></span>
-							<a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
+							<a class="no-underline" href="<c:url value="/group/${post.group.name}"/>">
 								<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
 							</a>
 							<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>

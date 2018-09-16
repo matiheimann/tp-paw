@@ -3,12 +3,13 @@ package ar.edu.itba.pawddit.webapp.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
@@ -41,8 +42,8 @@ public class UserController {
 			return register(form);
 		}
 		
-		final User u = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
-		return new ModelAndView("redirect:/?userId=" + u.getUserid());
+		us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
+		return new ModelAndView("redirect:/");
 	}
 	
 	@RequestMapping("/login")
@@ -51,10 +52,12 @@ public class UserController {
 	}
 	
 	@RequestMapping("/profile")
-	public ModelAndView profile(@RequestParam(value = "userId", required = true) final Integer id) {
+	public ModelAndView profile() {
 		final ModelAndView mav = new ModelAndView("profile");
-		mav.addObject("user", us.findById(id).orElseThrow(UserNotFoundException::new));
-		mav.addObject("posts", ps.findByUser(new User(null, null, null, null, id)));
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		mav.addObject("user", user);
+		mav.addObject("posts", ps.findByUser(user));
 		return mav;
 	}
 }

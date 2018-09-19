@@ -24,7 +24,7 @@
 			<div class="center-content">
 			   <div class="post-component">
            <div class="post-header">
-             <span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
+             <span class="header-button clickable" onclick='window.location="<c:url value='/profile/${post.owner.username}'/>"'><c:out value="${post.owner.username}" escapeXml="true"/></span>
              <span><strong>
 				<spring:message code="postedIn.message"/>
 			</strong></span>

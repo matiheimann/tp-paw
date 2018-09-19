@@ -26,7 +26,7 @@
 						<div class="user-image-container">
 							<i class="fas fa-user fa-7x"></i>
 						</div>
-						<h2 class="username-title"><c:out value="${user.username}" escapeXml="true"/></h2>
+						<h2 class="username-title"><c:out value="${userProfile.username}" escapeXml="true"/></h2>
 						<p class="activity-title"> placeholder joined 13/04/1999 <br> placeholer data.</p>
 					</div>
 					<div class="activity-component">
@@ -83,13 +83,13 @@
 			  					<div class="tab-pane fade" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
 								<br>
 								<strong>
-									<spring:message code="userDoesNotHaveComments.message" arguments="${user.username}"/>
+									<spring:message code="userDoesNotHaveComments.message" arguments="${userProfile.username}"/>
 								</strong>
 								</div>
 			  					<div class="tab-pane fade" id="nav-upvotes" role="tabpanel" aria-labelledby="nav-upvotes-tab">
 			  					<br>
 			  					<strong>
-			  						<spring:message code="userDoesNotHaveUpvotes.message" arguments="${user.username}"/>
+			  						<spring:message code="userDoesNotHaveUpvotes.message" arguments="${userProfile.username}"/>
 			  					</strong>
 			  					</div>
 							</div>

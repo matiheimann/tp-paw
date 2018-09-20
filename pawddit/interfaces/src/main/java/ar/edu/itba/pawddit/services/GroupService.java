@@ -9,8 +9,8 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface GroupService {
 	
-	public Optional<Group> findByName(final String name);
-	public Group create(final String name, final Timestamp date, final String description, final User user);
+	public Optional<Group> findByName(String name);
+	public Group create(String name, Timestamp date, String description, User user);
 	public List<Group> findAll();
 	
 }

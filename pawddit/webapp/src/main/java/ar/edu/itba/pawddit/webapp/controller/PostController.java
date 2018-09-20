@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
@@ -39,6 +40,9 @@ public class PostController {
 	
 	@Autowired
 	private PostService ps;
+	
+	@Autowired
+	private CommentService cs;
 	
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
@@ -94,8 +98,11 @@ public class PostController {
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 			mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));
 		}
-		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
-		mav.addObject("post", ps.findById(postId).orElseThrow(PostNotFoundException::new));
+		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
+		mav.addObject("group", group);
+		mav.addObject("post", post);
+		mav.addObject("comments", cs.findByPost(post));
 		return mav;
 	}
 }

@@ -26,7 +26,19 @@ public class GroupJdbcDao implements GroupDao {
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Group> ROW_MAPPER = (rs, rowNum) ->
-		new Group(rs.getString("name"), rs.getTimestamp("creationdate"), rs.getString("description"), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("owner")), rs.getInt("followers"));
+		new Group(
+				rs.getString("name"),
+				rs.getTimestamp("creationdate"),
+				rs.getString("description"), 
+				new User(
+						rs.getString("username"), 
+						rs.getString("email"), 
+						rs.getString("password"), 
+						rs.getInt("score"), 
+						rs.getInt("owner")
+				), 
+				rs.getInt("followers")
+		);
 		
 	
 	@Autowired

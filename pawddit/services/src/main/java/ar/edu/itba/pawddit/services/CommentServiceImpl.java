@@ -1,8 +1,10 @@
 package ar.edu.itba.pawddit.services;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.model.Comment;
@@ -13,16 +15,27 @@ import ar.edu.itba.pawddit.persistence.CommentDao;
 @Service
 public class CommentServiceImpl implements CommentService {
 	
+	@Autowired
 	private CommentDao commentDao;
-	
+
 	@Override
-	public Optional<Comment> getCommentById(final long id) {
-		return commentDao.findById(id);
+	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final Timestamp creationDate) {
+		return commentDao.create(content, post, replyTo, user, creationDate);
 	}
 
 	@Override
-	public Comment create(final Comment replyTo, final Timestamp creationDate, final String comment, final Post post, final User user) {
-		return commentDao.create(replyTo, creationDate, comment, post, user);
+	public List<Comment> findByUser(final User user) {
+		return commentDao.findByUser(user);
+	}
+
+	@Override
+	public List<Comment> findByPost(final Post post) {
+		return commentDao.findByPost(post);
+	}
+
+	@Override
+	public Optional<Comment> findById(final long id) {
+		return commentDao.findById(id);
 	}
 
 }

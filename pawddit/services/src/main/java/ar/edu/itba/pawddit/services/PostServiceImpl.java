@@ -39,8 +39,8 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public Optional<Post> findById(final long id) {
-		return postDao.findById(id);
+	public Optional<Post> findById(final Group group, final long id) {
+		return postDao.findById(group, id);
 	}
 	
 	@Override

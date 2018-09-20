@@ -26,8 +26,8 @@
            <div class="post-header">
              <span class="header-button clickable" onclick='window.location="<c:url value='/profile/${post.owner.username}'/>"'><c:out value="${post.owner.username}" escapeXml="true"/></span>
              <span><strong>
-				<spring:message code="postedIn.message"/>
-			</strong></span>
+				      <spring:message code="postedIn.message"/>
+			       </strong></span>
              <a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
                <span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
              </a>
@@ -54,35 +54,36 @@
            <hr>
            <div class="post-component-comments">
              <h4>
-				<spring:message code="postCommentsTitle.title"/>
-			</h4>
+				      <spring:message code="postCommentsTitle.title"/>
+			       </h4>
+             <c:forEach items="${comments}" var="comment">
              <div class="comment">
                <div class="comment-header">
                  <span class=""><strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong></span>
-                 <span class="header-button"><c:out value="PUVLIM" escapeXml="true"/></span>
-                 <span><strong><c:out value="2h ago" escapeXml="true"/></strong></span>
+                 <span class="header-button"><c:out value="${comment.owner.username}" escapeXml="true"/></span>
+                 <span><strong><c:out value="${comment.date}" escapeXml="true"/></strong></span>
                </div>
                <hr class="comment-separator">
-              <div class="comment-component-content">
-                Nice comment!
-             </div>
-             <div class="comment-component-replies">
-               <div class="comment">
+               <div class="comment-component-content">
+                 <c:out value="${comment.content}" escapeXml="true"/>
+               </div>
+               <div class="comment-component-replies">
+                <div class="comment">
                  <div class="comment-header">
                    <span class=""><strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong></span>
                    <span class="header-button"><c:out value="ElCRA" escapeXml="true"/></span>
                    <span><strong><c:out value="3h ago" escapeXml="true"/></strong></span>
                  </div>
                  <hr class="comment-separator">
-                <div class="comment-component-content">
+                 <div class="comment-component-content">
                   Creazy comment dude!
-               </div>
-               <div class="comment-component-replies">
-
+                 </div>
+                 <div class="comment-component-replies">
+                 </div>
+                </div>
                </div>
               </div>
-             </div>
-            </div>
+              </c:forEach>
           </div>
         </div>
 			</div>

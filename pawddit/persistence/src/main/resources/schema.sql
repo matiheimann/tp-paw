@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE TABLE IF NOT EXISTS comments (
 	commentid SERIAL PRIMARY KEY,
 	content TEXT NOT NULL,
-	replyto INT NOT NULL,
+	replyto INT,
 	postid INT NOT NULL,
 	userid INT NOT NULL,
 	creationdate TIMESTAMP,

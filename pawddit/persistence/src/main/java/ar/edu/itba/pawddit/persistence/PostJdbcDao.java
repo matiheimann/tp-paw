@@ -25,7 +25,26 @@ public class PostJdbcDao implements PostDao {
 	private final SimpleJdbcInsert jdbcInsert;
 	
 	private final static RowMapper<Post> ROW_MAPPER = (rs, rowNum) ->
-	new Post(rs.getString("title"), rs.getString("content"), rs.getTimestamp("creationdate"), new Group(rs.getString("groupname"), null, null, null, 0), new User(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getInt("score"), rs.getInt("userid")), rs.getInt("postid"));
+		new Post(
+				rs.getString("title"), 
+				rs.getString("content"), 
+				rs.getTimestamp("creationdate"), 
+				new Group(
+						rs.getString("groupname"), 
+						null, 
+						null, 
+						null, 
+						0
+				), 
+				new User(
+						rs.getString("username"), 
+						rs.getString("email"), 
+						rs.getString("password"), 
+						rs.getInt("score"), 
+						rs.getInt("userid")
+				), 
+				rs.getInt("postid")
+		);
 	
 	@Autowired
 	public PostJdbcDao(final DataSource ds) {
@@ -63,8 +82,8 @@ public class PostJdbcDao implements PostDao {
 	}
 	
 	@Override
-	public Optional<Post> findById(final long id) {
-		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE postid = ?", ROW_MAPPER, id).stream().findFirst();
+	public Optional<Post> findById(final Group group, final long id) {
+		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE postid = ? AND groupname = ?", ROW_MAPPER, id, group.getName()).stream().findFirst();
 	}
 	
 	@Override

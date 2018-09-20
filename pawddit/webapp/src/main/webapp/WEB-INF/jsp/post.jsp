@@ -41,12 +41,12 @@
            <br>
            <div class="post-info">
              <div class="info-item">
-                   <strong><i class="far fa-comment"></i> 
+                   <strong><i class="far fa-comment"></i>
                    	222 <spring:message code="comments.message"/>
                    </strong>
                </div>
              <div class="info-item">
-                   <strong><i class="far fa-thumbs-up"></i> 
+                   <strong><i class="far fa-thumbs-up"></i>
                    	104 <spring:message code="upvotes.message"/>
                    </strong>
                </div>
@@ -56,6 +56,27 @@
              <h4>
 				      <spring:message code="postCommentsTitle.title"/>
 			       </h4>
+	 					  <c:if test="${!empty user}">
+								<!-- Create Comment -->
+								<c:url value="/createComment" var="postPath"/>
+								<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
+									<div class="form-group">
+		   					    <spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
+		   					    <form:textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="${addCommentPlaceholder}"></form:textarea>
+		   					    <form:errors path="content" cssClass="formError" element="p"/>
+		   					  </div>
+								</form:form>
+								<button type="submit" class="create-comment-btn app-btn-primary">
+									<spring:message code="createCommentConfirmation.button.message"/>
+						  	</button>
+	 					  </c:if>
+							<c:if test="${empty user}">
+								<!-- Sign in suggestion-->
+								<h5>
+									<spring:message code="comments.suggestion"/>
+								</h5>
+							</c:if>
+						<!-- Comment List -->
              <c:forEach items="${comments}" var="comment">
              <div class="comment">
                <div class="comment-header">

@@ -65,10 +65,8 @@ EDEAE5*/
 .post-container {
 	background-color: white;
 	border-radius: 10px;
-	height: 280px;
-	min-height: 300px;
+	max-height: 450px;
 	margin-top: 30px;
-	overflow: hidden;
 	padding: 8px 15px;
 	width: 90%;
 	max-width: 600px;
@@ -99,26 +97,12 @@ EDEAE5*/
 	margin: 0 10px;
 }
 
-
-.post-fade {
-	background-color: transparent;
-	overflow: hidden;
-	z-index: 1;
-	height: 135px;
-	position: relative;
-	-webkit-box-shadow: inset 0px -147px 163px -77px rgba(255,255,255,1);
-	-moz-box-shadow: inset 0px -147px 163px -77px rgba(255,255,255,1);
-	box-shadow: inset 0px -147px 163px -77px rgba(255,255,255,1);
-}
-
-.position-up {
-	position: relative;
-	top: -135px;
-	margin-bottom: 10px;
-}
 .post-description-text {
-	background-color: transparent;
-	height: 135px;
+	position: relative;
+	max-height: 140px;
+	background: -webkit-linear-gradient(rgba(0,0,0,1) 50px, rgba(0,0,0,0) 160px);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 	overflow: hidden;
 }
 

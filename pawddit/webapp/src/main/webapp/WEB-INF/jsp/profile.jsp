@@ -49,36 +49,37 @@
 							<div class="tab-content" id="nav-tabContent">
 			  					<div class="tab-pane fade show active" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
 									<c:forEach items="${posts}" var="post">
-						<div class="post-container">
-							<div class="post-header">
-								<span class="header-button"><c:out value="${post.owner.username}" escapeXml="true"/></span>
-								<span><strong>posted in</strong></span>
-								<span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
-								<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
-							</div>
-						<hr>
-						<h2><c:out value="${post.title}" escapeXml="true"/></h2>
-						<div class="post-description">
-
-						</div>
-						<div class="post-description-text position-up">
-							<c:out value="${post.content}" escapeXml="true"/>
-						</div>
-						<hr class="position-up">
-						<div class="post-info position-up">
-							<div class="info-item">
-		         				<strong><i class="far fa-comment"></i> 
-		         				222 <spring:message code="comments.message"/>
-		         				</strong>
-		     				</div>
-							<div class="info-item">
-		         				<strong><i class="far fa-thumbs-up"></i>
-		         				 104 <spring:message code="upvotes.message"/>
-		         				 </strong>
-		     				</div>
-						</div>
-					</div>
-				</c:forEach>
+										<div class="post-container">
+											<div class="post-header">
+												<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${post.owner.username}'/>"'><c:out value="${post.owner.username}" escapeXml="true"/></span>
+												<span><strong>
+													<spring:message code="postedIn.message"/>
+												</strong></span>
+												<a class="no-underline" href="<c:url value="/group/${post.group.name}"/>">
+													<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
+												</a>
+												<span><strong><c:out value="${post.date}" escapeXml="true"/></strong></span>
+											</div>
+											<hr>
+											<h2 class="clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'><c:out value="${post.title}" escapeXml="true"/></h2>
+											<div class="post-description-text">
+												<c:out value="${post.content}" escapeXml="true"/>
+											</div>
+											<hr>
+											<div class="post-info">
+												<div class="info-item">
+															<strong><i class="far fa-comment"></i>
+															222 <spring:message code="comments.message"/>
+															</strong>
+													</div>
+												<div class="info-item">
+															<strong><i class="far fa-thumbs-up"></i>
+															104 <spring:message code="upvotes.message"/>
+															</strong>
+													</div>
+											</div>
+										</div>
+									</c:forEach>
 								</div>
 			  					<div class="tab-pane fade" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
 								<br>

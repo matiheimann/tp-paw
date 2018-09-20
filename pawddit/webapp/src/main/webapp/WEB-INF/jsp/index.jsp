@@ -39,20 +39,18 @@
 						</div>
 						<hr>
 						<h2 class="clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'><c:out value="${post.title}" escapeXml="true"/></h2>
-						<div class="post-fade">
-						</div>
-						<div class="post-description-text position-up">
+						<div class="post-description-text">
 							<c:out value="${post.content}" escapeXml="true"/>
 						</div>
-						<hr class="position-up">
-						<div class="post-info position-up">
+						<hr>
+						<div class="post-info">
 							<div class="info-item">
 		         				<strong><i class="far fa-comment"></i>
 		         				222 <spring:message code="comments.message"/>
 		         				</strong>
 		     				</div>
 							<div class="info-item">
-		         				<strong><i class="far fa-thumbs-up"></i> 
+		         				<strong><i class="far fa-thumbs-up"></i>
 		         				104 <spring:message code="upvotes.message"/>
 		         				</strong>
 		     				</div>

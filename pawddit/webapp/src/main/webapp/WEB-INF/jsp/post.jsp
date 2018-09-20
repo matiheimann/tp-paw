@@ -59,13 +59,13 @@
 	 					  <c:if test="${!empty user}">
 								<!-- Create Comment -->
 								<c:url value="/createComment" var="postPath"/>
-								<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
+								<form action="${postPath}" method="post">
 									<div class="form-group">
-		   					    <spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
-		   					    <form:textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="${addCommentPlaceholder}"></form:textarea>
-		   					    <form:errors path="content" cssClass="formError" element="p"/>
+		   					   	<spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
+		   					    <textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="${addCommentPlaceholder}"></textarea>
+		   					   <!-- <form:errors path="content" cssClass="formError" element="p"/>-->
 		   					  </div>
-								</form:form>
+								</form>
 								<button type="submit" class="create-comment-btn app-btn-primary">
 									<spring:message code="createCommentConfirmation.button.message"/>
 						  	</button>

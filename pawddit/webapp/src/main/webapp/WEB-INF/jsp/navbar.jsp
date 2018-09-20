@@ -3,7 +3,7 @@
 		<h2 class="logo">Pawddit.</h2>
 	</a>
 	<c:if test="${empty user}">
-	<%@include file="loggedOutNavBar.jsp" %>
+	<%@include file="loggedOutNavbar.jsp" %>
 	</c:if>
 	<c:if test="${!empty user}">
 	<%@include file="loggedInNavBar.jsp" %>

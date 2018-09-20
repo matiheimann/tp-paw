@@ -3,9 +3,9 @@
 		<h2 class="logo">Pawddit.</h2>
 	</a>
 	<c:if test="${empty user}">
-	<%@include file="loggedOutNavbar.jsp" %>
+	<%@include file="externalNavbar.jsp" %>
 	</c:if>
 	<c:if test="${!empty user}">
-	<%@include file="loggedInNavBar.jsp" %>
+	<%@include file="internalNavbar.jsp" %>
     </c:if>
 </nav>

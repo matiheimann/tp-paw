@@ -20,6 +20,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
+import ar.edu.itba.pawddit.services.SubscriptionService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
@@ -36,6 +37,9 @@ public class GroupController {
 
 	@Autowired
 	private PostService ps;
+	
+	@Autowired
+	private SubscriptionService ss;
 
 	@RequestMapping("/createGroup")
 	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form) {
@@ -72,4 +76,17 @@ public class GroupController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/group/{groupName}", method = { RequestMethod.POST })
+	public ModelAndView suscribeGroup(@PathVariable final String groupName) {
+		
+		final ModelAndView mav = new ModelAndView("index");
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
+		ss.suscribe(us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new), 
+					gs.findByName(groupName).orElseThrow(UserNotFoundException::new));
+		
+		return mav;
+	}
+	
 }

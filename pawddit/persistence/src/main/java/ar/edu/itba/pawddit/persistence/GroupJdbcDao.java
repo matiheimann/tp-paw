@@ -17,7 +17,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 
 import ar.edu.itba.pawddit.model.Group;
-import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 
 @Repository

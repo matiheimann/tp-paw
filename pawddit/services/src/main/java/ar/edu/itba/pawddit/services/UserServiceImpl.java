@@ -3,6 +3,7 @@ package ar.edu.itba.pawddit.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.persistence.UserDao;
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Optional<User> findById(final long id) {
@@ -22,12 +26,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(final String username, final String password, final String email, final int score) {
-		return userDao.create(username, password, email, score);
-	}
-	
-	@Override
-	public Optional<User> login(final String email, final String password) {
-		return userDao.login(email, password);
+		return userDao.create(username, passwordEncoder.encode(password), email, score);
 	}
 
 	@Override

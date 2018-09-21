@@ -7,6 +7,5 @@ import ar.edu.itba.pawddit.model.User;
 public interface UserDao {
 	public Optional<User> findById(long id);
 	public User create(String username, String password, String email, int score);
-	public Optional<User> login(String email, String password);
 	public Optional<User> findByUsername(String username);
 }

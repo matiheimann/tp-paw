@@ -51,11 +51,6 @@ public class UserJdbcDao implements UserDao {
 		final Number userId = jdbcInsert.executeAndReturnKey(args);
 		return new User(username, password, email, score, userId.longValue());
 	}
-	
-	@Override
-	public Optional<User> login(final String email, final String password) {
-		return jdbcTemplate.query("SELECT * FROM users WHERE email = ? AND password = ?", ROW_MAPPER, email, password).stream().findFirst();
-	}
 
 	@Override
 	public Optional<User> findByUsername(final String username) {

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
-import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
@@ -19,9 +18,6 @@ public class IndexController {
 
 	@Autowired
 	private UserService us;
-	
-	@Autowired
-	private GroupService gs;
 	
 	@Autowired
 	private PostService ps;

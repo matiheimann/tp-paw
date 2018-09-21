@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 	<head>
@@ -58,17 +59,19 @@
 			       </h4>
 	 					  <c:if test="${!empty user}">
 								<!-- Create Comment -->
-								<c:url value="/createComment" var="postPath"/>
-								<form action="${postPath}" method="post">
+								<c:url value="/group/${group.name}/${post.postid}/createComment" var="postPath"/>
+								<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
 									<div class="form-group">
-		   					   	<spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
-		   					    <textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="${addCommentPlaceholder}"></textarea>
-		   					   <!-- <form:errors path="content" cssClass="formError" element="p"/>-->
+                    <form:label for="comment-content" path="content">
+		   					   	  <spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
+                    </form:label>
+		   					    <form:textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="${addCommentPlaceholder}"></form:textarea>
+		   					    <form:errors path="content" cssClass="formError" element="p"/>
 		   					  </div>
-								</form>
-								<button type="submit" class="create-comment-btn app-btn-primary">
-									<spring:message code="createCommentConfirmation.button.message"/>
-						  	</button>
+                  <button type="submit" class="create-comment-btn app-btn-primary">
+                    <spring:message code="createCommentConfirmation.button.message"/>
+                  </button>
+								</form:form>
 	 					  </c:if>
 							<c:if test="${empty user}">
 								<!-- Sign in suggestion-->

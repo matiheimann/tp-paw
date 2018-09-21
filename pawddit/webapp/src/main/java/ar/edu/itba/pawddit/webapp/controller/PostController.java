@@ -26,6 +26,7 @@ import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
+import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 
@@ -92,7 +93,7 @@ public class PostController {
 	}
 	
 	@RequestMapping("/group/{groupName}/{postId}")
-	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId) {
+	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("createCommentForm") final CreateCommentForm form) {
 		final ModelAndView mav = new ModelAndView("post");
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
@@ -103,6 +104,22 @@ public class PostController {
 		mav.addObject("group", group);
 		mav.addObject("post", post);
 		mav.addObject("comments", cs.findByPost(post));
+		return mav;
+	}
+	
+	@RequestMapping(value = "/group/{groupName}/{postId}/createComment", method = { RequestMethod.POST })
+	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors) {
+		if(errors.hasErrors()) {
+			return showPost(groupName, postId, form);
+		}
+		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		cs.create(form.getContent(), p, null, u, new Timestamp(System.currentTimeMillis()));
+		
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}
 }

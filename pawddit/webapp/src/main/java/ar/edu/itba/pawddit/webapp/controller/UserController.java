@@ -1,7 +1,5 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
-import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
@@ -29,9 +25,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService us;
-	
-	@Autowired
-	private GroupService gs;
 	
 	@Autowired
 	private PostService ps;

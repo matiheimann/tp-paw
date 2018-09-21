@@ -48,7 +48,8 @@ public class SubscriptionJdbcDao implements SubscriptionDao {
 
 	@Override
 	public Boolean unsuscribe(final User user, final Group group) {
-		// TODO Auto-generated method stub
+		String query = "DELETE FROM SUBSCRIPTIONS WHERE userid = ? AND groupName = ?";
+		jdbcTemplate.update(query, user.getUserid(), group.getName());
 		return false;
 	}
 

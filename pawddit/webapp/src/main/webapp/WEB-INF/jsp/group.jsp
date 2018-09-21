@@ -23,7 +23,14 @@
 					</form:form>
 				</c:if>
 				<c:if test="${subscription eq true}">
-					
+					<c:url value="/group/${group.name}/unsubscribe" var="postPath"/>
+					<form:form action="${postPath}" method="post">
+						<div class="form-group">
+							<button type="submit" class="app-btn-primary">
+								<spring:message code="leaveGroup.button.message"/>
+							</button>
+						</div>
+					</form:form>
 				</c:if>
 			</c:if>
 		</div>

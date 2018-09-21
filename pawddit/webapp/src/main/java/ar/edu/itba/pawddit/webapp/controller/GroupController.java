@@ -81,13 +81,27 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/group/{groupName}/subscribe", method = { RequestMethod.POST })
-	public ModelAndView groupsSubscriptions(@PathVariable final String groupName) {
+	public ModelAndView groupSubscribe(@PathVariable final String groupName) {
 
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();	
 		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
 	
 		ss.suscribe(user, group);
+
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/group/{groupName}/unsubscribe", method = { RequestMethod.POST })
+	public ModelAndView groupUnsubscribe(@PathVariable final String groupName) {
+
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();	
+		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
+	
+		ss.unsuscribe(user, group);
 
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
 		

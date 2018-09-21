@@ -33,7 +33,8 @@ public class CommentJdbcDao implements CommentDao {
 						null, 
 						null, 
 						null, 
-						rs.getInt("postid")
+						rs.getInt("postid"),
+						0
 				),
 				null,
 				new User(

@@ -47,7 +47,7 @@
 						<div class="post-info">
 							<div class="info-item">
 		         				<strong><i class="far fa-comment"></i>
-		         				222 <spring:message code="comments.message"/>
+		         				<c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
 		         				</strong>
 		     				</div>
 							<div class="info-item">

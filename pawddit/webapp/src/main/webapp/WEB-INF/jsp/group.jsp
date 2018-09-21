@@ -11,11 +11,22 @@
 		  </strong>
 		</div>
 		<div class="info-item">
-			<a href="<c:url value="/...."/>">
-				<button class="app-btn-primary" role="button">
-					<spring:message code="joinGroup.button.message"/>
-				</button>
-			</a>
+		 	<c:if test="${!empty user}">
+				<form:form modelAttribute="subscriptionForm" action="${groupPath}" method="post">
+					<c:choose>
+						<c:when test="${subscription eq 0}">
+							<div class="form-group">
+								<form:label for="subscription-value" path="value"/>
+								<button class="app-btn-primary" value="1" id="value" role="button">
+									<spring:message code="joinGroup.button.message"/>
+								</button>
+							</div>
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
+				</form:form>
+			</c:if>
 		</div>
 	</div>
 </div>

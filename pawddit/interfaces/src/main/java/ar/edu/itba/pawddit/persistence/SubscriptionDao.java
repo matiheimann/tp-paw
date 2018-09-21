@@ -5,8 +5,8 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface SubscriptionDao {
 
-	public Number suscribe(User user, Group group);
-	public int unsuscribe(User user, Group group);
-	public int checkIfItsSuscribed(User user, Group group);
+	public Boolean suscribe(User user, Group group);
+	public Boolean unsuscribe(User user, Group group);
+	public Boolean isUserSub(User user, Group group);
 	
 }

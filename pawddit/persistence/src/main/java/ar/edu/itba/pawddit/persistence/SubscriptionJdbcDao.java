@@ -16,7 +16,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 
 @Repository
-public class SubscriptionJdbcDao implements SubscriptionDao{
+public class SubscriptionJdbcDao implements SubscriptionDao {
 
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
@@ -33,24 +33,30 @@ public class SubscriptionJdbcDao implements SubscriptionDao{
 	}
 	
 	@Override
-	public Number suscribe(User user, Group group) {
+	public Boolean suscribe(final User user, final Group group) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("userid", user.getUserid());
 		args.put("groupname", group.getName());
-		return jdbcInsert.executeAndReturnKey(args);
+		
+		if (isUserSub(user, group))
+			return false;
+		else {
+			jdbcInsert.executeAndReturnKey(args);
+			return true;
+		}
 	}
 
 	@Override
-	public int unsuscribe(User user, Group group) {
+	public Boolean unsuscribe(final User user, final Group group) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
 
 	@Override
-	public int checkIfItsSuscribed(User user, Group group) {
+	public Boolean isUserSub(final User user, final Group group) {
 		List<Integer> ls = jdbcTemplate.query("SELECT count(*) FROM SUBSCRIPTIONS WHERE userid = ? AND groupname = ?", 
 				ROW_MAPPER, user.getUserid(), group.getName());
-		return ls.get(0);
+		return (ls.get(0) == 1) ? true : false;
 	}
 
 }

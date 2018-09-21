@@ -25,7 +25,6 @@ import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
-import ar.edu.itba.pawddit.webapp.form.SubscriptionForm;
 
 @Controller
 public class GroupController {
@@ -67,33 +66,29 @@ public class GroupController {
 	@RequestMapping("/group/{groupName}")
 	public ModelAndView showGroup(@PathVariable final String groupName) {
 		final ModelAndView mav = new ModelAndView("index");
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		mav.addObject("group", g);
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-			User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+			final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 			mav.addObject("user", user);
-			mav.addObject("subscription", ss.checkIfItsSuscribed(user, g));
+			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
+		
 		mav.addObject("posts", ps.findByGroup(g));
 		return mav;
 	}
 	
-	@RequestMapping(value = "/group/{groupName}", method = { RequestMethod.POST })
-	public ModelAndView groupsSubscriptions(@PathVariable final String groupName, @ModelAttribute("SubscriptionForm") final SubscriptionForm form) {
+	@RequestMapping(value = "/group/{groupName}/subscribe", method = { RequestMethod.POST })
+	public ModelAndView groupsSubscriptions(@PathVariable final String groupName) {
 
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
-		Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
-		
-		if(form.getValue() == 1) {
-			ss.suscribe(user, group);
-		}
-		else {
-			ss.unsuscribe(user, group);
-		}
-		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();	
+		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
+	
+		ss.suscribe(user, group);
+
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
 		
 		return mav;

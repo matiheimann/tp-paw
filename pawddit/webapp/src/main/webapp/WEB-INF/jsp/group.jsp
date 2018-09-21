@@ -12,20 +12,19 @@
 		</div>
 		<div class="info-item">
 		 	<c:if test="${!empty user}">
-				<form:form modelAttribute="subscriptionForm" action="${groupPath}" method="post">
-					<c:choose>
-						<c:when test="${subscription eq 0}">
-							<div class="form-group">
-								<form:label for="subscription-value" path="value"/>
-								<button class="app-btn-primary" value="1" id="value" role="button">
-									<spring:message code="joinGroup.button.message"/>
-								</button>
-							</div>
-						</c:when>
-						<c:otherwise>
-						</c:otherwise>
-					</c:choose>
-				</form:form>
+		 		<c:if test="${subscription eq false}">
+		 			<c:url value="/group/${group.name}/subscribe" var="postPath"/>
+					<form:form action="${postPath}" method="post">
+						<div class="form-group">
+							<button type="submit" class="app-btn-primary">
+								<spring:message code="joinGroup.button.message"/>
+							</button>
+						</div>
+					</form:form>
+				</c:if>
+				<c:if test="${subscription eq true}">
+					
+				</c:if>
 			</c:if>
 		</div>
 	</div>

@@ -8,24 +8,24 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.SubscriptionDao;
 
 @Service
-public class SubscriptionServiceImpl implements SubscriptionService{
+public class SubscriptionServiceImpl implements SubscriptionService {
 	
 	@Autowired
 	SubscriptionDao sd;
 	
 	@Override
-	public Number suscribe(User user, Group group) {
+	public Boolean suscribe(final User user, final Group group) {
 		return sd.suscribe(user, group);
 	}
 
 	@Override
-	public int unsuscribe(User user, Group group) {
+	public Boolean unsuscribe(final User user, final Group group) {
 		return sd.unsuscribe(user, group);
 	}
 
 	@Override
-	public int checkIfItsSuscribed(User user, Group group) {
-		return sd.checkIfItsSuscribed(user, group);
+	public Boolean isUserSub(final User user, final Group group) {
+		return sd.isUserSub(user, group);
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
@@ -45,8 +46,17 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login")
-	public ModelAndView login() {
-		return new ModelAndView("login");
+	public ModelAndView login(@RequestParam(value = "error", required=false) final boolean error) {
+		ModelAndView mav = new ModelAndView("login");
+		
+		if(error) {
+			mav.addObject("loginError", new Boolean(true));
+			return mav;
+		}
+		
+		mav.addObject("loginError", new Boolean(false));
+		return mav;
+		
 	}
 	
 	@RequestMapping("/profile/{username}")

@@ -4,10 +4,10 @@ import javax.validation.constraints.Size;
 
 public class CreatePostForm {
 	
-	@Size(min = 4, max = 32)
+	@Size(min = 4, max = 60)
 	private String title;
 	
-	@Size(min = 6, max = 100)
+	@Size(min = 6, max = 1000)
 	private String content;
 
 	public String getTitle() {

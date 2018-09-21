@@ -7,7 +7,7 @@ public class CreateGroupForm {
 	@Size(min = 4, max = 32)
 	private String name;
 	
-	@Size(min = 6, max = 100)
+	@Size(min = 6, max = 1000)
 	private String description;
 	
 	public String getName() {

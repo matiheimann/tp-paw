@@ -9,14 +9,16 @@ public class Post {
 	private Group group;
 	private User owner;
 	private long postid;
+	private int comments;
 	
-	public Post(String title, String content, Timestamp date, Group group, User owner, long postid) {
+	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, int comments) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
 		this.group = group;
 		this.owner = owner;
 		this.postid = postid;
+		this.setComments(comments);
 	}
 	
 	public String getTitle() {
@@ -65,5 +67,13 @@ public class Post {
 	
 	public void setPostid(long postid) {
 		this.postid = postid;
+	}
+
+	public int getComments() {
+		return comments;
+	}
+
+	public void setComments(int comments) {
+		this.comments = comments;
 	}
 }

@@ -43,7 +43,8 @@ public class PostJdbcDao implements PostDao {
 						rs.getInt("score"), 
 						rs.getInt("userid")
 				), 
-				rs.getInt("postid")
+				rs.getInt("postid"),
+				rs.getInt("comments")
 		);
 	
 	@Autowired
@@ -63,35 +64,60 @@ public class PostJdbcDao implements PostDao {
 		args.put("groupname", group.getName());
 		args.put("userid", user.getUserid());
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
-		return new Post(title, content, date, group, user, postId.longValue());
+		return new Post(title, content, date, group, user, postId.longValue(), 0);
 	}
 	
 	@Override
 	public List<Post> findAll() {
-		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid", ROW_MAPPER);
+		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
+				+ "users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				"INNER JOIN users ON users.userId = posts.userId " + 
+				"INNER JOIN groups ON groups.name = posts.groupname " + 
+				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
+				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER);
 	}
 
 	@Override
 	public List<Post> findByGroup(final Group group) {
-		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE groupname = ?", ROW_MAPPER, group.getName());
+		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
+				+ "users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				"INNER JOIN users ON users.userId = posts.userId " + 
+				"INNER JOIN groups ON groups.name = posts.groupname " + 
+				"FULL OUTER JOIN comments ON comments.postid = posts.postid " + " WHERE groupname = ? " +
+				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER, group.getName());
 	}
 
 	@Override
 	public List<Post> findByUser(final User user) {
-		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = ?", ROW_MAPPER, user.getUserid());
+		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
+				+ "users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				"INNER JOIN users ON users.userId = posts.userId " + 
+				"INNER JOIN groups ON groups.name = posts.groupname " + 
+				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
+				"WHERE users.userid = ? " +
+				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER, user.getUserid());
 	}
 	
 	@Override
 	public Optional<Post> findById(final Group group, final long id) {
-		return jdbcTemplate.query("SELECT * FROM posts JOIN users ON posts.userid = users.userid WHERE postid = ? AND groupname = ?", ROW_MAPPER, id, group.getName()).stream().findFirst();
+		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
+				+ "users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				"INNER JOIN users ON users.userId = posts.userId " + 
+				"INNER JOIN groups ON groups.name = posts.groupname " + 
+				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
+				" WHERE posts.postid = ? " + 
+				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER, id).stream().findFirst();
 	}
 	
 	@Override
 	public List<Post> findBySubscriptions(final User user) {
-		return jdbcTemplate.query("SELECT * FROM posts " + 
+		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
+				+ "users.score as score, password, email, username, users.userid as userid FROM posts " + 
 				"INNER JOIN users ON users.userId = posts.userId " + 
 				"INNER JOIN groups ON groups.name = posts.groupname " + 
-				"WHERE EXISTS (SELECT postid from subscriptions WHERE userId = ? and posts.groupname LIKE subscriptions.groupname)", ROW_MAPPER, user.getUserid());
+				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
+				"WHERE EXISTS (SELECT posts.postid from subscriptions WHERE userId = ? and posts.groupname LIKE subscriptions.groupname) " +
+				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER, user.getUserid());
 	}
 	
 }

@@ -1,7 +1,10 @@
 package ar.edu.itba.pawddit.persistence;
 
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,10 +22,13 @@ import ar.edu.itba.pawddit.model.User;
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:schema.sql")
 public class UserJdbcDaoTest {
-	private static final String USERNAME = "Username";
-	private static final String PASSWORD = "Password";
-	private static final String EMAIL = "Email";
-	private static final int SCORE = 1;
+	private static final String NEW_USERNAME = "Username";
+	private static final String NEW_PASSWORD = "Password";
+	private static final String NEW_EMAIL = "Email";
+	private static final int NEW_SCORE = 1;
+	
+	private static final int USER_ID_TO_FIND = 1;
+	private static final String USER_USERNAME_TO_FIND = "testUsername";
 	
 	@Autowired
 	private DataSource ds;
@@ -34,17 +40,35 @@ public class UserJdbcDaoTest {
 	@Before
 	public void setUp() {
 		jdbcTemplate = new JdbcTemplate(ds);
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
 	}
 	
 	@Test
 	public void testCreate() {
-		final User user = userDao.create(USERNAME, PASSWORD, EMAIL, SCORE);
+		final User user = userDao.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE);
 		Assert.assertNotNull(user);
-		Assert.assertEquals(USERNAME, user.getUsername());
-		Assert.assertEquals(PASSWORD, user.getPassword());
-		Assert.assertEquals(EMAIL, user.getEmail());
-		Assert.assertEquals(SCORE, user.getScore());
-		Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+		Assert.assertEquals(NEW_USERNAME, user.getUsername());
+		Assert.assertEquals(NEW_PASSWORD, user.getPassword());
+		Assert.assertEquals(NEW_EMAIL, user.getEmail());
+		Assert.assertEquals(NEW_SCORE, user.getScore());
+		Assert.assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", "username = '" + NEW_USERNAME + "'"));
+	}
+	
+	@Test
+	public void testFindUserById() {
+		final Optional<User> user = userDao.findById(USER_ID_TO_FIND);
+		Assert.assertTrue(user.isPresent());
+		Assert.assertEquals(USER_ID_TO_FIND, user.get().getUserid());
+	}
+	
+	@Test
+	public void testFindUserByUsername() {
+		final Optional<User> user = userDao.findByUsername(USER_USERNAME_TO_FIND);
+		Assert.assertTrue(user.isPresent());
+		Assert.assertEquals(USER_USERNAME_TO_FIND, user.get().getUsername());
+	}
+	
+	@After
+	public void tearDown() {
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
 	}
 }

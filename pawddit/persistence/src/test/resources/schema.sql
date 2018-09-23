@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS users (
 	score INT
 );
 
+INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0);
+

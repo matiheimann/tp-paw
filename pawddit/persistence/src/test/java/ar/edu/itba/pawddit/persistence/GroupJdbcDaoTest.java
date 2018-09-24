@@ -52,10 +52,10 @@ public class GroupJdbcDaoTest {
 	@Test
 	public void createGroupTest() {
 		final Group group = groupDao.create(GROUP_NAME, GROUP_CREATION_DATE, GROUP_DESCRIPTION, userDao.findByUsername(GROUP_OWNER).get());
-		Assert.assertEquals(group.getName(), GROUP_NAME);
-		Assert.assertEquals(group.getDate(), GROUP_CREATION_DATE);
-		Assert.assertEquals(group.getDescription(), GROUP_DESCRIPTION);
-		Assert.assertEquals(group.getOwner().getUsername(), GROUP_OWNER);
+		Assert.assertEquals(GROUP_NAME, group.getName());
+		Assert.assertEquals(GROUP_CREATION_DATE, group.getDate());
+		Assert.assertEquals(GROUP_DESCRIPTION, group.getDescription());
+		Assert.assertEquals(GROUP_OWNER, group.getOwner().getUsername());
 		Assert.assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "groups", "name = '" + GROUP_NAME + "'"));
 	}
 	
@@ -83,6 +83,6 @@ public class GroupJdbcDaoTest {
 
 	@After
 	public void tearDown() {
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "groups", "users");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
 	}
 }

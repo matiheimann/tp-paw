@@ -21,7 +21,7 @@ public class SubscriptionJdbcDao implements SubscriptionDao {
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsert;
 	private final static RowMapper<Integer> ROW_MAPPER = (rs, rowNum) ->
-		new Integer(rs.getInt("count"));
+		new Integer(rs.getInt(1));
 	
 	
 	@Autowired

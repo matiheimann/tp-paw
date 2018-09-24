@@ -20,7 +20,7 @@ import ar.edu.itba.pawddit.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Sql("classpath:schema.sql")
+@Sql("classpath:userJdbcDaoTestScript.sql")
 public class UserJdbcDaoTest {
 	private static final String NEW_USERNAME = "Username";
 	private static final String NEW_PASSWORD = "Password";

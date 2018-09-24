@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS users (
 	score INT
 );
 
-INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0);
+INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0); /* User for userJdbcDao and subscriptionJdbcDao unit tests */
 

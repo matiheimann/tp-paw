@@ -47,7 +47,6 @@ public class IndexController {
 		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 		mav.addObject("user", u);
 		mav.addObject("posts", ps.findAll());
-		mav.addObject("title", true);
 		return mav;
 	}
 

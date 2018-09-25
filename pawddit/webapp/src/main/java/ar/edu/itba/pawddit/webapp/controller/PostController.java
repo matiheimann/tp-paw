@@ -22,6 +22,7 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
+import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
@@ -44,6 +45,10 @@ public class PostController {
 	
 	@Autowired
 	private CommentService cs;
+	
+	@Autowired
+	private PostVoteService pvs;
+
 	
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
@@ -96,11 +101,14 @@ public class PostController {
 	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("createCommentForm") final CreateCommentForm form) {
 		final ModelAndView mav = new ModelAndView("post");
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-			mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));
-		}
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+			final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+			mav.addObject("user", user);
+			final Integer vote = pvs.checkVote(user, post);
+			mav.addObject("vote", vote);
+		}
 		mav.addObject("group", group);
 		mav.addObject("post", post);
 		mav.addObject("comments", cs.findByPost(post));
@@ -120,6 +128,62 @@ public class PostController {
 		cs.create(form.getContent(), p, null, u, new Timestamp(System.currentTimeMillis()));
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
+		return mav;
+	}
+	
+	@RequestMapping(value="/group/{groupName}/{postId}/upvote", method = {RequestMethod.POST})
+	public ModelAndView upvotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
+		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		pvs.votePost(u, p, 1);
+		
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/group/{groupName}/{postId}/downvote", method = {RequestMethod.POST})
+	public ModelAndView downvotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
+		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		pvs.votePost(u, p, -1);
+		
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/group/{groupName}/{postId}/cancelVote", method = {RequestMethod.POST})
+	public ModelAndView cancelVotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
+		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		pvs.cancelVote(u, p);
+		
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/group/{groupName}/{postId}/changeVote", method = {RequestMethod.POST})
+	public ModelAndView changeVotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
+		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		pvs.changeVote(u, p);
+		
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
+		
 		return mav;
 	}
 }

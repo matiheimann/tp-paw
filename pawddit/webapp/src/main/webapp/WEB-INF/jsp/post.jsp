@@ -42,20 +42,95 @@
            </div>
            <br>
            <div class="post-info">
-             <div class="info-item">
-                   <strong><i class="fas fa-comment"></i>
-                   	<c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
-                   </strong>
-               </div>
-             <div class="info-item">
-								 <a class="no-underline" href="<c:url value=""/>">
-									 <i class="fas fa-arrow-up icon-color"></i>
-								 </a>
-								 <strong class="score-count">104</strong>
-								 <a class="no-underline" href="<c:url value=""/>">
-									 <i class="fas fa-arrow-down icon-color"></i>
-								 </a>
-              </div>
+           		<div class="info-item">
+			        <strong><i class="fas fa-comment"></i>
+			            <c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
+			        </strong>
+			    </div>
+			    <c:if test="${! empty user}">
+	           		<c:choose>
+		           		<c:when test="${vote eq 0}">
+				             <div class="info-item">
+				             	<div class="info-item">
+					             		<c:url value="/group/${group.name}/${post.postid}/upvote" var="postPath"/>
+										<form:form action="${postPath}" method="post">
+											<div class="form-group">
+												<button type="submit">
+													<i class="fas fa-arrow-up icon-color"></i>
+												</button>
+											</div>
+										</form:form>
+								</div>
+								<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				             	<div class="info-item">
+					             		<c:url value="/group/${group.name}/${post.postid}/downvote" var="postPath"/>
+										<form:form action="${postPath}" method="post">
+											<div class="form-group">
+												<button type="submit">
+													<i class="fas fa-arrow-down icon-color"></i>
+												</button>
+											</div>
+										</form:form>
+								</div>
+				          	</div>
+			          	</c:when>
+			          	<c:when test="${vote eq 1}">
+				             <div class="info-item">
+				             	<div class="info-item">
+					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
+										<form:form action="${postPath}" method="post">
+											<div class="form-group">
+												<button type="submit">
+													<i class="fas fa-arrow-up icon-color"></i>
+												</button>
+											</div>
+										</form:form>
+								</div>
+												 <strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				             	<div class="info-item">
+					             		<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
+										<form:form action="${postPath}" method="post">
+											<div class="form-group">
+												<button type="submit">
+													<i class="fas fa-arrow-down icon-color"></i>
+												</button>
+											</div>
+										</form:form>
+								</div>
+				          	</div>
+			          	</c:when>
+			          	<c:otherwise>
+				             <div class="info-item">
+				             	<div class="info-item">
+					             		<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
+										<form:form action="${postPath}" method="post">
+											<div class="form-group">
+												<button type="submit">
+													<i class="fas fa-arrow-up icon-color"></i>
+												</button>
+											</div>
+										</form:form>
+								</div>
+												 <strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				             	<div class="info-item">
+					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
+										<form:form action="${postPath}" method="post">
+											<div class="form-group">
+												<button type="submit">
+													<i class="fas fa-arrow-down icon-color"></i>
+												</button>
+											</div>
+										</form:form>
+								</div>
+				          	</div>		          		
+			          	</c:otherwise>
+		          </c:choose>
+		   	</c:if>
+		   	<c:if test="${empty user}">
+		   		<div class="info-item">
+					<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/> <spring:message code="posts.votes"/> </strong>
+				</div>
+		   	</c:if>
            </div>
            <hr>
            <div class="post-component-comments">

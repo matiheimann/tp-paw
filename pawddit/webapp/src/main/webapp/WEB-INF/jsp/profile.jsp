@@ -70,14 +70,14 @@
 											<div class="post-info">
 												<div class="info-item">
 															<strong><i class="fas fa-comment"></i>
-															222 <spring:message code="comments.message"/>
+															<c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
 															</strong>
 													</div>
 												<div class="info-item">
 													<a class="no-underline" href="<c:url value=""/>">
 														<i class="fas fa-arrow-up icon-color"></i>
 													</a>
-													<strong class="score-count">104</strong>
+													<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
 													<a class="no-underline" href="<c:url value=""/>">
 														<i class="fas fa-arrow-down icon-color"></i>
 													</a>

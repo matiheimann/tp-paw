@@ -10,15 +10,17 @@ public class Post {
 	private User owner;
 	private long postid;
 	private int comments;
+	private int votes;
 	
-	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, int comments) {
+	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, int comments, int votes) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
 		this.group = group;
 		this.owner = owner;
 		this.postid = postid;
-		this.setComments(comments);
+		this.comments = comments;
+		this.votes = votes;
 	}
 	
 	public String getTitle() {
@@ -75,5 +77,13 @@ public class Post {
 
 	public void setComments(int comments) {
 		this.comments = comments;
+	}
+
+	public int getVotes() {
+		return votes;
+	}
+
+	public void setVotes(int votes) {
+		this.votes = votes;
 	}
 }

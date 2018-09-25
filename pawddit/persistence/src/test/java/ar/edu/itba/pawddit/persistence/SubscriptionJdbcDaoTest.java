@@ -77,12 +77,6 @@ public class SubscriptionJdbcDaoTest {
 		Assert.assertTrue(subscriptionDao.isUserSub(unsubscribedUser.get(), testGroup.get()));
 	}
 	
-	@Test
-	public void userAlreadySubscribedTest() {
-		subscribedUser = userDao.findByUsername(SUBSCRIBED_USER_USERNAME);
-		Assert.assertFalse(subscriptionDao.suscribe(subscribedUser.get(), testGroup.get()));
-	}
-	
 	@After
 	public void tearDown() {
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");

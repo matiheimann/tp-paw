@@ -110,8 +110,8 @@ public class PostJdbcDao implements PostDao {
 				"INNER JOIN groups ON groups.name = posts.groupname " + 
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
 				"FULL OUTER JOIN voteposts ON voteposts.postid = posts.postid " +
-				" WHERE posts.postid = ? " + 
-				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER, id).stream().findFirst();
+				" WHERE posts.postid = ? AND posts.groupname = ?" + 
+				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname", ROW_MAPPER, id, group.getName()).stream().findFirst();
 	}
 	
 	@Override

@@ -9,5 +9,6 @@ public interface UserService {
 	public Optional<User> findById(long id);
 	public User create(String username, String password, String email, int score);
 	public Optional<User> findByUsername(String username);
+	public Optional<User> findByEmail(String email);
 	
 }

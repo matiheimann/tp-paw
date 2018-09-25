@@ -26,8 +26,7 @@ public class PostVoteJdbcDao implements PostVoteDao {
 	public PostVoteJdbcDao(final DataSource ds) {
 			jdbcTemplate = new JdbcTemplate(ds);
 			jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-					.withTableName("voteposts")
-					.usingGeneratedKeyColumns("votepostsid");
+					.withTableName("voteposts");
 	}
 
 	

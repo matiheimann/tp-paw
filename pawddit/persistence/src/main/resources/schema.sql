@@ -36,28 +36,28 @@ CREATE TABLE IF NOT EXISTS comments (
 	FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS subscriptions (
-	subscriptionid SERIAL PRIMARY KEY,	
+CREATE TABLE IF NOT EXISTS subscriptions (	
 	userid INT NOT NULL,
 	groupname VARCHAR(20) NOT NULL,
+	PRIMARY KEY(userid, groupname),
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(groupname) REFERENCES groups(name) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS voteposts (
-	votepostsid SERIAL PRIMARY KEY,
 	valuevote INT NOT NULL,
 	postid INT NOT NULL,
 	userid INT NOT NULL,
+	PRIMARY KEY(userid, postid),
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS votecomments (
-	votecommentid SERIAL PRIMARY KEY,
 	valuevote INT NOT NULL,
 	commentid INT NOT NULL,
 	userid INT NOT NULL,
+	PRIMARY KEY(userid, commentid),
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(commentid) REFERENCES comments(commentid) ON DELETE CASCADE
 );

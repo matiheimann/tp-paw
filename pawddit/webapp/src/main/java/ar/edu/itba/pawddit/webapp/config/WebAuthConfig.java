@@ -35,9 +35,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.userDetailsService(userDetailsService)
-			.sessionManagement()
-				.invalidSessionUrl("/login")
-			.and().authorizeRequests()
+			.authorizeRequests()
 				.antMatchers("/login").anonymous()
 				.antMatchers("/**/createGroup").authenticated()
 				.antMatchers("/**/createPost").authenticated()

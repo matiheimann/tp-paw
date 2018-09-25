@@ -28,29 +28,21 @@ public class SubscriptionJdbcDao implements SubscriptionDao {
 	public SubscriptionJdbcDao(DataSource ds) {
 		jdbcTemplate = new JdbcTemplate(ds);
 		jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-				.withTableName("subscriptions")
-				.usingGeneratedKeyColumns("subscriptionid");
+				.withTableName("subscriptions");
 	}
 	
 	@Override
-	public Boolean suscribe(final User user, final Group group) {
+	public void suscribe(final User user, final Group group) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("userid", user.getUserid());
 		args.put("groupname", group.getName());
-		
-		if (isUserSub(user, group))
-			return false;
-		else {
-			jdbcInsert.executeAndReturnKey(args);
-			return true;
-		}
+		jdbcInsert.execute(args);
 	}
 
 	@Override
-	public Boolean unsuscribe(final User user, final Group group) {
+	public void unsuscribe(final User user, final Group group) {
 		String query = "DELETE FROM SUBSCRIPTIONS WHERE userid = ? AND groupName = ?";
 		jdbcTemplate.update(query, user.getUserid(), group.getName());
-		return false;
 	}
 
 	@Override

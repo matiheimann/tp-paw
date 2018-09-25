@@ -15,12 +15,20 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	
 	@Override
 	public Boolean suscribe(final User user, final Group group) {
-		return sd.suscribe(user, group);
+		if (isUserSub(user, group))
+			return false;
+		
+		sd.suscribe(user, group);
+		return true;
 	}
 
 	@Override
 	public Boolean unsuscribe(final User user, final Group group) {
-		return sd.unsuscribe(user, group);
+		if (!isUserSub(user, group))
+			return false;
+		
+		sd.unsuscribe(user, group);
+		return true;
 	}
 
 	@Override

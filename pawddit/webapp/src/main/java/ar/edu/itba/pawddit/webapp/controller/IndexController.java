@@ -18,7 +18,7 @@ public class IndexController {
 
 	@Autowired
 	private UserService us;
-	
+
 	@Autowired
 	private PostService ps;
 
@@ -27,7 +27,7 @@ public class IndexController {
 	{
 		final ModelAndView mav = new ModelAndView("index");
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
 			mav.addObject("posts", ps.findAll());
 		}
@@ -36,6 +36,18 @@ public class IndexController {
 			mav.addObject("user", u);
 			mav.addObject("posts", ps.findBySubscriptions(u));
 		}
+		return mav;
+	}
+
+	@RequestMapping("/all")
+	public ModelAndView all()
+	{
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final ModelAndView mav = new ModelAndView("index");
+		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		mav.addObject("user", u);
+		mav.addObject("posts", ps.findAll());
+		mav.addObject("title", true);
 		return mav;
 	}
 

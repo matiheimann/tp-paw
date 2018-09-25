@@ -2,6 +2,9 @@
 	<a class="no-underline" href="<c:url value="/"/>">
 		<h2 class="logo">Pawddit.</h2>
 	</a>
+	<a class="no-underline all-post-btn" href="<c:url value="/all"/>">
+		<button class="app-btn-primary"><i class="fas fa-list"></i> All Posts</button>
+	</a>
 	<a class="create-post" href="<c:url value="/createPost"/>">
 		<button class="app-btn-primary" role="button">
 			<spring:message code="createPost.button.message"/>

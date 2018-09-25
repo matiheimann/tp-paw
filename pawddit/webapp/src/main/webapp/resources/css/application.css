@@ -150,3 +150,11 @@ EDEAE5*/
 .initial-space {
 	margin-top: 15px;
 }
+
+.score-count {
+	margin-right: 5px;
+}
+
+.icon-color {
+	color: grey;
+}

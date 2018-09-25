@@ -43,15 +43,19 @@
            <br>
            <div class="post-info">
              <div class="info-item">
-                   <strong><i class="far fa-comment"></i>
+                   <strong><i class="fas fa-comment"></i>
                    	<c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
                    </strong>
                </div>
              <div class="info-item">
-                   <strong><i class="far fa-thumbs-up"></i>
-                   	104 <spring:message code="upvotes.message"/>
-                   </strong>
-               </div>
+								 <a class="no-underline" href="<c:url value=""/>">
+									 <i class="fas fa-arrow-up icon-color"></i>
+								 </a>
+								 <strong class="score-count">104</strong>
+								 <a class="no-underline" href="<c:url value=""/>">
+									 <i class="fas fa-arrow-down icon-color"></i>
+								 </a>
+              </div>
            </div>
            <hr>
            <div class="post-component-comments">
@@ -84,28 +88,21 @@
              <c:forEach items="${comments}" var="comment">
              <div class="comment">
                <div class="comment-header">
-                 <span class=""><strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong></span>
+                 <span class="">
+									 <a class="no-underline" href="<c:url value=""/>">
+										 <i class="fas fa-arrow-up icon-color"></i>
+									 </a>
+									 <strong class="score-count">104</strong>
+									 <a class="no-underline" href="<c:url value=""/>">
+										 <i class="fas fa-arrow-down icon-color"></i>
+									 </a>
+								 </span>
                  <span class="header-button"><c:out value="${comment.owner.username}" escapeXml="true"/></span>
                  <span><strong><c:out value="${comment.date}" escapeXml="true"/></strong></span>
                </div>
                <hr class="comment-separator">
                <div class="comment-component-content">
                  <c:out value="${comment.content}" escapeXml="true"/>
-               </div>
-               <div class="comment-component-replies">
-                <div class="comment">
-                 <div class="comment-header">
-                   <span class=""><strong><i class="far fa-thumbs-up"></i> 104 Upvotes</strong></span>
-                   <span class="header-button"><c:out value="ElCRA" escapeXml="true"/></span>
-                   <span><strong><c:out value="3h ago" escapeXml="true"/></strong></span>
-                 </div>
-                 <hr class="comment-separator">
-                 <div class="comment-component-content">
-                  Creazy comment dude!
-                 </div>
-                 <div class="comment-component-replies">
-                 </div>
-                </div>
                </div>
               </div>
               </c:forEach>

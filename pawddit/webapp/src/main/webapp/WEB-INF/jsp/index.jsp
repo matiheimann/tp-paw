@@ -46,15 +46,19 @@
 						<hr>
 						<div class="post-info">
 							<div class="info-item">
-		         				<strong><i class="far fa-comment"></i>
+		         				<strong><i class="fas fa-comment"></i>
 		         				<c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
 		         				</strong>
 		     				</div>
 							<div class="info-item">
-		         				<strong><i class="far fa-thumbs-up"></i>
-		         				104 <spring:message code="upvotes.message"/>
-		         				</strong>
-		     				</div>
+								<a class="no-underline" href="<c:url value=""/>">
+									<i class="fas fa-arrow-up icon-color"></i>
+								</a>
+								<strong class="score-count">104</strong>
+								<a class="no-underline" href="<c:url value=""/>">
+									<i class="fas fa-arrow-down icon-color"></i>
+								</a>
+		     			</div>
 						</div>
 					</div>
 				</c:forEach>

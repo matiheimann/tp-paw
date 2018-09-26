@@ -1,11 +1,15 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,18 +34,27 @@ public class UserController {
 	@Autowired
 	private PostService ps;
 	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
 	@RequestMapping("/register")
 	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
 		return new ModelAndView("register");
 	}
 		
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
-	public ModelAndView registerPost(@Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors) {
+	public ModelAndView registerPost(@Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors, final HttpServletRequest request) {
 		if(errors.hasErrors()) {
 			return register(form);
 		}
 		
-		us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
+		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
+	    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+	    authToken.setDetails(new WebAuthenticationDetails(request));
+	     
+	    Authentication authentication = authenticationManager.authenticate(authToken);
+	     
+	    SecurityContextHolder.getContext().setAuthentication(authentication);
 		return new ModelAndView("redirect:/");
 	}
 	

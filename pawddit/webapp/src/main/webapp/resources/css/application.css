@@ -118,7 +118,6 @@ EDEAE5*/
 	margin:3px 10px;
 }
 
-
 .footer-component {
 	background-color: #42474c;
 	color: white;
@@ -128,6 +127,7 @@ EDEAE5*/
 	padding: 10px 30px;
 	text-align: center;
 }
+
 .footer-logo-container {
 	display: flex;
 	justify-content: center;
@@ -153,8 +153,26 @@ EDEAE5*/
 
 .score-count {
 	margin-right: 5px;
+	margin-left: 4px;
 }
 
 .icon-color {
 	color: grey;
+}
+
+.no-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.no-btn:focus {
+	outline: none;
+	border: none;
+}
+
+
+.votes-controls {
+	height: 18px;
+	display: flex;
 }

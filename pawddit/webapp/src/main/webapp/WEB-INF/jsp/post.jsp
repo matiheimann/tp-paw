@@ -50,79 +50,79 @@
 			    <c:if test="${! empty user}">
 	           		<c:choose>
 		           		<c:when test="${vote eq 0}">
-				             <div class="info-item">
-				             	<div class="info-item">
-					             		<c:url value="/group/${group.name}/${post.postid}/upvote" var="postPath"/>
-										<form:form action="${postPath}" method="post">
-											<div class="form-group">
-												<button type="submit">
-													<i class="fas fa-arrow-up icon-color"></i>
-												</button>
+				             <div class="info-item votes-controls">
+				             	<div>
+				             		<c:url value="/group/${group.name}/${post.postid}/upvote" var="postPath"/>
+												<form:form action="${postPath}" method="post">
+													<div class="form-group">
+														<button class="no-btn" type="submit">
+															<i class="fas fa-arrow-up icon-color"></i>
+														</button>
+													</div>
+												</form:form>
 											</div>
-										</form:form>
-								</div>
-								<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
-				             	<div class="info-item">
-					             		<c:url value="/group/${group.name}/${post.postid}/downvote" var="postPath"/>
-										<form:form action="${postPath}" method="post">
-											<div class="form-group">
-												<button type="submit">
-													<i class="fas fa-arrow-down icon-color"></i>
-												</button>
+											<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				             	<div>
+					             	<c:url value="/group/${group.name}/${post.postid}/downvote" var="postPath"/>
+												<form:form action="${postPath}" method="post">
+													<div class="form-group">
+														<button class="no-btn" type="submit">
+															<i class="fas fa-arrow-down icon-color"></i>
+														</button>
+													</div>
+												</form:form>
 											</div>
-										</form:form>
-								</div>
 				          	</div>
 			          	</c:when>
 			          	<c:when test="${vote eq 1}">
-				             <div class="info-item">
-				             	<div class="info-item">
+				             <div class="info-item votes-controls">
+				             		<div>
 					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
-										<form:form action="${postPath}" method="post">
-											<div class="form-group">
-												<button type="submit">
-													<i class="fas fa-arrow-up icon-color"></i>
-												</button>
-											</div>
-										</form:form>
-								</div>
-												 <strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
-				             	<div class="info-item">
+													<form:form action="${postPath}" method="post">
+														<div class="form-group">
+															<button class="no-btn" type="submit">
+																<i class="fas fa-arrow-up icon-color"></i>
+															</button>
+														</div>
+													</form:form>
+												</div>
+												<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				             		<div>
 					             		<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
-										<form:form action="${postPath}" method="post">
-											<div class="form-group">
-												<button type="submit">
-													<i class="fas fa-arrow-down icon-color"></i>
-												</button>
-											</div>
-										</form:form>
-								</div>
-				          	</div>
+														<form:form action="${postPath}" method="post">
+															<div class="form-group">
+																<button class="no-btn" type="submit">
+																	<i class="fas fa-arrow-down icon-color"></i>
+																</button>
+															</div>
+														</form:form>
+													</div>
+				          		</div>
 			          	</c:when>
 			          	<c:otherwise>
-				             <div class="info-item">
-				             	<div class="info-item">
-					             		<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
-										<form:form action="${postPath}" method="post">
-											<div class="form-group">
-												<button type="submit">
-													<i class="fas fa-arrow-up icon-color"></i>
-												</button>
-											</div>
-										</form:form>
-								</div>
+				           	<div class="info-item votes-controls">
+				             	<div>
+					             	<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
+													<form:form action="${postPath}" method="post">
+														<div class="form-group">
+															<button class="no-btn" type="submit">
+																<i class="fas fa-arrow-up icon-color"></i>
+															</button>
+														</div>
+													</form:form>
+												</div>
 												 <strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
-				             	<div class="info-item">
+				             		<div>
 					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
-										<form:form action="${postPath}" method="post">
-											<div class="form-group">
-												<button type="submit">
-													<i class="fas fa-arrow-down icon-color"></i>
-												</button>
-											</div>
-										</form:form>
-								</div>
-				          	</div>		          		
+													<form:form action="${postPath}" method="post">
+														<div class="form-group">
+															<button class="no-btn" type="submit">
+																<i class="fas fa-arrow-down icon-color"></i>
+															</button>
+														</div>
+													</form:form>
+												</div>
+				          	</div>
 			          	</c:otherwise>
 		          </c:choose>
 		   	</c:if>

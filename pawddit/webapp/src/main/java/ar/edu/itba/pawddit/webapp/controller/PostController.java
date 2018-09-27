@@ -35,6 +35,8 @@ import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 @Controller
 public class PostController {
 	
+	private static final int COMMENTS_PER_PAGE = 5;
+	
 	@Autowired
 	private UserService us;
 	
@@ -49,7 +51,6 @@ public class PostController {
 	
 	@Autowired
 	private PostVoteService pvs;
-
 	
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
@@ -112,7 +113,9 @@ public class PostController {
 		}
 		mav.addObject("group", group);
 		mav.addObject("post", post);
-		mav.addObject("comments", cs.findByPost(post, 5, (page-1)*5));
+		mav.addObject("comments", cs.findByPost(post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
+		mav.addObject("commentsPage", page);
+		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
 		return mav;
 	}
 	

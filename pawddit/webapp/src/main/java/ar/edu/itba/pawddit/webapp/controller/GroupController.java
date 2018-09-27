@@ -30,6 +30,8 @@ import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
 public class GroupController {
+	
+	private static final int POSTS_PER_PAGE = 5;
 
 	@Autowired
 	private UserService us;
@@ -89,7 +91,9 @@ public class GroupController {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
-		mav.addObject("posts", ps.findByGroup(g, 5, (page-1)*5));
+		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE));
+		mav.addObject("postsPage", page);
+		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		return mav;
 	}
 	

@@ -88,12 +88,12 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public int findByUserCount(User user) {
-		return jdbcTemplate.query("SELECT * FROM comments WHERE userid = ?", COUNT_MAPPER, user.getUserid()).get(0);
+		return jdbcTemplate.query("SELECT count(1) FROM comments WHERE userid = ?", COUNT_MAPPER, user.getUserid()).get(0);
 	}
 
 	@Override
 	public int findByPostCount(Post post) {
-		return jdbcTemplate.query("SELECT * FROM comments WHERE postid = ?", COUNT_MAPPER, post.getPostid()).get(0);
+		return jdbcTemplate.query("SELECT count(1) FROM comments WHERE postid = ?", COUNT_MAPPER, post.getPostid()).get(0);
 	}
 	
 	

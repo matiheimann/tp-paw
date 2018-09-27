@@ -48,4 +48,24 @@ public class PostServiceImpl implements PostService {
 		return postDao.findBySubscriptions(user, limit, offset);
 	}
 
+	@Override
+	public int findAllCount() {
+		return postDao.findAllCount();
+	}
+
+	@Override
+	public int findByGroupCount(final Group group) {
+		return postDao.findByGroupCount(group);
+	}
+
+	@Override
+	public int findByUserCount(final User user) {
+		return postDao.findByUserCount(user);
+	}
+
+	@Override
+	public int findBySubscriptionsCount(final User user) {
+		return postDao.findBySubscriptionsCount(user);
+	}
+
 }

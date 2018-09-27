@@ -38,4 +38,14 @@ public class CommentServiceImpl implements CommentService {
 		return commentDao.findById(id);
 	}
 
+	@Override
+	public int findByUserCount(User user) {
+		return commentDao.findByUserCount(user);
+	}
+
+	@Override
+	public int findByPostCount(Post post) {
+		return commentDao.findByPostCount(post);
+	}
+
 }

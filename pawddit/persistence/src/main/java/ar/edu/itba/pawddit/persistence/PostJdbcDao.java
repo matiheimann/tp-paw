@@ -47,6 +47,9 @@ public class PostJdbcDao implements PostDao {
 				rs.getInt("comments"),
 				rs.getInt("votes")
 		);
+		
+	private final static RowMapper<Integer> COUNT_MAPPER = (rs, rowNum) -> rs.getInt(1);
+
 	
 	@Autowired
 	public PostJdbcDao(final DataSource ds) {
@@ -132,6 +135,26 @@ public class PostJdbcDao implements PostDao {
 				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname " +
 				"ORDER BY posts.creationdate DESC " +
 				"LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
+	}
+
+	@Override
+	public int findAllCount() {
+		return jdbcTemplate.query("SELECT count(1) FROM posts", COUNT_MAPPER).get(0);
+	}
+
+	@Override
+	public int findByGroupCount(final Group group) {
+		return jdbcTemplate.query("SELECT count(1) FROM posts WHERE groupname = ?", COUNT_MAPPER, group.getName()).get(0);
+	}
+
+	@Override
+	public int findByUserCount(final User user) {
+		return jdbcTemplate.query("SELECT count(1) FROM posts WHERE users.userid = ?", COUNT_MAPPER, user.getUserid()).get(0);
+	}
+
+	@Override
+	public int findBySubscriptionsCount(final User user) {
+		return jdbcTemplate.query("SELECT count(1) FROM posts WHERE EXISTS (SELECT posts.postid from subscriptions WHERE userId = ? and posts.groupname LIKE subscriptions.groupname)", COUNT_MAPPER, user.getUserid()).get(0);
 	}
 	
 }

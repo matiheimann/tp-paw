@@ -23,6 +23,7 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
 import ar.edu.itba.pawddit.services.UserService;
+import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
@@ -43,24 +44,35 @@ public class GroupController {
 	private SubscriptionService ss;
 
 	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form) {
+	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
 		final ModelAndView mav = new ModelAndView("createGroup");
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 		mav.addObject("user", u);
+		if(isGroupRepeated)
+			mav.addObject("groupAlreadyExistsError", new Boolean(true));
 		return mav;
 	}
 
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
 	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
-			return createGroup(form);
+			return createGroup(form, false);
 		}
-
+		
+		final Group group;
+		
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
-		final Group g = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), u);
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName());
+		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		
+		try {
+			group = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), user);
+		}
+		catch(GroupAlreadyExists e) {
+			return createGroup(form, true);
+		}
+		
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
 		return mav;
 	}
 

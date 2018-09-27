@@ -48,6 +48,8 @@ public class CommentJdbcDao implements CommentDao {
 				rs.getTimestamp("creationdate"),
 				rs.getInt("commentid")
 		);
+		
+	private final static RowMapper<Integer> COUNT_MAPPER = (rs, rowNum) -> rs.getInt(1);
 	
 	@Autowired
 	public CommentJdbcDao(final DataSource ds) {
@@ -82,6 +84,16 @@ public class CommentJdbcDao implements CommentDao {
 	@Override
 	public Optional<Comment> findById(final long id) {
 		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE commentid = ?", ROW_MAPPER, id).stream().findFirst();
+	}
+
+	@Override
+	public int findByUserCount(User user) {
+		return jdbcTemplate.query("SELECT * FROM comments WHERE userid = ?", COUNT_MAPPER, user.getUserid()).get(0);
+	}
+
+	@Override
+	public int findByPostCount(Post post) {
+		return jdbcTemplate.query("SELECT * FROM comments WHERE postid = ?", COUNT_MAPPER, post.getPostid()).get(0);
 	}
 	
 	

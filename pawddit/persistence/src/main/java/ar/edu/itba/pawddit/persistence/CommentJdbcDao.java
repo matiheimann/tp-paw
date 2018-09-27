@@ -58,7 +58,7 @@ public class CommentJdbcDao implements CommentDao {
 	}
 
 	@Override
-	public Comment create(String content, Post post, Comment replyTo, User user, Timestamp creationDate) {
+	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final Timestamp creationDate) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("content", content); 
 		args.put("replyTo", null);
@@ -70,17 +70,17 @@ public class CommentJdbcDao implements CommentDao {
 	}
 
 	@Override
-	public List<Comment> findByUser(User user) {
-		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = ?", ROW_MAPPER, user.getUserid());
+	public List<Comment> findByUser(final User user, final int limit, final int offset) {
+		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = ? LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
 	}
 
 	@Override
-	public List<Comment> findByPost(Post post) {
-		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE postid = ?", ROW_MAPPER, post.getPostid());
+	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
+		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE postid = ? LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
 	}
 
 	@Override
-	public Optional<Comment> findById(long id) {
+	public Optional<Comment> findById(final long id) {
 		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE commentid = ?", ROW_MAPPER, id).stream().findFirst();
 	}
 	

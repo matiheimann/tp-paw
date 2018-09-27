@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.Group;
@@ -64,7 +65,7 @@ public class GroupController {
 	}
 
 	@RequestMapping("/group/{groupName}")
-	public ModelAndView showGroup(@PathVariable final String groupName) {
+	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page) {
 		final ModelAndView mav = new ModelAndView("index");
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
@@ -76,7 +77,7 @@ public class GroupController {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
-		mav.addObject("posts", ps.findByGroup(g));
+		mav.addObject("posts", ps.findByGroup(g, 5, (page-1)*5));
 		return mav;
 	}
 	

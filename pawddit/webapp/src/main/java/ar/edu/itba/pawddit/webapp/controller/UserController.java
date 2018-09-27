@@ -73,13 +73,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/profile/{username}")
-	public ModelAndView profile(@PathVariable final String username) {
+	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
 		
 		mav.addObject("userProfile", userProfile);
-		mav.addObject("posts", ps.findByUser(userProfile));
+		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5));
 		
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 			mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));

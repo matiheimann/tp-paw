@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.Group;
@@ -98,7 +99,7 @@ public class PostController {
 	}
 	
 	@RequestMapping("/group/{groupName}/{postId}")
-	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("createCommentForm") final CreateCommentForm form) {
+	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("createCommentForm") final CreateCommentForm form) {
 		final ModelAndView mav = new ModelAndView("post");
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
@@ -111,14 +112,14 @@ public class PostController {
 		}
 		mav.addObject("group", group);
 		mav.addObject("post", post);
-		mav.addObject("comments", cs.findByPost(post));
+		mav.addObject("comments", cs.findByPost(post, 5, (page-1)*5));
 		return mav;
 	}
 	
 	@RequestMapping(value = "/group/{groupName}/{postId}/createComment", method = { RequestMethod.POST })
 	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
-			return showPost(groupName, postId, form);
+			return showPost(groupName, postId, 1, form);
 		}
 		
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import ar.edu.itba.pawddit.persistence.UserDao;
 import ar.edu.itba.pawddit.services.UserService;
-import ar.edu.itba.pawddit.services.exceptions.EmailAlreadyRegistered;
-import ar.edu.itba.pawddit.services.exceptions.UsernameAlreadyRegistered;
+import ar.edu.itba.pawddit.services.exceptions.RepeatedData;
+import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.model.User;
 
 @Service
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
+	
 	@Override
 	public Optional<User> findById(final long id) {
 		return userDao.findById(id);
@@ -28,10 +28,23 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(final String username, final String password, final String email, final int score) {
-		if (findByUsername(username).isPresent())
-			throw new UsernameAlreadyRegistered();
-		if (findByEmail(email).isPresent())
-			throw new EmailAlreadyRegistered();
+		
+		UserRepeatedDataException repeatedDataException = new UserRepeatedDataException();
+		boolean repeatedUsername = false;
+		boolean repeatedEmail = false;
+		
+		if (findByUsername(username).isPresent()) {
+			repeatedUsername = true;
+			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_USERNAME);
+		}
+		
+		if (findByEmail(email).isPresent()) {
+			repeatedEmail = true;
+			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_EMAIL);
+		}
+		
+		if(repeatedEmail || repeatedUsername)
+			throw repeatedDataException;
 		
 		return userDao.create(username, passwordEncoder.encode(password), email, score);
 	}

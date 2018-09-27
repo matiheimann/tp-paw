@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
+import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
@@ -48,8 +49,21 @@ public class UserController {
 			return register(form);
 		}
 		
-		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
-	    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+		final User user;
+		final ModelAndView mav = new ModelAndView("register");
+
+		try {
+			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
+		} 
+		catch(UserRepeatedDataException e) {
+			if(e.isUsernameRepeated())
+				mav.addObject("usernameExistsError", new Boolean(true));
+			if(e.isEmailRepeated())
+				mav.addObject("emailExistsError", new Boolean(true));
+			return mav;
+		}
+		
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 	    authToken.setDetails(new WebAuthenticationDetails(request));
 	     
 	    Authentication authentication = authenticationManager.authenticate(authToken);
@@ -69,7 +83,6 @@ public class UserController {
 		
 		mav.addObject("loginError", new Boolean(false));
 		return mav;
-		
 	}
 	
 	@RequestMapping("/profile/{username}")

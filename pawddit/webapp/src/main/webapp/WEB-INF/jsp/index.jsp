@@ -51,14 +51,8 @@
 		         				</strong>
 		     				</div>
 							<div class="info-item">
-								<a class="no-underline" href="<c:url value=""/>">
-									<i class="fas fa-arrow-up icon-color"></i>
-								</a>
-								<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
-								<a class="no-underline" href="<c:url value=""/>">
-									<i class="fas fa-arrow-down icon-color"></i>
-								</a>
-		     			</div>
+								<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/> <spring:message code="posts.votes"/> </strong>
+		     				</div>
 						</div>
 					</div>
 				</c:forEach>

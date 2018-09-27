@@ -73,12 +73,12 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = ? LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
+		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = ? ORDER BY comments.creationdate DESC LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
 	}
 
 	@Override
 	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE postid = ? LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
+		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE postid = ? ORDER BY comments.creationdate DESC LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
 	}
 
 	@Override

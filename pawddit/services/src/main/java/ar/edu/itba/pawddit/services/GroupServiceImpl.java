@@ -17,6 +17,9 @@ public class GroupServiceImpl implements GroupService {
 	
 	@Autowired
 	private GroupDao groupDao;
+	
+	@Autowired 
+	private SubscriptionService subscriptionService;
 
 	@Override
 	public Optional<Group> findByName(final String name) {
@@ -27,7 +30,11 @@ public class GroupServiceImpl implements GroupService {
 	public Group create(final String name, final Timestamp date, final String description, final User user) {
 		if (findByName(name).isPresent())
 			throw new GroupAlreadyExists();
-		return groupDao.create(name, date, description, user);
+		
+		Group group = groupDao.create(name, date, description, user);
+		subscriptionService.suscribe(user, group);
+		
+		return group;
 	}
 	
 	@Override

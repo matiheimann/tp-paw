@@ -24,13 +24,13 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> findByUser(final User user) {
-		return commentDao.findByUser(user);
+	public List<Comment> findByUser(final User user, final int limit, final int offset) {
+		return commentDao.findByUser(user, limit, offset);
 	}
 
 	@Override
-	public List<Comment> findByPost(final Post post) {
-		return commentDao.findByPost(post);
+	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
+		return commentDao.findByPost(post, limit, offset);
 	}
 
 	@Override

@@ -70,7 +70,7 @@ public class PostJdbcDaoTest {
 	
 	@Test
 	public void findAllTest() {
-		final List<Post> posts = postDao.findAll();
+		final List<Post> posts = postDao.findAll(5, 0);
 		Assert.assertEquals(3, posts.size());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_1, posts.get(0).getTitle());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_2, posts.get(1).getTitle());
@@ -79,7 +79,7 @@ public class PostJdbcDaoTest {
 	
 	@Test
 	public void findByGroupTest() {
-		final List<Post> posts = postDao.findByGroup(groupDao.findByName(CREATED_TEST_GROUP).get());
+		final List<Post> posts = postDao.findByGroup(groupDao.findByName(CREATED_TEST_GROUP).get(), 5, 0);
 		Assert.assertEquals(3, posts.size());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_1, posts.get(0).getTitle());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_2, posts.get(1).getTitle());
@@ -88,7 +88,7 @@ public class PostJdbcDaoTest {
 	
 	@Test
 	public void findByUserTest() {
-		final List<Post> posts = postDao.findByUser(userDao.findByUsername(CREATED_TEST_USERNAME).get());
+		final List<Post> posts = postDao.findByUser(userDao.findByUsername(CREATED_TEST_USERNAME).get(), 5, 0);
 		Assert.assertEquals(3, posts.size());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_1, posts.get(0).getTitle());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_2, posts.get(1).getTitle());
@@ -104,7 +104,7 @@ public class PostJdbcDaoTest {
 	
 	@Test
 	public void findBySubscription() {
-		final List<Post> posts = postDao.findBySubscriptions(userDao.findByUsername(CREATED_TEST_USERNAME).get());
+		final List<Post> posts = postDao.findBySubscriptions(userDao.findByUsername(CREATED_TEST_USERNAME).get(), 5, 0);
 		Assert.assertEquals(3, posts.size());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_1, posts.get(0).getTitle());
 		Assert.assertEquals(CREATED_TEST_POST_TITLE_2, posts.get(1).getTitle());

@@ -12,25 +12,27 @@
 		</div>
 		<div class="info-item">
 		 	<c:if test="${!empty user}">
-		 		<c:if test="${subscription eq false}">
-		 			<c:url value="/group/${group.name}/subscribe" var="postPath"/>
-					<form:form action="${postPath}" method="post">
-						<div class="form-group">
-							<button type="submit" class="app-btn-primary">
-								<spring:message code="joinGroup.button.message"/>
-							</button>
-						</div>
-					</form:form>
-				</c:if>
-				<c:if test="${subscription eq true}">
-					<c:url value="/group/${group.name}/unsubscribe" var="postPath"/>
-					<form:form action="${postPath}" method="post">
-						<div class="form-group">
-							<button type="submit" class="app-btn-primary">
-								<spring:message code="leaveGroup.button.message"/>
-							</button>
-						</div>
-					</form:form>
+		 		<c:if test="${!(user.userid eq group.owner.userid)}">
+			 		<c:if test="${subscription eq false}">
+			 			<c:url value="/group/${group.name}/subscribe" var="postPath"/>
+						<form:form action="${postPath}" method="post">
+							<div class="form-group">
+								<button type="submit" class="app-btn-primary">
+									<spring:message code="joinGroup.button.message"/>
+								</button>
+							</div>
+						</form:form>
+					</c:if>
+					<c:if test="${subscription eq true}">
+						<c:url value="/group/${group.name}/unsubscribe" var="postPath"/>
+						<form:form action="${postPath}" method="post">
+							<div class="form-group">
+								<button type="submit" class="app-btn-primary">
+									<spring:message code="leaveGroup.button.message"/>
+								</button>
+							</div>
+						</form:form>
+					</c:if>
 				</c:if>
 			</c:if>
 		</div>

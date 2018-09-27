@@ -11,10 +11,10 @@ import ar.edu.itba.pawddit.model.User;
 public interface PostService {
 
 	public Post create(String title, String content, Timestamp date, Group group, User user);
-	public List<Post> findAll();
-	public List<Post> findByGroup(Group group);
-	public List<Post> findByUser(User user);
+	public List<Post> findAll(int limit, int offset);
+	public List<Post> findByGroup(Group group, int limit, int offset);
+	public List<Post> findByUser(User user, int limit, int offset);
 	public Optional<Post> findById(Group group, long id);
-	public List<Post> findBySubscriptions(User user);
+	public List<Post> findBySubscriptions(User user, int limit, int offset);
 	
 }

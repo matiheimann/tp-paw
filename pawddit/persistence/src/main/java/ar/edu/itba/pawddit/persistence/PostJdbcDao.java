@@ -77,7 +77,8 @@ public class PostJdbcDao implements PostDao {
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
 				"FULL OUTER JOIN voteposts ON voteposts.postid = posts.postid " +
 				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname " +
-				"LIMIT ? OFFSET ?", ROW_MAPPER, limit, offset);
+				"ORDER BY posts.creationdate DESC " +
+				"LIMIT ? OFFSET ? ", ROW_MAPPER, limit, offset);
 	}
 
 	@Override
@@ -89,6 +90,7 @@ public class PostJdbcDao implements PostDao {
 				"FULL OUTER JOIN voteposts ON voteposts.postid = posts.postid " +
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " + " WHERE groupname = ?" +
 				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname " +
+				"ORDER BY posts.creationdate DESC " +
 				"LIMIT ? OFFSET ?", ROW_MAPPER, group.getName(), limit, offset);
 	}
 
@@ -102,6 +104,7 @@ public class PostJdbcDao implements PostDao {
 				"FULL OUTER JOIN voteposts ON voteposts.postid = posts.postid " +
 				"WHERE users.userid = ? " +
 				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname " +
+				"ORDER BY posts.creationdate DESC " +
 				"LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
 	}
 	
@@ -127,6 +130,7 @@ public class PostJdbcDao implements PostDao {
 				"FULL OUTER JOIN voteposts ON voteposts.postid = posts.postid " +
 				"WHERE EXISTS (SELECT posts.postid from subscriptions WHERE userId = ? and posts.groupname LIKE subscriptions.groupname) " +
 				"GROUP BY posts.postid , users.score, users.password, users.userid, username, email, title, posts.content, posts.creationdate, groupname " +
+				"ORDER BY posts.creationdate DESC " +
 				"LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
 	}
 	

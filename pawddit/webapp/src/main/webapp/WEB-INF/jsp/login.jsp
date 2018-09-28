@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			<spring:message code="login.title"/>
+			Pawddit | <spring:message code="login.title"/>
 		</title>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">

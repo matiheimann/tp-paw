@@ -4,9 +4,16 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<c:if test="${empty group}">
 		<title>
-			<spring:message code="homePage.title"/>
+			Pawddit | <spring:message code="homePage.title"/>
 		</title>
+		</c:if>
+		<c:if test="${!empty group}">
+		<title>
+			Pawddit | <c:out value="${group.name}" escapeXml="true"/>
+		</title>
+		</c:if>
 		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">

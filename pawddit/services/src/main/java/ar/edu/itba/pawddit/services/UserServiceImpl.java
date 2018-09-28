@@ -11,6 +11,7 @@ import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.services.exceptions.RepeatedData;
 import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.model.VerificationToken;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -57,6 +58,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<User> findByEmail(final String email) {
 		return userDao.findByEmail(email);
+	}
+
+	@Override
+	public VerificationToken createToken(User user) {
+		return userDao.createToken(user);
+	}
+
+	@Override
+	public Optional<VerificationToken> findToken(String token) {
+		return userDao.findToken(token);
+	}
+
+	@Override
+	public int enableUser(User user) {
+		return userDao.enableUser(user);	
 	}
 	
 }

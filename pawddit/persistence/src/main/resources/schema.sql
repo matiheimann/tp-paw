@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
 	username VARCHAR(100) UNIQUE NOT NULL,
 	email TEXT NOT NULL,
 	password TEXT NOT NULL,
-	score INT
+	score INT,
+	enabled BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS groups (
@@ -60,4 +61,10 @@ CREATE TABLE IF NOT EXISTS votecomments (
 	PRIMARY KEY(userid, commentid),
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(commentid) REFERENCES comments(commentid) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS verificationtokens (
+	token TEXT NOT NULL PRIMARY KEY,
+	userid INT NOT NULL,
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE
 );

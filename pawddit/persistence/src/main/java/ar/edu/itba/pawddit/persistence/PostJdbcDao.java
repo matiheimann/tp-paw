@@ -40,7 +40,8 @@ public class PostJdbcDao implements PostDao {
 						rs.getString("username"), 
 						rs.getString("email"), 
 						rs.getString("password"), 
-						rs.getInt("score"), 
+						rs.getInt("score"),
+						rs.getBoolean("enabled"),
 						rs.getInt("userid")
 				), 
 				rs.getInt("postid"),

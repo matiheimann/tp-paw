@@ -43,6 +43,7 @@ public class CommentJdbcDao implements CommentDao {
 						rs.getString("email"), 
 						rs.getString("password"), 
 						rs.getInt("score"), 
+						rs.getBoolean("enabled"),
 						rs.getInt("userid")
 				),
 				rs.getTimestamp("creationdate"),

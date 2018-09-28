@@ -33,7 +33,8 @@ public class GroupJdbcDao implements GroupDao {
 						rs.getString("username"), 
 						rs.getString("email"), 
 						rs.getString("password"), 
-						rs.getInt("score"), 
+						rs.getInt("score"),
+						rs.getBoolean("enabled"),
 						rs.getInt("owner")
 				), 
 				rs.getInt("followers")

@@ -1,5 +1,7 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.model.VerificationToken;
+import ar.edu.itba.pawddit.services.MailSenderService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
@@ -33,6 +37,9 @@ public class UserController extends BaseController {
 	
 	@Autowired
 	private PostService ps;
+	
+	@Autowired
+	private MailSenderService mss;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -62,12 +69,15 @@ public class UserController extends BaseController {
 			return mav;
 		}
 		
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-	    authToken.setDetails(new WebAuthenticationDetails(request));
-	     
-	    Authentication authentication = authenticationManager.authenticate(authToken);
-	     
-	    SecurityContextHolder.getContext().setAuthentication(authentication);
+		final VerificationToken token = us.createToken(user);
+		mss.sendVerificationToken(user, token);
+		
+		/* Auto Login */
+//		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+//	    authToken.setDetails(new WebAuthenticationDetails(request));
+//	    Authentication authentication = authenticationManager.authenticate(authToken); 
+//	    SecurityContextHolder.getContext().setAuthentication(authentication);
+	    
 		return new ModelAndView("redirect:/");
 	}
 	
@@ -93,5 +103,18 @@ public class UserController extends BaseController {
 		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5));
 
 		return mav;
+	}
+	
+	@RequestMapping("/regitrationConfirm")
+	public String confirmRegistration(@RequestParam("token") String token) {
+	     
+	    final Optional<VerificationToken> verificationToken = us.findToken(token);
+	    if (!verificationToken.isPresent()) {
+	        return "redirect:/";
+	    }
+	     
+	    User user = verificationToken.get().getUser();
+	    us.enableUser(user);
+	    return "redirect:/login"; 
 	}
 }

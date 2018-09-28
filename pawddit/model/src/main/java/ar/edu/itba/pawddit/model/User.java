@@ -5,13 +5,15 @@ public class User {
 	private String password;
 	private String email;
 	private Integer score;
+	private Boolean enabled;
 	private long userid;
 	
-	public User(String username, String password, String email, Integer score, long userid) {
+	public User(String username, String password, String email, Integer score, Boolean enabled, long userid) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.score = score;
+		this.enabled = enabled;
 		this.userid = userid;
 	}
 
@@ -47,6 +49,14 @@ public class User {
 		this.score = score;
 	}
 	
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public long getUserid() {
 		return userid;
 	}

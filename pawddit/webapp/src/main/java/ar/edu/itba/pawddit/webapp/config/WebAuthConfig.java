@@ -1,11 +1,17 @@
 package ar.edu.itba.pawddit.webapp.config;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +27,9 @@ import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 @EnableWebSecurity
 @ComponentScan("ar.edu.itba.pawddit.webapp.auth")
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
+	
+	@Value("classpath:rememberme.key")
+	private Resource rememberMeKey;
 	
 	@Autowired
 	private PawdditUserDetailsService userDetailsService;
@@ -38,11 +47,14 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 		http.userDetailsService(userDetailsService)
 			.authorizeRequests()
 				.antMatchers("/login").anonymous()
-				.antMatchers("/**/createGroup").authenticated()
-				.antMatchers("/**/createPost").authenticated()
-				.antMatchers("/profile").authenticated()
+				.antMatchers("/register").anonymous()
+				.antMatchers("/").permitAll()
+				.antMatchers("/all").permitAll()
+				.antMatchers("/profile/*").permitAll()
+				.antMatchers("/group/*/createPost").authenticated()
+				.antMatchers("/group/*/*").permitAll()
 				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/**").permitAll()
+				.antMatchers("/**").authenticated()
 			.and().formLogin()
 				.usernameParameter("j_username")
 				.passwordParameter("j_password")
@@ -52,7 +64,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 			.and().rememberMe()
 				.rememberMeParameter("j_rememberme")
 				.userDetailsService(userDetailsService)
-				.key("mysupersecretkeythatnobodyknowsabout") // CAMBIAR
+				.key(getRememberMeKey())
 				.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
 			.and().logout()
 				.logoutUrl("/logout")
@@ -60,6 +72,20 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 			.and().exceptionHandling()
 				.accessDeniedPage("/403")
 			.and().csrf().disable();
+	}
+	
+	private String getRememberMeKey() {
+		final StringWriter sw = new StringWriter();
+		try (Reader reader = new InputStreamReader(rememberMeKey.getInputStream())) {
+			char[] data = new char[1024];
+			int len;
+			while (( len = reader.read(data)) != -1) {
+				sw.write(data, 0, len);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return sw.toString();
 	}
 	
 	@Override

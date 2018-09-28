@@ -160,6 +160,14 @@ EDEAE5*/
 	color: grey;
 }
 
+.icon-color-up {
+	color: green;
+}
+
+.icon-color-down {
+	color: blue;
+}
+
 .no-btn {
 	background: none;
 	border: none;

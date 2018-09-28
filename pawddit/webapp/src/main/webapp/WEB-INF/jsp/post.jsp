@@ -81,12 +81,12 @@
 													<form:form action="${postPath}" method="post">
 														<div class="form-group">
 															<button class="no-btn" type="submit">
-																<i class="fas fa-arrow-up icon-color"></i>
+																<i class="fas fa-arrow-up icon-color-up"></i>
 															</button>
 														</div>
 													</form:form>
 												</div>
-												<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+												<strong class="score-count icon-color-up"><c:out value="${post.votes}" escapeXml="true"/></strong>
 				             		<div>
 					             		<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
 														<form:form action="${postPath}" method="post">
@@ -111,13 +111,13 @@
 														</div>
 													</form:form>
 												</div>
-												 <strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+												 <strong class="score-count icon-color-down"><c:out value="${post.votes}" escapeXml="true"/></strong>
 				             		<div>
 					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
 													<form:form action="${postPath}" method="post">
 														<div class="form-group">
 															<button class="no-btn" type="submit">
-																<i class="fas fa-arrow-down icon-color"></i>
+																<i class="fas fa-arrow-down icon-color-down"></i>
 															</button>
 														</div>
 													</form:form>

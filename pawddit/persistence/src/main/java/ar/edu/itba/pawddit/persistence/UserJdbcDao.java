@@ -83,7 +83,7 @@ public class UserJdbcDao implements UserDao {
 	}
 
 	@Override
-	public VerificationToken createToken(User user) {
+	public VerificationToken createToken(final User user) {
 		final String token = UUID.randomUUID().toString();
 		final Map<String, Object> args = new HashMap<>();
 		args.put("userid", user.getUserid());
@@ -93,12 +93,12 @@ public class UserJdbcDao implements UserDao {
 	}
 
 	@Override
-	public Optional<VerificationToken> findToken(String token) {
+	public Optional<VerificationToken> findToken(final String token) {
 		return jdbcTemplate.query("SELECT * FROM verificationtokens JOIN users ON users.userid = verificationtokens.userid WHERE token = ?", ROW_MAPPER_TOKEN, token).stream().findFirst();
 	}
 
 	@Override
-	public int enableUser(User user) {
+	public int enableUser(final User user) {
 		return jdbcTemplate.update("UPDATE users SET enabled = true WHERE userid = ?", user.getUserid());
 	}
 }

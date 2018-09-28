@@ -5,9 +5,6 @@ import java.sql.Timestamp;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,21 +21,16 @@ import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
-import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
-import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 
 @Controller
-public class PostController {
+public class PostController extends BaseController {
 	
 	private static final int COMMENTS_PER_PAGE = 5;
-	
-	@Autowired
-	private UserService us;
 	
 	@Autowired
 	private GroupService gs;
@@ -55,22 +47,18 @@ public class PostController {
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));
 		mav.addObject("groups", gs.findAll());
 		return mav;
 	}
 	
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors) {
+	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
 			return createPost(form);
 		}
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+
 		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, u);
+		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}
@@ -78,36 +66,29 @@ public class PostController {
 	@RequestMapping("/group/{groupName}/createPost")
 	public ModelAndView createPost(@PathVariable final String groupName, @ModelAttribute("createPostForm") final CreatePostForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));
 		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
 		return mav;
 	}
 
 	
 	@RequestMapping(value = "/group/{groupName}/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@PathVariable final String groupName, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors) {
+	public ModelAndView createPostPost(@PathVariable final String groupName, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
 			return createPost(groupName, form);
 		}
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, u);
+		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}
 	
 	@RequestMapping("/group/{groupName}/{postId}")
-	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("createCommentForm") final CreateCommentForm form) {
+	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("createCommentForm") final CreateCommentForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("post");
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
-		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-			final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
-			mav.addObject("user", user);
+		if (user != null) {
 			final Integer vote = pvs.checkVote(user, post);
 			mav.addObject("vote", vote);
 		}
@@ -120,29 +101,24 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/group/{groupName}/{postId}/createComment", method = { RequestMethod.POST })
-	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors) {
+	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
-			return showPost(groupName, postId, 1, form);
+			return showPost(groupName, postId, 1, form, user);
 		}
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		cs.create(form.getContent(), p, null, u, new Timestamp(System.currentTimeMillis()));
+		cs.create(form.getContent(), p, null, user, new Timestamp(System.currentTimeMillis()));
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}
 	
 	@RequestMapping(value="/group/{groupName}/{postId}/upvote", method = {RequestMethod.POST})
-	public ModelAndView upvotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	public ModelAndView upvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.votePost(u, p, 1);
+		pvs.votePost(user, p, 1);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		
@@ -150,13 +126,10 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/group/{groupName}/{postId}/downvote", method = {RequestMethod.POST})
-	public ModelAndView downvotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	public ModelAndView downvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.votePost(u, p, -1);
+		pvs.votePost(user, p, -1);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		
@@ -164,13 +137,10 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/group/{groupName}/{postId}/cancelVote", method = {RequestMethod.POST})
-	public ModelAndView cancelVotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	public ModelAndView cancelVotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.cancelVote(u, p);
+		pvs.cancelVote(user, p);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		
@@ -178,16 +148,14 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="/group/{groupName}/{postId}/changeVote", method = {RequestMethod.POST})
-	public ModelAndView changeVotePost(@PathVariable final Integer postId, @PathVariable final String groupName) {
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	public ModelAndView changeVotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.changeVote(u, p);
+		pvs.changeVote(user, p);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		
 		return mav;
 	}
+	
 }

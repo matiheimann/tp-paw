@@ -59,6 +59,7 @@
 				<br>
 				<nav aria-label="...">
   					<ul class="pagination">
+  						<c:if test="${postsPageCount > 0}">
   						<c:choose>
   							<c:when test="${postsPage eq 1}">
     							<li class="page-item disabled">
@@ -95,6 +96,7 @@
     							</li>
     						</c:otherwise>
          				</c:choose>
+         				</c:if>
   					</ul>
 				</nav>
 			</div>

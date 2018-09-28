@@ -5,9 +5,6 @@ import java.sql.Timestamp;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,19 +19,15 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
-import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
-public class GroupController {
+public class GroupController extends BaseController {
 	
 	private static final int POSTS_PER_PAGE = 5;
-
-	@Autowired
-	private UserService us;
 
 	@Autowired
 	private GroupService gs;
@@ -48,24 +41,18 @@ public class GroupController {
 	@RequestMapping("/createGroup")
 	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
 		final ModelAndView mav = new ModelAndView("createGroup");
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User u = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
-		mav.addObject("user", u);
 		if(isGroupRepeated)
 			mav.addObject("groupAlreadyExistsError", new Boolean(true));
 		return mav;
 	}
 
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
-	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors) {
+	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
 			return createGroup(form, false);
 		}
 		
 		final Group group;
-		
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 		
 		try {
 			group = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), user);
@@ -79,15 +66,12 @@ public class GroupController {
 	}
 
 	@RequestMapping("/group/{groupName}")
-	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page) {
+	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("index");
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		mav.addObject("group", g);
 		
-		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-			final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
-			mav.addObject("user", user);
+		if (user != null) {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
@@ -98,10 +82,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/group/{groupName}/subscribe", method = { RequestMethod.POST })
-	public ModelAndView groupSubscribe(@PathVariable final String groupName) {
-
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();	
-		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	public ModelAndView groupSubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
 	
 		ss.suscribe(user, group);
@@ -112,10 +93,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/group/{groupName}/unsubscribe", method = { RequestMethod.POST })
-	public ModelAndView groupUnsubscribe(@PathVariable final String groupName) {
-
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();	
-		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	public ModelAndView groupUnsubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
 	
 		ss.unsuscribe(user, group);

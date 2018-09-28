@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 	
 	@Autowired
 	private UserService us;
@@ -87,16 +86,12 @@ public class UserController {
 	
 	@RequestMapping("/profile/{username}")
 	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
 		
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5));
-		
-		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-			mav.addObject("user", us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new));
-		}
+
 		return mav;
 	}
 }

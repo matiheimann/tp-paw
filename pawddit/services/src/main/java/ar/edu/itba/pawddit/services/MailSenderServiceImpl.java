@@ -18,7 +18,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 	public void sendVerificationToken(User user, VerificationToken token) {
 		String recipientAddress = user.getEmail();
 		String subject = "Registration Confirm";
-		String confirmationUrl = "/regitrationConfirm?token=" + token.getToken();
+		String confirmationUrl = "/registrationConfirm?token=" + token.getToken();
 
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(recipientAddress);

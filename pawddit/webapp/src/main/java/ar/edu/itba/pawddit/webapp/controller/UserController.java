@@ -105,7 +105,7 @@ public class UserController extends BaseController {
 		return mav;
 	}
 	
-	@RequestMapping("/regitrationConfirm")
+	@RequestMapping("/registrationConfirm")
 	public String confirmRegistration(@RequestParam("token") String token) {
 	     
 	    final Optional<VerificationToken> verificationToken = us.findToken(token);

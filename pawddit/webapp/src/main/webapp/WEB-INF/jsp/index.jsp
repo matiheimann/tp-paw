@@ -50,7 +50,7 @@
 							<h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
 							<div class="post-description-text post-wrap">
 								<c:out value="${post.content}" escapeXml="true"/>
-								<c:if test="${!empty post.imageId}">
+								<c:if test="${!empty post.imageid}">
 		 					 		<img  class="post-image" href="<c:url value="/image/${post.imageid}"/>" />
 		 					 </c:if>
 							</div>

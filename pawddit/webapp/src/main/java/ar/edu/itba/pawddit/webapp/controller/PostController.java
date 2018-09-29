@@ -2,6 +2,7 @@ package ar.edu.itba.pawddit.webapp.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -53,7 +54,9 @@ public class PostController extends BaseController {
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		mav.addObject("groups", gs.findAll());
+		List<Group> groups = gs.getSuscribed(loggedUser());
+		mav.addObject("groups", groups);
+		mav.addObject("isSuscribed", (groups.size() != 0) ? true : false);
 		return mav;
 	}
 	

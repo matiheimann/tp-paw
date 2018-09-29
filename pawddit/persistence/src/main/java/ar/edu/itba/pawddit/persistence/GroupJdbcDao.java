@@ -70,5 +70,12 @@ public class GroupJdbcDao implements GroupDao {
 		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
 				"GROUP BY name, username, email, password, score, enabled;", ROW_MAPPER);
 	}
+
+	@Override
+	public List<Group> getSuscribed(User user) {
+		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
+				" WHERE subscriptions.userid = ? "
+				+ "GROUP BY name, username, email, password, score, enabled;", ROW_MAPPER, user.getUserid());
+	}
 	
 }

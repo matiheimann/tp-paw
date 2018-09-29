@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  $('.post-container').click(()=>{
-    window.location.href = url
-  });
+  $('.post-hover').hover(
+       function(){ $(this).parent().addClass('border-hover') },
+       function(){ $(this).parent().removeClass('border-hover') }
+  )
 });

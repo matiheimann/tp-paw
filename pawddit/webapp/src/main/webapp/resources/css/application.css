@@ -110,6 +110,11 @@ EDEAE5*/
 	overflow: hidden;
 }
 
+.post-imaeg {
+	max-height: 500px;
+	max-width: 100%;
+}
+
 .post-info {
 	align-items: center;
 	color: grey;

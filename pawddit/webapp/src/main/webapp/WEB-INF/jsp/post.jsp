@@ -36,8 +36,8 @@
              <span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
            </div>
            <hr>
-           <h2><c:out value="${post.title}" escapeXml="true"/></h2>
-           <div class="post-component-content">
+           <h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
+           <div class="post-wrap">
              <c:out value="${post.content}" escapeXml="true"/>
            </div>
            <br>

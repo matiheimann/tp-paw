@@ -46,8 +46,8 @@
 							<span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
 						</div>
 						<hr>
-						<h2 class="clickable" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'><c:out value="${post.title}" escapeXml="true"/></h2>
-						<div class="post-description-text">
+						<h2 class="clickable post-wrap" onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'><c:out value="${post.title}" escapeXml="true"/></h2>
+						<div class="post-description-text post-wrap">
 							<c:out value="${post.content}" escapeXml="true"/>
 						</div>
 						<hr>

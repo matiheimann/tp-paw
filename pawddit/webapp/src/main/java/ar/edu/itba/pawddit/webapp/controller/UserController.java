@@ -31,36 +31,36 @@ import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
 public class UserController extends BaseController {
-	
+
 	@Autowired
 	private UserService us;
-	
+
 	@Autowired
 	private PostService ps;
-	
+
 	@Autowired
 	private MailSenderService mss;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@RequestMapping("/register")
 	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
 		return new ModelAndView("register");
 	}
-		
+
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
 	public ModelAndView registerPost(@Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors, final HttpServletRequest request) {
 		if(errors.hasErrors()) {
 			return register(form);
 		}
-		
+
 		final User user;
 		final ModelAndView mav = new ModelAndView("register");
 
 		try {
 			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
-		} 
+		}
 		catch(UserRepeatedDataException e) {
 			if(e.isUsernameRepeated())
 				mav.addObject("usernameExistsError", new Boolean(true));
@@ -68,53 +68,53 @@ public class UserController extends BaseController {
 				mav.addObject("emailExistsError", new Boolean(true));
 			return mav;
 		}
-		
+
 		final VerificationToken token = us.createToken(user);
 		mss.sendVerificationToken(user, token);
-		
+
 		/* Auto Login */
 //		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 //	    authToken.setDetails(new WebAuthenticationDetails(request));
-//	    Authentication authentication = authenticationManager.authenticate(authToken); 
+//	    Authentication authentication = authenticationManager.authenticate(authToken);
 //	    SecurityContextHolder.getContext().setAuthentication(authentication);
-	    
-		return new ModelAndView("redirect:/");
+
+		return new ModelAndView("verifyAccount");
 	}
-	
+
 	@RequestMapping("/login")
 	public ModelAndView login(@RequestParam(value = "error", required=false) final boolean error) {
 		ModelAndView mav = new ModelAndView("login");
-		
+
 		if(error) {
 			mav.addObject("loginError", new Boolean(true));
 			return mav;
 		}
-		
+
 		mav.addObject("loginError", new Boolean(false));
 		return mav;
 	}
-	
+
 	@RequestMapping("/profile/{username}")
 	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page) {
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
-		
+
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5, null));
 
 		return mav;
 	}
-	
+
 	@RequestMapping("/registrationConfirm")
-	public String confirmRegistration(@RequestParam("token") String token) {
-	     
+	public ModelAndView confirmRegistration(@RequestParam("token") String token) {
+
 	    final Optional<VerificationToken> verificationToken = us.findToken(token);
 	    if (!verificationToken.isPresent()) {
-	        return "redirect:/";
+	        return new ModelAndView("errorLink");
 	    }
-	     
+
 	    User user = verificationToken.get().getUser();
 	    us.enableUser(user);
-	    return "redirect:/login"; 
+	    return new ModelAndView("confirmedAccount");
 	}
 }

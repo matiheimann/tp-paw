@@ -40,8 +40,8 @@
 									<spring:message code="profilePosts.title"/>
 								</a>
 							    <a class="nav-item nav-link" id="nav-comments-tab" data-toggle="tab" href="#nav-comments" role="tab" aria-controls="nav-comments" aria-selected="false">
-									<spring:message code="profileComments.title"/>
-								</a>
+										<spring:message code="profileComments.title"/>
+									</a>
 							    <a class="nav-item nav-link" id="nav-upvotes-tab" data-toggle="tab" href="#nav-upvotes" role="tab" aria-controls="nav-contact" aria-selected="false">
 									<spring:message code="profileUpvotes.title"/>
 								</a>
@@ -49,13 +49,21 @@
 							</nav>
 							<div class="tab-content" id="nav-tabContent">
 			  					<div class="tab-pane fade show active" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
+										<c:if test="${empty posts}">
+											<br>
+					  					<strong>
+					  						<spring:message code="userDoesNotHavePosts.message" arguments="${userProfile.username}" />
+					  					</strong>
+										</c:if>
 									<c:forEach items="${posts}" var="post">
 										<div class="post-container">
 											<div class="post-header">
 												<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${post.owner.username}'/>"'><c:out value="${post.owner.username}" escapeXml="true"/></span>
-												<span><strong>
-													<spring:message code="postedIn.message"/>
-												</strong></span>
+												<span>
+													<strong>
+														<spring:message code="postedIn.message"/>
+													</strong>
+												</span>
 												<a class="no-underline" href="<c:url value="/group/${post.group.name}"/>">
 													<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
 												</a>
@@ -86,18 +94,18 @@
 										</div>
 									</c:forEach>
 								</div>
-			  					<div class="tab-pane fade" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
+			  				<div class="tab-pane fade" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
 								<br>
 								<strong>
 									<spring:message code="userDoesNotHaveComments.message" arguments="${userProfile.username}"/>
 								</strong>
 								</div>
-			  					<div class="tab-pane fade" id="nav-upvotes" role="tabpanel" aria-labelledby="nav-upvotes-tab">
+			  				<div class="tab-pane fade" id="nav-upvotes" role="tabpanel" aria-labelledby="nav-upvotes-tab">
 			  					<br>
 			  					<strong>
 			  						<spring:message code="userDoesNotHaveUpvotes.message" arguments="${userProfile.username}"/>
 			  					</strong>
-			  					</div>
+			  				</div>
 							</div>
 						</div>
 					</div>

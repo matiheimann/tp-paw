@@ -8,5 +8,5 @@ public interface SubscriptionService {
 	public Boolean suscribe(User user, Group group);
 	public Boolean unsuscribe(User user, Group group);
 	public Boolean isUserSub(User user, Group group);
-	
+	public int userSuscribed(User user);
 }

@@ -25,7 +25,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
-public class GroupController {
+public class GroupController extends GlobalController{
 	
 	private static final int POSTS_PER_PAGE = 5;
 
@@ -41,6 +41,7 @@ public class GroupController {
 	@RequestMapping("/createGroup")
 	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
 		final ModelAndView mav = new ModelAndView("createGroup");
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		if(isGroupRepeated)
 			mav.addObject("groupAlreadyExistsError", new Boolean(true));
 		return mav;
@@ -75,6 +76,7 @@ public class GroupController {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
@@ -86,7 +88,7 @@ public class GroupController {
 		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
 	
 		ss.suscribe(user, group);
-
+		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
 		
 		return mav;

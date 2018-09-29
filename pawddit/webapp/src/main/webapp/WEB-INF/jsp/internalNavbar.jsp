@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <nav class="navbar-component">
 	<a class="no-underline" href="<c:url value="/"/>">
 		<h2 class="logo">Pawddit.</h2>
@@ -5,11 +7,20 @@
 	<a class="no-underline all-post-btn" href="<c:url value="/all"/>">
 		<button class="app-btn-primary"><i class="fas fa-list"></i> All Posts</button>
 	</a>
-	<a class="create-post" href="<c:url value="/createPost"/>">
-		<button class="app-btn-primary" role="button">
-			<spring:message code="createPost.button.message"/>
-		</button>
-	</a>
+	<c:if test="${fn:length(groups) > 0}">
+		<a class="create-post" href="<c:url value="/createPost"/>">
+			<button class="app-btn-primary" role="button">
+				<spring:message code="createPost.button.message"/>
+			</button>
+		</a>
+	</c:if>
+	<c:if test="${fn:length(groups) == 0}">
+		<a class="create-post" href="<c:url value="/createPost"/>">
+			<button class="app-btn-primary" role="button" disabled>
+				<spring:message code="createPost.button.message"/>
+			</button>
+		</a>
+	</c:if>
 	<a href="<c:url value="/createGroup"/>">
 		<button class="app-btn-secondary" role="button">
 			<spring:message code="createGroup.button.message"/>

@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 
 @Controller
-public class IndexController {
+public class IndexController extends GlobalController{
 	
 	private static final int POSTS_PER_PAGE = 5;
 
 	@Autowired
 	private PostService ps;
+	
+	@Autowired
+	private GroupService gs;
 
 	@RequestMapping("/")
 	public ModelAndView index(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @ModelAttribute("user") final User user)
@@ -33,6 +37,7 @@ public class IndexController {
 			mav.addObject("posts", ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 			mav.addObject("postsPage", page);
 			mav.addObject("postsPageCount", (ps.findBySubscriptionsCount(user)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
+			mav.addObject("groups", gs.getSuscribed(user));
 		}
 		return mav;
 	}
@@ -44,6 +49,7 @@ public class IndexController {
 		mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findAllCount()+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		return mav;
 	}
 }

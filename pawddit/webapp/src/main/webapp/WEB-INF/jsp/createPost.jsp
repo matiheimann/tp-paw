@@ -26,7 +26,6 @@
     			<div class="create-post-component">
     				<h2><spring:message code="createPost.title" /></h2>
     				<br>
-    				<c:if test="${isSuscribed}">
     				    <c:url value="/createPost" var="postPath"/>
 	    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post" enctype="multipart/form-data">
 	    					  <div class="form-group">
@@ -66,10 +65,6 @@
 										<spring:message code="cancelPostCreation.button.message"/>
 						  		</button>
 	    				</form:form>
-	    			</c:if>
-	    			<c:if test="${!isSuscribed}">
-	    				<spring:message code="group.cantCreatePostWithoutBeingSuscribed"/>
-	    			</c:if>
 					</div>
     		</div>
     	</div>

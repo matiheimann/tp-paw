@@ -32,7 +32,7 @@ import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 
 @Controller
-public class PostController {
+public class PostController extends GlobalController{
 	
 	private static final int COMMENTS_PER_PAGE = 5;
 	
@@ -54,9 +54,7 @@ public class PostController {
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		List<Group> groups = gs.getSuscribed(user);
-		mav.addObject("groups", groups);
-		mav.addObject("isSuscribed", (groups.size() != 0) ? true : false);
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		return mav;
 	}
 	
@@ -86,6 +84,7 @@ public class PostController {
 	public ModelAndView createPost(@PathVariable final String groupName, @ModelAttribute("createPostForm") final CreatePostForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
 		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		return mav;
 	}
 
@@ -125,6 +124,7 @@ public class PostController {
 		mav.addObject("post", post);
 		mav.addObject("comments", cs.findByPost(post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
 		mav.addObject("commentsPage", page);
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
 		return mav;
 	}

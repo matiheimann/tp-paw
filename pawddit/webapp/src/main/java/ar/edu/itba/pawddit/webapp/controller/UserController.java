@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
+import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.MailSenderService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
@@ -31,10 +32,13 @@ import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
-public class UserController {
+public class UserController extends GlobalController{
 
 	@Autowired
 	private UserService us;
+	
+	@Autowired
+	private GroupService gs;
 
 	@Autowired
 	private PostService ps;
@@ -99,7 +103,7 @@ public class UserController {
 	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page) {
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
-
+		mav.addObject("groups", gs.getSuscribed(loggedUser()));
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5, null));
 

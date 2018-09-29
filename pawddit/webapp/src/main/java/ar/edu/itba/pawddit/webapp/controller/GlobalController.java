@@ -31,7 +31,7 @@ public class GlobalController {
 		}
 		
 		return us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
-	}
+	} 
 	
 	@ExceptionHandler(UserNotFoundException.class)
 	public ModelAndView userNotFound() {
@@ -62,4 +62,5 @@ public class GlobalController {
 		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
 		return mav;
 	}
+	
 }

@@ -13,7 +13,7 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 
 @Controller
-public class IndexController extends GlobalController{
+public class IndexController {
 	
 	private static final int POSTS_PER_PAGE = 5;
 
@@ -43,13 +43,13 @@ public class IndexController extends GlobalController{
 	}
 
 	@RequestMapping("/all")
-	public ModelAndView all(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort)
+	public ModelAndView all(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @ModelAttribute("user") final User user)
 	{
 		final ModelAndView mav = new ModelAndView("index");
 		mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findAllCount()+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		return mav;
 	}
 }

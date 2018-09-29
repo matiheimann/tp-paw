@@ -32,7 +32,7 @@ import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 
 @Controller
-public class PostController extends GlobalController{
+public class PostController {
 	
 	private static final int COMMENTS_PER_PAGE = 5;
 	
@@ -54,7 +54,7 @@ public class PostController extends GlobalController{
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		return mav;
 	}
 	
@@ -81,10 +81,10 @@ public class PostController extends GlobalController{
 	}
 	
 	@RequestMapping("/group/{groupName}/createPost")
-	public ModelAndView createPost(@PathVariable final String groupName, @ModelAttribute("createPostForm") final CreatePostForm form) {
+	public ModelAndView createPost(@PathVariable final String groupName, @ModelAttribute("createPostForm") final CreatePostForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("createPost");
 		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		return mav;
 	}
 
@@ -92,7 +92,7 @@ public class PostController extends GlobalController{
 	@RequestMapping(value = "/group/{groupName}/createPost", method = { RequestMethod.POST })
 	public ModelAndView createPostPost(@PathVariable final String groupName, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
 		if(errors.hasErrors()) {
-			return createPost(groupName, form);
+			return createPost(groupName, form, user);
 		}
 		
 		String imageId = null;
@@ -124,7 +124,7 @@ public class PostController extends GlobalController{
 		mav.addObject("post", post);
 		mav.addObject("comments", cs.findByPost(post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
 		mav.addObject("commentsPage", page);
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
 		return mav;
 	}

@@ -1,7 +1,5 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -32,7 +30,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
-public class UserController extends GlobalController{
+public class UserController {
 
 	@Autowired
 	private UserService us;
@@ -100,10 +98,10 @@ public class UserController extends GlobalController{
 	}
 
 	@RequestMapping("/profile/{username}")
-	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page) {
+	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5, null));
 

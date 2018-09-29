@@ -25,7 +25,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
-public class GroupController extends GlobalController{
+public class GroupController {
 	
 	private static final int POSTS_PER_PAGE = 5;
 
@@ -39,9 +39,9 @@ public class GroupController extends GlobalController{
 	private SubscriptionService ss;
 
 	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
+	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, @ModelAttribute("user") final User user, boolean isGroupRepeated) {
 		final ModelAndView mav = new ModelAndView("createGroup");
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		if(isGroupRepeated)
 			mav.addObject("groupAlreadyExistsError", new Boolean(true));
 		return mav;
@@ -50,7 +50,7 @@ public class GroupController extends GlobalController{
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
 	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
-			return createGroup(form, false);
+			return createGroup(form, user, false);
 		}
 		
 		final Group group;
@@ -59,7 +59,7 @@ public class GroupController extends GlobalController{
 			group = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), user);
 		}
 		catch(GroupAlreadyExists e) {
-			return createGroup(form, true);
+			return createGroup(form, user, true);
 		}
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
@@ -76,7 +76,7 @@ public class GroupController extends GlobalController{
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
-		mav.addObject("groups", gs.getSuscribed(loggedUser()));
+		mav.addObject("groups", gs.getSuscribed(user));
 		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);

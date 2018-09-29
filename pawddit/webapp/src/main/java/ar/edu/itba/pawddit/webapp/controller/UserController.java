@@ -27,10 +27,11 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
+import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
-public class UserController extends BaseController {
+public class UserController {
 
 	@Autowired
 	private UserService us;
@@ -106,14 +107,9 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping("/registrationConfirm")
-	public ModelAndView confirmRegistration(@RequestParam("token") String token) {
-
-	    final Optional<VerificationToken> verificationToken = us.findToken(token);
-	    if (!verificationToken.isPresent()) {
-	        return new ModelAndView("errorLink");
-	    }
-
-	    User user = verificationToken.get().getUser();
+	public ModelAndView confirmRegistration(@RequestParam("token") String token) {    
+	    final VerificationToken verificationToken = us.findToken(token).orElseThrow(VerificationTokenNotFoundException::new);
+	    final User user = verificationToken.getUser();
 	    us.enableUser(user);
 	    return new ModelAndView("confirmedAccount");
 	}

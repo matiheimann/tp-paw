@@ -50,6 +50,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/register").anonymous()
 				.antMatchers("/registrationConfirm").anonymous()
 				.antMatchers("/").permitAll()
+				.antMatchers("/invalidUrl").permitAll()
 				.antMatchers("/all").permitAll()
 				.antMatchers("/image/*").permitAll()
 				.antMatchers("/profile/*").permitAll()
@@ -73,7 +74,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/")
 			.and().exceptionHandling()
-				.accessDeniedPage("/403")
+				.accessDeniedPage("/invalidUrl")
 			.and().csrf().disable();
 	}
 	

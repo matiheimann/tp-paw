@@ -1,7 +1,5 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.edu.itba.pawddit.services.ImageService;
+import ar.edu.itba.pawddit.webapp.exceptions.ImageNotFoundException;
 
 @Controller
 public class ImageController {
@@ -19,10 +18,7 @@ public class ImageController {
 	
 	@RequestMapping(value = "/image/{token}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] getImageAsByteArray(@PathVariable final String token) {
-	   Optional<byte[]> img = is.findByToken(token);
-	   if (!img.isPresent())
-		   return null;
-	   
-	   return img.get();
+	   byte[] img = is.findByToken(token).orElseThrow(ImageNotFoundException::new);
+	   return img;
 	}
 }

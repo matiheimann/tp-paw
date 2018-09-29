@@ -25,7 +25,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
-public class GroupController extends BaseController {
+public class GroupController {
 	
 	private static final int POSTS_PER_PAGE = 5;
 

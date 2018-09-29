@@ -12,7 +12,7 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.PostService;
 
 @Controller
-public class IndexController extends BaseController {
+public class IndexController {
 	
 	private static final int POSTS_PER_PAGE = 5;
 

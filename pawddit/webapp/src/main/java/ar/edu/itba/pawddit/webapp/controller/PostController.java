@@ -32,7 +32,7 @@ import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostNoGroupForm;
 
 @Controller
-public class PostController extends BaseController {
+public class PostController {
 	
 	private static final int COMMENTS_PER_PAGE = 5;
 	
@@ -52,9 +52,9 @@ public class PostController extends BaseController {
 	private ImageService is;
 	
 	@RequestMapping("/createPost")
-	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
+	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		List<Group> groups = gs.getSuscribed(loggedUser());
+		List<Group> groups = gs.getSuscribed(user);
 		mav.addObject("groups", groups);
 		mav.addObject("isSuscribed", (groups.size() != 0) ? true : false);
 		return mav;
@@ -63,7 +63,7 @@ public class PostController extends BaseController {
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
 	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
 		if(errors.hasErrors()) {
-			return createPost(form);
+			return createPost(form, user);
 		}
 		
 		String imageId = null;

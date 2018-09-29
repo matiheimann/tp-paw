@@ -29,7 +29,7 @@
 					</h2>
     				<br>
     				<c:url value="/createPost" var="postPath"/>
-    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post">
+    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post" enctype="multipart/form-data">
     					  <div class="form-group">
     					    <form:label for="post-title" path="title">
 								<spring:message code="postTitleField.title"/>
@@ -53,6 +53,10 @@
 							</form:label>
     					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>
     					    <form:errors path="content" cssClass="formError" element="p"/>
+    					  </div>
+    					  <div class="form-group">
+   								<label path="file">Select an image to upload</label>
+   								<input type="file" name="file"/>
     					  </div>
     					  <button type="submit" class="create-post-btn app-btn-primary">
 							<spring:message code="createPostConfirmation.button.message"/>

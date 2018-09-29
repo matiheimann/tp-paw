@@ -15,7 +15,7 @@ public class MailSenderServiceImpl implements MailSenderService {
     private JavaMailSender mailSender;
 
 	@Override
-	public void sendVerificationToken(User user, VerificationToken token) {
+	public void sendVerificationToken(final User user, final VerificationToken token) {
 		String recipientAddress = user.getEmail();
 		String subject = "Registration Confirm";
 		String confirmationUrl = "/registrationConfirm?token=" + token.getToken();

@@ -11,8 +11,9 @@ public class Post {
 	private long postid;
 	private int comments;
 	private int votes;
+	private String imageId;
 	
-	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, int comments, int votes) {
+	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, int comments, int votes, String imageId) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
@@ -21,6 +22,7 @@ public class Post {
 		this.postid = postid;
 		this.comments = comments;
 		this.votes = votes;
+		this.imageId = imageId;
 	}
 	
 	public String getTitle() {
@@ -85,5 +87,13 @@ public class Post {
 
 	public void setVotes(int votes) {
 		this.votes = votes;
+	}
+
+	public String getImageId() {
+		return imageId;
+	}
+
+	public void setImage(String image) {
+		this.imageId = image;
 	}
 }

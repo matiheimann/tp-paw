@@ -10,7 +10,7 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface PostDao {
 	
-	public Post create(String title, String content, Timestamp date, Group group, User user);
+	public Post create(String title, String content, Timestamp date, Group group, User user, String imageId);
 	public List<Post> findAll(int limit, int offset);
 	public int findAllCount();
 	public List<Post> findByGroup(Group group, int limit, int offset);

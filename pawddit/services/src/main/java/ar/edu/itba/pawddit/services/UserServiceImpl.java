@@ -61,17 +61,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public VerificationToken createToken(User user) {
+	public VerificationToken createToken(final User user) {
 		return userDao.createToken(user);
 	}
 
 	@Override
-	public Optional<VerificationToken> findToken(String token) {
+	public Optional<VerificationToken> findToken(final String token) {
 		return userDao.findToken(token);
 	}
 
 	@Override
-	public int enableUser(User user) {
+	public int enableUser(final User user) {
 		return userDao.enableUser(user);	
 	}
 	

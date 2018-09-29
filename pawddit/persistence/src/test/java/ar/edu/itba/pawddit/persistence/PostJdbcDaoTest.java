@@ -61,7 +61,7 @@ public class PostJdbcDaoTest {
 	public void createPostTest() {
 		final Post post = postDao.create(TEST_POST_TITLE, TEST_POST_CONTENT, TEST_POST_CREATION_DATE, 
 				groupDao.findByName(CREATED_TEST_GROUP).get(), 
-				userDao.findByUsername(CREATED_TEST_USERNAME).get());
+				userDao.findByUsername(CREATED_TEST_USERNAME).get(), null);
 		Assert.assertEquals(TEST_POST_TITLE, post.getTitle());
 		Assert.assertEquals(TEST_POST_CONTENT, post.getContent());
 		Assert.assertEquals(TEST_POST_CREATION_DATE, post.getDate());

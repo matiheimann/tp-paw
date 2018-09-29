@@ -1,5 +1,6 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.Group;
@@ -19,6 +21,7 @@ import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.GroupService;
+import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
@@ -44,6 +47,9 @@ public class PostController extends BaseController {
 	@Autowired
 	private PostVoteService pvs;
 	
+	@Autowired
+	private ImageService is;
+	
 	@RequestMapping("/createPost")
 	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
@@ -52,13 +58,23 @@ public class PostController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
+	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
 		if(errors.hasErrors()) {
 			return createPost(form);
 		}
+		
+		String imageId = null;
+		if (!file.isEmpty()) {
+			try {
+				byte[] image = file.getBytes();
+				imageId = is.saveImage(image);
+			} catch (IOException e) {
+				
+			}
+		}
 
 		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user);
+		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}
@@ -72,13 +88,23 @@ public class PostController extends BaseController {
 
 	
 	@RequestMapping(value = "/group/{groupName}/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@PathVariable final String groupName, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
+	public ModelAndView createPostPost(@PathVariable final String groupName, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
 		if(errors.hasErrors()) {
 			return createPost(groupName, form);
 		}
+		
+		String imageId = null;
+		if (!file.isEmpty()) {
+			try {
+				byte[] image = file.getBytes();
+				imageId = is.saveImage(image);
+			} catch (IOException e) {
+				
+			}
+		}
 
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user);
+		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}

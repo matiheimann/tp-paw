@@ -46,7 +46,8 @@ public class PostJdbcDao implements PostDao {
 				), 
 				rs.getInt("postid"),
 				rs.getInt("comments"),
-				rs.getInt("votes")
+				rs.getInt("votes"),
+				rs.getString("imageid")
 		);
 		
 	private final static RowMapper<Integer> COUNT_MAPPER = (rs, rowNum) -> rs.getInt(1);
@@ -61,21 +62,22 @@ public class PostJdbcDao implements PostDao {
 	}
 
 	@Override
-	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user) {
+	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user, final String imageId) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("title", title); 
 		args.put("content", content); 
 		args.put("creationdate", date);
 		args.put("groupname", group.getName());
 		args.put("userid", user.getUserid());
+		args.put("imageid", imageId);
 		final Number postId = jdbcInsert.executeAndReturnKey(args);
-		return new Post(title, content, date, group, user, postId.longValue(), 0, 0);
+		return new Post(title, content, date, group, user, postId.longValue(), 0, 0, imageId);
 	}
 	
 	@Override
 	public List<Post> findAll(final int limit, final int offset) {
 		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, ceil(cast(sum(valuevote) AS decimal)/cast((CASE WHEN count(DISTINCT commentId) <> 0 THEN count(DISTINCT commentId) ELSE 1 END) AS decimal)) AS votes, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
-				+ "enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				+ "imageid, enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
 				"INNER JOIN users ON users.userId = posts.userId " + 
 				"INNER JOIN groups ON groups.name = posts.groupname " + 
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
@@ -88,7 +90,7 @@ public class PostJdbcDao implements PostDao {
 	@Override
 	public List<Post> findByGroup(final Group group, final int limit, final int offset) {
 		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, ceil(cast(sum(valuevote) AS decimal)/cast((CASE WHEN count(DISTINCT commentId) <> 0 THEN count(DISTINCT commentId) ELSE 1 END) AS decimal)) AS votes, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
-				+ "enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				+ "imageid, enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
 				"INNER JOIN users ON users.userId = posts.userId " + 
 				"INNER JOIN groups ON groups.name = posts.groupname " +
 				"FULL OUTER JOIN voteposts ON voteposts.postid = posts.postid " +
@@ -101,7 +103,7 @@ public class PostJdbcDao implements PostDao {
 	@Override
 	public List<Post> findByUser(final User user, final int limit, final int offset) {
 		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, ceil(cast(sum(valuevote) AS decimal)/cast((CASE WHEN count(DISTINCT commentId) <> 0 THEN count(DISTINCT commentId) ELSE 1 END) AS decimal)) AS votes, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
-				+ "enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				+ "imageid, enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
 				"INNER JOIN users ON users.userId = posts.userId " + 
 				"INNER JOIN groups ON groups.name = posts.groupname " + 
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
@@ -115,7 +117,7 @@ public class PostJdbcDao implements PostDao {
 	@Override
 	public Optional<Post> findById(final Group group, final long id) {
 		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, ceil(cast(sum(valuevote) AS decimal)/cast((CASE WHEN count(DISTINCT commentId) <> 0 THEN count(DISTINCT commentId) ELSE 1 END) AS decimal)) AS votes, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
-				+ "enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				+ "imageid, enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
 				"INNER JOIN users ON users.userId = posts.userId " + 
 				"INNER JOIN groups ON groups.name = posts.groupname " + 
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +
@@ -127,7 +129,7 @@ public class PostJdbcDao implements PostDao {
 	@Override
 	public List<Post> findBySubscriptions(final User user, final int limit, final int offset) {
 		return jdbcTemplate.query("SELECT count(DISTINCT commentId) AS comments, ceil(cast(sum(valuevote) AS decimal)/cast((CASE WHEN count(DISTINCT commentId) <> 0 THEN count(DISTINCT commentId) ELSE 1 END) AS decimal)) AS votes, title, posts.content AS content, posts.creationdate as creationdate, groupname, posts.postid as postid, "
-				+ "enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
+				+ "imageid, enabled, users.score as score, password, email, username, users.userid as userid FROM posts " + 
 				"INNER JOIN users ON users.userId = posts.userId " + 
 				"INNER JOIN groups ON groups.name = posts.groupname " + 
 				"FULL OUTER JOIN comments ON comments.postid = posts.postid " +

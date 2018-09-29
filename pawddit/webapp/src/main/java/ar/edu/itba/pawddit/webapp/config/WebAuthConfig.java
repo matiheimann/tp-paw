@@ -51,6 +51,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/registrationConfirm").anonymous()
 				.antMatchers("/").permitAll()
 				.antMatchers("/all").permitAll()
+				.antMatchers("/image/*").permitAll()
 				.antMatchers("/profile/*").permitAll()
 				.antMatchers("/group/*/createPost").authenticated()
 				.antMatchers("/group/*").permitAll()

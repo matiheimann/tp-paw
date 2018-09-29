@@ -46,14 +46,16 @@
 							<span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
 						</div>
 						<hr>
-						<div class="clickable"  onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'>
-							<h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
-							<div class="post-description-text post-wrap">
-								<c:out value="${post.content}" escapeXml="true"/>
-								<c:if test="${!empty post.imageid}">
-		 					 		<img  class="post-image" href="<c:url value="/image/${post.imageid}"/>" />
-		 					 </c:if>
+						<div class="clickable post-center"  onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'>
+							<div class="post-center-text">
+								<h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
+								<div class="post-description-text post-wrap">
+									<c:out value="${post.content}" escapeXml="true"/>
+								</div>
 							</div>
+							<c:if test="${!empty post.imageid}">
+								<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
+							</c:if>
 						</div>
 						<hr>
 						<div class="post-info">

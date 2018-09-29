@@ -40,9 +40,9 @@
            <div class="post-wrap">
              <c:out value="${post.content}" escapeXml="true"/>
            </div>
-
-					 	<img class="image-post" href="<c:url value="/image/${post.imageId}"/>" />
-					 
+					 <c:if test="${!empty post.imageid}">
+					 	<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
+						</c:if>
            <br>
            <div class="post-info">
            		<div class="info-item">
@@ -59,7 +59,7 @@
 									<button class="no-btn" type="submit">
 										<c:choose>
 											<c:when test="${vote eq 1}">
-												<i class="fas fa-arrow-up icon-color-up"></i>
+												<i class="fas fa-arrow-up icon-color-selected"></i>
 											</c:when>
 											<c:otherwise>
 												<i class="fas fa-arrow-up icon-color"></i>
@@ -77,7 +77,7 @@
 									<button class="no-btn" type="submit">
 										<c:choose>
 											<c:when test="${vote eq -1}">
-												<i class="fas fa-arrow-down icon-color-down"></i>
+												<i class="fas fa-arrow-down icon-color-selected"></i>
 											</c:when>
 											<c:otherwise>
 												<i class="fas fa-arrow-down icon-color"></i>

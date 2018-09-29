@@ -69,7 +69,7 @@ EDEAE5*/
 	margin-top: 30px;
 	padding: 8px 15px;
 	width: 90%;
-	max-width: 600px;
+	max-width: 700px;
 	position: relative;
 	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
@@ -81,6 +81,16 @@ EDEAE5*/
 	display: flex;
 	font-size: 12px;
 	line-height: 1.5;
+}
+
+.post-center {
+	display: flex;
+}
+
+.post-center-image {
+	align-self: center;
+	border: 2px solid #6c757d;
+	border-radius: 10px;
 }
 
 .post-wrap {
@@ -110,7 +120,9 @@ EDEAE5*/
 	overflow: hidden;
 }
 
-.post-imaeg {
+.image-post {
+	display: block;
+	margin: 10px auto;
 	max-height: 500px;
 	max-width: 100%;
 }
@@ -169,11 +181,7 @@ EDEAE5*/
 	color: grey;
 }
 
-.icon-color-up {
-	color: green;
-}
-
-.icon-color-down {
+.icon-color-selected {
 	color: blue;
 }
 

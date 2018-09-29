@@ -130,7 +130,7 @@
 									 <a class="no-underline" href="<c:url value=""/>">
 										 <i class="fas fa-arrow-up icon-color"></i>
 									 </a>
-									 <strong class="score-count">0</strong>
+									 <strong class="score-count">${comment.votes}</strong>
 									 <a class="no-underline" href="<c:url value=""/>">
 										 <i class="fas fa-arrow-down icon-color"></i>
 									 </a>

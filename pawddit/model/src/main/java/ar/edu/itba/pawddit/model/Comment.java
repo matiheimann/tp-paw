@@ -10,14 +10,16 @@ public class Comment {
 	private User owner;
 	private Timestamp date;
 	private long commentid;
+	private int votes;
 	
-	public Comment(String content, Post post, Comment replyTo, User owner, Timestamp date, long commentid) {
+	public Comment(String content, Post post, Comment replyTo, User owner, Timestamp date, int votes, long commentid) {
 		this.content = content;
 		this.post = post;
 		this.replyTo = replyTo;
 		this.owner = owner;
 		this.date = date;
 		this.commentid = commentid;
+		this.votes = votes;
 	}
 
 	public String getContent() {
@@ -66,5 +68,13 @@ public class Comment {
 	
 	public void setCommentid(long commentid) {
 		this.commentid = commentid;
+	}
+
+	public int getVotes() {
+		return votes;
+	}
+
+	public void setVotes(int votes) {
+		this.votes = votes;
 	}
 }

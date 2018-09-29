@@ -48,6 +48,7 @@ public class CommentJdbcDao implements CommentDao {
 						rs.getInt("userid")
 				),
 				rs.getTimestamp("creationdate"),
+				rs.getInt("votes"),
 				rs.getInt("commentid")
 		);
 		
@@ -69,18 +70,33 @@ public class CommentJdbcDao implements CommentDao {
 		args.put("postid", post.getPostid());
 		args.put("userid", user.getUserid());
 		args.put("creationdate", creationDate);
+		args.put("votes", 0);
 		final Number commentId = jdbcInsert.executeAndReturnKey(args);
-		return new Comment(content, post, replyTo, user, creationDate, commentId.longValue());
+		return new Comment(content, post, replyTo, user, creationDate, 0, commentId.longValue());
 	}
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = ? ORDER BY comments.creationdate DESC LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
+		return jdbcTemplate.query("SELECT posts.content AS content, posts.postid, username, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
+				+ "comments.commentid AS commentid, sum(valuevote) AS votes "
+				+ "FROM comments JOIN users ON comments.userid = ?  "
+				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "
+				+ "GROUP BY commentid "
+				+ "ORDER BY comments.creationdate "
+				+ " DESC LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
 	}
 
 	@Override
 	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT * FROM comments JOIN users ON comments.userid = users.userid WHERE postid = ? ORDER BY comments.creationdate DESC LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
+		return jdbcTemplate.query("SELECT posts.content AS content, posts.postid AS postid, username, score, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
+				+ "comments.commentid AS commentid, sum(valuevote) AS votes "
+				+ "FROM comments JOIN users ON comments.userid = users.userid  "
+				+ "INNER JOIN posts ON posts.postid = comments.postid "
+				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "
+				+ "WHERE comments.postid = ? "
+				+ "GROUP BY comments.commentid, posts.content, posts.postid, users.username, users.email, users.password, users.enabled, users.userid, comments.creationdate "
+				+ "ORDER BY comments.creationdate "
+				+ " DESC LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
 	}
 
 	@Override

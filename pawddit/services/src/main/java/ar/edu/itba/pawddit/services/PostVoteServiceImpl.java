@@ -2,12 +2,14 @@ package ar.edu.itba.pawddit.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.PostVoteDao;
 
 @Service
+@Transactional
 public class PostVoteServiceImpl implements PostVoteService {
 	
 	@Autowired

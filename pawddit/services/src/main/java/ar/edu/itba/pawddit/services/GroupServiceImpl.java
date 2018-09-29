@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
@@ -13,6 +14,7 @@ import ar.edu.itba.pawddit.persistence.GroupDao;
 import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 
 @Service
+@Transactional
 public class GroupServiceImpl implements GroupService {
 	
 	@Autowired

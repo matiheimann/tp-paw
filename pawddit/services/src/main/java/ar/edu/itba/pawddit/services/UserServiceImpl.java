@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.itba.pawddit.persistence.UserDao;
 import ar.edu.itba.pawddit.services.UserService;
@@ -14,6 +15,7 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 	
 	@Autowired

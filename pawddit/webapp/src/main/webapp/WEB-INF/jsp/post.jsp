@@ -40,6 +40,9 @@
            <div class="post-wrap">
              <c:out value="${post.content}" escapeXml="true"/>
            </div>
+
+					 	<img class="image-post" href="<c:url value="/image/${post.imageId}"/>" />
+					 
            <br>
            <div class="post-info">
            		<div class="info-item">

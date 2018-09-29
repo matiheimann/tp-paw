@@ -24,9 +24,7 @@
 		<div class="application-background">
     		<div class="center-content">
     			<div class="create-post-component">
-    				<h2>
-						<spring:message code="createPost.title"/>
-					</h2>
+    				<h2><spring:message code="createPost.title" /></h2>
     				<br>
     				<c:if test="${isSuscribed}">
     				    <c:url value="/createPost" var="postPath"/>
@@ -56,21 +54,23 @@
 	    					    <form:errors path="content" cssClass="formError" element="p"/>
 	    					  </div>
 	    					  <div class="form-group">
-	   								<label path="file">Select an image to upload</label>
+	   								<label path="file"><spring:message code="selectImageOnPostCreate.title"/></label>
+										<br>
 	   								<input type="file" name="file"/>
 	    					  </div>
+									<br>
 	    					  <button type="submit" class="create-post-btn app-btn-primary">
-								<spring:message code="createPostConfirmation.button.message"/>
-							  </button>
-	    					  <button type="button" class="app-btn-secondary">
-								<spring:message code="cancelPostCreation.button.message"/>
-							  </button>
+										<spring:message code="createPostConfirmation.button.message"/>
+							  	</button>
+    					  	<button type="button" class="app-btn-secondary">
+										<spring:message code="cancelPostCreation.button.message"/>
+						  		</button>
 	    				</form:form>
 	    			</c:if>
 	    			<c:if test="${!isSuscribed}">
-	    				<spring:message code="group.cantCreateGroupWithoutBeingSuscribed"/>
+	    				<spring:message code="group.cantCreatePostWithoutBeingSuscribed"/>
 	    			</c:if>
-    			</div>
+					</div>
     		</div>
     	</div>
 		<%@include file="footer.jsp" %>

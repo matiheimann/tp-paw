@@ -41,7 +41,7 @@
              <c:out value="${post.content}" escapeXml="true"/>
            </div>
 					 <c:if test="${!empty post.imageid}">
-					 	<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
+					 		<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
 						</c:if>
            <br>
            <div class="post-info">

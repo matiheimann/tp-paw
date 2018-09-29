@@ -85,12 +85,20 @@ EDEAE5*/
 
 .post-center {
 	display: flex;
+	max-width: 100%;
+}
+
+.post-center-text {
+	max-width: 100%;
 }
 
 .post-center-image {
 	align-self: center;
-	border: 2px solid #6c757d;
-	border-radius: 10px;
+	border: 2px solid lightgrey;
+	border-radius: 3px;
+	max-width: 100px;
+	max-height: 100px;
+	margin: 10px 10px 10px auto;
 }
 
 .post-wrap {
@@ -118,13 +126,6 @@ EDEAE5*/
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	overflow: hidden;
-}
-
-.image-post {
-	display: block;
-	margin: 10px auto;
-	max-height: 500px;
-	max-width: 100%;
 }
 
 .post-info {

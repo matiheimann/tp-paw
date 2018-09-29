@@ -54,7 +54,7 @@
 								</div>
 							</div>
 							<c:if test="${!empty post.imageid}">
-								<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
+								<img class="post-center-image" src="<c:url value="/image/${post.imageid}"/>" />
 							</c:if>
 						</div>
 						<hr>

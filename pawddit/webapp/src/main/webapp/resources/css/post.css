@@ -16,6 +16,13 @@
 	margin-top: 15px;
 }
 
+.image-post {
+	display: block;
+	margin: 10px auto;
+	max-height: 500px;
+	max-width: 100%;
+}
+
 .comment {
 	border-left: 3px solid lightgrey;
 	padding: 10px;

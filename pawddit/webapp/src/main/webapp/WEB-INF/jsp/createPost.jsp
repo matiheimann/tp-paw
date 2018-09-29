@@ -28,43 +28,48 @@
 						<spring:message code="createPost.title"/>
 					</h2>
     				<br>
-    				<c:url value="/createPost" var="postPath"/>
-    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post" enctype="multipart/form-data">
-    					  <div class="form-group">
-    					    <form:label for="post-title" path="title">
-								<spring:message code="postTitleField.title"/>
-							</form:label>
-							<spring:message code="postTitle.placeholder" var="postTitlePlaceholder"/>
-    					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="${postTitlePlaceholder}"/>
-    					    <form:errors path="title" cssClass="formError" element="p"/>
-    					  </div>
-    					  <c:if test="${empty group}">
-    					  <div class="form-group">
-    					    <form:label for="post-group-select" path="groupName">
-								<spring:message code="selectGroupOnPostCreate.title"/>
-							</form:label>
-    					    <form:select required="required" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
-    					    <form:errors path="groupName" cssClass="formError" element="p"/>
-    					  </div>
-    					  </c:if>
-    					  <div class="form-group">
-    					    <form:label for="post-content" path="content">
-								<spring:message code="postContent.title"/>
-							</form:label>
-    					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>
-    					    <form:errors path="content" cssClass="formError" element="p"/>
-    					  </div>
-    					  <div class="form-group">
-   								<label path="file">Select an image to upload</label>
-   								<input type="file" name="file"/>
-    					  </div>
-    					  <button type="submit" class="create-post-btn app-btn-primary">
-							<spring:message code="createPostConfirmation.button.message"/>
-						  </button>
-    					  <button type="button" class="app-btn-secondary">
-							<spring:message code="cancelPostCreation.button.message"/>
-						  </button>
-    				</form:form>
+    				<c:if test="${isSuscribed}">
+    				    <c:url value="/createPost" var="postPath"/>
+	    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post" enctype="multipart/form-data">
+	    					  <div class="form-group">
+	    					    <form:label for="post-title" path="title">
+									<spring:message code="postTitleField.title"/>
+								</form:label>
+								<spring:message code="postTitle.placeholder" var="postTitlePlaceholder"/>
+	    					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="${postTitlePlaceholder}"/>
+	    					    <form:errors path="title" cssClass="formError" element="p"/>
+	    					  </div>
+	    					  <c:if test="${empty group}">
+	    					  <div class="form-group">
+	    					    <form:label for="post-group-select" path="groupName">
+									<spring:message code="selectGroupOnPostCreate.title"/>
+								</form:label>
+	    					    <form:select required="required" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
+	    					    <form:errors path="groupName" cssClass="formError" element="p"/>
+	    					  </div>
+	    					  </c:if>
+	    					  <div class="form-group">
+	    					    <form:label for="post-content" path="content">
+									<spring:message code="postContent.title"/>
+								</form:label>
+	    					    <form:textarea path="content" class="form-control" id="post-content" rows="6"></form:textarea>
+	    					    <form:errors path="content" cssClass="formError" element="p"/>
+	    					  </div>
+	    					  <div class="form-group">
+	   								<label path="file">Select an image to upload</label>
+	   								<input type="file" name="file"/>
+	    					  </div>
+	    					  <button type="submit" class="create-post-btn app-btn-primary">
+								<spring:message code="createPostConfirmation.button.message"/>
+							  </button>
+	    					  <button type="button" class="app-btn-secondary">
+								<spring:message code="cancelPostCreation.button.message"/>
+							  </button>
+	    				</form:form>
+	    			</c:if>
+	    			<c:if test="${!isSuscribed}">
+	    				<spring:message code="group.cantCreateGroupWithoutBeingSuscribed"/>
+	    			</c:if>
     			</div>
     		</div>
     	</div>

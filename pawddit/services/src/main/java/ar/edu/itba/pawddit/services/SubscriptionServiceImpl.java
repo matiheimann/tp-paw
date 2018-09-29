@@ -38,9 +38,5 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		return sd.isUserSub(user, group);
 	}
 
-	@Override
-	public int userSuscribed(User user) {
-		return sd.countSuscribed(user);
-	}
 
 }

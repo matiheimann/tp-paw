@@ -8,6 +8,5 @@ public interface SubscriptionDao {
 	public void suscribe(User user, Group group);
 	public void unsuscribe(User user, Group group);
 	public Boolean isUserSub(User user, Group group);
-	public int countSuscribed(User user);
 	
 }

@@ -52,10 +52,5 @@ public class SubscriptionJdbcDao implements SubscriptionDao {
 		return (ls.get(0) == 1) ? true : false;
 	}
 
-	@Override
-	public int countSuscribed(User user) {
-		List<Integer> ls = jdbcTemplate.query("SELECT count(*) FROM SUBSCRIPTIONS WHERE userid = ?", ROW_MAPPER, user.getUserid());
-		return ls.get(0);
-	}
 
 }

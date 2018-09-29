@@ -7,7 +7,12 @@
 	<div class="group-footer">
 		<div class="info-item">
 		  <strong><i class="fas fa-users"></i></i> 
-		  	${group.suscriptors} <spring:message code="groupMembers.message"/>
+		  	<c:if test="${group.suscriptors > 1}"> 
+		  		${group.suscriptors} <spring:message code="groupMembers.message"/>
+		  	</c:if>
+		  	<c:if test="${group.suscriptors == 1}">
+		  		${group.suscriptors} <spring:message code="groupMember.message"/>
+		  	</c:if>
 		  </strong>
 		</div>
 		<div class="info-item">

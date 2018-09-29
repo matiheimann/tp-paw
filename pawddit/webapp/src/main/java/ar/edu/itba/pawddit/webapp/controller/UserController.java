@@ -100,7 +100,7 @@ public class UserController extends BaseController {
 		final ModelAndView mav = new ModelAndView("profile");
 		
 		mav.addObject("userProfile", userProfile);
-		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5));
+		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5, null));
 
 		return mav;
 	}

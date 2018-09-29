@@ -24,18 +24,18 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Post> findAll(final int limit, final int offset) {
-		return postDao.findAll(limit, offset);
+	public List<Post> findAll(final int limit, final int offset, final String sort) {
+		return postDao.findAll(limit, offset, sort);
 	}
 	
 	@Override
-	public List<Post> findByGroup(final Group group, final int limit, final int offset) {
-		return postDao.findByGroup(group, limit, offset);
+	public List<Post> findByGroup(final Group group, final int limit, final int offset, final String sort) {
+		return postDao.findByGroup(group, limit, offset, sort);
 	}
 
 	@Override
-	public List<Post> findByUser(final User user, final int limit, final int offset) {
-		return postDao.findByUser(user, limit, offset);
+	public List<Post> findByUser(final User user, final int limit, final int offset, final String sort) {
+		return postDao.findByUser(user, limit, offset, sort);
 	}
 	
 	@Override
@@ -44,8 +44,8 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Post> findBySubscriptions(final User user, final int limit, final int offset){
-		return postDao.findBySubscriptions(user, limit, offset);
+	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort){
+		return postDao.findBySubscriptions(user, limit, offset, sort);
 	}
 
 	@Override

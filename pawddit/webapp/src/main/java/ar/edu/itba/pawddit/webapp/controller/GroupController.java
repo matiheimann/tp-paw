@@ -66,7 +66,7 @@ public class GroupController extends BaseController {
 	}
 
 	@RequestMapping("/group/{groupName}")
-	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
+	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("index");
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		mav.addObject("group", g);
@@ -75,7 +75,7 @@ public class GroupController extends BaseController {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
-		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE));
+		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		return mav;

@@ -56,7 +56,7 @@ public class CommentJdbcDaoTest {
 	@Test
 	public void createCommentTest() {
 		final User user = userDao.findByUsername(CREATED_TEST_USERNAME).get();
-		final Post post = postDao.findByUser(user, 5, 0).get(0);
+		final Post post = postDao.findByUser(user, 5, 0, null).get(0);
 		Comment comment = commentDao.create(TEST_COMMENT_CONTENT, post, null, user, COMMENT_CREATION_DATE);
 		Assert.assertEquals(TEST_COMMENT_CONTENT, comment.getContent());
 		Assert.assertEquals(CREATED_TEST_USERNAME, comment.getOwner().getUsername());
@@ -76,7 +76,7 @@ public class CommentJdbcDaoTest {
 	@Test
 	public void findCommentsByPostTest() {
 		final User user = userDao.findByUsername(CREATED_TEST_USERNAME).get();
-		final Post post = postDao.findByUser(user, 5, 0).get(0);
+		final Post post = postDao.findByUser(user, 5, 0, null).get(0);
 		final List<Comment> comment = commentDao.findByPost(post, 5, 0);
 		Assert.assertEquals(CREATED_COMMENT_1_ID, comment.get(0).getCommentid());
 		Assert.assertEquals(CREATED_COMMENT_2_ID, comment.get(1).getCommentid());

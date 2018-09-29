@@ -12,28 +12,31 @@ public class PostVoteServiceImpl implements PostVoteService {
 	
 	@Autowired
 	PostVoteDao pvd;
+
+	@Override
+	public Boolean upVote(final User user, final Post post) {
+		final Integer vote = checkVote(user, post);
+		if (vote == 1)
+			return pvd.cancelVote(user, post);
+		else if (vote == -1)
+			return pvd.changeVote(user, post);
+		else
+			return pvd.votePost(user, post, 1);
+	}
 	
-
 	@Override
-	public Boolean changeVote(User user, Post post) {
-		return pvd.changeVote(user, post);
+	public Boolean downVote(final User user, final Post post) {
+		final Integer vote = checkVote(user, post);
+		if (vote == -1)
+			return pvd.cancelVote(user, post);
+		else if (vote == 1)
+			return pvd.changeVote(user, post);
+		else
+			return pvd.votePost(user, post, -1);
 	}
 
-
 	@Override
-	public Boolean cancelVote(User user, Post post) {
-		return pvd.cancelVote(user, post);
-	}
-
-
-	@Override
-	public Boolean votePost(User user, Post post, Integer value) {
-		return pvd.votePost(user, post, value);
-	}
-
-
-	@Override
-	public Integer checkVote(User user, Post post) {
+	public Integer checkVote(final User user, final Post post) {
 		return pvd.checkVote(user, post);
 	}
 

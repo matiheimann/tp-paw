@@ -30,7 +30,7 @@
              <span><strong>
 				      <spring:message code="postedIn.message"/>
 			       </strong></span>
-             <a class="no-underline" href="<c:url value="/group/${post.group.name}/?userId=${user.userid}"/>">
+             <a class="no-underline" href="<c:url value="/group/${post.group.name}"/>">
                <span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
              </a>
              <span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
@@ -48,84 +48,44 @@
 			        </strong>
 			    </div>
 			    <c:if test="${! empty user}">
-	           		<c:choose>
-		           		<c:when test="${vote eq 0}">
-				             <div class="info-item votes-controls">
-				             	<div>
-				             		<c:url value="/group/${group.name}/${post.postid}/upvote" var="postPath"/>
-												<form:form action="${postPath}" method="post">
-													<div class="form-group">
-														<button class="no-btn" type="submit">
-															<i class="fas fa-arrow-up icon-color"></i>
-														</button>
-													</div>
-												</form:form>
-											</div>
-											<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
-				             	<div>
-					             	<c:url value="/group/${group.name}/${post.postid}/downvote" var="postPath"/>
-												<form:form action="${postPath}" method="post">
-													<div class="form-group">
-														<button class="no-btn" type="submit">
-															<i class="fas fa-arrow-down icon-color"></i>
-														</button>
-													</div>
-												</form:form>
-											</div>
-				          	</div>
-			          	</c:when>
-			          	<c:when test="${vote eq 1}">
-				             <div class="info-item votes-controls">
-				             		<div>
-					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
-													<form:form action="${postPath}" method="post">
-														<div class="form-group">
-															<button class="no-btn" type="submit">
-																<i class="fas fa-arrow-up icon-color-up"></i>
-															</button>
-														</div>
-													</form:form>
-												</div>
-												<strong class="score-count icon-color-up"><c:out value="${post.votes}" escapeXml="true"/></strong>
-				             		<div>
-					             		<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
-														<form:form action="${postPath}" method="post">
-															<div class="form-group">
-																<button class="no-btn" type="submit">
-																	<i class="fas fa-arrow-down icon-color"></i>
-																</button>
-															</div>
-														</form:form>
-													</div>
-				          		</div>
-			          	</c:when>
-			          	<c:otherwise>
-				           	<div class="info-item votes-controls">
-				             	<div>
-					             	<c:url value="/group/${group.name}/${post.postid}/changeVote" var="postPath"/>
-													<form:form action="${postPath}" method="post">
-														<div class="form-group">
-															<button class="no-btn" type="submit">
-																<i class="fas fa-arrow-up icon-color"></i>
-															</button>
-														</div>
-													</form:form>
-												</div>
-												 <strong class="score-count icon-color-down"><c:out value="${post.votes}" escapeXml="true"/></strong>
-				             		<div>
-					             		<c:url value="/group/${group.name}/${post.postid}/cancelVote" var="postPath"/>
-													<form:form action="${postPath}" method="post">
-														<div class="form-group">
-															<button class="no-btn" type="submit">
-																<i class="fas fa-arrow-down icon-color-down"></i>
-															</button>
-														</div>
-													</form:form>
-												</div>
-				          	</div>
-			          	</c:otherwise>
-		          </c:choose>
-		   	</c:if>
+				    <div class="info-item votes-controls">
+				        <div>
+				            <c:url value="/group/${group.name}/${post.postid}/upvote" var="postPath"/>
+							<form:form action="${postPath}" method="post">
+								<div class="form-group">
+									<button class="no-btn" type="submit">
+										<c:choose>
+											<c:when test="${vote eq 1}">
+												<i class="fas fa-arrow-up icon-color-up"></i>
+											</c:when>
+											<c:otherwise>
+												<i class="fas fa-arrow-up icon-color"></i>
+											</c:otherwise>
+										</c:choose>
+									</button>
+								</div>
+							</form:form>
+						</div>
+						<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				        <div>
+					        <c:url value="/group/${group.name}/${post.postid}/downvote" var="postPath"/>
+							<form:form action="${postPath}" method="post">
+								<div class="form-group">
+									<button class="no-btn" type="submit">
+										<c:choose>
+											<c:when test="${vote eq -1}">
+												<i class="fas fa-arrow-down icon-color-down"></i>
+											</c:when>
+											<c:otherwise>
+												<i class="fas fa-arrow-down icon-color"></i>
+											</c:otherwise>
+										</c:choose>
+									</button>
+								</div>
+							</form:form>
+						</div>
+				    </div>
+		   		</c:if>
 		   	<c:if test="${empty user}">
 		   		<div class="info-item">
 					<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/> <spring:message code="posts.votes"/> </strong>
@@ -167,7 +127,7 @@
 									 <a class="no-underline" href="<c:url value=""/>">
 										 <i class="fas fa-arrow-up icon-color"></i>
 									 </a>
-									 <strong class="score-count">104</strong>
+									 <strong class="score-count">0</strong>
 									 <a class="no-underline" href="<c:url value=""/>">
 										 <i class="fas fa-arrow-down icon-color"></i>
 									 </a>

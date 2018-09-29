@@ -29,26 +29,22 @@ public class PostVoteJdbcDao implements PostVoteDao {
 					.withTableName("voteposts");
 	}
 
-	
-
 	@Override
-	public Boolean changeVote(User user, Post post) {
+	public Boolean changeVote(final User user, final Post post) {
 		String query = "UPDATE voteposts SET valuevote = valuevote * -1 WHERE userid = ? AND postid = ?";
 		jdbcTemplate.update(query, user.getUserid(), post.getPostid());
 		return true;
 	}
 
 	@Override
-	public Boolean cancelVote(User user, Post post) {
+	public Boolean cancelVote(final User user, final Post post) {
 		String query = "DELETE FROM voteposts WHERE userid = ? AND postid = ?";
 		jdbcTemplate.update(query, user.getUserid(), post.getPostid());
 		return false;
 	}
 
-
-
 	@Override
-	public Boolean votePost(User user, Post post, Integer value) {
+	public Boolean votePost(final User user, final Post post, final Integer value) {
 		Map<String, Object> args = new HashMap<>();
 		args.put("userid", user.getUserid());
 		args.put("postid", post.getPostid());
@@ -60,10 +56,8 @@ public class PostVoteJdbcDao implements PostVoteDao {
 		return true;
 	}
 
-
-
 	@Override
-	public Integer checkVote(User user, Post post) {
+	public Integer checkVote(final User user, final Post post) {
 		return jdbcTemplate.query("SELECT COALESCE(sum(valuevote), 0) FROM voteposts WHERE userid = ? AND postid = ?", ROW_MAPPER, 
 				user.getUserid(), post.getPostid()).get(0);
 	}

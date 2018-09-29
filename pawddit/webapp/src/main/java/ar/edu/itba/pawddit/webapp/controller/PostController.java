@@ -144,7 +144,7 @@ public class PostController extends BaseController {
 	public ModelAndView upvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.votePost(user, p, 1);
+		pvs.upVote(user, p);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		
@@ -155,29 +155,7 @@ public class PostController extends BaseController {
 	public ModelAndView downvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.votePost(user, p, -1);
-		
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/group/{groupName}/{postId}/cancelVote", method = {RequestMethod.POST})
-	public ModelAndView cancelVotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.cancelVote(user, p);
-		
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/group/{groupName}/{postId}/changeVote", method = {RequestMethod.POST})
-	public ModelAndView changeVotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.changeVote(user, p);
+		pvs.downVote(user, p);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		

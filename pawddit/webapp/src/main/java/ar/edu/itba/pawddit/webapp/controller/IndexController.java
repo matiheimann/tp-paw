@@ -20,17 +20,17 @@ public class IndexController extends BaseController {
 	private PostService ps;
 
 	@RequestMapping("/")
-	public ModelAndView index(@RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user)
+	public ModelAndView index(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @ModelAttribute("user") final User user)
 	{
 		final ModelAndView mav = new ModelAndView("index");
 
 		if (user == null) {
-			mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE));
+			mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 			mav.addObject("postsPage", page);
 			mav.addObject("postsPageCount", (ps.findAllCount()+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		}
 		else {
-			mav.addObject("posts", ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE));
+			mav.addObject("posts", ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 			mav.addObject("postsPage", page);
 			mav.addObject("postsPageCount", (ps.findBySubscriptionsCount(user)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		}
@@ -38,10 +38,10 @@ public class IndexController extends BaseController {
 	}
 
 	@RequestMapping("/all")
-	public ModelAndView all(@RequestParam(defaultValue = "1", value="page") int page)
+	public ModelAndView all(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort)
 	{
 		final ModelAndView mav = new ModelAndView("index");
-		mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE));
+		mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findAllCount()+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		return mav;

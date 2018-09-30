@@ -4,9 +4,58 @@
 	<a class="no-underline" href="<c:url value="/"/>">
 		<h2 class="logo">Pawddit.</h2>
 	</a>
-	<a class="no-underline all-post-btn" href="<c:url value="/all"/>">
-		<button class="app-btn-primary"><i class="fas fa-list"></i> All Posts</button>
-	</a>
+	<div class="dropdown show">
+	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<c:choose>
+				<c:when test="${!empty group}">
+					<i class="dropdown-icon fas fa-users"></i><c:out value="${group.name}" escapeXml="true"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/all'}">
+					<i class="dropdown-icon fas fa-list"></i><spring:message code="dropdown.button.all.message"/>
+				</c:when>
+				<c:otherwise>
+					<i class="dropdown-icon fas fa-user-friends"></i><spring:message code="dropdown.button.myfeed.message"/>
+				</c:otherwise>
+			</c:choose>
+	  </button>
+	  <div class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+	    <a class="dropdown-item" href="<c:url value="/"/>"><i class="dropdown-icon fas fa-user-friends"></i>
+				<spring:message code="dropdown.button.myfeed.message"/>
+			</a>
+	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
+				<spring:message code="dropdown.button.all.message"/>
+			</a>
+			<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			<c:forEach items="${groups}" var="group">
+				<a class="dropdown-item" href="<c:url value="/group/${group.name}"/>"><i class="dropdown-icon fas fa-users"></i>
+					<c:out value="${group.name}" escapeXml="true"/>
+				</a>
+			</c:forEach>
+		</div>
+	</div>
+	<div class="sort-indicator"><spring:message code="dropdown.sort.button.title"/></div>
+	<div class="dropdown show">
+	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<c:choose>
+				<c:when test="${param.sort == 'top'}">
+					<i class="dropdown-icon fas fa-fire"></i>
+					<spring:message code="dropdown.sort.button.top.message"/>
+				</c:when>
+				<c:otherwise>
+					<i class="dropdown-icon fas fa-certificate"></i>
+					<spring:message code="dropdown.sort.button.new.message"/>
+				</c:otherwise>
+			</c:choose>
+	  </button>
+	  <div class="dropdown-menu" aria-labelledby="dropdownSort">
+	    <a class="dropdown-item" href="?sort=top"><i class="dropdown-icon fas fa-fire"></i>
+				<spring:message code="dropdown.sort.button.top.message"/>
+			</a>
+	    <a class="dropdown-item" href="?sort=new"><i class="dropdown-icon fas fa-certificate"></i>
+				<spring:message code="dropdown.sort.button.new.message"/>
+			</a>
+	  </div>
+	</div>
 	<c:if test="${fn:length(groups) > 0}">
 		<a class="create-post" href="<c:url value="/createPost"/>">
 			<button class="app-btn-primary" role="button">
@@ -15,8 +64,8 @@
 		</a>
 	</c:if>
 	<c:if test="${fn:length(groups) == 0}">
-		<a class="create-post" href="<c:url value="/createPost"/>">
-			<button class="app-btn-primary" role="button" disabled>
+		<a class="create-post" id="popoverPost" data-content="<spring:message code="createGroupFirst.message"/>" rel="popover" data-placement="bottom" data-trigger="hover">
+			<button class="app-btn-primary-disabled" role="button">
 				<spring:message code="createPost.button.message"/>
 			</button>
 		</a>

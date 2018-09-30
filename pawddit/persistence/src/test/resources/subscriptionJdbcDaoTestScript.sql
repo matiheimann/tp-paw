@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
 	username VARCHAR(100),
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
-	score INT
+	score INTEGER,
+	enabled BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS groups (
@@ -22,7 +23,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
 	FOREIGN KEY(groupname) REFERENCES groups(name) ON DELETE CASCADE
 );
 
-INSERT INTO users VALUES (1, 'subscribedUser', 'testEmail', 'testPassword', 0);
-INSERT INTO users VALUES (2, 'unsubscribedUser', 'testEmail', 'testPassword', 0);  
+INSERT INTO users VALUES (1, 'subscribedUser', 'testEmail', 'testPassword', 0, TRUE);
+INSERT INTO users VALUES (2, 'unsubscribedUser', 'testEmail', 'testPassword', 0, TRUE);  
 INSERT INTO groups VALUES ('testGroup', '2018-09-21 19:15:40.5', 'testDescription', 1);
 INSERT INTO subscriptions VALUES (1, 1, 'testGroup');

@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
 	username VARCHAR(100),
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
-	score INT
+	score INTEGER,
+	enabled BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS groups (
@@ -14,6 +15,11 @@ CREATE TABLE IF NOT EXISTS groups (
 	FOREIGN KEY(owner) REFERENCES users(userid) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS images (
+	token VARCHAR(100) NOT NULL PRIMARY KEY,
+	bytearray binary NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS posts (
 	postid INTEGER IDENTITY PRIMARY KEY,
 	title VARCHAR(100) NOT NULL,
@@ -21,8 +27,10 @@ CREATE TABLE IF NOT EXISTS posts (
 	creationdate TIMESTAMP NOT NULL,
 	groupname VARCHAR(100) NOT NULL,
 	userid INTEGER NOT NULL,
+	imageid VARCHAR(100),
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
-	FOREIGN KEY(groupName) REFERENCES groups(name) ON DELETE CASCADE
+	FOREIGN KEY(groupName) REFERENCES groups(name) ON DELETE CASCADE,
+	FOREIGN KEY(imageid) REFERENCES images(token)
 );
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -36,9 +44,27 @@ CREATE TABLE IF NOT EXISTS comments (
 	FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
 );
 
-INSERT INTO users VALUES (1, 'testUser', 'testEmail', 'testPassword', 0);
+CREATE TABLE IF NOT EXISTS voteposts (
+	valuevote INT NOT NULL,
+	postid INT NOT NULL,
+	userid INT NOT NULL,
+	PRIMARY KEY(userid, postid),
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
+	FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS votecomments (
+	valuevote INTEGER NOT NULL,
+	commentid INTEGER NOT NULL,
+	userid INTEGER NOT NULL,
+	PRIMARY KEY(userid, commentid),
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
+	FOREIGN KEY(commentid) REFERENCES comments(commentid) ON DELETE CASCADE
+);
+
+INSERT INTO users VALUES (1, 'testUser', 'testEmail', 'testPassword', 0, TRUE);
 INSERT INTO groups VALUES ('testGroup', '2018-09-21 19:15:40.5', 'testDescription', 1);
-INSERT INTO posts VALUES (1, 'testPost', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1);
+INSERT INTO posts VALUES (1, 'testPost', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);
 INSERT INTO comments VALUES (1, 'testComment1', 0, 1, 1, '2018-09-21 19:15:40.5');
 INSERT INTO comments VALUES (2, 'testComment2', 0, 1, 1, '2018-09-21 19:15:40.6');
 INSERT INTO comments VALUES (3, 'testComment3', 0, 1, 1, '2018-09-21 19:15:40.7');

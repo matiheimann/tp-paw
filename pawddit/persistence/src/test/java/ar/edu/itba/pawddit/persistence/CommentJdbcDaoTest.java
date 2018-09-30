@@ -68,9 +68,9 @@ public class CommentJdbcDaoTest {
 	public void findCommentsByUserTest() {
 		final User user = userDao.findByUsername(CREATED_TEST_USERNAME).get();
 		final List<Comment> comment = commentDao.findByUser(user, 5, 0);
-		Assert.assertEquals(CREATED_COMMENT_1_ID, comment.get(0).getCommentid());
+		Assert.assertEquals(CREATED_COMMENT_3_ID, comment.get(0).getCommentid());
 		Assert.assertEquals(CREATED_COMMENT_2_ID, comment.get(1).getCommentid());
-		Assert.assertEquals(CREATED_COMMENT_3_ID, comment.get(2).getCommentid());
+		Assert.assertEquals(CREATED_COMMENT_1_ID, comment.get(2).getCommentid());
 	}
 	
 	@Test
@@ -78,9 +78,9 @@ public class CommentJdbcDaoTest {
 		final User user = userDao.findByUsername(CREATED_TEST_USERNAME).get();
 		final Post post = postDao.findByUser(user, 5, 0, null).get(0);
 		final List<Comment> comment = commentDao.findByPost(post, 5, 0);
-		Assert.assertEquals(CREATED_COMMENT_1_ID, comment.get(0).getCommentid());
+		Assert.assertEquals(CREATED_COMMENT_3_ID, comment.get(0).getCommentid());
 		Assert.assertEquals(CREATED_COMMENT_2_ID, comment.get(1).getCommentid());
-		Assert.assertEquals(CREATED_COMMENT_3_ID, comment.get(2).getCommentid());
+		Assert.assertEquals(CREATED_COMMENT_1_ID, comment.get(2).getCommentid());
 	}
 	
 	@Test

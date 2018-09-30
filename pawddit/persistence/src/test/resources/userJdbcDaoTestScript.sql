@@ -3,8 +3,9 @@ CREATE TABLE IF NOT EXISTS users (
 	username VARCHAR(100),
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
-	score INT
+	score INTEGER,
+	enabled BOOLEAN NOT NULL
 );
 
-INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0); /* User for userJdbcDao and subscriptionJdbcDao unit tests */
+INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0, TRUE); 
 

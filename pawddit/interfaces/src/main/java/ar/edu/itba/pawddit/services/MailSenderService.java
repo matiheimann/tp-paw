@@ -5,6 +5,6 @@ import ar.edu.itba.pawddit.model.VerificationToken;
 
 public interface MailSenderService {
 	
-	public void sendVerificationToken(User user, VerificationToken token);
+	public void sendVerificationToken(User user, VerificationToken token, String url);
 	
 }

@@ -1,5 +1,6 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -56,7 +57,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
-	public ModelAndView registerPost(@Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors, final HttpServletRequest request) {
+	public ModelAndView registerPost(final HttpServletRequest req, @Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors, final HttpServletRequest request) {
 		if(errors.hasErrors()) {
 			return register(form, false, false);
 		}
@@ -75,9 +76,14 @@ public class UserController {
 				emailExistsError = true;
 			return register(form, usernameExistsError, emailExistsError);
 		}
-
+		
+		final StringBuffer url = req.getRequestURL();
+		final String uri = req.getRequestURI();
+		final String ctx = req.getContextPath();
+		final String base = url.substring(0, url.length() - uri.length() + ctx.length());
+		
 		final VerificationToken token = us.createToken(user);
-		mss.sendVerificationToken(user, token);
+		mss.sendVerificationToken(user, token, base);
 
 		/* Auto Login */
 //		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());

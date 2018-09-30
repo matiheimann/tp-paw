@@ -214,6 +214,13 @@ EDEAE5*/
 	padding: 2px;
 }
 
+.header-button-delete-group {
+	color: grey;
+	font-size: 15px;
+	display: inline-block;
+	padding: 2px;
+}
+
 .modal-footer-buttons {
 	align-items: center;
 	display: flex;

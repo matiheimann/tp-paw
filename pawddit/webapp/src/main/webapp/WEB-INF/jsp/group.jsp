@@ -6,8 +6,8 @@
 	<hr>
 	<div class="group-footer">
 		<div class="info-item">
-		  <strong><i class="fas fa-users"></i></i> 
-		  	<c:if test="${group.suscriptors > 1}"> 
+		  <strong><i class="fas fa-users"></i></i>
+		  	<c:if test="${group.suscriptors > 1}">
 		  		${group.suscriptors} <spring:message code="groupMembers.message"/>
 		  	</c:if>
 		  	<c:if test="${group.suscriptors == 1}">
@@ -41,5 +41,7 @@
 				</c:if>
 			</c:if>
 		</div>
+		<i class="header-button-delete-group  fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmGroupDeletion"></i>
+		<%@include file="confirmGroupDeletion.jsp" %>
 	</div>
 </div>

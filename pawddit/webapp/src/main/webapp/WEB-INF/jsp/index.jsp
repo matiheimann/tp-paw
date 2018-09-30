@@ -50,7 +50,7 @@
 							<div class="post-center-text">
 								<h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
 								<div class="post-description-text post-wrap">
-									<c:out value="${post.content}" escapeXml="true"/>
+									<c:out value="${param.sort}" escapeXml="true"/>
 								</div>
 							</div>
 							<c:if test="${!empty post.imageid}">

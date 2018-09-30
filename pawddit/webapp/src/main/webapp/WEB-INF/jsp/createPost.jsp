@@ -54,24 +54,23 @@
 	    					  </div>
 	    					  <div class="form-group">
 	   								<label path="file"><spring:message code="selectImageOnPostCreate.title"/></label>
-									<br>
-	   								<input type="file" name="file" accept="image/png, image/jpeg"/>
-	   								<br>
 	   								<c:if test="${imageSizeError eq true}">
 		   								<label class="formError">
-		   									Error size
+		   									image too big
 		   								</label>
 		   							</c:if>
 		   							<c:if test="${imageFormatError eq true}">
 		   								<label class="formError">
-		   									Error format
+		   									image format is invalid
 		   								</label>
 		   							</c:if>
 		   							<c:if test="${imageUploadError eq true}">
 		   								<label class="formError">
-		   									Error upload
+		   									image upload failed
 		   								</label>
 		   							</c:if>
+									<br>
+	   								<input type="file" name="file" accept="image/png, image/jpeg"/>
 	    					  </div>
 									<br>
 	    					  <button type="submit" class="create-post-btn app-btn-primary">

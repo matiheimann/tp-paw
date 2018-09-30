@@ -9,6 +9,9 @@ public class CreatePostForm {
 	
 	@Size(min = 6, max = 1000)
 	private String content;
+	
+	@Size(min = 4, max = 32)
+	private String groupName;
 
 	public String getTitle() {
 		return title;
@@ -24,6 +27,14 @@ public class CreatePostForm {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
 }

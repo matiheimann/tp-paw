@@ -151,12 +151,12 @@
   						<c:choose>
   							<c:when test="${commentsPage eq 1}">
     							<li class="page-item disabled">
-      								<span class="page-link">Previous</span>
+      								<span class="page-link"><-</span>
     							</li>
     						</c:when>
     						<c:otherwise>
             					<li class="page-item">
-      								<a class="page-link" href="?page=${commentsPage-1}">Previous</a>
+      								<a class="page-link" href="?page=${commentsPage-1}"><-</a>
     							</li>
          					</c:otherwise>
          				</c:choose>
@@ -175,12 +175,12 @@
     					<c:choose>
     						<c:when test="${commentsPage eq commentsPageCount}">
     							<li class="page-item disabled">
-      								<span class="page-link">Next</span>
+      								<span class="page-link">-></span>
     							</li>
     						</c:when>
     						<c:otherwise>
     							<li class="page-item">
-      								<a class="page-link" href="?page=${commentsPage+1}">Next</a>
+      								<a class="page-link" href="?page=${commentsPage+1}">-></a>
     							</li>
     						</c:otherwise>
          				</c:choose>

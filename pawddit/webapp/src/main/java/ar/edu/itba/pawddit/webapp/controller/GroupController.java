@@ -41,8 +41,7 @@ public class GroupController {
 	@RequestMapping("/createGroup")
 	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
 		final ModelAndView mav = new ModelAndView("createGroup");
-		if(isGroupRepeated)
-			mav.addObject("groupAlreadyExistsError", new Boolean(true));
+		mav.addObject("groupAlreadyExistsError", isGroupRepeated);
 		return mav;
 	}
 

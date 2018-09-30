@@ -41,6 +41,10 @@
 	margin: 2px 8px 4px 8px;
 }
 
+.comment-component-content {
+	overflow-wrap: break-word;
+}
+
 .comment-component-replies{
 	margin: 5px 5px 5px 15px;
 }

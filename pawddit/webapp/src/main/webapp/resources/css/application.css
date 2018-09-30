@@ -331,6 +331,18 @@ textarea {
 	white-space: nowrap;
 }
 
+.search-navbar {
+	align-items: center;
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.search-navbar-form {
+	margin-bottom: 0;
+	min-width: 280px;
+}
+
 @media screen and (max-width: 850px) {
 	.create-post-icon {
 		display: inline-block;

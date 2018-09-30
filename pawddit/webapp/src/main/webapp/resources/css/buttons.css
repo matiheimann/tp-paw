@@ -61,6 +61,35 @@
   outline-color: #5A6269;
 }
 
+.app-btn-outline,
+.app-btn-outline:visited,
+.app-btn-outline:focus {
+    color:  #E85A4F;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid  #E85A4F;
+    border-radius: 0.25rem;
+    height: 40px;
+}
+
+.app-btn-outline:focus {
+  outline-color:  #E85A4F;
+  color: white
+}
+
+.app-btn-outline:hover {
+  background-color:   #E85A4F;
+  border-color:  #E85A4F;
+  color: white
+}
+
+.app-btn-outline:active {
+  background-color: #E85A4F;
+  border-color:  #E85A4F;
+  color: white;
+  outline-color:  #E85A4F;
+}
+
 .all-post-btn {
   margin: 0 15px;
 }

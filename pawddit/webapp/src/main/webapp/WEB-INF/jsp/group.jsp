@@ -6,6 +6,8 @@
 	<hr>
 	<div class="group-footer">
 		<div class="info-item">
+		</div>
+		<div class="info-item">
 		  <strong><i class="fas fa-users"></i></i>
 		  	<c:if test="${group.suscriptors > 1}">
 		  		${group.suscriptors} <spring:message code="groupMembers.message"/>

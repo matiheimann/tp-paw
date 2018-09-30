@@ -51,11 +51,13 @@
     					    <form:errors path="description" cssClass="formError" element="p"/>
     					  </div>
     					  <button type="submit" class="create-group-btn app-btn-primary">
-							<spring:message code="createGroupConfirmation.button.message"/>
-						  </button>
-    					  <button type="button" class="app-btn-secondary">
-							<spring:message code="cancelGroupCreation.button.message"/>
-   						  </button>
+									<spring:message code="createGroupConfirmation.button.message"/>
+						  	</button>
+								<a href="<c:url value="/"/>">
+	    					  <button type="button" class="app-btn-secondary">
+										<spring:message code="cancelGroupCreation.button.message"/>
+	   						  </button>
+								</a>
     				</form:form>
     			</div>
     		</div>

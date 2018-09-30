@@ -43,10 +43,18 @@ EDEAE5*/
  	padding:4px;
 }
 
+.logo-reduced{
+	padding: 4px 7px;
+	display: none;
+}
+
 
 .dropdown-btn {
+	align-items: center;
 	background-color: white;
 	color: black;
+	cursor: pointer;
+	display: flex;
 	border: 1px solid white;
 	height: 40px;
 }
@@ -63,6 +71,13 @@ EDEAE5*/
 .dropdown-btn:hover {
 	border: 1px solid lightgrey;
 	border-radius: 0.25rem;
+}
+
+.dropdown-selected-group-overflow {
+	max-width: 105px;
+	overflow: hidden;
+ 	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .dropdown-icon {
@@ -92,8 +107,36 @@ EDEAE5*/
   margin-right: 9px;
 }
 
+.create-post-icon {
+	display: none;
+	min-width: 38px;
+}
+
+.create-group-icon {
+	display: none;
+	min-width: 38px;
+}
+
+.plus-icon-margin {
+	margin-right: 4px;
+}
+
 .dropdown-component {
 	color: black;
+	cursor: pointer;
+}
+
+.dropdown-username-text {
+	max-width: 105px;
+	overflow: hidden;
+ 	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dropdown-username-icon {
+	color: grey;
+	display: none;
+	margin: 8px;
 }
 
 .center-content {
@@ -249,4 +292,50 @@ EDEAE5*/
 
 textarea {
    resize: none !important;
+}
+
+.drop-down-link {
+	align-items: center;
+	display: flex;
+}
+
+.user-options-dropdown {
+	max-width: 105px;
+	overflow: hidden;
+ 	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@media screen and (max-width: 850px) {
+	.create-post-icon {
+		display: inline-block;
+	}
+
+	.create-post-text {
+		display: none;
+	}
+
+  .create-group-icon {
+    display: inline-block ;
+  }
+
+	.create-group-text {
+    display: none;
+  }
+
+	.logo-full {
+		display: none;
+	}
+
+	.logo-reduced {
+		display: inline-block;
+	}
+
+	.dropdown-username-icon {
+		display: inline-block;
+	}
+
+	.dropdown-username-text {
+		display: none;
+	}
 }

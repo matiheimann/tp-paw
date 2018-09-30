@@ -76,9 +76,11 @@
 	    					  <button type="submit" class="create-post-btn app-btn-primary">
 										<spring:message code="createPostConfirmation.button.message"/>
 							  	</button>
-    					  	<button type="button" class="app-btn-secondary">
-										<spring:message code="cancelPostCreation.button.message"/>
-						  		</button>
+									<a href="<c:url value="/"/>">
+	    					  	<button type="button" class="app-btn-secondary">
+											<spring:message code="cancelPostCreation.button.message"/>
+							  		</button>
+									</a>
 	    				</form:form>
 					</div>
     		</div>

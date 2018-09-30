@@ -14,6 +14,10 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 				org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 			</param-value>
 		</init-param>
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+        	<param-value>true</param-value>
+        </init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>

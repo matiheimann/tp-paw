@@ -41,7 +41,9 @@
 				</c:if>
 			</c:if>
 		</div>
-		<i class="header-button-delete-group  fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmGroupDeletion"></i>
-		<%@include file="confirmGroupDeletion.jsp" %>
+		<c:if test="${user.userid eq group.owner.userid}">
+			<i class="header-button-delete-group  fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmGroupDeletion"></i>
+			<%@include file="confirmGroupDeletion.jsp" %>
+		</c:if>
 	</div>
 </div>

@@ -141,8 +141,10 @@
 								 </span>
                  <span class="header-button"><c:out value="${comment.owner.username}" escapeXml="true"/></span>
                  <span><strong><time class="timeago" datetime='<c:out value="${comment.date}" escapeXml="true"/>'></time></strong></span>
-								 <i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmCommentDeletion"></i>
-								 <%@include file="confirmCommentDeletion.jsp" %>
+                 <c:if test="${user.userid eq group.owner.userid}">
+				 	<i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmCommentDeletion"></i>
+				 	<%@include file="confirmCommentDeletion.jsp" %>
+				 </c:if>
                </div>
                <hr class="comment-separator">
                <div class="comment-component-content">

@@ -8,8 +8,11 @@
         </button>
       </div>
       <div class="modal-footer-buttons">
+      <c:url value="/group/${group.name}/${post.postid}/comment/${comment.commentid}/delete" var="postPath"/>
+      <form:form action="${postPath}" method="post">
         <button class="app-btn-secondary modal-footer-button" data-dismiss="modal"><spring:message code="commentConfirmDelete.cancel.button.message"/></button>
         <button class="app-btn-primary"><spring:message code="commentConfirmDelete.delete.button.message"/></button>
+      </form:form>
       </div>
     </div>
   </div>

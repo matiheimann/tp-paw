@@ -8,8 +8,11 @@
         </button>
       </div>
       <div class="modal-footer-buttons">
-        <button class="app-btn-secondary modal-footer-button" data-dismiss="modal"><spring:message code="groupConfirmDelete.cancel.button.message"/></button>
-        <button class="app-btn-primary"><spring:message code="groupConfirmDelete.delete.button.message"/></button>
+        <c:url value="/group/${group.name}/delete" var="postPath"/>
+        <form:form action="${postPath}" method="post">
+          <button class="app-btn-secondary modal-footer-button" data-dismiss="modal"><spring:message code="groupConfirmDelete.cancel.button.message"/></button>
+          <button class="app-btn-primary"><spring:message code="groupConfirmDelete.delete.button.message"/></button>
+        </form:form>
       </div>
     </div>
   </div>

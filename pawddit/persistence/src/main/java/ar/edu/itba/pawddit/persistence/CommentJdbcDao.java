@@ -82,7 +82,7 @@ public class CommentJdbcDao implements CommentDao {
 				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "
 				+ "GROUP BY comments.commentid, comments.content, comments.postid, users.username, users.email, users.password, users.enabled, users.userid, comments.creationdate  "
 				+ "ORDER BY comments.creationdate "
-				+ " DESC LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
+				+ "LIMIT ? OFFSET ?", ROW_MAPPER, user.getUserid(), limit, offset);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class CommentJdbcDao implements CommentDao {
 				+ "WHERE comments.postid = ? "
 				+ "GROUP BY comments.commentid, comments.content, comments.postid, users.username, users.email, users.password, users.enabled, users.userid, comments.creationdate "
 				+ "ORDER BY comments.creationdate "
-				+ " DESC LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
+				+ "LIMIT ? OFFSET ?", ROW_MAPPER, post.getPostid(), limit, offset);
 	}
 
 	@Override

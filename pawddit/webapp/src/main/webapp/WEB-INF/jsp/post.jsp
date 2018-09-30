@@ -34,6 +34,8 @@
                <span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
              </a>
              <span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
+						 <i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmPostDeletion"></i>
+						 <%@include file="confirmPostDeletion.jsp" %>
            </div>
            <hr>
            <h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>

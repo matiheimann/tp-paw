@@ -40,7 +40,7 @@ EDEAE5*/
   font-family: 'Kosugi', sans-serif;
   color: black;
  	margin: 10px;
- 	padding:4px;
+ 	padding: 4px;
 }
 
 .logo-reduced{
@@ -204,6 +204,26 @@ EDEAE5*/
 	height: 23px;
 	padding: 2px 5px;
 	margin: 0 10px;
+}
+
+.header-button-delete {
+	border: 2px solid grey;
+	border-radius: 0.25rem;
+	color: grey;
+	font-size: 14px;
+	margin-left: auto;
+	display: inline-block;
+	padding: 2px;
+}
+
+.modal-footer-buttons {
+	align-items: center;
+	display: flex;
+	font-size: 16px;
+}
+
+.modal-footer-button {
+	margin: 10px;
 }
 
 .post-description-text {

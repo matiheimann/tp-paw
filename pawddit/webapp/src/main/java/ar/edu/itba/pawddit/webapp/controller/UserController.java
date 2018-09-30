@@ -48,28 +48,32 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 
 	@RequestMapping("/register")
-	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
-		return new ModelAndView("register");
+	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form, final Boolean usernameExistsError, final Boolean emailExistsError) {
+		final ModelAndView mav = new ModelAndView("register");
+		mav.addObject("usernameExistsError", usernameExistsError);
+		mav.addObject("emailExistsError", emailExistsError);
+		return mav;
 	}
 
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
 	public ModelAndView registerPost(@Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors, final HttpServletRequest request) {
 		if(errors.hasErrors()) {
-			return register(form);
+			return register(form, false, false);
 		}
 
 		final User user;
-		final ModelAndView mav = new ModelAndView("register");
 
 		try {
 			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
 		}
 		catch(UserRepeatedDataException e) {
+			Boolean usernameExistsError = false;
+			Boolean emailExistsError = false;
 			if(e.isUsernameRepeated())
-				mav.addObject("usernameExistsError", new Boolean(true));
+				usernameExistsError = true;
 			if(e.isEmailRepeated())
-				mav.addObject("emailExistsError", new Boolean(true));
-			return mav;
+				emailExistsError = true;
+			return register(form, usernameExistsError, emailExistsError);
 		}
 
 		final VerificationToken token = us.createToken(user);

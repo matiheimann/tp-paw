@@ -40,7 +40,7 @@
 								<spring:message code="weWillNeverShareYourEmail.message"/>
 							</small>
 			    			<form:errors path="email" cssClass="formError" element="p"/>
-			    			<c:if test="${not empty emailExistsError}">
+			    			<c:if test="${emailExistsError eq true}">
 			    				<label class="formError">
 		   							<spring:message code="error.emailAlreadyExists.message"/>
 		   						</label>
@@ -53,7 +53,7 @@
 							<spring:message code="registerUsername.placeholder" var="usernamePlaceholder"/>
 		   					<form:input type="text" path="username" class="form-control" id="exampleInputUsername" placeholder="${usernamePlaceholder}"/>
 		   					<form:errors path="username" cssClass="formError" element="p"/>
-		   					<c:if test="${not empty usernameExistsError}">
+		   					<c:if test="${usernameExistsError eq true}">
 		   						<label class="formError">
 		   							<spring:message code="error.userAlreadyExists.message"/>
 		   						</label>

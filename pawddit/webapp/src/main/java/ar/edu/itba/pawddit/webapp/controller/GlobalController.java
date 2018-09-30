@@ -42,11 +42,8 @@ public class GlobalController {
 	
 	@ModelAttribute("groups")
 	public List<Group> groups(@ModelAttribute("user") final User user) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+		if (user == null)
 			return null;
-		}
-		
 		return gs.getSuscribed(user);
 	} 
 	

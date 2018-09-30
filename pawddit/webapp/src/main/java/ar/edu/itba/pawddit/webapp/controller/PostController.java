@@ -102,7 +102,7 @@ public class PostController {
 		return new ModelAndView("redirect:/createPost?error=true");	
 	}
 	
-	@RequestMapping(value =  "/group/{groupName}/{postId}", method = { RequestMethod.DELETE })
+	@RequestMapping(value =  "/group/{groupName}/{postId}/delete", method = { RequestMethod.POST })
 	public ModelAndView deletePost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
@@ -144,7 +144,7 @@ public class PostController {
 		return mav;
 	}
 	
-	@RequestMapping(value =  "/group/{groupName}/{postId}/comment/{commentId}", method = { RequestMethod.DELETE })
+	@RequestMapping(value =  "/group/{groupName}/{postId}/comment/{commentId}/delete", method = { RequestMethod.POST })
 	public ModelAndView deleteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);

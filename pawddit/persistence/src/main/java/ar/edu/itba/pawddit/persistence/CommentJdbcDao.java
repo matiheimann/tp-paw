@@ -120,7 +120,7 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public int deleteById(final Post post, final long id) {
-		return jdbcTemplate.update("DELETE FROM comments WHERE commentid = ? AND postid = ? CASCADE", id, post.getPostid());
+		return jdbcTemplate.update("DELETE FROM comments WHERE commentid = ? AND postid = ?", id, post.getPostid());
 	}
 	
 }

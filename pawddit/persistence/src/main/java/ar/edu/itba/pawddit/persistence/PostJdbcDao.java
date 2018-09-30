@@ -172,7 +172,7 @@ public class PostJdbcDao implements PostDao {
 
 	@Override
 	public int deleteById(final Group group, final long id) {
-		return jdbcTemplate.update("DELETE FROM posts WHERE groupname = ? AND postid = ? CASCADE", group.getName(), id);
+		return jdbcTemplate.update("DELETE FROM posts WHERE groupname = ? AND postid = ?", group.getName(), id);
 	}
 	
 }

@@ -34,17 +34,19 @@
                <span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
              </a>
              <span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
-						 <i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmPostDeletion"></i>
-						 <%@include file="confirmPostDeletion.jsp" %>
+             <c:if test="${user.userid eq group.owner.userid}">
+			 	<i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmPostDeletion"></i>
+			 	<%@include file="confirmPostDeletion.jsp" %>
+			 </c:if>
            </div>
            <hr>
            <h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
            <div class="post-wrap">
              <c:out value="${post.content}" escapeXml="true"/>
            </div>
-					 <c:if test="${!empty post.imageid}">
-					 		<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
-						</c:if>
+			<c:if test="${!empty post.imageid}">
+				<img class="image-post" src="<c:url value="/image/${post.imageid}"/>" />
+			</c:if>
            <br>
            <div class="post-info">
            		<div class="info-item">

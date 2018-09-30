@@ -10,7 +10,10 @@
       </div>
       <div class="modal-footer-buttons">
         <button class="app-btn-secondary modal-footer-button" data-dismiss="modal"><spring:message code="postConfirmDelete.cancel.button.message"/></button>
-        <button class="app-btn-primary"><spring:message code="postConfirmDelete.delete.button.message"/></button>
+        <c:url value="/group/${group.name}/${post.postid}/delete" var="postPath"/>
+        <form:form action="${postPath}" method="post">
+          <button class="app-btn-primary" type="submit"><spring:message code="postConfirmDelete.delete.button.message"/></button>
+        </form:form>
       </div>
     </div>
   </div>

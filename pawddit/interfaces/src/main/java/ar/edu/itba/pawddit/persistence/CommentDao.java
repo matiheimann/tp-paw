@@ -15,6 +15,7 @@ public interface CommentDao {
 	public int findByUserCount(User user);
 	public List<Comment> findByPost(Post post, int limit, int offset);
 	public int findByPostCount(Post post);
-	public Optional<Comment> findById(long id);
+	public Optional<Comment> findById(Post post, long id);
+	public int deleteById(Post post, long id);
 
 }

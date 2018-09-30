@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.itba.pawddit.model.Comment;
+import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.CommentDao;
+import ar.edu.itba.pawddit.services.exceptions.NotOwnerOfGroupException;
 
 @Service
 @Transactional
@@ -36,18 +38,25 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Optional<Comment> findById(final long id) {
-		return commentDao.findById(id);
+	public Optional<Comment> findById(final Post post, final long id) {
+		return commentDao.findById(post, id);
 	}
 
 	@Override
-	public int findByUserCount(User user) {
+	public int findByUserCount(final User user) {
 		return commentDao.findByUserCount(user);
 	}
 
 	@Override
-	public int findByPostCount(Post post) {
+	public int findByPostCount(final Post post) {
 		return commentDao.findByPostCount(post);
+	}
+
+	@Override
+	public int deleteById(final User user, final Group group, final Post post, final long id) {
+		if (user.getUserid() != group.getOwner().getUserid())
+			throw new NotOwnerOfGroupException();
+		return commentDao.deleteById(post, id);
 	}
 
 }

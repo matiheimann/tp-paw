@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.pawddit.model.Comment;
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
@@ -28,6 +29,7 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
+import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.ImageFormatException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
@@ -100,6 +102,17 @@ public class PostController {
 		return new ModelAndView("redirect:/createPost?error=true");	
 	}
 	
+	@RequestMapping(value =  "/group/{groupName}/{postId}", method = { RequestMethod.DELETE })
+	public ModelAndView deletePost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
+		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
+		if (user != null) {
+			ps.deleteById(user, group, post.getPostid());
+		}
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
+		return mav;
+	}
+	
 	@RequestMapping("/group/{groupName}/{postId}")
 	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("createCommentForm") final CreateCommentForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("post");
@@ -118,7 +131,7 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/group/{groupName}/{postId}/createComment", method = { RequestMethod.POST })
-	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
+	public ModelAndView createComment(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
 			return showPost(groupName, postId, 1, form, user);
 		}
@@ -128,6 +141,18 @@ public class PostController {
 		cs.create(form.getContent(), p, null, user, new Timestamp(System.currentTimeMillis()));
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
+		return mav;
+	}
+	
+	@RequestMapping(value =  "/group/{groupName}/{postId}/comment/{commentId}", method = { RequestMethod.DELETE })
+	public ModelAndView deleteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
+		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(post, postId).orElseThrow(CommentNotFoundException::new);
+		if (user != null) {
+			cs.deleteById(user, group, post, comment.getCommentid());
+		}
+		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName()  + "/" + post.getPostid());
 		return mav;
 	}
 	

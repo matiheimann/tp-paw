@@ -169,5 +169,10 @@ public class PostJdbcDao implements PostDao {
 		
 		return "ORDER BY posts.creationdate DESC ";
 	}
+
+	@Override
+	public int deleteById(final Group group, final long id) {
+		return jdbcTemplate.update("DELETE FROM posts WHERE groupname = ? AND postid = ? CASCADE", group.getName(), id);
+	}
 	
 }

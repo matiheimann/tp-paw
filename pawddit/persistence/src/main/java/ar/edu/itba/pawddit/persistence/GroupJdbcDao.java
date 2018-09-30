@@ -77,5 +77,10 @@ public class GroupJdbcDao implements GroupDao {
 				" WHERE subscriptions.userid = ? "
 				+ "GROUP BY name, username, email, password, score, enabled;", ROW_MAPPER, user.getUserid());
 	}
+
+	@Override
+	public int deleteByName(String name) {
+		return jdbcTemplate.update("DELETE FROM groups WHERE name = ?", name);
+	}
 	
 }

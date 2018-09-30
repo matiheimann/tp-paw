@@ -63,6 +63,16 @@ public class GroupController {
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
 		return mav;
 	}
+	
+	@RequestMapping(value =  "/group/{groupName}", method = { RequestMethod.DELETE })
+	public ModelAndView deletePost(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
+		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		if (user != null) {
+			gs.deleteByName(user, group);
+		}
+		final ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
 
 	@RequestMapping("/group/{groupName}")
 	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @ModelAttribute("user") final User user) {

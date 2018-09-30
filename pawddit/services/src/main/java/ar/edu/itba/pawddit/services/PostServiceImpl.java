@@ -12,6 +12,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.PostDao;
+import ar.edu.itba.pawddit.services.exceptions.NotOwnerOfGroupException;
 
 @Service
 @Transactional
@@ -68,6 +69,13 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public int findBySubscriptionsCount(final User user) {
 		return postDao.findBySubscriptionsCount(user);
+	}
+
+	@Override
+	public int deleteById(final User user, final Group group, final long id) {
+		if (user.getUserid() != group.getOwner().getUserid())
+			throw new NotOwnerOfGroupException();
+		return postDao.deleteById(group, id);
 	}
 
 }

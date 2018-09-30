@@ -20,5 +20,6 @@ public interface PostDao {
 	public Optional<Post> findById(Group group, long id);
 	public List<Post> findBySubscriptions(User user, int limit, int offset, String sort);
 	public int findBySubscriptionsCount(User user);
+	public int deleteById(Group group, long id);
 	
 }

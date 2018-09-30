@@ -13,5 +13,6 @@ public interface GroupDao {
 	public Group create(String name, Timestamp date, String description, User owner);
 	public List<Group> findAll();
 	public List<Group> getSuscribed(User user);
+	public int deleteByName(String name);
 
 }

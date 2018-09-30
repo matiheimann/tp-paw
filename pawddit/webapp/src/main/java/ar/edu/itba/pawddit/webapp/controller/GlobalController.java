@@ -16,6 +16,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.UserService;
+import ar.edu.itba.pawddit.services.exceptions.NotOwnerOfGroupException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.ImageNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
@@ -80,6 +81,12 @@ public class GlobalController {
 	
 	@ExceptionHandler(ImageNotFoundException.class)
 	public ModelAndView imageNotFound() {
+		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
+		return mav;
+	}
+	
+	@ExceptionHandler(NotOwnerOfGroupException.class)
+	public ModelAndView notOwnerOfGroupException() {
 		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
 		return mav;
 	}

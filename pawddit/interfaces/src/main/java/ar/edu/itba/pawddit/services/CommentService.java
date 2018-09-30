@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ar.edu.itba.pawddit.model.Comment;
+import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 
@@ -15,6 +16,7 @@ public interface CommentService {
 	public int findByUserCount(User user);
 	public List<Comment> findByPost(Post post, int limit, int offset);
 	public int findByPostCount(Post post);
-	public Optional<Comment> findById(long id);
+	public Optional<Comment> findById(Post post, long id);
+	public int deleteById(User user, Group group, Post post, long id);
 	
 }

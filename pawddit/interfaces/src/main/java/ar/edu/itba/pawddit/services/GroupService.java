@@ -13,5 +13,6 @@ public interface GroupService {
 	public Group create(String name, Timestamp date, String description, User user);
 	public List<Group> findAll();
 	public List<Group> getSuscribed(User user);
+	public int deleteByName(User user, Group group);
 	
 }

@@ -99,25 +99,28 @@ public class CommentJdbcDao implements CommentDao {
 	}
 
 	@Override
-	public Optional<Comment> findById(final long id) {
+	public Optional<Comment> findById(final Post post, final long id) {
 		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid AS postid, username, score, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
 				+ "comments.commentid AS commentid, coalesce(sum(valuevote), 0) AS votes "
 				+ "FROM comments JOIN users ON comments.userid = users.userid "
 				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "
-				+ "WHERE comments.commentid = ? "
-				+ "GROUP BY comments.commentid, comments.content, comments.postid, users.username, users.email, users.password, users.enabled, users.userid, comments.creationdate ", ROW_MAPPER, id).stream().findFirst();
+				+ "WHERE comments.commentid = ? AND comments.postid = ?"
+				+ "GROUP BY comments.commentid, comments.content, comments.postid, users.username, users.email, users.password, users.enabled, users.userid, comments.creationdate ", ROW_MAPPER, id, post.getPostid()).stream().findFirst();
 	}
 
 	@Override
-	public int findByUserCount(User user) {
+	public int findByUserCount(final User user) {
 		return jdbcTemplate.query("SELECT count(1) FROM comments WHERE userid = ?", COUNT_MAPPER, user.getUserid()).get(0);
 	}
 
 	@Override
-	public int findByPostCount(Post post) {
+	public int findByPostCount(final Post post) {
 		return jdbcTemplate.query("SELECT count(1) FROM comments WHERE postid = ?", COUNT_MAPPER, post.getPostid()).get(0);
 	}
-	
-	
+
+	@Override
+	public int deleteById(final Post post, final long id) {
+		return jdbcTemplate.update("DELETE FROM comments WHERE commentid = ? AND postid = ? CASCADE", id, post.getPostid());
+	}
 	
 }

@@ -13,9 +13,9 @@
 				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/all'}">
 					<i class="dropdown-icon fas fa-list"></i><spring:message code="dropdown.button.all.message"/>
 				</c:when>
-				<c:otherwise>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/'}">
 					<i class="dropdown-icon fas fa-user-friends"></i><spring:message code="dropdown.button.myfeed.message"/>
-				</c:otherwise>
+				</c:when>
 			</c:choose>
 	  </button>
 	  <div class="dropdown-menu" aria-labelledby="dropdownMenuNav">

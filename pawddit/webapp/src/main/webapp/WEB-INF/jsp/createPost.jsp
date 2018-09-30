@@ -36,7 +36,6 @@
 	    					    <form:input type="text" path="title" class="form-control" id="post-title" placeholder="${postTitlePlaceholder}"/>
 	    					    <form:errors path="title" cssClass="formError" element="p"/>
 	    					  </div>
-	    					  <c:if test="${empty group}">
 	    					  <div class="form-group">
 	    					    <form:label for="post-group-select" path="groupName">
 									<spring:message code="selectGroupOnPostCreate.title"/>
@@ -44,7 +43,6 @@
 	    					    <form:select required="required" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
 	    					    <form:errors path="groupName" cssClass="formError" element="p"/>
 	    					  </div>
-	    					  </c:if>
 	    					  <div class="form-group">
 	    					    <form:label for="post-content" path="content">
 									<spring:message code="postContent.title"/>

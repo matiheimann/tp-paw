@@ -48,11 +48,11 @@
 			</c:choose>
 	  </button>
 	  <div class="dropdown-menu" aria-labelledby="dropdownSort">
+			<a class="dropdown-item" href="?sort=new"><i class="dropdown-icon fas fa-certificate"></i>
+				<spring:message code="dropdown.sort.button.new.message"/>
+			</a>
 	    <a class="dropdown-item" href="?sort=top"><i class="dropdown-icon fas fa-fire"></i>
 				<spring:message code="dropdown.sort.button.top.message"/>
-			</a>
-	    <a class="dropdown-item" href="?sort=new"><i class="dropdown-icon fas fa-certificate"></i>
-				<spring:message code="dropdown.sort.button.new.message"/>
 			</a>
 	  </div>
 	</div>

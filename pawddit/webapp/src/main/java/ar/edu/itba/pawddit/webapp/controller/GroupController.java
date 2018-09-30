@@ -39,9 +39,8 @@ public class GroupController {
 	private SubscriptionService ss;
 
 	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, @ModelAttribute("user") final User user, boolean isGroupRepeated) {
+	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
 		final ModelAndView mav = new ModelAndView("createGroup");
-		mav.addObject("groups", gs.getSuscribed(user));
 		if(isGroupRepeated)
 			mav.addObject("groupAlreadyExistsError", new Boolean(true));
 		return mav;
@@ -50,7 +49,7 @@ public class GroupController {
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
 	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
-			return createGroup(form, user, false);
+			return createGroup(form, false);
 		}
 		
 		final Group group;
@@ -59,7 +58,7 @@ public class GroupController {
 			group = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), user);
 		}
 		catch(GroupAlreadyExists e) {
-			return createGroup(form, user, true);
+			return createGroup(form, true);
 		}
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
@@ -76,7 +75,6 @@ public class GroupController {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 		
-		mav.addObject("groups", gs.getSuscribed(user));
 		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);

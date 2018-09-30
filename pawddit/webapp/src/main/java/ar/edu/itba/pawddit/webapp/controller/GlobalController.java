@@ -1,5 +1,7 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.ImageNotFoundException;
@@ -23,6 +27,9 @@ public class GlobalController {
 	@Autowired
 	private UserService us;
 	
+	@Autowired
+	private GroupService gs;
+	
 	@ModelAttribute("user")
 	public User loggedUser() {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -31,6 +38,16 @@ public class GlobalController {
 		}
 		
 		return us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+	} 
+	
+	@ModelAttribute("groups")
+	public List<Group> groups(@ModelAttribute("user") final User user) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+			return null;
+		}
+		
+		return gs.getSuscribed(user);
 	} 
 	
 	@ExceptionHandler(UserNotFoundException.class)

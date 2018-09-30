@@ -105,7 +105,6 @@ public class UserController {
 	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
-		mav.addObject("groups", gs.getSuscribed(user));
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5, null));
 

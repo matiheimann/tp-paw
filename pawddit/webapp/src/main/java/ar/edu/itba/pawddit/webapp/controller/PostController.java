@@ -2,6 +2,7 @@ package ar.edu.itba.pawddit.webapp.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
+import ar.edu.itba.pawddit.webapp.exceptions.ImageFormatException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
@@ -52,26 +54,37 @@ public class PostController {
 	private ImageService is;
 	
 	@RequestMapping("/createPost")
-	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form, @ModelAttribute("user") final User user) {
+	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final Boolean imageSizeError, final Boolean imageFormatError, final Boolean imageUploadError) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		mav.addObject("groups", gs.getSuscribed(user));
+		mav.addObject("imageSizeError", imageSizeError);
+		mav.addObject("imageFormatError", imageFormatError);
+		mav.addObject("imageUploadError", imageUploadError);
 		return mav;
 	}
 	
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
 	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostNoGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
 		if(errors.hasErrors()) {
-			return createPost(form, user);
+			return createPost(form, false, false, false);
 		}
 		
 		String imageId = null;
-		if (!file.isEmpty()) {
-			try {
+		
+		final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg");
+		try {
+			if (!contentTypes.contains(file.getContentType()))
+				throw new ImageFormatException();
+			
+			if (!file.isEmpty()) {
 				byte[] image = file.getBytes();
 				imageId = is.saveImage(image);
-			} catch (IOException e) {
-				
 			}
+		}
+		catch (ImageFormatException e) {
+			return createPost(form,  false, true, false);
+		}
+		catch (IOException e) {
+			return createPost(form, false, false, true);
 		}
 
 		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
@@ -81,10 +94,9 @@ public class PostController {
 	}
 	
 	@RequestMapping("/group/{groupName}/createPost")
-	public ModelAndView createPost(@PathVariable final String groupName, @ModelAttribute("createPostForm") final CreatePostForm form, @ModelAttribute("user") final User user) {
+	public ModelAndView createPost(@PathVariable final String groupName, @ModelAttribute("createPostForm") final CreatePostForm form) {
 		final ModelAndView mav = new ModelAndView("createPost");
 		mav.addObject("group", gs.findByName(groupName).orElseThrow(GroupNotFoundException::new));
-		mav.addObject("groups", gs.getSuscribed(user));
 		return mav;
 	}
 
@@ -92,7 +104,7 @@ public class PostController {
 	@RequestMapping(value = "/group/{groupName}/createPost", method = { RequestMethod.POST })
 	public ModelAndView createPostPost(@PathVariable final String groupName, @Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
 		if(errors.hasErrors()) {
-			return createPost(groupName, form, user);
+			return createPost(groupName, form);
 		}
 		
 		String imageId = null;
@@ -124,7 +136,6 @@ public class PostController {
 		mav.addObject("post", post);
 		mav.addObject("comments", cs.findByPost(post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
 		mav.addObject("commentsPage", page);
-		mav.addObject("groups", gs.getSuscribed(user));
 		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
 		return mav;
 	}

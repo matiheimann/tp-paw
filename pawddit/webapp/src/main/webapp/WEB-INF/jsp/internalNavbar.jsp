@@ -63,7 +63,7 @@
 	<div class="search-navbar">
 		<form class="form-inline search-navbar-form">
 	    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-	    <button class="app-btn-outline" type="submit">Search</button>
+	    <button class="app-btn-outline" type="submit"><spring:message code="search.button.message"/></button>
 	  </form>
 	</div>
 	<c:if test="${fn:length(groups) > 0}">

@@ -2,6 +2,8 @@ package ar.edu.itba.pawddit.webapp.form;
 
 import javax.validation.constraints.Size;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CreatePostForm {
 	
 	@Size(min = 4, max = 60)
@@ -12,6 +14,8 @@ public class CreatePostForm {
 	
 	@Size(min = 4, max = 32)
 	private String groupName;
+	
+	private MultipartFile file;
 
 	public String getTitle() {
 		return title;
@@ -35,6 +39,14 @@ public class CreatePostForm {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	
 }

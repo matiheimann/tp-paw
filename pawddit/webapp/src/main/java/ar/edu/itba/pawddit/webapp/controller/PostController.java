@@ -66,19 +66,19 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user, @RequestParam("file") MultipartFile file) {
+	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
 			return createPost(form, false, false, false);
 		}
 		
 		String imageId = null;
-		
 		final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg");
 		try {
-			if (!contentTypes.contains(file.getContentType()))
-				throw new ImageFormatException();
-			
+			final MultipartFile file = form.getFile();
 			if (!file.isEmpty()) {
+				if (!contentTypes.contains(file.getContentType()))
+					throw new ImageFormatException();
+
 				byte[] image = file.getBytes();
 				imageId = is.saveImage(image);
 			}

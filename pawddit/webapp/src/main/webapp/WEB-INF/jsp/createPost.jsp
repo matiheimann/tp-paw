@@ -51,7 +51,9 @@
 	    					    <form:errors path="content" cssClass="formError" element="p"/>
 	    					  </div>
 	    					  <div class="form-group">
-	   								<label path="file"><spring:message code="selectImageOnPostCreate.title"/></label>
+	   								<form:label for='post-image' path="file">
+	   									<spring:message code="selectImageOnPostCreate.title"/>
+	   								</form:label>
 	   								<c:if test="${imageSizeError eq true}">
 		   								<label class="formError">
 		   									image too big
@@ -68,7 +70,7 @@
 		   								</label>
 		   							</c:if>
 									<br>
-	   								<input type="file" name="file" accept="image/png, image/jpeg"/>
+	   								<form:input type="file" path="file" id='post-image' accept="image/png, image/jpeg"/>
 	    					  </div>
 									<br>
 	    					  <button type="submit" class="create-post-btn app-btn-primary">

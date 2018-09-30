@@ -90,7 +90,6 @@ public class PostController {
 			return createPost(form, false, false, true);
 		}
 
-
 		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
@@ -130,7 +129,7 @@ public class PostController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/group/{groupName}/{postId}/createComment", method = { RequestMethod.POST })
+	@RequestMapping(value = "/group/{groupName}/{postId}", method = { RequestMethod.POST })
 	public ModelAndView createComment(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
 			return showPost(groupName, postId, 1, form, user);
@@ -145,10 +144,10 @@ public class PostController {
 	}
 	
 	@RequestMapping(value =  "/group/{groupName}/{postId}/comment/{commentId}/delete", method = { RequestMethod.POST })
-	public ModelAndView deleteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
+	public ModelAndView deleteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @PathVariable final Integer commentId, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
-		final Comment comment = cs.findById(post, postId).orElseThrow(CommentNotFoundException::new);
+		final Comment comment = cs.findById(post, commentId).orElseThrow(CommentNotFoundException::new);
 		if (user != null) {
 			cs.deleteById(user, group, post, comment.getCommentid());
 		}

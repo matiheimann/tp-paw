@@ -106,7 +106,7 @@
 			       </h4>
 	 					  <c:if test="${!empty user}">
 								<!-- Create Comment -->
-								<c:url value="/group/${group.name}/${post.postid}/createComment" var="postPath"/>
+								<c:url value="/group/${group.name}/${post.postid}" var="postPath"/>
 								<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
 									<div class="form-group">
                     <form:label for="comment-content" path="content">

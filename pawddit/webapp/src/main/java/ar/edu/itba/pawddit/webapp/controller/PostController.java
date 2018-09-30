@@ -81,9 +81,6 @@ public class PostController {
 				imageId = is.saveImage(image);
 			}
 		}
-		catch (MaxUploadSizeExceededException e) {
-			return createPost(form,  true, false, false);
-		}
 		catch (ImageFormatException e) {
 			return createPost(form,  false, true, false);
 		}

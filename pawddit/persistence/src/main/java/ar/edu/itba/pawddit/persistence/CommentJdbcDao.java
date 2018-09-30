@@ -76,7 +76,7 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid, username, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
+		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid, username, score, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
 				+ "comments.commentid AS commentid, coalesce(sum(valuevote), 0) AS votes "
 				+ "FROM comments JOIN users ON comments.userid = ?  "
 				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "

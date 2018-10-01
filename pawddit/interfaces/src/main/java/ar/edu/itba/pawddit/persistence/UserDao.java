@@ -13,6 +13,7 @@ public interface UserDao {
 	public Optional<User> findByEmail(String email);
 	public VerificationToken createToken(User user);
 	public Optional<VerificationToken> findToken(String token);
+	public int deleteToken(String token);
 	public int enableUser(User user);
 	
 }

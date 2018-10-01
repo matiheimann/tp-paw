@@ -96,9 +96,15 @@ public class UserJdbcDao implements UserDao {
 	public Optional<VerificationToken> findToken(final String token) {
 		return jdbcTemplate.query("SELECT * FROM verificationtokens JOIN users ON users.userid = verificationtokens.userid WHERE token = ?", ROW_MAPPER_TOKEN, token).stream().findFirst();
 	}
+	
+	@Override
+	public int deleteToken(final String token) {
+		return jdbcTemplate.update("DELETE FROM verificationtokens WHERE token = ?", token);
+	}
 
 	@Override
 	public int enableUser(final User user) {
 		return jdbcTemplate.update("UPDATE users SET enabled = true WHERE userid = ?", user.getUserid());
 	}
+
 }

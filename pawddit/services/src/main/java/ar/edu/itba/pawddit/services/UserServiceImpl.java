@@ -69,7 +69,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<VerificationToken> findToken(final String token) {
-		return userDao.findToken(token);
+		Optional <VerificationToken> vt = userDao.findToken(token);
+		if (vt.isPresent())
+			userDao.deleteToken(token);
+		return vt;
 	}
 
 	@Override

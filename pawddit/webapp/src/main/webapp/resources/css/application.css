@@ -150,6 +150,11 @@ EDEAE5*/
 	position: relative;
 }
 
+.no-posts {
+	margin-top: 60px;
+	color: #b7b5b2;
+}
+
 .post-container {
 	background-color: white;
 	border-radius: 10px;

@@ -33,6 +33,9 @@
 				<c:if test="${!empty group}">
 					<%@include file="group.jsp" %>
 				</c:if>
+				<c:if test="${empty posts}">
+					<h2 class="no-posts"><spring:message code="noPosts.made.message"/></h2>
+				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="post-container">
 						<div class="post-header">

@@ -85,12 +85,6 @@ public class UserController {
 		final VerificationToken token = us.createToken(user);
 		mss.sendVerificationToken(user, token, base);
 
-		/* Auto Login */
-//		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-//	    authToken.setDetails(new WebAuthenticationDetails(request));
-//	    Authentication authentication = authenticationManager.authenticate(authToken);
-//	    SecurityContextHolder.getContext().setAuthentication(authentication);
-
 		return new ModelAndView("verifyAccount");
 	}
 
@@ -118,10 +112,21 @@ public class UserController {
 	}
 
 	@RequestMapping("/registrationConfirm")
-	public ModelAndView confirmRegistration(@RequestParam("token") String token) {    
+	public ModelAndView confirmRegistration(final HttpServletRequest request, @RequestParam(value = "token", required = false) String token) {
+		if (token == null)
+			throw new VerificationTokenNotFoundException();
 	    final VerificationToken verificationToken = us.findToken(token).orElseThrow(VerificationTokenNotFoundException::new);
 	    final User user = verificationToken.getUser();
 	    us.enableUser(user);
-	    return new ModelAndView("confirmedAccount");
+	    
+		/* Auto Login */
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+	    authToken.setDetails(new WebAuthenticationDetails(request));
+	    Authentication authentication = authenticationManager.authenticate(authToken);
+	    SecurityContextHolder.getContext().setAuthentication(authentication);
+	    
+	  	final ModelAndView mav = new ModelAndView("confirmedAccount");
+	    mav.addObject("user", user);
+	    return mav;
 	}
 }

@@ -17,7 +17,7 @@ public class UserRegisterForm {
 	@Email
 	private String email;
 	
-	@Size(min = 6, max = 100)
+	@Size(min = 4, max = 100)
 	@Pattern(regexp = "[a-zA-Z0-9]+")
 	private String username;
 	

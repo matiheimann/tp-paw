@@ -28,10 +28,25 @@
 	padding: 8px 15px;
 	width: 100%;
 	max-width: 700px;
+	min-width: 700px;
 	position: relative;
 	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
 	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+
+.activity-comments-component {
+	border-left: 3px solid lightgrey;
+	padding: 10px;
+	margin-top: 15px;
+	min-width: 700px;
+	width: 100%;
+}
+
+.center-posts {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
 }
 
 

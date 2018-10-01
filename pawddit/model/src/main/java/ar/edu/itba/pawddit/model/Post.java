@@ -9,11 +9,11 @@ public class Post {
 	private Group group;
 	private User owner;
 	private long postid;
-	private int comments;
-	private int votes;
+	private Integer comments;
+	private Integer votes;
 	private String imageid;
 	
-	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, int comments, int votes, String imageid) {
+	public Post(String title, String content, Timestamp date, Group group, User owner, long postid, Integer comments, Integer votes, String imageid) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
@@ -73,19 +73,19 @@ public class Post {
 		this.postid = postid;
 	}
 
-	public int getComments() {
+	public Integer getComments() {
 		return comments;
 	}
 
-	public void setComments(int comments) {
+	public void setComments(Integer comments) {
 		this.comments = comments;
 	}
 
-	public int getVotes() {
+	public Integer getVotes() {
 		return votes;
 	}
 
-	public void setVotes(int votes) {
+	public void setVotes(Integer votes) {
 		this.votes = votes;
 	}
 

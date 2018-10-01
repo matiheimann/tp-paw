@@ -1,6 +1,7 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.Group;
@@ -37,6 +39,12 @@ public class GroupController {
 	
 	@Autowired
 	private SubscriptionService ss;
+	
+	@RequestMapping(value = "/searchGroup/{groupName}", method = { RequestMethod.GET })
+	public @ResponseBody List<Group> searchGroups(@PathVariable final String groupName) {
+		List<Group> groups = gs.searchByName(groupName);
+		return groups;
+	}
 
 	@RequestMapping("/createGroup")
 	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
@@ -111,5 +119,5 @@ public class GroupController {
 		
 		return mav;
 	}
-	
+
 }

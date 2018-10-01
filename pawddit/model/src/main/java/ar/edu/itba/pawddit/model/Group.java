@@ -8,9 +8,9 @@ public class Group {
 	private String name;
 	private Timestamp date;
 	private String description;
-	private int suscriptors;
+	private Integer suscriptors;
 	
-	public Group(String name, Timestamp date, String description, User owner, int suscriptors) {
+	public Group(String name, Timestamp date, String description, User owner, Integer suscriptors) {
 		this.name = name;
 		this.date = date;
 		this.description = description;
@@ -50,11 +50,11 @@ public class Group {
 		this.owner = owner;
 	}
 
-	public int getSuscriptors() {
+	public Integer getSuscriptors() {
 		return suscriptors;
 	}
 
-	public void setSuscriptors(int suscriptors) {
+	public void setSuscriptors(Integer suscriptors) {
 		this.suscriptors = suscriptors;
 	}
 }

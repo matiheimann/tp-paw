@@ -40,6 +40,14 @@ public class GroupJdbcDao implements GroupDao {
 				rs.getInt("followers")
 		);
 		
+	private final static RowMapper<Group> SEARCH_MAPPER = (rs, rowNum) ->
+		new Group(
+				rs.getString("name"),
+				null,
+				null, 
+				null,
+				null
+		);
 	
 	@Autowired
 	public GroupJdbcDao(final DataSource ds) {
@@ -51,7 +59,7 @@ public class GroupJdbcDao implements GroupDao {
 	@Override
 	public Optional<Group> findByName(final String name){
 		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname" +  
-				" WHERE name = ? GROUP BY name, username, email, password, score, enabled;", ROW_MAPPER, name).stream().findFirst();
+				" WHERE name = ? GROUP BY name, username, email, password, score, enabled", ROW_MAPPER, name).stream().findFirst();
 	}
 	
 	@Override
@@ -68,19 +76,24 @@ public class GroupJdbcDao implements GroupDao {
 	@Override
 	public List<Group> findAll() {
 		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
-				"GROUP BY name, username, email, password, score, enabled;", ROW_MAPPER);
+				"GROUP BY name, username, email, password, score, enabled", ROW_MAPPER);
 	}
 
 	@Override
 	public List<Group> getSuscribed(User user) {
 		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
 				" WHERE subscriptions.userid = ? "
-				+ "GROUP BY name, username, email, password, score, enabled;", ROW_MAPPER, user.getUserid());
+				+ "GROUP BY name, username, email, password, score, enabled", ROW_MAPPER, user.getUserid());
 	}
 
 	@Override
 	public int deleteByName(String name) {
 		return jdbcTemplate.update("DELETE FROM groups WHERE name = ?", name);
+	}
+
+	@Override
+	public List<Group> searchByName(String name) {
+		return jdbcTemplate.query("SELECT name FROM groups WHERE upper(name) LIKE UPPER(?) LIMIT 5", SEARCH_MAPPER, "%" + name + "%");
 	}
 	
 }

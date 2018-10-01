@@ -52,6 +52,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/").permitAll()
 				.antMatchers("/invalidUrl").permitAll()
 				.antMatchers("/all").permitAll()
+				.antMatchers("/searchGroups/*").permitAll()
 				.antMatchers("/image/*").permitAll()
 				.antMatchers("/profile/*").permitAll()
 				.antMatchers("/group/*/createPost").authenticated()

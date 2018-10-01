@@ -61,10 +61,15 @@
 	  </div>
 	</div>
 	<div class="search-navbar">
-		<form class="form-inline search-navbar-form">
-	    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-	    <button class="app-btn-outline" type="submit">Search</button>
-	  </form>
+		<c:url value="/group/" var="searchGroup"/>
+	    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Search groups..." aria-label="Search">
+	    <datalist id="groupsFound">
+		</datalist>
+		<a id="searchGroupForm" class="create-post" href="<c:url value="/group/"/>">
+			<button class="app-btn-outline" role="button">
+				Go!
+			</button>
+		</a>
 	</div>
 	<c:if test="${fn:length(groups) > 0}">
 		<a class="create-post" href="<c:url value="/createPost"/>">

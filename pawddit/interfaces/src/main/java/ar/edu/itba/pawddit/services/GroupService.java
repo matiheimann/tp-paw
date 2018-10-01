@@ -14,5 +14,6 @@ public interface GroupService {
 	public List<Group> findAll();
 	public List<Group> getSuscribed(User user);
 	public int deleteByName(User user, Group group);
+	public List<Group> searchByName(String name);
 	
 }

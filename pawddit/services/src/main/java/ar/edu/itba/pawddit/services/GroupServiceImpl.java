@@ -56,5 +56,10 @@ public class GroupServiceImpl implements GroupService {
 			throw new NotOwnerOfGroupException();
 		return groupDao.deleteByName(group.getName());
 	}
+
+	@Override
+	public List<Group> searchByName(String name) {
+		return groupDao.searchByName(name);
+	}
 	
 }

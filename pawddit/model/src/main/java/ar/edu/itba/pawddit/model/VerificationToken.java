@@ -2,7 +2,6 @@ package ar.edu.itba.pawddit.model;
 
 public class VerificationToken {
 	
-	
     private String token;
     private User user;
 

@@ -119,5 +119,15 @@ public class GroupController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value= "/recommendedGroups")
+	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
+		final ModelAndView mav = new ModelAndView("recomendedGroups");
+		if(user != null) {
+			mav.addObject("groups", gs.getSuscribed(user));
+			mav.addObject("groupsInterested", gs.searchByInterest(user));
+		}
+		return mav;
+	}
 
 }

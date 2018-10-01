@@ -48,6 +48,15 @@ public class GroupJdbcDao implements GroupDao {
 				null,
 				null
 		);
+		
+		private final static RowMapper<Group> INTEREST_MAPPER = (rs, rowNum) ->
+		new Group(
+				rs.getString("name"),
+				null,
+				null, 
+				null,
+				rs.getInt("subs")
+		);
 	
 	@Autowired
 	public GroupJdbcDao(final DataSource ds) {
@@ -95,5 +104,19 @@ public class GroupJdbcDao implements GroupDao {
 	public List<Group> searchByName(String name) {
 		return jdbcTemplate.query("SELECT name FROM groups WHERE upper(name) LIKE upper(?) LIMIT 5", SEARCH_MAPPER, "%" + name + "%");
 	}
+
+	@Override
+	public List<Group> searchByInterest(User user) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT count(DISTINCT userid) AS subs, name FROM groups ")
+			.append("INNER JOIN subscriptions ON groups.name = subscriptions.groupname ")
+			.append("WHERE name NOT IN (select groupname from subscriptions where userid = ?) ")
+			.append("AND userid IN (select userid from subscriptions where userid <> ? AND groupname IN (select groupname from subscriptions where userid = ?)) ")
+			.append("GROUP BY name ")
+			.append("ORDER BY count(DISTINCT userid) DESC ");
+		return jdbcTemplate.query(query.toString(), INTEREST_MAPPER, user.getUserid(), user.getUserid(), user.getUserid());
+	}
+	
+	
 	
 }

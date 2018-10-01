@@ -19,13 +19,16 @@ public class MailSenderServiceImpl implements MailSenderService {
 	@Override
 	public void sendVerificationToken(final User user, final VerificationToken token, final String url) {
 		String recipientAddress = user.getEmail();
-		String subject = "Registration Confirm";
+		String subject = "Please Confirm Your Email Address";
 		String confirmationUrl = "/registrationConfirm?token=" + token.getToken();
+		
+		String message = "Hi " + user.getUsername() + "!\r\n\r\n" + 
+						 "For security purposes, we need you to verify your email address before continuing on our site.\r\n\r\n";
 
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(recipientAddress);
 		email.setSubject(subject);
-		email.setText(url + confirmationUrl);
+		email.setText(message + url + confirmationUrl);
 		mailSender.send(email);
 	}
 

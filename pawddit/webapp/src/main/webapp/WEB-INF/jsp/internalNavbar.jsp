@@ -29,7 +29,9 @@
 	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
 				<spring:message code="dropdown.button.all.message"/>
 			</a>
-			<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			<c:if test="${!empty groups}">
+				<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			</c:if>
 			<c:forEach items="${groups}" var="group">
 				<a class="dropdown-item" href="<c:url value="/group/${group.name}"/>"><i class="dropdown-icon fas fa-users"></i>
 					<c:out value="${group.name}" escapeXml="true"/>
@@ -95,10 +97,10 @@
 		</button>
 	</a>
 	<div class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle dropdown-component" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<span class="dropdown-username-text"><c:out value="${user.username}" escapeXml="true"/></span>
+		<div class="nav-link dropdown-toggle dropdown-component" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="dropdown-username-text"><c:out value="${user.username}" escapeXml="true"/></div>
 			<span class="dropdown-username-icon"><i class="fas fa-user"></i></span>
-		</a>
+		</div>
        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
          		<a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
 					<spring:message code="myProfile.message"/>

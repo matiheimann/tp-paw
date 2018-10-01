@@ -90,7 +90,7 @@
 			</button>
 		</a>
 	</c:if>
-	<a href="<c:url value="/createGroup"/>">
+	<a class="create-group" href="<c:url value="/createGroup"/>">
 		<button class="app-btn-secondary" role="button">
 			<span class="create-group-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-users"></i></span>
 			<span class="create-group-text"><spring:message code="createGroup.button.message"/></span>

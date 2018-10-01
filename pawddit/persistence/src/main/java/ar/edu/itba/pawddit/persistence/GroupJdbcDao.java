@@ -93,7 +93,7 @@ public class GroupJdbcDao implements GroupDao {
 
 	@Override
 	public List<Group> searchByName(String name) {
-		return jdbcTemplate.query("SELECT name FROM groups WHERE upper(name) LIKE UPPER(?) LIMIT 5", SEARCH_MAPPER, "%" + name + "%");
+		return jdbcTemplate.query("SELECT name FROM groups WHERE upper(name) LIKE upper(?) LIMIT 5", SEARCH_MAPPER, "%" + name + "%");
 	}
 	
 }

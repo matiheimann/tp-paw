@@ -102,6 +102,10 @@ EDEAE5*/
 	margin-right: 5px;
 }
 
+.margin-left-100 {
+	margin-left: 100px;
+}
+
 .create-post {
   margin-right: 9px;
 }
@@ -121,12 +125,14 @@ EDEAE5*/
 }
 
 .dropdown-component {
+	align-items: center;
 	color: black;
 	cursor: pointer;
+	display: flex !important;
 }
 
 .dropdown-username-text {
-	max-width: 105px;
+	max-width: 140px;
 	overflow: hidden;
  	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -146,6 +152,11 @@ EDEAE5*/
 	min-height: 100%;
 	padding-top: 70px;
 	position: relative;
+}
+
+.no-posts {
+	color: #b7b5b2;
+	margin-top: 60px;
 }
 
 .post-container {
@@ -343,7 +354,7 @@ textarea {
 	min-width: 280px;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1249px) {
 	.create-post-icon {
 		display: inline-block;
 	}
@@ -374,5 +385,9 @@ textarea {
 
 	.dropdown-username-text {
 		display: none;
+	}
+
+	.margin-left-100 {
+		margin-left: 0;
 	}
 }

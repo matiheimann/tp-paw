@@ -12,7 +12,7 @@ import ar.edu.itba.pawddit.model.VerificationToken;
 @Service
 @Async
 public class MailSenderServiceImpl implements MailSenderService {
-	
+
 	@Autowired
     private JavaMailSender mailSender;
 
@@ -21,9 +21,9 @@ public class MailSenderServiceImpl implements MailSenderService {
 		String recipientAddress = user.getEmail();
 		String subject = "Please Confirm Your Email Address";
 		String confirmationUrl = "/registrationConfirm?token=" + token.getToken();
-		
-		String message = "Hi " + user.getUsername() + "!\r\n\r\n" + 
-						 "For security purposes, we need you to verify your email address before continuing on our site.\r\n\r\n";
+
+		String message = "Hi " + user.getUsername() + "!\r\n\r\n" +
+						 "For security purposes, we need you to verify your email address before continuing to our site.\r\n\r\n";
 
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(recipientAddress);

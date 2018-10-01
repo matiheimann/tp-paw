@@ -29,7 +29,9 @@
 	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
 				<spring:message code="dropdown.button.all.message"/>
 			</a>
-			<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			<c:if test="${!empty groups}">
+				<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			</c:if>
 			<c:forEach items="${groups}" var="group">
 				<a class="dropdown-item" href="<c:url value="/group/${group.name}"/>"><i class="dropdown-icon fas fa-users"></i>
 					<c:out value="${group.name}" escapeXml="true"/>
@@ -73,7 +75,7 @@
 	  </form>
 	</div>
 	<c:if test="${fn:length(groups) > 0}">
-		<a class="create-post" href="<c:url value="/createPost"/>">
+		<a class="create-post margin-left-100" href="<c:url value="/createPost"/>">
 			<button class="app-btn-primary" role="button">
 				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
 				<span class="create-post-text"><spring:message code="createPost.button.message"/></span>
@@ -81,24 +83,24 @@
 		</a>
 	</c:if>
 	<c:if test="${fn:length(groups) == 0}">
-		<a class="create-post" id="popoverPost" data-content="<spring:message code="createGroupFirst.message"/>" rel="popover" data-placement="bottom" data-trigger="hover">
+		<a class="create-post margin-left-100" id="popoverPost" data-content="<spring:message code="createGroupFirst.message"/>" rel="popover" data-placement="bottom" data-trigger="hover">
 			<button class="app-btn-primary-disabled" role="button">
 				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
 				<span class="create-post-text"><spring:message code="createPost.button.message"/></span>
 			</button>
 		</a>
 	</c:if>
-	<a href="<c:url value="/createGroup"/>">
+	<a class="create-group" href="<c:url value="/createGroup"/>">
 		<button class="app-btn-secondary" role="button">
 			<span class="create-group-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-users"></i></span>
 			<span class="create-group-text"><spring:message code="createGroup.button.message"/></span>
 		</button>
 	</a>
 	<div class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle dropdown-component" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<span class="dropdown-username-text"><c:out value="${user.username}" escapeXml="true"/></span>
+		<div class="nav-link dropdown-toggle dropdown-component" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="dropdown-username-text"><c:out value="${user.username}" escapeXml="true"/></div>
 			<span class="dropdown-username-icon"><i class="fas fa-user"></i></span>
-		</a>
+		</div>
        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
          		<a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
 					<spring:message code="myProfile.message"/>

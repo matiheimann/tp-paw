@@ -1,6 +1,5 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -21,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
-import ar.edu.itba.pawddit.services.GroupService;
+import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.MailSenderService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
@@ -35,12 +34,12 @@ public class UserController {
 
 	@Autowired
 	private UserService us;
-	
-	@Autowired
-	private GroupService gs;
 
 	@Autowired
 	private PostService ps;
+	
+	@Autowired
+	private CommentService cs;
 
 	@Autowired
 	private MailSenderService mss;
@@ -102,11 +101,12 @@ public class UserController {
 	}
 
 	@RequestMapping("/profile/{username}")
-	public ModelAndView profile(@PathVariable final String username, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
+	public ModelAndView profile(@PathVariable final String username, @ModelAttribute("user") final User user) {
 		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("userProfile", userProfile);
-		mav.addObject("posts", ps.findByUser(userProfile, 5, (page-1)*5, null));
+		mav.addObject("posts", ps.findByUser(userProfile, 5, 0, null));
+		mav.addObject("comments", cs.findByUser(userProfile, 5, 0));
 
 		return mav;
 	}

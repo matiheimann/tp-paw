@@ -2,25 +2,6 @@
 	display: flex;
 }
 
-.profile-component {
-	align-items: center;
-	background-color: white;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	height: 300px;
-	min-height: 300px;
-	margin: 30px 10px 0 10px;
-	overflow: hidden;
-	padding: 8px 15px;
-	width: 300px;
-	min-width: 300px;
-	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-}
-
 .activity-component {
 	background-color: white;
 	border-radius: 10px;
@@ -32,11 +13,40 @@
 	overflow: hidden;
 	padding: 8px 15px;
 	width: 90%;
-	min-width: 650px;
+	min-width: 800px;
 	position: relative;
 	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
 	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+
+.activity-posts-component {
+	background-color: white;
+	border-radius: 10px;
+	max-height: 450px;
+	margin-top: 30px;
+	padding: 8px 15px;
+	width: 100%;
+	max-width: 700px;
+	min-width: 700px;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+
+.activity-comments-component {
+	border-left: 3px solid lightgrey;
+	padding: 10px;
+	margin-top: 15px;
+	min-width: 700px;
+	width: 100%;
+}
+
+.center-posts {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
 }
 
 
@@ -44,12 +54,17 @@
 	margin-top: 20px;
 	width: 100%;
 }
+
 .username-title {
-	margin-bottom: 20px;
+	margin: 10px auto 40px auto;
 }
 
 .margin-title {
 	margin-left: 5px;
+}
+
+.lightgrey {
+	color: grey;
 }
 
 .user-image-container {
@@ -57,11 +72,9 @@
 	text-align: center;
 	border: 2px solid lightgrey;
 	border-radius: 10px;
-	height: 130px;
-	min-height: 130px;
-	margin: 25px 15px 8px 15px;
-	width: 130px;
-	min-width: 130px;
+	height: 60px;
+	min-height: 60px;
+	margin: 10px auto;
 	padding: 4px;
 }
 

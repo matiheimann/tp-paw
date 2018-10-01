@@ -18,6 +18,11 @@
 	justify-content: center;
 }
 
+.owned-by {
+	font-weight: bold;
+	margin-left: auto;
+}
+
 .group-component-title {
   text-align: center;
 }

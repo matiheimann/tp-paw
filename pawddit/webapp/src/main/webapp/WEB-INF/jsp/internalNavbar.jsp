@@ -67,9 +67,13 @@
 		</datalist>
 		<a id="searchGroupForm" class="create-post" href="<c:url value="/group/"/>">
 			<button class="app-btn-outline" role="button">
-				Go!
+				<spring:message code="search.button.message"/>
 			</button>
 		</a>
+		<form class="form-inline search-navbar-form">
+	    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	    <button class="app-btn-outline" type="submit"><spring:message code="search.button.message"/></button>
+	  </form>
 	</div>
 	<c:if test="${fn:length(groups) > 0}">
 		<a class="create-post" href="<c:url value="/createPost"/>">

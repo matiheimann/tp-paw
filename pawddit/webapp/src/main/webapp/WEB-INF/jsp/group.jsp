@@ -5,7 +5,9 @@
 	</p>
 	<hr>
 	<div class="group-footer">
-		<div class="info-item">
+		<div class="info-item owned-by">
+			<spring:message code="groupMembers.owner.message" />
+			<c:out value="${group.owner.username}" escapeXml="true" />
 		</div>
 		<div class="info-item">
 		  <strong><i class="fas fa-users"></i></i>
@@ -44,7 +46,7 @@
 			</c:if>
 		</div>
 		<c:if test="${user.userid eq group.owner.userid}">
-			<i class="header-button-delete-group  fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmGroupDeletion"></i>
+			<i class="header-button-delete-group fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmGroupDeletion"></i>
 			<%@include file="confirmGroupDeletion.jsp" %>
 		</c:if>
 	</div>

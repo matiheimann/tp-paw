@@ -139,7 +139,7 @@
 										 <i class="fas fa-arrow-down icon-color"></i>
 									 </a>
 								 </span>
-                 <span class="header-button"><c:out value="${comment.owner.username}" escapeXml="true"/></span>
+                 <span class="header-button clickable" onclick='window.location="<c:url value='/profile/${comment.owner.username}'/>"'><c:out value="${comment.owner.username}" escapeXml="true"/></span>
                  <span><strong><time class="timeago" datetime='<c:out value="${comment.date}" escapeXml="true"/>'></time></strong></span>
                  <c:if test="${user.userid eq group.owner.userid}">
 									 	<i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmCommentDeletion"></i>

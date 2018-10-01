@@ -102,6 +102,10 @@ EDEAE5*/
 	margin-right: 5px;
 }
 
+.margin-left-100 {
+	margin-left: 100px;
+}
+
 .create-post {
   margin-right: 9px;
 }
@@ -350,7 +354,7 @@ textarea {
 	min-width: 280px;
 }
 
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 1249px) {
 	.create-post-icon {
 		display: inline-block;
 	}
@@ -381,5 +385,9 @@ textarea {
 
 	.dropdown-username-text {
 		display: none;
+	}
+
+	.margin-left-100 {
+		margin-left: 0;
 	}
 }

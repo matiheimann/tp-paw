@@ -75,7 +75,7 @@
 	  </form>
 	</div>
 	<c:if test="${fn:length(groups) > 0}">
-		<a class="create-post" href="<c:url value="/createPost"/>">
+		<a class="create-post margin-left-100" href="<c:url value="/createPost"/>">
 			<button class="app-btn-primary" role="button">
 				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
 				<span class="create-post-text"><spring:message code="createPost.button.message"/></span>
@@ -83,7 +83,7 @@
 		</a>
 	</c:if>
 	<c:if test="${fn:length(groups) == 0}">
-		<a class="create-post" id="popoverPost" data-content="<spring:message code="createGroupFirst.message"/>" rel="popover" data-placement="bottom" data-trigger="hover">
+		<a class="create-post margin-left-100" id="popoverPost" data-content="<spring:message code="createGroupFirst.message"/>" rel="popover" data-placement="bottom" data-trigger="hover">
 			<button class="app-btn-primary-disabled" role="button">
 				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
 				<span class="create-post-text"><spring:message code="createPost.button.message"/></span>

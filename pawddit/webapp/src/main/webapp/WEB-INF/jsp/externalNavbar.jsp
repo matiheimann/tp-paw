@@ -1,6 +1,6 @@
 <nav class="navbar-component">
 	<a class="no-underline" href="<c:url value="/"/>">
-		<h2 class="logo">Pawddit.</h2>
+		<h2 class="logo logo-full">Pawddit.</h2>
 		<h2 class="logo logo-reduced">P.</h2>
 	</a>
 	<div class="sort-indicator"><spring:message code="dropdown.sort.button.title"/></div>
@@ -38,7 +38,7 @@
 		</a>
 	  </form>
 	</div>
-	<a class="login-btn" href="<c:url value="/login"/>">
+	<a class="login-btn margin-left-100" href="<c:url value="/login"/>">
 		<button  role="button" class="app-btn-primary login-btn">
 			<spring:message code="login.button.message"/>
 		</button>

@@ -85,7 +85,9 @@ public class CommentJdbcDaoTest {
 	
 	@Test
 	public void findCommentByIdTest() {
-		Optional<Comment> comment = commentDao.findById(CREATED_COMMENT_1_ID);
+		final User user = userDao.findByUsername(CREATED_TEST_USERNAME).get();
+		final Post post = postDao.findByUser(user, 5, 0, null).get(0);
+		Optional<Comment> comment = commentDao.findById(post, CREATED_COMMENT_1_ID);
 		Assert.assertTrue(comment.isPresent());
 		Assert.assertEquals(CREATED_COMMENT_1_ID, comment.get().getCommentid());
 	}

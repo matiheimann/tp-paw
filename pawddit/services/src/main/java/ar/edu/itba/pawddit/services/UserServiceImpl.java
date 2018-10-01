@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User create(final String username, final String password, final String email, final int score) {
+	public User create(final String username, final String password, final String email, final int score) throws UserRepeatedDataException {
 		
 		UserRepeatedDataException repeatedDataException = new UserRepeatedDataException();
 		boolean repeatedUsername = false;

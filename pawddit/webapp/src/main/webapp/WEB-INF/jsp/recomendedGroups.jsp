@@ -39,7 +39,7 @@
 				<c:if test="${group.suscriptors > 1}">			
 					<h2><c:out value="${group.suscriptors}" escapeXml="true"/><spring:message code="groups.membersWhoShareAGroup"/></h2>
 				</c:if>
-				<c:if>
+				<c:if test="${group.suscriptors eq 1}">
 					<h2><c:out value="${group.suscriptors}" escapeXml="true"/><spring:message code="groups.memberWhoShareAGroup"/></h2>
 				</c:if>
 			</div>

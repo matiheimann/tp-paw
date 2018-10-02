@@ -200,6 +200,7 @@ EDEAE5*/
 
 .post-wrap {
 	overflow-wrap: break-word;
+	white-space: pre-line;
 }
 
 .hidden {

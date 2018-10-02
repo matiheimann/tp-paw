@@ -355,6 +355,17 @@ textarea {
 	min-width: 280px;
 }
 
+.flex-column-center {
+	align-items: baseline;
+	flex-direction: column;
+	margin-right: 9px;
+	max-height: 40px;
+}
+
+#searchGroup {
+	height: 40px;
+}
+
 @media screen and (max-width: 1249px) {
 	.create-post-icon {
 		display: inline-block;

@@ -22,12 +22,13 @@ public class UserJdbcDao implements UserDao {
 	private final JdbcTemplate jdbcTemplate;
 	private final SimpleJdbcInsert jdbcInsertUsers;
 	private final SimpleJdbcInsert jdbcInsertTokens;
+	
 	private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) ->
 		new User(
 				rs.getString("username"),
 				rs.getString("password"), 
 				rs.getString("email"), 
-				rs.getInt("score"), 
+				rs.getBoolean("admin"), 
 				rs.getBoolean("enabled"),
 				rs.getInt("userid")
 		);
@@ -38,7 +39,7 @@ public class UserJdbcDao implements UserDao {
 					rs.getString("username"),
 					rs.getString("password"), 
 					rs.getString("email"), 
-					rs.getInt("score"), 
+					rs.getBoolean("admin"), 
 					rs.getBoolean("enabled"),
 					rs.getInt("userid")
 				)
@@ -61,15 +62,15 @@ public class UserJdbcDao implements UserDao {
 	}
 
 	@Override
-	public User create(final String username, final String password, final String email, int score) {
+	public User create(final String username, final String password, final String email) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("username", username); // la key es el nombre de la columna
 		args.put("password", password);
 		args.put("email", email);
-		args.put("score", score);
+		args.put("admin", false);
 		args.put("enabled", false);
 		final Number userId = jdbcInsertUsers.executeAndReturnKey(args);
-		return new User(username, password, email, score, false, userId.longValue());
+		return new User(username, password, email, false, false, userId.longValue());
 	}
 
 	@Override

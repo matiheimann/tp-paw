@@ -1,10 +1,16 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +85,43 @@ public class PostController {
 				if (!contentTypes.contains(file.getContentType()))
 					throw new ImageFormatException();
 
-				byte[] image = file.getBytes();
-				imageId = is.saveImage(image);
+				ByteArrayInputStream in = new ByteArrayInputStream(file.getBytes());
+				BufferedImage img = ImageIO.read(in);
+				
+				int width = img.getWidth();
+				int height = img.getHeight();
+				int maxW = 770;
+				int maxH = 500;
+				if (width > maxW && height < maxH) {
+					height = (maxW * height) / width; 
+					width = maxW;
+				}
+				else if (height > maxH && width < maxW) {
+					width = (maxH * width) / height;
+					height = maxH;
+				}
+				else if (width > maxW && height > maxH) {
+					if (width-maxW > height-maxH) {
+						height = (maxW * height) / width; 
+						width = maxW;
+					}
+					else {
+						width = (maxH * width) / height;
+						height = maxH;
+					}
+				}
+				
+				Image scaledImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+	            BufferedImage imageBuff = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	            imageBuff.getGraphics().drawImage(scaledImage, 0, 0, new Color(0,0,0), null);
+
+	            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+	            if (file.getContentType().equals("image/png"))
+	            	ImageIO.write(imageBuff, "png", buffer);
+	            else
+	            	ImageIO.write(imageBuff, "jpg", buffer);
+	            
+				imageId = is.saveImage(buffer.toByteArray());
 			}
 		}
 		catch (ImageFormatException e) {

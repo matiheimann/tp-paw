@@ -25,7 +25,6 @@ public class UserJdbcDaoTest {
 	private static final String NEW_USERNAME = "Username";
 	private static final String NEW_PASSWORD = "Password";
 	private static final String NEW_EMAIL = "Email";
-	private static final int NEW_SCORE = 1;
 	
 	private static final int USER_ID_TO_FIND = 1;
 	private static final String USER_USERNAME_TO_FIND = "testUsername";
@@ -44,12 +43,11 @@ public class UserJdbcDaoTest {
 	
 	@Test
 	public void testCreate() {
-		final User user = userDao.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE);
+		final User user = userDao.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL);
 		Assert.assertNotNull(user);
 		Assert.assertEquals(NEW_USERNAME, user.getUsername());
 		Assert.assertEquals(NEW_PASSWORD, user.getPassword());
 		Assert.assertEquals(NEW_EMAIL, user.getEmail());
-		Assert.assertEquals(NEW_SCORE, user.getScore());
 		Assert.assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", "username = '" + NEW_USERNAME + "'"));
 	}
 	

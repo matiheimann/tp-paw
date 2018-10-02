@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User create(final String username, final String password, final String email, final int score) throws UserRepeatedDataException {
+	public User create(final String username, final String password, final String email) throws UserRepeatedDataException {
 		
 		UserRepeatedDataException repeatedDataException = new UserRepeatedDataException();
 		boolean repeatedUsername = false;
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		if(repeatedEmail || repeatedUsername)
 			throw repeatedDataException;
 		
-		return userDao.create(username, passwordEncoder.encode(password), email, score);
+		return userDao.create(username, passwordEncoder.encode(password), email);
 	}
 
 	@Override

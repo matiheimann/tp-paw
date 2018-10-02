@@ -4,15 +4,15 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
-	private Integer score;
+	private Boolean isAdmin;
 	private Boolean enabled;
 	private long userid;
 	
-	public User(String username, String password, String email, Integer score, Boolean enabled, long userid) {
+	public User(String username, String password, String email, Boolean isAdmin, Boolean enabled, long userid) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.score = score;
+		this.isAdmin = isAdmin;
 		this.enabled = enabled;
 		this.userid = userid;
 	}
@@ -41,12 +41,12 @@ public class User {
 		this.email = email;
 	}
 
-	public int getScore() {
-		return score;
+	public Boolean getIsAdmin() {
+		return isAdmin;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 	
 	public Boolean getEnabled() {

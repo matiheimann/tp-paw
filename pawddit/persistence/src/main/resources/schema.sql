@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
 	username VARCHAR(100) UNIQUE NOT NULL,
 	email TEXT NOT NULL,
 	password TEXT NOT NULL,
-	score INT,
+	admin BOOLEAN NOT NULL,
 	enabled BOOLEAN NOT NULL
 );
 

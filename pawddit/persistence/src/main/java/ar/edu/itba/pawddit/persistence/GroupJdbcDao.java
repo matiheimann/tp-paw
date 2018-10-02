@@ -33,7 +33,7 @@ public class GroupJdbcDao implements GroupDao {
 						rs.getString("username"), 
 						rs.getString("email"), 
 						rs.getString("password"), 
-						rs.getInt("score"),
+						rs.getBoolean("admin"),
 						rs.getBoolean("enabled"),
 						rs.getInt("owner")
 				), 
@@ -67,8 +67,8 @@ public class GroupJdbcDao implements GroupDao {
 	
 	@Override
 	public Optional<Group> findByName(final String name){
-		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname" +  
-				" WHERE name = ? GROUP BY name, username, email, password, score, enabled", ROW_MAPPER, name).stream().findFirst();
+		return jdbcTemplate.query("SELECT name, username, email, password, admin, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname" +  
+				" WHERE name = ? GROUP BY name, username, email, password, admin, enabled", ROW_MAPPER, name).stream().findFirst();
 	}
 	
 	@Override
@@ -84,15 +84,15 @@ public class GroupJdbcDao implements GroupDao {
 	
 	@Override
 	public List<Group> findAll() {
-		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
-				"GROUP BY name, username, email, password, score, enabled", ROW_MAPPER);
+		return jdbcTemplate.query("SELECT name, username, email, password, admin, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
+				"GROUP BY name, username, email, password, admin, enabled", ROW_MAPPER);
 	}
 
 	@Override
 	public List<Group> getSuscribed(User user) {
-		return jdbcTemplate.query("SELECT name, username, email, password, score, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
+		return jdbcTemplate.query("SELECT name, username, email, password, admin, enabled, creationdate, description, owner, count(DISTINCT subscriptions.userid) as followers FROM groups JOIN users ON groups.owner = users.userid FULL OUTER JOIN subscriptions ON groups.name = subscriptions.groupname " + 
 				" WHERE subscriptions.userid = ? "
-				+ "GROUP BY name, username, email, password, score, enabled", ROW_MAPPER, user.getUserid());
+				+ "GROUP BY name, username, email, password, admin, enabled", ROW_MAPPER, user.getUserid());
 	}
 
 	@Override

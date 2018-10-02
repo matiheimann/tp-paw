@@ -34,15 +34,6 @@ CREATE TABLE IF NOT EXISTS posts (
 	FOREIGN KEY(imageid) REFERENCES images(token)
 );
 
-CREATE TABLE IF NOT EXISTS voteposts (
-	valuevote INT NOT NULL,
-	postid INT NOT NULL,
-	userid INT NOT NULL,
-	PRIMARY KEY(userid, postid),
-	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
-	FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS comments (
 	commentid INTEGER IDENTITY PRIMARY KEY,
 	content VARCHAR(100) NOT NULL,
@@ -54,9 +45,21 @@ CREATE TABLE IF NOT EXISTS comments (
 	FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
 );
 
-INSERT INTO users VALUES (1, 'votingUser', 'testEmail1', 'testPassword', 0, FALSE, TRUE);
+
+CREATE TABLE IF NOT EXISTS voteposts (
+	valuevote INTEGER NOT NULL,
+	postid INTEGER NOT NULL,
+	userid INTEGER NOT NULL,
+	PRIMARY KEY(userid, postid),
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
+	FOREIGN KEY(postid) REFERENCES posts(postid) ON DELETE CASCADE
+);
+
+INSERT INTO users VALUES (1, 'upvotingUser', 'testEmail1', 'testPassword', 0, FALSE, TRUE);
 INSERT INTO users VALUES (2, 'nonVotingUser', 'testEmail2', 'testPassword', 0, FALSE, TRUE);
 INSERT INTO users VALUES (3, 'postingUser', 'testEmail3', 'testPassword', 0, FALSE, TRUE);
+INSERT INTO users VALUES (4, 'downvotingUser', 'testEmail4', 'testPassword', 0, FALSE, TRUE);
 INSERT INTO groups VALUES ('testGroup', '2018-09-21 19:15:40.5', 'testDescription', 1);
 INSERT INTO posts VALUES (1, 'testPost1', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 3, NULL);
 INSERT INTO voteposts VALUES(1, 1, 1);
+INSERT INTO voteposts VALUES(-1, 1, 4);

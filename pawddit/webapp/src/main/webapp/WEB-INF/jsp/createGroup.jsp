@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -29,7 +31,7 @@
 					</h2>
     				<br>
     				<c:url value="/createGroup" var="postPath"/>
-    				<form:form modelAttribute="createGroupForm" action="${groupPath}" method="post">
+    				<form:form modelAttribute="createGroupForm" action="${groupPath}" accept-charset="UTF-8"  method="post">
     					  <div class="form-group">
     					    <form:label for="group-name" path="name">
 								<spring:message code="groupName.title"/>

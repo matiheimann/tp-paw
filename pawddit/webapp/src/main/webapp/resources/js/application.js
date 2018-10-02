@@ -19,8 +19,8 @@ function searchGroups() {
           success: function(result) {
             var dataList = document.getElementById('groupsFound')
             while (dataList.firstChild) {
-            dataList.removeChild(dataList.firstChild);
-        }
+              dataList.removeChild(dataList.firstChild);
+            }
             $.each(result, function(index, group) {
               var option = document.createElement('option');
               option.value = group.name;

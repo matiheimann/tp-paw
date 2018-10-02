@@ -7,7 +7,7 @@
 	<div class="group-footer">
 		<div class="info-item owned-by">
 			<spring:message code="groupMembers.owner.message" />
-			<c:out value="${group.owner.username}" escapeXml="true" />
+			<span class="group-owner-btn clickable" onclick='window.location="<c:url value='/profile/${group.owner.username}'/>"'><c:out value="${group.owner.username}" escapeXml="true" /></span>
 		</div>
 		<div class="info-item">
 		  <strong><i class="fas fa-users"></i></i>

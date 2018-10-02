@@ -9,6 +9,8 @@
 
 .group-description {
   text-align: center;
+	overflow-wrap: break-word;
+	white-space: pre-line;
   padding: 5px 25px;
 }
 
@@ -20,6 +22,17 @@
 
 .owned-by {
 	font-weight: bold;
+}
+
+.group-owner-btn {
+	background-color: #E85A4F;
+	color: white;
+	border-radius: 5px;
+	display: inline-block;
+	font-weight: normal;
+	height: 25px;
+	padding: 2px 5px;
+	margin: 0 10px;
 }
 
 .margin-left-auto {

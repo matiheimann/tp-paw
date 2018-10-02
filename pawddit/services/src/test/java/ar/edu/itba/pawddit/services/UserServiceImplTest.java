@@ -3,6 +3,7 @@ package ar.edu.itba.pawddit.services;
 import java.util.Optional;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ public class UserServiceImplTest {
 	private static final Integer NEW_SCORE = 0;
 
 	@InjectMocks
-	private UserServiceImpl us = new UserServiceImpl();
+	private UserServiceImpl userService; 
 	
 	@Mock
 	private UserDao userDao;
@@ -33,8 +34,8 @@ public class UserServiceImplTest {
 	private PasswordEncoder passwordEncoder;
 	
 	private void createNonExistingUserTestSetup() {
-		Optional<User> empty = Optional.empty();
-		User userToReturn = new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE);
+		final Optional<User> empty = Optional.empty();
+		final User userToReturn = new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE);
 		Mockito.when(userDao.findByEmail(NEW_EMAIL)).thenReturn(empty);
 		Mockito.when(userDao.findByUsername(NEW_USERNAME)).thenReturn(empty);
 		Mockito.when(userDao.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE)).thenReturn(userToReturn);
@@ -44,36 +45,40 @@ public class UserServiceImplTest {
 	@Test
 	public void createNonExistingUserTest() {
 		createNonExistingUserTestSetup();
-		User userToCreate = us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
+		final User userToCreate = userService.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
 		Assert.assertEquals(NEW_USERNAME, userToCreate.getUsername());
 		Assert.assertEquals(NEW_PASSWORD, userToCreate.getPassword());
 		Assert.assertEquals(NEW_EMAIL, userToCreate.getEmail());
 	}
 	
 	private void createUserWithExistingUsernameTestSetup() {
-		Optional<User> existingUser = Optional.of(new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE));
+		final Optional<User> empty = Optional.empty();
+		final Optional<User> existingUser = Optional.of(new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE));
 		Mockito.when(userDao.findByUsername(NEW_USERNAME)).thenReturn(existingUser);
+		Mockito.when(userDao.findByEmail(NEW_EMAIL)).thenReturn(empty);
 	}
 	
 	@Test(expected = UserRepeatedDataException.class)
 	public void createUserWithExistingUsernameTest() {
 		createUserWithExistingUsernameTestSetup();
-		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
+		userService.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
 	}
 	
 	private void createUserWithExistingEmailTestSetup() {
-		Optional<User> existingUser = Optional.of(new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE));
+		final Optional<User> empty = Optional.empty();
+		final Optional<User> existingUser = Optional.of(new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE));
 		Mockito.when(userDao.findByEmail(NEW_EMAIL)).thenReturn(existingUser);
+		Mockito.when(userDao.findByUsername(NEW_USERNAME)).thenReturn(empty);
 	}
 	
 	@Test(expected = UserRepeatedDataException.class)
 	public void createUserWithExistingEmailTest() {
 		createUserWithExistingEmailTestSetup();
-		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
+		userService.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
 	}
 	
 	public void createUserWithExistingEmailAndUsernameTestSetup() {
-		Optional<User> existingUser = Optional.of(new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE));
+		final Optional<User> existingUser = Optional.of(new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE));
 		Mockito.when(userDao.findByEmail(NEW_EMAIL)).thenReturn(existingUser);
 		Mockito.when(userDao.findByUsername(NEW_USERNAME)).thenReturn(existingUser);
 	}
@@ -81,6 +86,6 @@ public class UserServiceImplTest {
 	@Test(expected = UserRepeatedDataException.class)
 	public void createUserWithExistingEmailAndUsernameTest() {
 		createUserWithExistingEmailAndUsernameTestSetup();
-		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
+		userService.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, 0);
 	}
 }

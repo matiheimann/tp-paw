@@ -101,17 +101,14 @@
 			<div class="dropdown-username-text"><c:out value="${user.username}" escapeXml="true"/></div>
 			<span class="dropdown-username-icon"><i class="fas fa-user"></i></span>
 		</div>
-       	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-         		<a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
-					<spring:message code="myProfile.message"/>
-				</a>
-         		<a class="dropdown-item" href="#">
-					<spring:message code="settings.message"/>
-				</a>
-         		<div class="dropdown-divider"></div>
-         		<a class="dropdown-item" href="<c:url value='/logout'/>">
-					<spring:message code="logOut.button.message"/>
-				</a>
-       	</div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
+				<spring:message code="myProfile.message"/>
+			</a>
+    	<div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="<c:url value='/logout'/>">
+				<spring:message code="logOut.button.message"/>
+			</a>
     </div>
+  </div>
 </nav>

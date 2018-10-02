@@ -17,14 +17,10 @@ function searchGroups() {
           dataType: 'json',
           async: true,
           success: function(result) {
-            var dataList = document.getElementById('groupsFound')
-            while (dataList.firstChild) {
-              dataList.removeChild(dataList.firstChild);
-            }
+            $('#groupsFound').empty();
             $.each(result, function(index, group) {
-              var option = document.createElement('option');
-              option.value = group.name;
-              dataList.appendChild(option);
+              var option =  '<a href="'+ getContextPath() + '/group/' + group.name +'" class="list-group-item list-group-item-action list-group-item-light">'+ group.name +'</a>';
+              $('#groupsFound').append(option);
             });
           },
           error: function(jqXHR, textStatus, errorThrown) {
@@ -33,9 +29,7 @@ function searchGroups() {
       });
     }
     else {
-      var dataList = document.getElementById('groupsFound');
-      while (dataList.firstChild) {
-        dataList.removeChild(dataList.firstChild);
-      }
+      var results = document.getElementById('groupsFound');
+      results.innerHTML = '';
     }
 }

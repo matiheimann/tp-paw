@@ -18,10 +18,14 @@ public class PostVoteServiceImpl implements PostVoteService {
 	@Override
 	public Boolean upVote(final User user, final Post post) {
 		final Integer vote = checkVote(user, post);
-		if (vote == 1)
-			return pvd.cancelVote(user, post);
-		else if (vote == -1)
-			return pvd.changeVote(user, post);
+		if (vote == 1) {
+			pvd.cancelVote(user, post);
+			return true;
+		}
+		else if (vote == -1) {
+			pvd.changeVote(user, post);
+			return true;
+		}
 		else
 			return pvd.votePost(user, post, 1);
 	}
@@ -29,10 +33,14 @@ public class PostVoteServiceImpl implements PostVoteService {
 	@Override
 	public Boolean downVote(final User user, final Post post) {
 		final Integer vote = checkVote(user, post);
-		if (vote == -1)
-			return pvd.cancelVote(user, post);
-		else if (vote == 1)
-			return pvd.changeVote(user, post);
+		if (vote == -1) {
+			pvd.cancelVote(user, post);
+			return true;
+		}
+		else if (vote == 1) {
+			pvd.changeVote(user, post);
+			return true;
+		}
 		else
 			return pvd.votePost(user, post, -1);
 	}
@@ -41,5 +49,4 @@ public class PostVoteServiceImpl implements PostVoteService {
 	public Integer checkVote(final User user, final Post post) {
 		return pvd.checkVote(user, post);
 	}
-
 }

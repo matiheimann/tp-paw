@@ -30,17 +30,15 @@ public class PostVoteJdbcDao implements PostVoteDao {
 	}
 
 	@Override
-	public Boolean changeVote(final User user, final Post post) {
+	public int changeVote(final User user, final Post post) {
 		String query = "UPDATE voteposts SET valuevote = valuevote * -1 WHERE userid = ? AND postid = ?";
-		jdbcTemplate.update(query, user.getUserid(), post.getPostid());
-		return true;
+		return jdbcTemplate.update(query, user.getUserid(), post.getPostid());
 	}
 
 	@Override
-	public Boolean cancelVote(final User user, final Post post) {
+	public int cancelVote(final User user, final Post post) {
 		String query = "DELETE FROM voteposts WHERE userid = ? AND postid = ?";
-		jdbcTemplate.update(query, user.getUserid(), post.getPostid());
-		return false;
+		return jdbcTemplate.update(query, user.getUserid(), post.getPostid());
 	}
 
 	@Override

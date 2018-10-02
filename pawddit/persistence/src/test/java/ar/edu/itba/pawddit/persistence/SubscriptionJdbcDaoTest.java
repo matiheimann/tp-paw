@@ -1,6 +1,5 @@
 package ar.edu.itba.pawddit.persistence;
 
-import java.sql.Timestamp;
 import java.util.Optional;
 
 import javax.sql.DataSource;

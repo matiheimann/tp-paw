@@ -36,14 +36,14 @@ public class UserServiceImplTest {
 		User userToReturn = new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, false, true, 0);
 		Mockito.when(userDao.findByEmail(NEW_EMAIL)).thenReturn(empty);
 		Mockito.when(userDao.findByUsername(NEW_USERNAME)).thenReturn(empty);
-		Mockito.when(userDao.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL)).thenReturn(userToReturn);
+		Mockito.when(userDao.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, false, true)).thenReturn(userToReturn);
 		Mockito.when(passwordEncoder.encode(NEW_PASSWORD)).thenReturn(NEW_PASSWORD);
 	}
 	
 	@Test
 	public void createNonExistingUserTest() {
 		createNonExistingUserTestSetup();
-		User userToCreate = us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL);
+		User userToCreate = us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, true);
 		Assert.assertEquals(NEW_USERNAME, userToCreate.getUsername());
 		Assert.assertEquals(NEW_PASSWORD, userToCreate.getPassword());
 		Assert.assertEquals(NEW_EMAIL, userToCreate.getEmail());
@@ -57,7 +57,7 @@ public class UserServiceImplTest {
 	@Test(expected = UserRepeatedDataException.class)
 	public void createUserWithExistingUsernameTest() {
 		createUserWithExistingUsernameTestSetup();
-		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL);
+		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, false);
 	}
 	
 	private void createUserWithExistingEmailTestSetup() {
@@ -68,7 +68,7 @@ public class UserServiceImplTest {
 	@Test(expected = UserRepeatedDataException.class)
 	public void createUserWithExistingEmailTest() {
 		createUserWithExistingEmailTestSetup();
-		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL);
+		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, false);
 	}
 	
 	public void createUserWithExistingEmailAndUsernameTestSetup() {
@@ -80,6 +80,6 @@ public class UserServiceImplTest {
 	@Test(expected = UserRepeatedDataException.class)
 	public void createUserWithExistingEmailAndUsernameTest() {
 		createUserWithExistingEmailAndUsernameTestSetup();
-		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL);
+		us.create(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, false);
 	}
 }

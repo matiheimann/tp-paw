@@ -77,6 +77,8 @@ public class PostController {
 			return createPost(form, false, false, false);
 		}
 		
+		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
+		
 		String imageId = null;
 		final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg");
 		try {
@@ -131,7 +133,6 @@ public class PostController {
 			return createPost(form, false, false, true);
 		}
 
-		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;

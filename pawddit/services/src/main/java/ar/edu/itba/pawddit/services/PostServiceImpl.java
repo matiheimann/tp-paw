@@ -12,6 +12,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.PostDao;
+import ar.edu.itba.pawddit.persistence.SubscriptionDao;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
 @Service
@@ -20,9 +21,14 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostDao postDao;
+	
+	@Autowired
+	private SubscriptionDao subscriptionDao;
 
 	@Override
 	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user, final String imageId) {
+		if (!subscriptionDao.isUserSub(user, group))
+			throw new NoPermissionsException();
 		return postDao.create(title, content, date, group, user, imageId);
 	}
 	

@@ -47,6 +47,8 @@ public class GlobalController {
 	public List<Group> groups(@ModelAttribute("user") final User user) {
 		if (user == null)
 			return null;
+		if (user.getIsAdmin())
+			return gs.findAll();
 		return gs.getSuscribed(user);
 	} 
 	

@@ -56,7 +56,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
-	public ModelAndView registerPost(final HttpServletRequest req, @Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors, final HttpServletRequest request) {
+	public ModelAndView registerPost(final HttpServletRequest req, @Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
 			return register(form, false, false);
 		}
@@ -64,7 +64,7 @@ public class UserController {
 		final User user;
 
 		try {
-			user = us.create(form.getUsername(), form.getPassword(), form.getEmail());
+			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		}
 		catch(UserRepeatedDataException e) {
 			Boolean usernameExistsError = false;

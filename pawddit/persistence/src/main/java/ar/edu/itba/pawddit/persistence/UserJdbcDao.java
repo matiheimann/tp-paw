@@ -62,13 +62,13 @@ public class UserJdbcDao implements UserDao {
 	}
 
 	@Override
-	public User create(final String username, final String password, final String email) {
+	public User create(final String username, final String password, final String email, final Boolean admin, final Boolean enabled) {
 		final Map<String, Object> args = new HashMap<>();
 		args.put("username", username); // la key es el nombre de la columna
 		args.put("password", password);
 		args.put("email", email);
-		args.put("admin", false);
-		args.put("enabled", false);
+		args.put("admin", admin);
+		args.put("enabled", enabled);
 		final Number userId = jdbcInsertUsers.executeAndReturnKey(args);
 		return new User(username, password, email, false, false, userId.longValue());
 	}
@@ -106,6 +106,11 @@ public class UserJdbcDao implements UserDao {
 	@Override
 	public int enableUser(final User user) {
 		return jdbcTemplate.update("UPDATE users SET enabled = true WHERE userid = ?", user.getUserid());
+	}
+
+	@Override
+	public int deleteUser(final User user) {
+		return jdbcTemplate.update("DELETE FROM users WHERE userid = ?", user.getUserid());
 	}
 
 }

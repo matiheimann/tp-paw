@@ -6,9 +6,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ErrorController {
+	
 	@RequestMapping("/invalidUrl")
 	public ModelAndView invalidUrl() {
 		return new ModelAndView("errorLink");
 	}
+	
 }
 

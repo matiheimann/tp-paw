@@ -13,7 +13,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.CommentDao;
-import ar.edu.itba.pawddit.services.exceptions.NotOwnerOfGroupException;
+import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
 @Service
 @Transactional
@@ -53,10 +53,10 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int deleteById(final User user, final Group group, final Post post, final long id) {
-		if (user.getUserid() != group.getOwner().getUserid())
-			throw new NotOwnerOfGroupException();
-		return commentDao.deleteById(post, id);
+	public int deleteComment(final User user, final Group group, final Post post, final Comment comment) {
+		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid() && user.getUserid() != post.getOwner().getUserid() && user.getUserid() != comment.getOwner().getUserid())
+			throw new NoPermissionsException();
+		return commentDao.deleteById(post, comment.getCommentid());
 	}
 
 }

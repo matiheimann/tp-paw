@@ -20,6 +20,6 @@ public interface PostService {
 	public Optional<Post> findById(Group group, long id);
 	public List<Post> findBySubscriptions(User user, int limit, int offset, String sort);
 	public int findBySubscriptionsCount(User user);
-	public int deleteById(User user, Group group, long id);
+	public int deletePost(User user, Group group, Post post);
 	
 }

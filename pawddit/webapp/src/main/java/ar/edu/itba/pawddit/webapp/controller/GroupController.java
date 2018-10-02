@@ -23,7 +23,6 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
 import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
-import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
@@ -76,7 +75,7 @@ public class GroupController {
 	public ModelAndView deletePost(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		if (user != null) {
-			gs.deleteByName(user, group);
+			gs.deleteGroup(user, group);
 		}
 		final ModelAndView mav = new ModelAndView("redirect:/");
 		return mav;

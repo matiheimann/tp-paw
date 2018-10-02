@@ -12,7 +12,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.GroupDao;
 import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
-import ar.edu.itba.pawddit.services.exceptions.NotOwnerOfGroupException;
+import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
 @Service
 @Transactional
@@ -46,24 +46,24 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<Group> getSuscribed(User user) {
+	public List<Group> getSuscribed(final User user) {
 		return groupDao.getSuscribed(user);
 	}
 
 	@Override
-	public int deleteByName(User user, Group group) {
-		if (user.getUserid() != group.getOwner().getUserid())
-			throw new NotOwnerOfGroupException();
+	public int deleteGroup(final User user, final Group group) {
+		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid())
+			throw new NoPermissionsException();
 		return groupDao.deleteByName(group.getName());
 	}
 
 	@Override
-	public List<Group> searchByName(String name) {
+	public List<Group> searchByName(final String name) {
 		return groupDao.searchByName(name);
 	}
 
 	@Override
-	public List<Group> searchByInterest(User user) {
+	public List<Group> searchByInterest(final User user) {
 		return groupDao.searchByInterest(user);
 	}
 	

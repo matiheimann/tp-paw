@@ -9,11 +9,13 @@ $(document).ready(function() {
 });
 
 function searchGroups() {
-    if ($("#searchGroup").val() != "") {
-      $("#searchGroupForm").attr("href", getContextPath() + "/group/" + $("#searchGroup").val());
+    var input = $("#searchGroup");
+    input.val(input.val().replace(/[^a-zA-Z0-9]/g, ''));
+    if (input.val() != "") {
+      $("#searchGroupForm").attr("href", getContextPath() + "/group/" +  input.val());
       $.ajax({
           type: 'GET',
-          url: getContextPath() + '/searchGroup?name=' + $("#searchGroup").val(),
+          url: getContextPath() + '/searchGroup?name=' + input.val(),
           dataType: 'json',
           async: true,
           success: function(result) {

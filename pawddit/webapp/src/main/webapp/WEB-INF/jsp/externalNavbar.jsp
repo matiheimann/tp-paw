@@ -27,16 +27,15 @@
 	  </div>
 	</div>
 	<div class="search-navbar">
-		<c:url value="/group/" var="searchGroup"/>
-	    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Search groups..." aria-label="Search">
-	    <datalist id="groupsFound">
-		</datalist>
+		<div class="flex-column-center">
+		    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Search groups..." aria-label="Search">
+		    	<div class="list-group" id="groupsFound"></div>
+		</div>
 		<a id="searchGroupForm" class="create-post" href="<c:url value="/group/"/>">
 			<button class="app-btn-outline" role="button">
 				<spring:message code="search.button.message"/>
 			</button>
 		</a>
-	  </form>
 	</div>
 	<a class="login-btn margin-left-100" href="<c:url value="/login"/>">
 		<button  role="button" class="app-btn-primary login-btn">

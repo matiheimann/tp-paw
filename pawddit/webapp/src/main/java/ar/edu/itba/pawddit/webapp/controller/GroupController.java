@@ -39,8 +39,8 @@ public class GroupController {
 	@Autowired
 	private SubscriptionService ss;
 	
-	@RequestMapping(value = "/searchGroup/{groupName}", method = { RequestMethod.GET })
-	public @ResponseBody List<Group> searchGroups(@PathVariable final String groupName) {
+	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
+	public @ResponseBody List<Group> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
 		List<Group> groups = gs.searchByName(groupName);
 		return groups;
 	}

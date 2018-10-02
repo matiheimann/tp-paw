@@ -13,7 +13,7 @@ function searchGroups() {
       $("#searchGroupForm").attr("href", getContextPath() + "/group/" + $("#searchGroup").val());
       $.ajax({
           type: 'GET',
-          url: getContextPath() + '/searchGroup/' + $("#searchGroup").val(),
+          url: getContextPath() + '/searchGroup?name=' + $("#searchGroup").val(),
           dataType: 'json',
           async: true,
           success: function(result) {

@@ -63,17 +63,15 @@
 	  </div>
 	</div>
 	<div class="search-navbar">
-		<c:url value="/group/" var="searchGroup"/>
-			<div class="flex-column-center">
+		<div class="flex-column-center">
 		    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Search groups..." aria-label="Search">
-		    <div class="list-group" id="groupsFound"></div>
-			</div>
+		    	<div class="list-group" id="groupsFound"></div>
+		</div>
 		<a id="searchGroupForm" class="create-post" href="<c:url value="/group/"/>">
 			<button class="app-btn-outline" role="button">
 				<spring:message code="search.button.message"/>
 			</button>
 		</a>
-	  </form>
 	</div>
 	<c:if test="${fn:length(groups) > 0}">
 		<a class="create-post margin-left-100" href="<c:url value="/createPost"/>">

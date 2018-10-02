@@ -2,10 +2,14 @@ $(document).ready(function() {
     $('#popoverPost').popover();
     $("time.timeago").timeago();
     $("#searchGroup").on('input', searchGroups);
+    if($(".header-button-delete-group").length)
+    {
+      $(".owned-by").addClass("margin-left-auto");
+    }
 });
 
 function searchGroups() {
-    if ($("#searchGroup").val() != "") { 
+    if ($("#searchGroup").val() != "") {
       $("#searchGroupForm").attr("href", getContextPath() + "/group/" + $("#searchGroup").val());
       $.ajax({
           type: 'GET',

@@ -4,8 +4,9 @@ CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
 	score INTEGER,
+	admin BOOLEAN NOT NULL,
 	enabled BOOLEAN NOT NULL
 );
 
-INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0, TRUE); 
+INSERT INTO users VALUES (1, 'testUsername', 'testEmail', 'testPassword', 0, FALSE, TRUE); 
 

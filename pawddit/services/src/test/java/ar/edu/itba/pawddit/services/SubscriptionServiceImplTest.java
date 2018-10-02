@@ -38,7 +38,7 @@ public class SubscriptionServiceImplTest {
 	
 	@Before
 	public void setup() {
-		testUser = new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, NEW_SCORE, true, NEW_SCORE);
+		testUser = new User(NEW_USERNAME, NEW_PASSWORD, NEW_EMAIL, false, true, NEW_SCORE);
 		testGroup = new Group(GROUP_NAME, GROUP_DATE, GROUP_DESCRIPTION, testUser, 1);
 	}
 	

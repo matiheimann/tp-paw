@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
 	score INTEGER,
+	admin BOOLEAN NOT NULL,
 	enabled BOOLEAN NOT NULL
 );
 
@@ -70,7 +71,7 @@ CREATE TABLE IF NOT EXISTS votecomments (
 	FOREIGN KEY(commentid) REFERENCES comments(commentid) ON DELETE CASCADE
 );
 
-INSERT INTO users VALUES (1, 'testUser', 'testEmail', 'testPassword', 0, TRUE);
+INSERT INTO users VALUES (1, 'testUser', 'testEmail', 'testPassword', 0, FALSE, TRUE);
 INSERT INTO groups VALUES ('testGroup', '2018-09-21 19:15:40.5', 'testDescription', 1);
 INSERT INTO posts VALUES (1, 'testPost1', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);
 INSERT INTO posts VALUES (2, 'testPost2', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);

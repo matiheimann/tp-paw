@@ -64,7 +64,7 @@ public class UserController {
 		final User user;
 
 		try {
-			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), 0);
+			user = us.create(form.getUsername(), form.getPassword(), form.getEmail());
 		}
 		catch(UserRepeatedDataException e) {
 			Boolean usernameExistsError = false;

@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort){
+	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort) {
 		return postDao.findBySubscriptions(user, limit, offset, sort);
 	}
 

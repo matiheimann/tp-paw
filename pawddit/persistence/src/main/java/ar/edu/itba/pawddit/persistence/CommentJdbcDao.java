@@ -43,7 +43,7 @@ public class CommentJdbcDao implements CommentDao {
 						rs.getString("username"), 
 						rs.getString("email"), 
 						rs.getString("password"), 
-						rs.getInt("score"), 
+						rs.getBoolean("admin"), 
 						rs.getBoolean("enabled"),
 						rs.getInt("userid")
 				),
@@ -76,7 +76,7 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid, username, score, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
+		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid, username, admin, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
 				+ "comments.commentid AS commentid, coalesce(sum(valuevote), 0) AS votes "
 				+ "FROM comments JOIN users ON comments.userid = users.userid "
 				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "
@@ -88,7 +88,7 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
-		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid AS postid, username, score, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
+		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid AS postid, username, admin, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
 				+ "comments.commentid AS commentid, coalesce(sum(valuevote), 0) AS votes "
 				+ "FROM comments JOIN users ON comments.userid = users.userid  "
 				+ "INNER JOIN posts ON posts.postid = comments.postid "
@@ -101,7 +101,7 @@ public class CommentJdbcDao implements CommentDao {
 
 	@Override
 	public Optional<Comment> findById(final Post post, final long id) {
-		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid AS postid, username, score, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
+		return jdbcTemplate.query("SELECT comments.content AS content, comments.postid AS postid, username, admin, email, password, enabled, users.userid AS userid, comments.creationdate AS creationdate, "
 				+ "comments.commentid AS commentid, coalesce(sum(valuevote), 0) AS votes "
 				+ "FROM comments JOIN users ON comments.userid = users.userid "
 				+ "FULL OUTER JOIN votecomments ON votecomments.commentid = comments.commentid "

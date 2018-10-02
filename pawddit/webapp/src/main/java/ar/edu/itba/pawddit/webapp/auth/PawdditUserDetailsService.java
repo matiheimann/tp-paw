@@ -26,6 +26,8 @@ public class PawdditUserDetailsService implements UserDetailsService {
 		
 		final Collection<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		if (user.getIsAdmin())
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
 		return new org.springframework.security.core.userdetails.User(username, user.getPassword(), user.getEnabled(), true, true, true, authorities);
 	}

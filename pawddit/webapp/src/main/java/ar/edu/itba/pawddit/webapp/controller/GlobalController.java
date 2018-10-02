@@ -43,16 +43,6 @@ public class GlobalController {
 		return us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
 	}
 	
-	@ModelAttribute("isAdmin")
-	public Boolean isAdmin() {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-			return false;
-		}
-		
-		return true;
-	} 
-	
 	@ModelAttribute("groups")
 	public List<Group> groups(@ModelAttribute("user") final User user) {
 		if (user == null)

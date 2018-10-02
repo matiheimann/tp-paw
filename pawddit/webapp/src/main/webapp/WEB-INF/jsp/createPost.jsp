@@ -56,17 +56,17 @@
 	   								</form:label>
 	   								<c:if test="${imageSizeError eq true}">
 		   								<label class="formError">
-		   									image too big
+		   									<spring:message code="image.toobig.message"/>
 		   								</label>
 		   							</c:if>
 		   							<c:if test="${imageFormatError eq true}">
 		   								<label class="formError">
-		   									image format is invalid
+		   									<spring:message code="image.format.notvalid.message"/>
 		   								</label>
 		   							</c:if>
 		   							<c:if test="${imageUploadError eq true}">
 		   								<label class="formError">
-		   									image upload failed
+		   									<spring:message code="image.upload.failed.message"/>
 		   								</label>
 		   							</c:if>
 									<br>

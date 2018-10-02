@@ -100,7 +100,7 @@ public class GroupController {
 	
 	@RequestMapping(value = "/group/{groupName}/subscribe", method = { RequestMethod.POST })
 	public ModelAndView groupSubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
+		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 	
 		ss.suscribe(user, group);
 		
@@ -111,7 +111,7 @@ public class GroupController {
 	
 	@RequestMapping(value = "/group/{groupName}/unsubscribe", method = { RequestMethod.POST })
 	public ModelAndView groupUnsubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(UserNotFoundException::new);
+		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 	
 		ss.unsuscribe(user, group);
 
@@ -123,10 +123,8 @@ public class GroupController {
 	@RequestMapping(value= "/recommendedGroups")
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("recomendedGroups");
-		if(user != null) {
-			mav.addObject("groups", gs.getSuscribed(user));
-			mav.addObject("groupsInterested", gs.searchByInterest(user));
-		}
+		mav.addObject("groups", gs.getSuscribed(user));
+		mav.addObject("groupsInterested", gs.searchByInterest(user));
 		return mav;
 	}
 

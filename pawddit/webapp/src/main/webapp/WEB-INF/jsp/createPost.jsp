@@ -27,7 +27,7 @@
     				<h2><spring:message code="createPost.title" /></h2>
     				<br>
     				    <c:url value="/createPost" var="postPath"/>
-	    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post" enctype="multipart/form-data">
+	    				<form:form modelAttribute="createPostForm" action="${postPath}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
 	    					  <div class="form-group">
 	    					    <form:label for="post-title" path="title">
 									<spring:message code="postTitleField.title"/>

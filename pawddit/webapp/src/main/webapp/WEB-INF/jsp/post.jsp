@@ -34,7 +34,7 @@
                <span class="header-button"><c:out value="${post.group.name}" escapeXml="true"/></span>
              </a>
              <span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
-             <c:if test="${user.userid eq group.owner.userid}">
+             <c:if test="${(user.userid eq group.owner.userid) || (user.isAdmin) || (user.userid eq post.owner.userid)}">
 			 	<i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmPostDeletion"></i>
 			 	<%@include file="confirmPostDeletion.jsp" %>
 			 </c:if>
@@ -141,7 +141,7 @@
 								 </span>
                  <span class="header-button clickable" onclick='window.location="<c:url value='/profile/${comment.owner.username}'/>"'><c:out value="${comment.owner.username}" escapeXml="true"/></span>
                  <span><strong><time class="timeago" datetime='<c:out value="${comment.date}" escapeXml="true"/>'></time></strong></span>
-                 <c:if test="${user.userid eq group.owner.userid}">
+                 <c:if test="${(user.userid eq group.owner.userid) || (user.isAdmin) || (user.userid eq post.owner.userid) || (user.userid eq comment.owner.userid)}">
 									 	<i class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmCommentDeletion"></i>
 									 	<%@include file="confirmCommentDeletion.jsp" %>
 				 				</c:if>

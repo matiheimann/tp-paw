@@ -52,7 +52,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public int deleteByName(User user, Group group) {
-		if (user != group.getOwner())
+		if (user.getUserid() != group.getOwner().getUserid())
 			throw new NotOwnerOfGroupException();
 		return groupDao.deleteByName(group.getName());
 	}

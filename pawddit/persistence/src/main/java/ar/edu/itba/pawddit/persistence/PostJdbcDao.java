@@ -34,7 +34,7 @@ public class PostJdbcDao implements PostDao {
 						null, 
 						null, 
 						null, 
-						0
+						null
 				), 
 				new User(
 						rs.getString("username"), 

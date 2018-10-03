@@ -370,6 +370,10 @@ textarea {
 	overflow-y: scroll;
 }
 
+.max-height-270 {
+	max-height: 270px;
+}
+
 #searchGroup {
 	height: 40px;
 }

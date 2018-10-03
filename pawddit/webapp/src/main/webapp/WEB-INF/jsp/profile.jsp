@@ -28,15 +28,14 @@
 						<i class="fas fa-user fa-3x"></i>
 					</div>
 					<h5 class="username-title"><c:out value="${userProfile.username}" escapeXml="true"/></h5>
-
 					<h4 class="margin-title">
 						<spring:message code="profileActivity.title" />
 					</h4>
 					<h6 class="margin-title lightgrey">
 						<spring:message code="profileActivity.message" />
 					</h6>
-						<nav class="activity">
-						  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+					<nav class="activity">
+						 <div class="nav nav-tabs" id="nav-tab" role="tablist">
 						    <a class="nav-item nav-link active" id="nav-posts-tab" data-toggle="tab" href="#nav-posts" role="tab" aria-controls="nav-posts" aria-selected="true">
 									<spring:message code="profilePosts.title"/>
 								</a>
@@ -44,41 +43,39 @@
 									<spring:message code="profileComments.title"/>
 								</a>
 		 				 </div>
-						</nav>
-						<div class="tab-content center-posts" id="nav-tabContent">
-		  					<div class="tab-pane fade show active overflow-y-scroll width-full" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
-									<c:if test="${empty posts}">
-										<br>
-				  					<strong>
-				  						<spring:message code="userDoesNotHavePosts.message" arguments="${userProfile.username}" />
-				  					</strong>
-									</c:if>
-								<!-- Posts -->
-								<c:forEach items="${posts}" var="post">
-									<div class="activity-posts-component">
-										<div class="post-header">
-											<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${post.owner.username}'/>"'><c:out value="${post.owner.username}" escapeXml="true"/></span>
-											<span><strong>
-												<spring:message code="postedIn.message"/>
-											</strong></span>
-											<a class="no-underline" href="<c:url value="/group/${post.group.name}"/>">
-												<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
-											</a>
-											<span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
-										</div>
-										<hr>
-										<div class="clickable post-center"  onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'>
-											<div class="post-center-text">
-												<h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
-												<div class="post-description-text post-wrap">
-													<c:out value="${post.content}" escapeXml="true"/>
-												</div>
+					</nav>
+					<div class="tab-content center-posts" id="nav-tabContent">
+		  			<div class="tab-pane fade show active overflow-y-scroll width-full" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
+							<c:if test="${empty posts}">
+								<br>
+		  					<strong>
+		  						<spring:message code="userDoesNotHavePosts.message" arguments="${userProfile.username}" />
+		  					</strong>
+							</c:if>
+							<!-- Posts -->
+							<c:forEach items="${posts}" var="post">
+								<div class="activity-posts-component">
+									<div class="post-header">
+										<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${post.owner.username}'/>"'><c:out value="${post.owner.username}" escapeXml="true"/></span>
+										<span><strong><spring:message code="postedIn.message"/></strong></span>
+										<a class="no-underline" href="<c:url value="/group/${post.group.name}"/>">
+											<span class="header-button group-name"><c:out value="${post.group.name}" escapeXml="true"/></span>
+										</a>
+										<span><strong><time class="timeago" datetime='<c:out value="${post.date}" escapeXml="true"/>'></time></strong></span>
+									</div>
+									<hr>
+									<div class="clickable post-center"  onclick='window.location="<c:url value='/group/${post.group.name}/${post.postid}'/>"'>
+										<div class="post-center-text">
+											<h2 class="post-wrap"><c:out value="${post.title}" escapeXml="true"/></h2>
+											<div class="post-description-text post-wrap">
+												<c:out value="${post.content}" escapeXml="true"/>
 											</div>
-											<c:if test="${!empty post.imageid}">
-												<img class="post-center-image" src="<c:url value="/image/${post.imageid}"/>" />
-											</c:if>
 										</div>
-									</c:forEach>
+										<c:if test="${!empty post.imageid}">
+											<img class="post-center-image" src="<c:url value="/image/${post.imageid}"/>" />
+										</c:if>
+									</div>
+								</c:forEach>
 								</div>
 			  				<div class="tab-pane fade overflow-y-scroll width-full" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
 								<c:if test="${empty comments}">
@@ -120,6 +117,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 		<%@include file="footer.jsp" %>
 	</body>
 	<%@include file="scripts.jsp" %>

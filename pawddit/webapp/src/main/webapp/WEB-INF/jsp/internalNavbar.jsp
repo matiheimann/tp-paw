@@ -7,6 +7,7 @@
 	</a>
 	<div class="dropdown show drop-menu">
 	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<c:set var="myVar" value="/profile/${user.username}" />
 			<c:choose>
 				<c:when test="${!empty group}">
 					<i class="dropdown-icon fas fa-users"></i><div class="dropdown-selected-group-overflow"><c:out value="${group.name}" escapeXml="true"/></div>
@@ -17,12 +18,15 @@
 				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/'}">
 					<i class="dropdown-icon fas fa-user-friends"></i><spring:message code="dropdown.button.myfeed.message"/>
 				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == myVar}">
+					<i class="dropdown-icon fas fa-user"></i><spring:message code="myProfile.message"/>
+				</c:when>
 				<c:otherwise>
 					<i class="dropdown-icon fas fa-user-friends"></i><spring:message code="dropdown.button.myfeed.message"/>
 				</c:otherwise>
 			</c:choose>
 	  </button>
-	  <div class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+	  <div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">
 	    <a class="dropdown-item" href="<c:url value="/"/>"><i class="dropdown-icon fas fa-user-friends"></i>
 				<spring:message code="dropdown.button.myfeed.message"/>
 			</a>
@@ -37,6 +41,11 @@
 					<c:out value="${group.name}" escapeXml="true"/>
 				</a>
 			</c:forEach>
+			<div class="dropdown-groups-text"><spring:message code="dropdown.button.other.title"/></div>
+			<a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
+				<i class="dropdown-icon fas fa-user"></i>
+				<spring:message code="myProfile.message"/>
+			</a>
 		</div>
 	</div>
 	<c:set var="actualUrl" value = "${requestScope['javax.servlet.forward.servlet_path']}"/>

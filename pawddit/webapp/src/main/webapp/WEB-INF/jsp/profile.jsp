@@ -45,7 +45,7 @@
 		 				 </div>
 					</nav>
 					<div class="tab-content center-posts" id="nav-tabContent">
-		  			<div class="tab-pane fade show active overflow-y-scroll width-full" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
+		  			<div class="tab-pane fade show active overflow-y-scroll width-full height-full" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
 							<c:if test="${empty posts}">
 								<br>
 		  					<strong>
@@ -75,6 +75,7 @@
 											<img class="post-center-image" src="<c:url value="/image/${post.imageid}"/>" />
 										</c:if>
 									</div>
+								</div>
 								</c:forEach>
 								</div>
 			  				<div class="tab-pane fade overflow-y-scroll width-full" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
@@ -93,7 +94,7 @@
 									</div>
 								</c:forEach>
 							</div>
-		  				<div class="tab-pane fade overflow-y-scroll width-full" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
+		  				<div class="tab-pane fade overflow-y-scroll width-full height-full" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
 							<c:if test="${empty comments}">
 								<br>
 								<strong>
@@ -116,7 +117,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
 		<%@include file="footer.jsp" %>
 	</body>

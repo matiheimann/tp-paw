@@ -2,9 +2,18 @@ $(document).ready(function() {
     $('#popoverPost').popover();
     $("time.timeago").timeago();
     $("#searchGroup").on('input', searchGroups);
-    if($(".header-button-delete-group").length)
-    {
+    if($(".header-button-delete-group").length) {
       $(".owned-by").addClass("margin-left-auto");
+    }
+
+    if($(".sort-indicator").length == 0) {
+      if($(".drop-menu").length) {
+        $(".drop-menu").addClass("margin-right-160");
+      }
+      else {
+        $(".first-logo").addClass("margin-right-160");
+      }
+
     }
 });
 

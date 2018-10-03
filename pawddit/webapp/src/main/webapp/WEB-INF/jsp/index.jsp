@@ -85,7 +85,7 @@
     						</c:when>
     						<c:otherwise>
             					<li class="page-item">
-      								<a class="page-link" href="?page=${postsPage-1}"><-</a>
+      								<a class="page-link" href="?sort=${param.sort}&page=${postsPage-1}"><-</a>
     							</li>
          					</c:otherwise>
          				</c:choose>
@@ -97,7 +97,7 @@
     								</li>
     							</c:when>
     							<c:otherwise>
-    								<li class="page-item"><a class="page-link" href="?page=${i}"><c:out value="${i}" escapeXml="true"/></a></li>
+    								<li class="page-item"><a class="page-link" href="?sort=${param.sort}&page=${i}"><c:out value="${i}" escapeXml="true"/></a></li>
     							</c:otherwise>
          					</c:choose>
     					</c:forEach>
@@ -109,7 +109,7 @@
     						</c:when>
     						<c:otherwise>
     							<li class="page-item">
-      								<a class="page-link" href="?page=${postsPage+1}">-></a>
+      								<a class="page-link" href="?sort=${param.sort}&page=${postsPage+1}">-></a>
     							</li>
     						</c:otherwise>
          				</c:choose>

@@ -2,6 +2,8 @@ package ar.edu.itba.pawddit.webapp.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +35,8 @@ public class GlobalController {
 	@Autowired
 	private GroupService gs;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalController.class);
+	
 	@ModelAttribute("user")
 	public User loggedUser() {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -40,7 +44,9 @@ public class GlobalController {
 			return null;
 		}
 		
-		return us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		final User user = us.findByUsername(auth.getName()).orElseThrow(UserNotFoundException::new);
+		LOGGER.debug("Currently logged user is {}", user.getUserid());
+		return user;
 	}
 	
 	@ModelAttribute("groups")

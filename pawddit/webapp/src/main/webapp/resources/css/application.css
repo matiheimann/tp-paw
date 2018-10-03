@@ -382,6 +382,10 @@ textarea {
 	margin-right: 159px;
 }
 
+.padding-bottom-10 {
+	padding-bottom: 10px;
+}
+
 #searchGroup {
 	height: 40px;
 }

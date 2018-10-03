@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
 	userid SERIAL PRIMARY KEY,
-	username VARCHAR(100) UNIQUE NOT NULL,
+	username TEXT UNIQUE NOT NULL,
 	email TEXT NOT NULL,
 	password TEXT NOT NULL,
 	admin BOOLEAN NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS comments (
 
 CREATE TABLE IF NOT EXISTS subscriptions (	
 	userid INT NOT NULL,
-	groupname VARCHAR(20) NOT NULL,
+	groupname TEXT NOT NULL,
 	PRIMARY KEY(userid, groupname),
 	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE,
 	FOREIGN KEY(groupname) REFERENCES groups(name) ON DELETE CASCADE

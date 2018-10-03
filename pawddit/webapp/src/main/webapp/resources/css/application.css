@@ -411,3 +411,25 @@ textarea {
 		margin-left: 0;
 	}
 }
+
+@media screen and (max-width: 799px) {
+	.center-content {
+		padding-top: 170px;
+	}
+
+	.navbar-component {
+		padding: 3px;
+		height: 170px;
+		flex-wrap: wrap;
+	}
+
+	.first-logo {
+		order: -2;
+	}
+
+	.search-navbar {
+		order: -1;
+		min-width: 290px;
+		flex: 1 0 80%;
+	}
+}

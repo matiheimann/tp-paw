@@ -100,9 +100,9 @@ public class UserController {
 		return mav;
 	}
 
-	@RequestMapping("/profile/{username}")
-	public ModelAndView profile(@PathVariable final String username, @ModelAttribute("user") final User user) {
-		final User userProfile = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
+	@RequestMapping("/profile/{profile}")
+	public ModelAndView profile(@PathVariable final String profile, @ModelAttribute("user") final User user) {
+		final User userProfile = us.findByUsername(profile).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, 0, null));

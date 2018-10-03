@@ -1,5 +1,5 @@
-<nav class="navbar-component">
-	<a class="no-underline" href="<c:url value="/"/>">
+<nav class="navbar-component navbar-component-external">
+	<a class="no-underline first-logo" href="<c:url value="/"/>">
 		<h2 class="logo logo-full">Pawddit.</h2>
 		<h2 class="logo logo-reduced">P.</h2>
 	</a>

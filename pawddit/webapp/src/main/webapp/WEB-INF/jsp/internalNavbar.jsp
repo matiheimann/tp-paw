@@ -1,11 +1,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <nav class="navbar-component">
-	<a class="no-underline" href="<c:url value="/"/>">
+	<a class="no-underline first-logo" href="<c:url value="/"/>">
 		<h2 class="logo logo-full">Pawddit.</h2>
 		<h2 class="logo logo-reduced">P.</h2>
 	</a>
-	<div class="dropdown show">
+	<div class="dropdown show drop-menu">
 	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<c:choose>
 				<c:when test="${!empty group}">
@@ -40,7 +40,7 @@
 		</div>
 	</div>
 	<div class="sort-indicator"><spring:message code="dropdown.sort.button.title"/></div>
-	<div class="dropdown show">
+	<div class="dropdown show drop-sort">
 	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<c:choose>
 				<c:when test="${param.sort == 'top'}">

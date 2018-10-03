@@ -6,7 +6,7 @@
 		<title>
 			Pawddit | <spring:message code="login.title"/>
 		</title>
-		<meta name="description" content="feed">
+		<meta name="description" content="<spring:message code="meta.description.login.message"/>">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />
@@ -54,7 +54,7 @@
 							<label>
 								<spring:message code="loginRememberMe.title"/>
 							</label>
-							<input type="checkbox" name="j_rememberme"/> 
+							<input type="checkbox" name="j_rememberme"/>
 						</div>
 						<button type="submit" class="app-btn-primary login-btn">
 							<spring:message code="loginSubmit.button.message"/>

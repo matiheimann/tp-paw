@@ -8,13 +8,14 @@
 		<title>
 			Pawddit | <spring:message code="homePage.title"/>
 		</title>
+		<meta name="description" content="<spring:message code="meta.description.feed.message"/>">
 		</c:if>
 		<c:if test="${!empty group}">
 		<title>
 			Pawddit | <c:out value="${group.name}" escapeXml="true"/>
 		</title>
+		<meta name="description" content="<spring:message code="meta.description.group.message"/>">
 		</c:if>
-		<meta name="description" content="feed">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" href="<c:url value="/resources/images/tab-logo.png" />">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/application.css" />" />

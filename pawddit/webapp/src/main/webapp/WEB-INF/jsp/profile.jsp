@@ -78,22 +78,6 @@
 								</div>
 								</c:forEach>
 								</div>
-			  				<div class="tab-pane fade overflow-y-scroll width-full" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
-								<c:if test="${empty comments}">
-									<br>
-									<strong>
-										<spring:message code="userDoesNotHaveComments.message" arguments="${userProfile.username}"/>
-									</strong>
-								</c:if>
-								<c:forEach items="${comments}" var="comment">
-									<div class="activity-comments-component">
-										<div class="comment-header">
-											<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${comment.owner.username}'/>"'><c:out value="${comment.owner.username}" escapeXml="true"/></span>
-											<span><strong><time class="timeago" datetime='<c:out value="${comment.date}" escapeXml="true"/>'></time></strong></span>
-										</div>
-									</div>
-								</c:forEach>
-							</div>
 		  				<div class="tab-pane fade overflow-y-scroll width-full height-full" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
 							<c:if test="${empty comments}">
 								<br>

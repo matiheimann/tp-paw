@@ -39,6 +39,9 @@
 			</c:forEach>
 		</div>
 	</div>
+	<c:set var="actualUrl" value = "${requestScope['javax.servlet.forward.servlet_path']}"/>
+	<c:set var="groupUrl" value = "/group/${group.name}"/>
+	<c:if test="${actualUrl == groupUrl or actualUrl == '/' or actualUrl == '/all'}">
 	<div class="sort-indicator"><spring:message code="dropdown.sort.button.title"/></div>
 	<div class="dropdown show drop-sort">
 	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,6 +65,7 @@
 			</a>
 	  </div>
 	</div>
+	</c:if>
 	<div class="search-navbar">
 		<div class="flex-column-center">
 		  	<spring:message code="searchGroups.placeholder" var="searchGroupsPlaceholder"/>

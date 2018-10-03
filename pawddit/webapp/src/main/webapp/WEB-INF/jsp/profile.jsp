@@ -75,6 +75,17 @@
 											<img class="post-center-image" src="<c:url value="/image/${post.imageid}"/>" />
 										</c:if>
 									</div>
+									<hr>
+									<div class="post-info">
+										<div class="info-item">
+					         				<strong><i class="fas fa-comment"></i>
+					         				<c:out value="${post.comments}" escapeXml="true"/> <spring:message code="comments.message"/>
+					         				</strong>
+					     				</div>
+										<div class="info-item">
+											<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/> <spring:message code="posts.votes"/> </strong>
+					     				</div>
+									</div>
 								</div>
 								</c:forEach>
 								</div>

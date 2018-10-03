@@ -374,6 +374,10 @@ textarea {
 	max-height: 270px;
 }
 
+.margin-right-160 {
+	margin-right: 159px;
+}
+
 #searchGroup {
 	height: 40px;
 }

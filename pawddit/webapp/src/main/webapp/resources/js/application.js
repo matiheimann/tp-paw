@@ -19,6 +19,8 @@ $(document).ready(function() {
 
 function searchGroups() {
     var input = $("#searchGroup");
+    if (input.val().length > 32)
+      input.val(input.val().replace(/.$/, ''))
     input.val(input.val().replace(/[^a-zA-Z0-9]/g, ''));
     if (input.val() != "") {
       $("#searchGroupForm").attr("href", getContextPath() + "/group/" +  input.val());

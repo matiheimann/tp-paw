@@ -2,17 +2,25 @@ package ar.edu.itba.pawddit.webapp.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.RedirectView;
 
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
@@ -59,51 +67,86 @@ public class GlobalController {
 	} 
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
-	public ModelAndView noHandlerFoundException() {
+	public ModelAndView noHandlerFound() {
 		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
 		return mav;
 	}
 	
 	@ExceptionHandler(UserNotFoundException.class)
-	public ModelAndView userNotFound() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView userNotFound(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorUserNotFound", new Boolean(true));
+	    }
+	    return rw;
 	}
 
 	@ExceptionHandler(GroupNotFoundException.class)
-	public ModelAndView groupNotFound() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView groupNotFound(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorGroupNotFound", new Boolean(true));
+	    }
+	    return rw;
 	}
 	
 	@ExceptionHandler(PostNotFoundException.class)
-	public ModelAndView postNotFound() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView postNotFound(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorPostNotFound", new Boolean(true));
+	    }
+	    return rw;
 	}
 	
 	@ExceptionHandler(CommentNotFoundException.class)
-	public ModelAndView commentNotFound() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView commentNotFound(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorCommentNotFound", new Boolean(true));
+	    }
+	    return rw;
 	}
 	
 	@ExceptionHandler(VerificationTokenNotFoundException.class)
-	public ModelAndView verificationTokenNotFound() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView verificationTokenNotFound(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorVerificationTokenNotFound", new Boolean(true));
+	    }
+	    return rw;
 	}
 	
 	@ExceptionHandler(ImageNotFoundException.class)
-	public ModelAndView imageNotFound() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView imageNotFound(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorImageNotFound", new Boolean(true));
+	    }
+	    return rw;
 	}
 	
 	@ExceptionHandler(NoPermissionsException.class)
-	public ModelAndView notOwnerOfGroupException() {
-		final ModelAndView mav = new ModelAndView("redirect:/invalidUrl");
-		return mav;
+	public RedirectView noPermissions(HttpServletRequest request) {
+	    RedirectView rw = new RedirectView(request.getContextPath() + "/invalidUrl");
+	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+	    if (outputFlashMap != null){
+	        outputFlashMap.put("errorNoPermissions", new Boolean(true));
+	    }
+	    return rw;
 	}
 	
 }

@@ -25,17 +25,26 @@
       <div class="center-content">
   			<div class="template-component">
           <c:choose>
-    				<c:when test="">
-    					<h4><spring:message code="errorLinkAccount.message"/></h4>
+    				<c:when test="${errorUserNotFound == true}">
+    					<h4><spring:message code="errorUserNotFound.message"/></h4>
     				</c:when>
-    				<c:when test="${ == }">
-    					<h4><spring:message code="errorLinkAccount.message"/></h4>
+    				<c:when test="${errorGroupNotFound == true}">
+    					<h4><spring:message code="errorGroupNotFound.message"/></h4>
     				</c:when>
-    				<c:when test="${ == }">
-    					<h4><spring:message code="errorLinkAccount.message"/></h4>
+    				<c:when test="${errorPostNotFound == true}">
+    					<h4><spring:message code="errorPostNotFound.message"/></h4>
     				</c:when>
-    				<c:when test="${ == }">
-    					<h4><spring:message code="errorLinkAccount.message"/></h4>
+    				<c:when test="${errorCommentNotFound == true}">
+    					<h4><spring:message code="errorCommentNotFound.message"/></h4>
+    				</c:when>
+    				<c:when test="${errorVerificationTokenNotFound == true}">
+    					<h4><spring:message code="errorVerificationTokenNotFound.message"/></h4>
+    				</c:when>
+    				<c:when test="${errorImageNotFound == true}">
+    					<h4><spring:message code="errorImageNotFound.message"/></h4>
+    				</c:when>
+    				<c:when test="${errorNoPermissions == true}">
+    					<h4><spring:message code="errorNoPermissions.message"/></h4>
     				</c:when>
     				<c:otherwise>
     					<h4><spring:message code="errorLinkAccount.message"/></h4>

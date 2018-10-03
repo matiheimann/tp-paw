@@ -9,8 +9,8 @@ public class ErrorController {
 	
 	@RequestMapping("/invalidUrl")
 	public ModelAndView invalidUrl() {
-		return new ModelAndView("errorLink");
+		final ModelAndView mav = new ModelAndView("errorTemplate");
+		return mav;
 	}
 	
 }
-

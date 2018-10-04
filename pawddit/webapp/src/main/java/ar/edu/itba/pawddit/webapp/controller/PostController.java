@@ -90,6 +90,9 @@ public class PostController {
 				ByteArrayInputStream in = new ByteArrayInputStream(file.getBytes());
 				BufferedImage img = ImageIO.read(in);
 				
+				if (img == null)
+					throw new ImageFormatException();
+				
 				int width = img.getWidth();
 				int height = img.getHeight();
 				int maxW = 770;

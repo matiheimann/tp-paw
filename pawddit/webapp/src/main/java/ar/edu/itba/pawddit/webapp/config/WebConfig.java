@@ -3,6 +3,7 @@ package ar.edu.itba.pawddit.webapp.config;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,10 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -38,9 +43,6 @@ import org.springframework.web.servlet.view.JstlView;
 				 "ar.edu.itba.pawddit.services", 
 	             "ar.edu.itba.pawddit.persistence", })
 public class WebConfig extends WebMvcConfigurerAdapter {
-	
-	@Value("classpath:schema.sql")
-	private Resource schemaSql;
 	
 	@Bean
 	public ViewResolver viewResolver() {
@@ -73,18 +75,26 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
-	public DataSourceInitializer dataSourceInitializer(final DataSource ds) {
-		final DataSourceInitializer dsi = new DataSourceInitializer();
-		dsi.setDataSource(ds);
-		dsi.setDatabasePopulator(databasePopulator());
-		return dsi;
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+		factoryBean.setPackagesToScan("ar.edu.itba.model");
+		factoryBean.setDataSource(dataSource());
+		
+		final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		factoryBean.setJpaVendorAdapter(vendorAdapter);
+		
+		final Properties properties = new Properties();
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+		
+		// Si ponen esto en prod, hay tabla!!!
+		properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("format_sql", "true");
+		
+		factoryBean.setJpaProperties(properties);
+		return factoryBean;
 	}
-	
-	private DatabasePopulator databasePopulator() {
-		final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-		dbp.addScript(schemaSql);
-		return dbp;
-	}
+
 	
 	@Bean
 	public MessageSource messageSource() {
@@ -96,8 +106,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
-	public PlatformTransactionManager transactionManager(final DataSource ds) {
-		return new DataSourceTransactionManager(ds);
+	public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
 	}
 	
 	@Bean

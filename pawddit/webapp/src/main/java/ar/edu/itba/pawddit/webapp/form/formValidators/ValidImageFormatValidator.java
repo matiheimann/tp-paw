@@ -17,7 +17,7 @@ import ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat;
 
 public class ValidImageFormatValidator implements ConstraintValidator<ValidImageFormat, CreatePostForm> {
 		
-	final List<String> VALID_CONTENT_TYPES = Arrays.asList("image/png", "image/jpeg");
+	private final List<String> VALID_CONTENT_TYPES = Arrays.asList("image/png", "image/jpeg");
 
 	@Override
 	public void initialize(ValidImageFormat constraintAnnotation) {		

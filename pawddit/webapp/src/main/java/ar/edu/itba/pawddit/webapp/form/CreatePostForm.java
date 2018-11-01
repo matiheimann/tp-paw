@@ -4,6 +4,9 @@ import javax.validation.constraints.Size;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat;
+
+@ValidImageFormat
 public class CreatePostForm {
 	
 	@Size(min = 4, max = 60)

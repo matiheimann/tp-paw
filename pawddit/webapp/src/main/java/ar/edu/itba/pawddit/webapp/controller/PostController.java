@@ -63,10 +63,8 @@ public class PostController {
 	private ImageService is;
 	
 	@RequestMapping("/createPost")
-	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostForm form, @RequestParam(value = "error", required = false) final Boolean imageSizeError, final Boolean imageFormatError, final Boolean imageUploadError) {
+	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostForm form, @RequestParam(value = "error", required = false) final Boolean imageUploadError) {
 		final ModelAndView mav = new ModelAndView("createPost");
-		mav.addObject("imageSizeError", imageSizeError);
-		mav.addObject("imageFormatError", imageFormatError);
 		mav.addObject("imageUploadError", imageUploadError);
 		return mav;
 	}
@@ -74,24 +72,18 @@ public class PostController {
 	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
 	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
-			return createPost(form, false, false, false);
+			return createPost(form, false);
 		}
 		
 		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
 		
 		String imageId = null;
-		final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg");
 		try {
 			final MultipartFile file = form.getFile();
 			if (!file.isEmpty()) {
-				if (!contentTypes.contains(file.getContentType()))
-					throw new ImageFormatException();
 
 				ByteArrayInputStream in = new ByteArrayInputStream(file.getBytes());
 				BufferedImage img = ImageIO.read(in);
-				
-				if (img == null)
-					throw new ImageFormatException();
 				
 				int width = img.getWidth();
 				int height = img.getHeight();
@@ -129,11 +121,8 @@ public class PostController {
 				imageId = is.saveImage(buffer.toByteArray());
 			}
 		}
-		catch (ImageFormatException e) {
-			return createPost(form,  false, true, false);
-		}
 		catch (IOException e) {
-			return createPost(form, false, false, true);
+			return createPost(form, true);
 		}
 
 		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);

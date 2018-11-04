@@ -7,8 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
@@ -37,7 +35,6 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
-import ar.edu.itba.pawddit.webapp.exceptions.ImageFormatException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;

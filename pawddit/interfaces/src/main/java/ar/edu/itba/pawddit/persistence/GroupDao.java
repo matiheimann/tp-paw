@@ -13,8 +13,7 @@ public interface GroupDao {
 	public Group create(String name, Timestamp date, String description, User owner);
 	public List<Group> findAll();
 	public List<Group> getSuscribed(User user);
-	public int deleteByName(String name);
-	public List<Group> searchByName(String name);
-	public List<Group> searchByInterest(User user);
+	public void deleteByName(String name);
+	public List<String> searchByName(String name);
 
 }

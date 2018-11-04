@@ -40,8 +40,8 @@ public class GroupController {
 	private SubscriptionService ss;
 	
 	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
-	public @ResponseBody List<Group> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
-		List<Group> groups = gs.searchByName(groupName);
+	public @ResponseBody List<String> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
+		List<String> groups = gs.searchByName(groupName);
 		return groups;
 	}
 
@@ -123,7 +123,6 @@ public class GroupController {
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("recomendedGroups");
 		mav.addObject("groups", gs.getSuscribed(user));
-		mav.addObject("groupsInterested", gs.searchByInterest(user));
 		return mav;
 	}
 

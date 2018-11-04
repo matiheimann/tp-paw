@@ -31,8 +31,8 @@ function searchGroups() {
           async: true,
           success: function(result) {
             $('#groupsFound').empty();
-            $.each(result, function(index, group) {
-              var option =  '<a href="'+ getContextPath() + '/group/' + group.name +'" class="list-group-item list-group-item-action list-group-item-light">'+ group.name +'</a>';
+            $.each(result, function(index, name) {
+              var option =  '<a href="'+ getContextPath() + '/group/' + name +'" class="list-group-item list-group-item-action list-group-item-light">'+ name +'</a>';
               $('#groupsFound').append(option);
             });
           },

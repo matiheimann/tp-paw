@@ -1,25 +1,69 @@
 package ar.edu.itba.pawddit.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "comments")
 public class Comment {
 	
+	@Column(name = "content", length = 1000, nullable = false)
 	private String content;
-	private Post post;
-	private Comment replyTo;
-	private User owner;
-	private Timestamp date;
-	private long commentid;
-	private Integer votes;
 	
-	public Comment(String content, Post post, Comment replyTo, User owner, Timestamp date, Integer votes, long commentid) {
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "postid")
+	private Post post;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "replyto")
+	private Comment replyTo;
+	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "userid")
+	private User owner;
+	
+	@Column(name = "creationdate", nullable = false)
+	private Timestamp date;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments_commentid_seq")
+	@SequenceGenerator(sequenceName = "comments_commentid_seq", name = "comments_commentid_seq", allocationSize = 1)
+	@Column(name = "commentid")
+	private long commentid;
+	
+	@Transient
+	private int votes;
+
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "replyTo")
+	private Set<Comment> replies = new HashSet<Comment>();
+	
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "pk.comment")
+	private Set<VoteComment> votesSet = new HashSet<VoteComment>();
+	
+	/* package */ Comment() {
+		// Just for Hibernate, we love you!
+	}
+	
+	public Comment(final String content, final Post post, final Comment replyTo, final User user, final Timestamp creationDate) {
 		this.content = content;
 		this.post = post;
 		this.replyTo = replyTo;
-		this.owner = owner;
-		this.date = date;
-		this.commentid = commentid;
-		this.votes = votes;
+		this.owner = user;
+		this.date = creationDate;
 	}
 
 	public String getContent() {
@@ -70,11 +114,29 @@ public class Comment {
 		this.commentid = commentid;
 	}
 
-	public Integer getVotes() {
+	public int getVotes() {
+		int votes = 0;
+		for (final VoteComment vp : getVotesSet()) {
+			votes += vp.getValue();
+		}
 		return votes;
 	}
-
-	public void setVotes(Integer votes) {
-		this.votes = votes;
+	
+	public Set<Comment> getReplies() {
+		return replies;
 	}
+
+	public void setReplies(Set<Comment> replies) {
+		this.replies = replies;
+	}
+
+
+	public Set<VoteComment> getVotesSet() {
+		return votesSet;
+	}
+
+	public void setVotesSet(Set<VoteComment> votesSet) {
+		this.votesSet = votesSet;
+	}
+	
 }

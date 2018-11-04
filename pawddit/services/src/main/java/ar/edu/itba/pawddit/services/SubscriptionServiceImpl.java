@@ -16,7 +16,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	SubscriptionDao sd;
 	
 	@Override
-	public Boolean suscribe(final User user, final Group group) {
+	public boolean suscribe(final User user, final Group group) {
 		if (isUserSub(user, group))
 			return false;
 		
@@ -25,7 +25,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Boolean unsuscribe(final User user, final Group group) {
+	public boolean unsuscribe(final User user, final Group group) {
 		if (!isUserSub(user, group))
 			return false;
 		
@@ -34,7 +34,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Boolean isUserSub(final User user, final Group group) {
+	public boolean isUserSub(final User user, final Group group) {
 		return sd.isUserSub(user, group);
 	}
 

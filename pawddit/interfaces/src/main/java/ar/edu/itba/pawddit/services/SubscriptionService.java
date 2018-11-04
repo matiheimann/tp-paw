@@ -5,7 +5,7 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface SubscriptionService {
 	
-	public Boolean suscribe(User user, Group group);
-	public Boolean unsuscribe(User user, Group group);
-	public Boolean isUserSub(User user, Group group);
+	public boolean suscribe(User user, Group group);
+	public boolean unsuscribe(User user, Group group);
+	public boolean isUserSub(User user, Group group);
 }

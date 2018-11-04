@@ -5,8 +5,8 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface PostVoteService {
 	
-	public Boolean upVote(User user, Post post);
-	public Boolean downVote(User user, Post post);
-	public Integer checkVote(User user, Post post);
+	public void upVote(User user, Post post);
+	public void downVote(User user, Post post);
+	public int checkVote(User user, Post post);
 
 }

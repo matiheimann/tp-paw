@@ -26,7 +26,11 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public Optional<Group> findByName(final String name) {
-		return groupDao.findByName(name);
+		final Optional<Group> group = groupDao.findByName(name);
+		if (group.isPresent()) {
+			group.get().getSuscriptors();
+		}
+		return group;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class GroupServiceImpl implements GroupService {
 		if (findByName(name).isPresent())
 			throw new GroupAlreadyExists();
 		
-		Group group = groupDao.create(name, date, description, user);
+		final Group group = groupDao.create(name, date, description, user);
 		subscriptionService.suscribe(user, group);
 		
 		return group;
@@ -47,24 +51,23 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public List<Group> getSuscribed(final User user) {
-		return groupDao.getSuscribed(user);
+		final List<Group> groups = groupDao.getSuscribed(user);
+		for (final Group group : groups) {
+			group.getSuscriptors();
+		}
+		return groups;
 	}
 
 	@Override
-	public int deleteGroup(final User user, final Group group) {
+	public void deleteGroup(final User user, final Group group) {
 		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid())
 			throw new NoPermissionsException();
-		return groupDao.deleteByName(group.getName());
+		groupDao.deleteByName(group.getName());
 	}
 
 	@Override
-	public List<Group> searchByName(final String name) {
+	public List<String> searchByName(final String name) {
 		return groupDao.searchByName(name);
-	}
-
-	@Override
-	public List<Group> searchByInterest(final User user) {
-		return groupDao.searchByInterest(user);
 	}
 	
 }

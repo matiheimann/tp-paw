@@ -18,7 +18,7 @@ public class ImageController {
 	
 	@RequestMapping(value = "/image/{token}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public @ResponseBody byte[] getImageAsByteArray(@PathVariable final String token) {
-	   byte[] img = is.findByToken(token).orElseThrow(ImageNotFoundException::new);
+	   byte[] img = is.findByToken(token).orElseThrow(ImageNotFoundException::new).getByteArray();
 	   return img;
 	}
 }

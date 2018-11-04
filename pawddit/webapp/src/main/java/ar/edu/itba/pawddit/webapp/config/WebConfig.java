@@ -6,18 +6,12 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.Resource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -77,7 +71,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-		factoryBean.setPackagesToScan("ar.edu.itba.model");
+		factoryBean.setPackagesToScan("ar.edu.itba.pawddit.model");
 		factoryBean.setDataSource(dataSource());
 		
 		final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -94,7 +88,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		factoryBean.setJpaProperties(properties);
 		return factoryBean;
 	}
-
 	
 	@Bean
 	public MessageSource messageSource() {

@@ -34,27 +34,47 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public List<Post> findAll(final int limit, final int offset, final String sort) {
-		return postDao.findAll(limit, offset, sort);
+		final List<Post> posts = postDao.findAll(limit, offset, sort);
+		for (final Post post : posts) {
+			post.getComments();
+		}
+		return posts;
 	}
 	
 	@Override
 	public List<Post> findByGroup(final Group group, final int limit, final int offset, final String sort) {
-		return postDao.findByGroup(group, limit, offset, sort);
+		final List<Post> posts = postDao.findByGroup(group, limit, offset, sort);
+		for (final Post post : posts) {
+			post.getComments();
+		}
+		return posts;
 	}
 
 	@Override
 	public List<Post> findByUser(final User user, final int limit, final int offset, final String sort) {
-		return postDao.findByUser(user, limit, offset, sort);
+		final List<Post> posts = postDao.findByUser(user, limit, offset, sort);
+		for (final Post post : posts) {
+			post.getComments();
+		}
+		return posts;
 	}
 	
 	@Override
 	public Optional<Post> findById(final Group group, final long id) {
-		return postDao.findById(group, id);
+		final Optional<Post> post = postDao.findById(group, id);
+		if (post.isPresent()) {
+			post.get().getComments();
+		}
+		return post;
 	}
 	
 	@Override
 	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort) {
-		return postDao.findBySubscriptions(user, limit, offset, sort);
+		final List<Post> posts = postDao.findBySubscriptions(user, limit, offset, sort);
+		for (final Post post : posts) {
+			post.getComments();
+		}
+		return posts;
 	}
 
 	@Override
@@ -78,10 +98,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public int deletePost(final User user, final Group group, final Post post) {
+	public void deletePost(final User user, final Group group, final Post post) {
 		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid() && user.getUserid() != post.getOwner().getUserid())
 			throw new NoPermissionsException();
-		return postDao.deleteById(group, post.getPostid());
+		postDao.deleteById(group, post.getPostid());
 	}
 
 }

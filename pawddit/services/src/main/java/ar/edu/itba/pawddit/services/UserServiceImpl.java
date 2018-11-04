@@ -79,13 +79,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int enableUser(final User user) {
-		return userDao.enableUser(user);	
+	public void enableUser(final User user) {
+		userDao.enableUser(user);	
 	}
 
 	@Override
-	public int deleteUser(final User user) {
-		return userDao.deleteUser(user);
+	public void deleteUser(final User user) {
+		userDao.deleteUser(user);
 	}
 	
 }

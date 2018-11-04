@@ -13,7 +13,7 @@ public interface UserService {
 	public Optional<User> findByEmail(String email);
 	public VerificationToken createToken(User user);
 	public Optional<VerificationToken> findToken(String token);
-	public int enableUser(User user);
-	public int deleteUser(User user);
+	public void enableUser(User user);
+	public void deleteUser(User user);
 	
 }

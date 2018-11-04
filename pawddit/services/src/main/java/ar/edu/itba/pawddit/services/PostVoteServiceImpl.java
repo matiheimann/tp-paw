@@ -16,37 +16,33 @@ public class PostVoteServiceImpl implements PostVoteService {
 	PostVoteDao pvd;
 
 	@Override
-	public Boolean upVote(final User user, final Post post) {
+	public void upVote(final User user, final Post post) {
 		final Integer vote = checkVote(user, post);
 		if (vote == 1) {
 			pvd.cancelVote(user, post);
-			return true;
 		}
 		else if (vote == -1) {
 			pvd.changeVote(user, post);
-			return true;
 		}
 		else
-			return pvd.votePost(user, post, 1);
+			pvd.votePost(user, post, 1);
 	}
 	
 	@Override
-	public Boolean downVote(final User user, final Post post) {
+	public void downVote(final User user, final Post post) {
 		final Integer vote = checkVote(user, post);
 		if (vote == -1) {
 			pvd.cancelVote(user, post);
-			return true;
 		}
 		else if (vote == 1) {
 			pvd.changeVote(user, post);
-			return true;
 		}
 		else
-			return pvd.votePost(user, post, -1);
+			pvd.votePost(user, post, -1);
 	}
 
 	@Override
-	public Integer checkVote(final User user, final Post post) {
+	public int checkVote(final User user, final Post post) {
 		return pvd.checkVote(user, post);
 	}
 }

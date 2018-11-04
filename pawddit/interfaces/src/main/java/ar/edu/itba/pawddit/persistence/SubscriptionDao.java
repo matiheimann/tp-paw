@@ -7,6 +7,6 @@ public interface SubscriptionDao {
 
 	public void suscribe(User user, Group group);
 	public void unsuscribe(User user, Group group);
-	public Boolean isUserSub(User user, Group group);
+	public boolean isUserSub(User user, Group group);
 	
 }

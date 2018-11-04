@@ -54,16 +54,6 @@
 	   								<form:label for='post-image' path="file">
 	   									<spring:message code="selectImageOnPostCreate.title"/>
 	   								</form:label>
-	   								<c:if test="${imageSizeError eq true}">
-		   								<label class="formError">
-		   									<spring:message code="image.toobig.message"/>
-		   								</label>
-		   							</c:if>
-		   							<c:if test="${imageFormatError eq true}">
-		   								<label class="formError">
-		   									<spring:message code="image.format.notvalid.message"/>
-		   								</label>
-		   							</c:if>
 		   							<c:if test="${imageUploadError eq true}">
 		   								<label class="formError">
 		   									<spring:message code="image.upload.failed.message"/>
@@ -71,6 +61,7 @@
 		   							</c:if>
 									<br>
 	   								<form:input type="file" path="file" id='post-image' accept="image/png, image/jpeg"/>
+	   								<form:errors path="file" cssClass="formError" element="p"/>
 	    					  </div>
 									<br>
 	    					  <button type="submit" class="create-post-btn app-btn-primary">

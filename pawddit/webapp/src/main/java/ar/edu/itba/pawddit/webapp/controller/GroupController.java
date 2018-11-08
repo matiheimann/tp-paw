@@ -29,6 +29,7 @@ import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 public class GroupController {
 
 	private static final int POSTS_PER_PAGE = 5;
+	private static final int GROUPS_PER_PAGE = 7;
 
 	@Autowired
 	private GroupService gs;
@@ -41,7 +42,7 @@ public class GroupController {
 
 	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
 	public @ResponseBody List<String> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
-		List<String> groups = gs.searchByName(groupName);
+		List<String> groups = gs.search5NamesByString(groupName);
 		return groups;
 	}
 
@@ -118,32 +119,32 @@ public class GroupController {
 
 		return mav;
 	}
-
+	
+	@RequestMapping(value= "/groups")
+	public ModelAndView groups(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "", value="search") final String search) {
+		final ModelAndView mav = new ModelAndView("groups");
+		mav.addObject("groups", gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE));
+		mav.addObject("groupsPage", page);
+		mav.addObject("groupsPageCount", (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE);
+		return mav;
+	}
+	
+	@RequestMapping(value= "/myGroups")
+	public ModelAndView myGroups(@RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
+		final ModelAndView mav = new ModelAndView("groups");
+		mav.addObject("groups", gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE));
+		mav.addObject("groupsPage", page);
+		mav.addObject("groupsPageCount", (gs.findSubscribedByUserCount(user)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE);
+		return mav;
+	}
+	
+	/*
 	@RequestMapping(value= "/recommendedGroups")
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("groups");
 		mav.addObject("groups", gs.getSuscribed(user)); // TODO: GET RECOMMENDED GROUPS
 		return mav;
 	}
+	*/
 
-	@RequestMapping(value= "/myGroups")
-	public ModelAndView myGroups(@ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.getSuscribed(user));
-		return mav;
-	}
-
-	@RequestMapping(value= "/groups")
-	public ModelAndView groups(@ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.getSuscribed(user)); // TODO: GET  GROUPS PAGINADOS
-		return mav;
-	}
-
-	@RequestMapping(value= "/groupsSearchResult")
-	public ModelAndView groupsSearchResult(@ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.getSuscribed(user));  // TODO: GET  GROUPS RESULT PAGINADOS
-		return mav;
-	}
 }

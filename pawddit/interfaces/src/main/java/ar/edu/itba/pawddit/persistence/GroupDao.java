@@ -11,9 +11,11 @@ public interface GroupDao {
 	
 	public Optional<Group> findByName(String name);
 	public Group create(String name, Timestamp date, String description, User owner);
-	public List<Group> findAll();
-	public List<Group> getSuscribed(User user);
+	public List<Group> searchGroupsByString(String name, int limit, int offset);
+	public int searchGroupsByStringCount(String name);
+	public List<Group> findSubscribedByUser(User user, int limit, int offset);
+	public int findSubscribedByUserCount(User user);
 	public void deleteByName(String name);
-	public List<String> searchByName(String name);
+	public List<String> search5NamesByString(String name);
 
 }

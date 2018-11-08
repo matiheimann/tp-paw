@@ -1,7 +1,5 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -20,9 +18,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
 
-import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
-import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
@@ -38,9 +34,6 @@ public class GlobalController {
 	@Autowired
 	private UserService us;
 	
-	@Autowired
-	private GroupService gs;
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalController.class);
 	
 	@ModelAttribute("user")
@@ -54,15 +47,6 @@ public class GlobalController {
 		LOGGER.debug("Currently logged user is {}", user.getUserid());
 		return user;
 	}
-	
-	@ModelAttribute("groups")
-	public List<Group> groups(@ModelAttribute("user") final User user) {
-		if (user == null)
-			return null;
-		if (user.getIsAdmin())
-			return gs.findAll();
-		return gs.getSuscribed(user);
-	} 
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ModelAndView noHandlerFound() {

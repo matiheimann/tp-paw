@@ -45,17 +45,31 @@ public class GroupServiceImpl implements GroupService {
 	}
 	
 	@Override
-	public List<Group> findAll() {
-		return groupDao.findAll();
-	}
-
-	@Override
-	public List<Group> getSuscribed(final User user) {
-		final List<Group> groups = groupDao.getSuscribed(user);
+	public List<Group> searchGroupsByString(String name, final int limit, final int offset) {
+		final List<Group> groups = groupDao.searchGroupsByString(name, limit, offset);
 		for (final Group group : groups) {
 			group.getSuscriptors();
 		}
 		return groups;
+	}
+	
+	@Override
+	public int searchGroupsByStringCount(final String name) {
+		return groupDao.searchGroupsByStringCount(name);
+	}
+
+	@Override
+	public List<Group> findSubscribedByUser(final User user, final int limit, final int offset) {
+		final List<Group> groups = groupDao.findSubscribedByUser(user, limit, offset);
+		for (final Group group : groups) {
+			group.getSuscriptors();
+		}
+		return groups;
+	}
+	
+	@Override
+	public int findSubscribedByUserCount(final User user) {
+		return groupDao.findSubscribedByUserCount(user);
 	}
 
 	@Override
@@ -66,8 +80,8 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<String> searchByName(final String name) {
-		return groupDao.searchByName(name);
+	public List<String> search5NamesByString(final String name) {
+		return groupDao.search5NamesByString(name);
 	}
 	
 }

@@ -34,16 +34,35 @@ public class GroupHibernateDao implements GroupDao {
 	}
 	
 	@Override
-	public List<Group> findAll() {
-		final TypedQuery<Group> query = em.createQuery("from Group", Group.class);
+	public List<Group> searchGroupsByString(final String name, final int limit, final int offset) {
+		final TypedQuery<Group> query = em.createQuery("from Group as g where upper(g.name) like upper(:name)", Group.class);
+		query.setParameter("name", "%" + name + "%");
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 		return query.getResultList();
+	}
+	
+	@Override
+	public int searchGroupsByStringCount(final String name) {
+		final TypedQuery<Long> query = em.createQuery("select count(*) from Group as g where upper(g.name) like upper(:name)", Long.class);
+		query.setParameter("name", "%" + name + "%");
+		return query.getSingleResult().intValue();
 	}
 
 	@Override
-	public List<Group> getSuscribed(final User user) {
+	public List<Group> findSubscribedByUser(final User user, final int limit, final int offset) {
 		final TypedQuery<Group> query = em.createQuery("select g from Group as g join g.subscribedUsers as s where s = :user", Group.class);
 		query.setParameter("user", user);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 		return query.getResultList();
+	}
+	
+	@Override
+	public int findSubscribedByUserCount(final User user) {
+		final TypedQuery<Long> query = em.createQuery("select count(*) from Group as g join g.subscribedUsers as s where s = :user", Long.class);
+		query.setParameter("user", user);
+		return query.getSingleResult().intValue();
 	}
 
 	@Override
@@ -53,7 +72,7 @@ public class GroupHibernateDao implements GroupDao {
 	}
 
 	@Override
-	public List<String> searchByName(final String name) {
+	public List<String> search5NamesByString(final String name) {
 		final TypedQuery<String> query = em.createQuery("select name from Group as g where upper(g.name) like upper(:name)", String.class);
 		query.setParameter("name", "%" + name + "%");
 		query.setMaxResults(5);

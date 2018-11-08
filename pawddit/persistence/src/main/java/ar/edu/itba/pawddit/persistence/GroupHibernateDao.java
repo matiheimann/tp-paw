@@ -54,7 +54,8 @@ public class GroupHibernateDao implements GroupDao {
 		final TypedQuery<Group> query = em.createQuery("select g from Group as g join g.subscribedUsers as su where su = :user", Group.class);
 		query.setParameter("user", user);
 		query.setFirstResult(offset);
-		query.setMaxResults(limit);
+		if (limit != -1)
+			query.setMaxResults(limit);
 		return query.getResultList();
 	}
 	

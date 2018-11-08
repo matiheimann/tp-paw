@@ -60,7 +60,7 @@ public class GlobalController {
 		if (user == null)
 			return null;
 
-		return gs.findSubscribedByUser(user, 5, 0);
+		return gs.findSubscribedByUser(user, -1, 0);
 	} 
 	
 	@ExceptionHandler(NoHandlerFoundException.class)

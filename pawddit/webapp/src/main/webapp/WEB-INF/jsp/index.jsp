@@ -35,7 +35,12 @@
 					<%@include file="group.jsp" %>
 				</c:if>
 				<c:if test="${empty posts}">
-					<h2 class="no-posts"><spring:message code="noPosts.made.message"/></h2>
+					<c:if test="${empty user}">
+						<h2 class="no-posts"><spring:message code="noPosts.made.signedOut.message"/></h2>
+					</c:if>
+					<c:if test="${!empty user}">
+						<h2 class="no-posts"><spring:message code="noPosts.made.signedIn.message"/></h2>
+					</c:if>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="post-container">

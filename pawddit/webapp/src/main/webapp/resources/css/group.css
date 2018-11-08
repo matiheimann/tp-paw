@@ -42,3 +42,74 @@
 .group-component-title {
   text-align: center;
 }
+
+/* groups view */
+
+.group-list-component {
+	background-color: white;
+	border-radius: 10px;
+	margin: 15px 10px;
+	width: 90%;
+	max-width: 800px;
+	margin-top: 5px;
+	padding: 15px 15px;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+}
+
+.group-list-component-header {
+	align-items: baseline;
+	display: flex;
+	flex-wrap: wrap;
+	word-break: break-all;
+	white-space: nowrap;
+}
+
+.group-list-component-name {
+	margin-right: 10px;
+}
+
+.group-list-component-owner {
+	max-width: 300px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background-color: #E85A4F;
+	color: white;
+	border-radius: 5px;
+	display: inline-block;
+	height: 23px;
+	padding: 2px 5px;
+	margin: 0 10px 0 0;
+}
+
+.group-list-component-owned-by {
+	margin-right: 14px;
+}
+
+.group-list-component-info {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.group-list-description {
+	text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 80%;
+  white-space: nowrap;
+	color: #848380;
+}
+
+.group-list-component-members {
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+.groups-title {
+	color: #b7b5b2;
+	margin-top: 60px;
+}

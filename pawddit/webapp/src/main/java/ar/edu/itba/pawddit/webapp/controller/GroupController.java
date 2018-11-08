@@ -27,7 +27,7 @@ import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
 @Controller
 public class GroupController {
-	
+
 	private static final int POSTS_PER_PAGE = 5;
 
 	@Autowired
@@ -35,10 +35,10 @@ public class GroupController {
 
 	@Autowired
 	private PostService ps;
-	
+
 	@Autowired
 	private SubscriptionService ss;
-	
+
 	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
 	public @ResponseBody List<String> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
 		List<String> groups = gs.searchByName(groupName);
@@ -57,20 +57,20 @@ public class GroupController {
 		if(errors.hasErrors()) {
 			return createGroup(form, false);
 		}
-		
+
 		final Group group;
-		
+
 		try {
 			group = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), user);
 		}
 		catch(GroupAlreadyExists e) {
 			return createGroup(form, true);
 		}
-		
+
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
 		return mav;
 	}
-	
+
 	@RequestMapping(value =  "/group/{groupName}/delete", method = { RequestMethod.POST })
 	public ModelAndView deletePost(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
@@ -86,44 +86,64 @@ public class GroupController {
 		final ModelAndView mav = new ModelAndView("index");
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		mav.addObject("group", g);
-		
+
 		if (user != null) {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
-		
+
 		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
 		mav.addObject("postsPage", page);
 		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/group/{groupName}/subscribe", method = { RequestMethod.POST })
 	public ModelAndView groupSubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-	
+
 		ss.suscribe(user, group);
-		
+
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/group/{groupName}/unsubscribe", method = { RequestMethod.POST })
 	public ModelAndView groupUnsubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-	
+
 		ss.unsuscribe(user, group);
 
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value= "/recommendedGroups")
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("recomendedGroups");
+		final ModelAndView mav = new ModelAndView("groups");
+		mav.addObject("groups", gs.getSuscribed(user)); // TODO: GET RECOMMENDED GROUPS
+		return mav;
+	}
+
+	@RequestMapping(value= "/myGroups")
+	public ModelAndView myGroups(@ModelAttribute("user") final User user) {
+		final ModelAndView mav = new ModelAndView("groups");
 		mav.addObject("groups", gs.getSuscribed(user));
 		return mav;
 	}
 
+	@RequestMapping(value= "/groups")
+	public ModelAndView groups(@ModelAttribute("user") final User user) {
+		final ModelAndView mav = new ModelAndView("groups");
+		mav.addObject("groups", gs.getSuscribed(user)); // TODO: GET  GROUPS PAGINADOS
+		return mav;
+	}
+
+	@RequestMapping(value= "/groupsSearchResult")
+	public ModelAndView groupsSearchResult(@ModelAttribute("user") final User user) {
+		final ModelAndView mav = new ModelAndView("groups");
+		mav.addObject("groups", gs.getSuscribed(user));  // TODO: GET  GROUPS RESULT PAGINADOS
+		return mav;
+	}
 }

@@ -32,6 +32,8 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 	}
 	
 	private boolean isValidFormat(MultipartFile file) {
+		if (file.isEmpty())
+			return true;
 		
 		if(!isValidContentType(file))
 			return false;

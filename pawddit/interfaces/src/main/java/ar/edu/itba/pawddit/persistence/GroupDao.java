@@ -15,6 +15,7 @@ public interface GroupDao {
 	public int searchGroupsByStringCount(String name);
 	public List<Group> findSubscribedByUser(User user, int limit, int offset);
 	public int findSubscribedByUserCount(User user);
+	public List<Group> findRecommendedByUser(User user);
 	public void deleteByName(String name);
 	public List<String> search5NamesByString(String name);
 

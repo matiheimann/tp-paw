@@ -138,13 +138,12 @@ public class GroupController {
 		return mav;
 	}
 	
-	/*
 	@RequestMapping(value= "/recommendedGroups")
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.getSuscribed(user)); // TODO: GET RECOMMENDED GROUPS
+		mav.addObject("groups", gs.findRecommendedByUser(user));
 		return mav;
 	}
-	*/
+	
 
 }

@@ -71,6 +71,15 @@ public class GroupServiceImpl implements GroupService {
 	public int findSubscribedByUserCount(final User user) {
 		return groupDao.findSubscribedByUserCount(user);
 	}
+	
+	@Override
+	public List<Group> findRecommendedByUser(final User user) {
+		final List<Group> groups = groupDao.findRecommendedByUser(user);
+		for (final Group group : groups) {
+			group.getSuscriptors();
+		}
+		return groups;
+	}
 
 	@Override
 	public void deleteGroup(final User user, final Group group) {

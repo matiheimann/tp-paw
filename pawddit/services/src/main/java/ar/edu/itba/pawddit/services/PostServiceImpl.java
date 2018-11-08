@@ -98,10 +98,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void deletePost(final User user, final Group group, final Post post) {
+	public void delete(final User user, final Group group, final Post post) {
 		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid() && user.getUserid() != post.getOwner().getUserid())
 			throw new NoPermissionsException();
-		postDao.deleteById(group, post.getPostid());
+		postDao.delete(post);
 	}
 
 }

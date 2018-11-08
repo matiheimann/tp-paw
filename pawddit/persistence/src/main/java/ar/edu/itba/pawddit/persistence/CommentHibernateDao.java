@@ -68,8 +68,8 @@ public class CommentHibernateDao implements CommentDao {
 	}
 
 	@Override
-	public void deleteById(final Post post, final long id) {
-		final Comment c = findById(post, id).get();
+	public void delete(final Comment comment) {
+		final Comment c = em.merge(comment);
 		em.remove(c);
 	}
 

@@ -98,8 +98,8 @@ public class PostHibernateDao implements PostDao {
 	}
 
 	@Override
-	public void deleteById(final Group group, final long id) {
-		final Post p = findById(group, id).get();
+	public void delete(final Post post) {
+		final Post p = em.merge(post);
 		em.remove(p);
 	}
 	

@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	public Optional<VerificationToken> findToken(final String token) {
 		Optional <VerificationToken> vt = userDao.findToken(token);
 		if (vt.isPresent())
-			userDao.deleteToken(token);
+			userDao.deleteToken(vt.get());
 		return vt;
 	}
 

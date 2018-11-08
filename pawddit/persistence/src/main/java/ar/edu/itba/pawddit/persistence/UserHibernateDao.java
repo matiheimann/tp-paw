@@ -62,8 +62,8 @@ public class UserHibernateDao implements UserDao {
 	}
 	
 	@Override
-	public void deleteToken(final String token) {
-		final VerificationToken vt = findToken(token).get();
+	public void deleteToken(final VerificationToken token) {
+		final VerificationToken vt = em.merge(token);
 		em.remove(vt);
 	}
 	

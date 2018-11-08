@@ -137,7 +137,7 @@ public class PostController {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
 		if (user != null) {
-			ps.deletePost(user, group, post);
+			ps.delete(user, group, post);
 		}
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
 		return mav;
@@ -180,7 +180,7 @@ public class PostController {
 		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
 		final Comment comment = cs.findById(post, commentId).orElseThrow(CommentNotFoundException::new);
 		if (user != null) {
-			cs.deleteComment(user, group, post, comment);
+			cs.delete(user, group, post, comment);
 		}
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName()  + "/" + post.getPostid());
 		return mav;

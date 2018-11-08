@@ -53,10 +53,10 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void deleteComment(final User user, final Group group, final Post post, final Comment comment) {
+	public void delete(final User user, final Group group, final Post post, final Comment comment) {
 		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid() && user.getUserid() != post.getOwner().getUserid() && user.getUserid() != comment.getOwner().getUserid())
 			throw new NoPermissionsException();
-		commentDao.deleteById(post, comment.getCommentid());
+		commentDao.delete(comment);
 	}
 
 }

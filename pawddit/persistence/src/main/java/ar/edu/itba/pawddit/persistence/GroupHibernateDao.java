@@ -79,8 +79,8 @@ public class GroupHibernateDao implements GroupDao {
 	}
 
 	@Override
-	public void deleteByName(final String name) {
-		final Group g = findByName(name).get();
+	public void delete(final Group group) {
+		final Group g = em.merge(group);
 		em.remove(g);
 	}
 

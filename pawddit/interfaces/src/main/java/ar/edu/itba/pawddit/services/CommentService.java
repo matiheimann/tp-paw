@@ -17,6 +17,6 @@ public interface CommentService {
 	public List<Comment> findByPost(Post post, int limit, int offset);
 	public int findByPostCount(Post post);
 	public Optional<Comment> findById(Post post, long id);
-	public void deleteComment(User user, Group group, Post post, Comment comment);
+	public void delete(User user, Group group, Post post, Comment comment);
 	
 }

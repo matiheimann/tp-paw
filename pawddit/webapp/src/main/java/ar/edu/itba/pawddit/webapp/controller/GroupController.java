@@ -76,7 +76,7 @@ public class GroupController {
 	public ModelAndView deletePost(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		if (user != null) {
-			gs.deleteGroup(user, group);
+			gs.delete(user, group);
 		}
 		final ModelAndView mav = new ModelAndView("redirect:/");
 		return mav;

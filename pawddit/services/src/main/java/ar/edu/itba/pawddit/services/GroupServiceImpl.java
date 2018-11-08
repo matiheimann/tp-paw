@@ -82,10 +82,10 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void deleteGroup(final User user, final Group group) {
+	public void delete(final User user, final Group group) {
 		if (!user.getIsAdmin() && user.getUserid() != group.getOwner().getUserid())
 			throw new NoPermissionsException();
-		groupDao.deleteByName(group.getName());
+		groupDao.delete(group);
 	}
 
 	@Override

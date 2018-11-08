@@ -33,10 +33,10 @@
 	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
 				<spring:message code="dropdown.button.all.message"/>
 			</a>
-			<c:if test="${!empty groups}">
+			<c:if test="${!empty user.subscribedGroups}">
 				<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
 			</c:if>
-			<c:forEach items="${groups}" var="group">
+			<c:forEach items="${user.subscribedGroups}" var="group">
 				<a class="dropdown-item" href="<c:url value="/group/${group.name}"/>"><i class="dropdown-icon fas fa-users"></i>
 					<c:out value="${group.name}" escapeXml="true"/>
 				</a>
@@ -87,7 +87,7 @@
 			</button>
 		</a>
 	</div>
-	<c:if test="${fn:length(groups) > 0}">
+	<c:if test="${fn:length(user.subscribedGroups) > 0}">
 		<a class="create-post margin-left-100" href="<c:url value="/createPost"/>">
 			<button class="app-btn-primary" role="button">
 				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
@@ -95,7 +95,7 @@
 			</button>
 		</a>
 	</c:if>
-	<c:if test="${fn:length(groups) == 0}">
+	<c:if test="${fn:length(user.subscribedGroups) == 0}">
 		<a class="create-post margin-left-100" id="popoverPost" data-content="<spring:message code="createGroupFirst.message"/>" rel="popover" data-placement="bottom" data-trigger="hover">
 			<button class="app-btn-primary-disabled" role="button">
 				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>

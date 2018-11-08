@@ -40,7 +40,7 @@
 	    					    <form:label for="post-group-select" path="groupName">
 									<spring:message code="selectGroupOnPostCreate.title"/>
 								</form:label>
-	    					    <form:select required="required" path="groupName" items="${groups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
+	    					    <form:select required="required" path="groupName" items="${user.subscribedGroups}" itemValue="name" itemLabel="name" class="form-control" id="post-group-select"/>
 	    					    <form:errors path="groupName" cssClass="formError" element="p"/>
 	    					  </div>
 	    					  <div class="form-group">

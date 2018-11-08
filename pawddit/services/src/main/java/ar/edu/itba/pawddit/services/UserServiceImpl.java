@@ -57,7 +57,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> findByUsername(final String username) {
-		return userDao.findByUsername(username);
+		final Optional<User> user = userDao.findByUsername(username);
+		if (user.isPresent())
+			user.get().getSubscribedGroups().size();
+		return user;
 	}
 
 	@Override

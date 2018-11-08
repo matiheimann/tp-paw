@@ -42,7 +42,7 @@ public class User {
 	@SequenceGenerator(sequenceName = "users_userid_seq", name = "users_userid_seq", allocationSize = 1)
 	@Column(name = "userid")
 	private long userid;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "owner")
 	private Set<Group> createdGroups = new HashSet<Group>();
 	

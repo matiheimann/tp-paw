@@ -67,18 +67,23 @@ public class GroupHibernateDao implements GroupDao {
 	
 	@Override
 	public List<Group> findRecommendedByUser(final User user) {
-		final TypedQuery<Group> query = em.createQuery("select g1 from Group as g1 join g1.subscribedUsers as su1 " + 
-				"where g1 not in (select g2 from Group as g2 join g2.subscribedUsers as su2 where su2 = :user) " + 
+		final TypedQuery<Group> query = em.createQuery("select g1 from Group as g1 join g1.subscribedUsers as su1 " +
+				"where g1 not in (select g2 from Group as g2 join g2.subscribedUsers as su2 where su2 = :user) " +
 					"and su1 in (select u from User as u join u.subscribedGroups as sg where u <> :user " +
-						"and sg IN (select g3 from Group as g3 join g3.subscribedUsers as su3 where su3 = :user)) " + 
+						"and sg IN (select g3 from Group as g3 join g3.subscribedUsers as su3 where su3 = :user)) " +
 				"group by g1 " + 
 				"order by count(distinct su1) desc", Group.class);
 		query.setParameter("user", user);
 		query.setMaxResults(5);
 		List<Group> groups = query.getResultList();
-		if (groups.isEmpty()) {
-			final TypedQuery<Group> query2 = em.createQuery("from Group as g join g.subscribedUsers as su group by g order by count(distinct su) desc", Group.class);
-			groups = query2.getResultList();
+		if (groups.size() < 5) {
+			final TypedQuery<Group> query2 = em.createQuery("select g1 from Group as g1 join g1.subscribedUsers as su1 " +
+					"where g1 not in (:groups) and g1 not in (select g2 from Group as g2 join g2.subscribedUsers as su2 where su2 = :user)"	+
+					"group by g1 order by count(distinct su1) desc", Group.class);
+			query2.setParameter("groups", groups);
+			query2.setParameter("user", user);
+			query2.setMaxResults(5 - groups.size());
+			groups.addAll(query2.getResultList());
 		}
 		return groups;
 	}

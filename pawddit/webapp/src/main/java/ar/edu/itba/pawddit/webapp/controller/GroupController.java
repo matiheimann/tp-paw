@@ -120,7 +120,7 @@ public class GroupController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/groups")
+	@RequestMapping(value = "/groups")
 	public ModelAndView groups(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "", value="search") final String search) {
 		final ModelAndView mav = new ModelAndView("groups");
 		mav.addObject("groups", gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE));
@@ -129,7 +129,7 @@ public class GroupController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/myGroups")
+	@RequestMapping(value = "/myGroups")
 	public ModelAndView myGroups(@RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("groups");
 		mav.addObject("groups", gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE));
@@ -138,7 +138,7 @@ public class GroupController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/recommendedGroups")
+	@RequestMapping(value = "/recommendedGroups")
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("groups");
 		mav.addObject("groups", gs.findRecommendedByUser(user));

@@ -141,7 +141,7 @@ public class GroupController {
 	@RequestMapping(value = "/recommendedGroups")
 	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.findRecommendedByUser(user));
+		mav.addObject("groups", gs.findRecommendedByUser(user, GROUPS_PER_PAGE));
 		return mav;
 	}
 	

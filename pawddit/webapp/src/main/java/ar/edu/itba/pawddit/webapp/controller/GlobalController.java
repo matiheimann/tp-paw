@@ -60,7 +60,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorUserNotFound", new Boolean(true));
+	        outputFlashMap.put("errorUserNotFound", Boolean.TRUE);
 	    }
 	    return rw;
 	}
@@ -71,7 +71,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorGroupNotFound", new Boolean(true));
+	        outputFlashMap.put("errorGroupNotFound", Boolean.TRUE);
 	    }
 	    return rw;
 	}
@@ -82,7 +82,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorPostNotFound", new Boolean(true));
+	        outputFlashMap.put("errorPostNotFound", Boolean.TRUE);
 	    }
 	    return rw;
 	}
@@ -93,7 +93,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorCommentNotFound", new Boolean(true));
+	        outputFlashMap.put("errorCommentNotFound", Boolean.TRUE);
 	    }
 	    return rw;
 	}
@@ -104,7 +104,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorVerificationTokenNotFound", new Boolean(true));
+	        outputFlashMap.put("errorVerificationTokenNotFound", Boolean.TRUE);
 	    }
 	    return rw;
 	}
@@ -115,7 +115,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorImageNotFound", new Boolean(true));
+	        outputFlashMap.put("errorImageNotFound", Boolean.TRUE);
 	    }
 	    return rw;
 	}
@@ -126,7 +126,7 @@ public class GlobalController {
 	    rw.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 	    FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 	    if (outputFlashMap != null){
-	        outputFlashMap.put("errorNoPermissions", new Boolean(true));
+	        outputFlashMap.put("errorNoPermissions", Boolean.TRUE);
 	    }
 	    return rw;
 	}

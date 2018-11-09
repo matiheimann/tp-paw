@@ -92,11 +92,10 @@ public class UserController {
 		ModelAndView mav = new ModelAndView("login");
 
 		if(error) {
-			mav.addObject("loginError", new Boolean(true));
+			mav.addObject("loginError", Boolean.TRUE);
 			return mav;
 		}
 
-		mav.addObject("loginError", new Boolean(false));
 		return mav;
 	}
 

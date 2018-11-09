@@ -24,8 +24,8 @@ public class ImageHibernateDao implements ImageDao {
 	}
 
 	@Override
-	public Optional<Image> findByToken(final String token) {
-		final TypedQuery<Image> query = em.createQuery("from Image as i where i.token = :token", Image.class);
+	public Optional<byte[]> findByToken(final String token) {
+		final TypedQuery<byte[]> query = em.createQuery("select byteArray from Image as i where i.token = :token", byte[].class);
 		query.setParameter("token", token);
 		return query.getResultList().stream().findFirst();
 	}

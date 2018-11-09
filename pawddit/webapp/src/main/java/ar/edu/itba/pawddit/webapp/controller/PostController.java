@@ -1,14 +1,8 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.Comment;
@@ -76,50 +69,9 @@ public class PostController {
 		
 		String imageId = null;
 		try {
-			final MultipartFile file = form.getFile();
-			if (!file.isEmpty()) {
-
-				ByteArrayInputStream in = new ByteArrayInputStream(file.getBytes());
-				BufferedImage img = ImageIO.read(in);
-				
-				int width = img.getWidth();
-				int height = img.getHeight();
-				int maxW = 770;
-				int maxH = 500;
-				if (width > maxW && height < maxH) {
-					height = (maxW * height) / width; 
-					width = maxW;
-				}
-				else if (height > maxH && width < maxW) {
-					width = (maxH * width) / height;
-					height = maxH;
-				}
-				else if (width > maxW && height > maxH) {
-					if (width-maxW > height-maxH) {
-						height = (maxW * height) / width; 
-						width = maxW;
-					}
-					else {
-						width = (maxH * width) / height;
-						height = maxH;
-					}
-				}
-				
-				Image scaledImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-	            BufferedImage imageBuff = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-	            imageBuff.getGraphics().drawImage(scaledImage, 0, 0, new Color(0,0,0), null);
-
-	            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-	            if (file.getContentType().equals("image/png"))
-	            	ImageIO.write(imageBuff, "png", buffer);
-	            else
-	            	ImageIO.write(imageBuff, "jpg", buffer);
-	            
-				imageId = is.saveImage(buffer.toByteArray());
-			}
-		}
-		catch (IOException e) {
-			return createPost(form, true);
+			imageId = is.saveImage(form.getFile().getBytes());
+		} catch (IOException e) {
+			
 		}
 
 		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);

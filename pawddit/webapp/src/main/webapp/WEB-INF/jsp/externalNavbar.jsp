@@ -36,7 +36,7 @@
 		    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="${searchGroupsPlaceholder}" aria-label="Search">
 		    <div class="list-group" id="groupsFound"></div>
 		</div>
-		<a id="searchGroupForm" class="create-post" href="<c:url value="/group/"/>">
+		<a id="searchGroupForm" class="create-post" href="<c:url value="/groups/"/>">
 			<button class="app-btn-outline" role="button">
 				<spring:message code="search.button.message"/>
 			</button>

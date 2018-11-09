@@ -101,6 +101,49 @@
             </div>
           </div>
         </c:forEach>
+        <br>
+        <c:if test="${groupsPageCount > 1}">
+        <nav aria-label="...">
+            <ul class="pagination">
+              <c:choose>
+                <c:when test="${groupsPage eq 1}">
+                  <li class="page-item disabled">
+                      <span class="page-link"><-</span>
+                  </li>
+                </c:when>
+                <c:otherwise>
+                      <li class="page-item">
+                      <a class="page-link" href="?page=${groupsPage-1}"><-</a>
+                  </li>
+                  </c:otherwise>
+                </c:choose>
+              <c:forEach var="i" begin="1" end="${groupsPageCount}">
+                <c:choose>
+                  <c:when test="${groupsPage eq i}">
+                    <li class="page-item active">
+                        <span class="page-link"><c:out value="${i}" escapeXml="true"/><span class="sr-only">(current)</span></span>
+                    </li>
+                  </c:when>
+                  <c:otherwise>
+                    <li class="page-item"><a class="page-link" href="?page=${i}"><c:out value="${i}" escapeXml="true"/></a></li>
+                  </c:otherwise>
+                  </c:choose>
+              </c:forEach>
+              <c:choose>
+                <c:when test="${groupsPage eq groupsPageCount}">
+                  <li class="page-item disabled">
+                      <span class="page-link">-></span>
+                  </li>
+                </c:when>
+                <c:otherwise>
+                  <li class="page-item">
+                      <a class="page-link" href="?page=${groupsPage+1}">-></a>
+                  </li>
+                </c:otherwise>
+                </c:choose>
+            </ul>
+        </nav>
+        </c:if>
 			</div>
 		</div>
 		<%@include file="footer.jsp" %>

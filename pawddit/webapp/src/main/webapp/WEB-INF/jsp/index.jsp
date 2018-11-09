@@ -91,7 +91,7 @@
     						</c:when>
     						<c:otherwise>
             					<li class="page-item">
-      								<a class="page-link" href="?sort=${param.sort != null ? param.sort : 'new'}&page=${postsPage-1}"><-</a>
+      								<a class="page-link" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&page=${postsPage-1}" escapeXml="true"/>"><-</a>
     							</li>
          					</c:otherwise>
          				</c:choose>
@@ -103,7 +103,7 @@
     								</li>
     							</c:when>
     							<c:otherwise>
-    								<li class="page-item"><a class="page-link" href="?sort=${param.sort != null ? param.sort : 'new'}&page=${i}"><c:out value="${i}" escapeXml="true"/></a></li>
+    								<li class="page-item"><a class="page-link" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&page=${i}" escapeXml="true"/>"><c:out value="${i}" escapeXml="true"/></a></li>
     							</c:otherwise>
          					</c:choose>
     					</c:forEach>
@@ -115,7 +115,7 @@
     						</c:when>
     						<c:otherwise>
     							<li class="page-item">
-      								<a class="page-link" href="?sort=${param.sort != null ? param.sort : 'new'}&page=${postsPage+1}">-></a>
+      								<a class="page-link" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&page=${postsPage+1}" escapeXml="true"/>">-></a>
     							</li>
     						</c:otherwise>
          				</c:choose>

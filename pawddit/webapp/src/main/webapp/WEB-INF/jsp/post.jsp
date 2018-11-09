@@ -144,9 +144,9 @@
               </div>
               </c:forEach>
               <br>
+              	<c:if test="${commentsPageCount > 1}">
 				<nav aria-label="...">
   					<ul class="pagination">
-  						<c:if test="${commentsPageCount > 0}">
   						<c:choose>
   							<c:when test="${commentsPage eq 1}">
     							<li class="page-item disabled">
@@ -183,9 +183,9 @@
     							</li>
     						</c:otherwise>
          				</c:choose>
-         				</c:if>
   					</ul>
 				</nav>
+				</c:if>
           </div>
         </div>
 			</div>

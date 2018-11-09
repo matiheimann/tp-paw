@@ -80,9 +80,9 @@
 					</div>
 				</c:forEach>
 				<br>
+				<c:if test="${postsPageCount > 1}">
 				<nav aria-label="...">
-  					<ul class="pagination">
-  						<c:if test="${postsPageCount > 0}">
+  					<ul class="pagination">	
   						<c:choose>
   							<c:when test="${postsPage eq 1}">
     							<li class="page-item disabled">
@@ -91,7 +91,7 @@
     						</c:when>
     						<c:otherwise>
             					<li class="page-item">
-      								<a class="page-link" href="?sort=${param.sort}&page=${postsPage-1}"><-</a>
+      								<a class="page-link" href="?sort=${param.sort != null ? param.sort : 'new'}&page=${postsPage-1}"><-</a>
     							</li>
          					</c:otherwise>
          				</c:choose>
@@ -103,7 +103,7 @@
     								</li>
     							</c:when>
     							<c:otherwise>
-    								<li class="page-item"><a class="page-link" href="?sort=${param.sort}&page=${i}"><c:out value="${i}" escapeXml="true"/></a></li>
+    								<li class="page-item"><a class="page-link" href="?sort=${param.sort != null ? param.sort : 'new'}&page=${i}"><c:out value="${i}" escapeXml="true"/></a></li>
     							</c:otherwise>
          					</c:choose>
     					</c:forEach>
@@ -115,13 +115,14 @@
     						</c:when>
     						<c:otherwise>
     							<li class="page-item">
-      								<a class="page-link" href="?sort=${param.sort}&page=${postsPage+1}">-></a>
+      								<a class="page-link" href="?sort=${param.sort != null ? param.sort : 'new'}&page=${postsPage+1}">-></a>
     							</li>
     						</c:otherwise>
          				</c:choose>
-         				</c:if>
+         				
   					</ul>
 				</nav>
+				</c:if>
 			</div>
 		</div>
 		<%@include file="footer.jsp" %>

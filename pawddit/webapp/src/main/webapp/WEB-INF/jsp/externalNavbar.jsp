@@ -21,10 +21,10 @@
 			</c:choose>
 	  </button>
 	  <div class="dropdown-menu" aria-labelledby="dropdownSort">
-			<a class="dropdown-item" href="?sort=new&page=${param.page}"><i class="dropdown-icon fas fa-certificate"></i>
+			<a class="dropdown-item" href="?sort=new&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-certificate"></i>
 				<spring:message code="dropdown.sort.button.new.message"/>
 			</a>
-	    <a class="dropdown-item" href="?sort=top&page=${param.page}"><i class="dropdown-icon fas fa-fire"></i>
+	    <a class="dropdown-item" href="?sort=top&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-fire"></i>
 				<spring:message code="dropdown.sort.button.top.message"/>
 			</a>
 	  </div>

@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class Post {
 	private String content;
 	
 	@Column(name = "creationdate", nullable = false)
-	private Timestamp date;
+	private LocalDateTime date;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "groupname")
@@ -63,7 +63,7 @@ public class Post {
 		// Just for Hibernate, we love you!
 	}
 	
-	public Post(final String title, final String content, final Timestamp date, final Group group, final User user, final String imageId) {
+	public Post(final String title, final String content, final LocalDateTime date, final Group group, final User user, final String imageId) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
@@ -88,11 +88,11 @@ public class Post {
 		this.content = content;
 	}
 	
-	public Timestamp getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 	
-	public void setDate(Timestamp date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 	

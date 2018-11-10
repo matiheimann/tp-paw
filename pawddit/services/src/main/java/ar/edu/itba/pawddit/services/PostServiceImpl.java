@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.services;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ public class PostServiceImpl implements PostService {
 	private SubscriptionDao subscriptionDao;
 
 	@Override
-	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user, final String imageId) {
+	public Post create(final String title, final String content, final LocalDateTime date, final Group group, final User user, final String imageId) {
 		if (!subscriptionDao.isUserSub(user, group))
 			throw new NoPermissionsException();
 		return postDao.create(title, content, date, group, user, imageId);

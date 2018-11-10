@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.services;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +23,8 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDao commentDao;
 
 	@Override
-	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final Timestamp creationDate) {
-		return commentDao.create(content, post, replyTo, user, creationDate);
+	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final LocalDateTime date) {
+		return commentDao.create(content, post, replyTo, user, date);
 	}
 
 	@Override

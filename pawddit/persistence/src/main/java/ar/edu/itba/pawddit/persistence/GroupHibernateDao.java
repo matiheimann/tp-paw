@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.persistence;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ public class GroupHibernateDao implements GroupDao {
 	}
 	
 	@Override
-	public Group create(final String name, final Timestamp date, final String description, final User owner) {
+	public Group create(final String name, final LocalDateTime date, final String description, final User owner) {
 		final Group group = new Group(name, date, description, owner);
 		em.persist(group);
 		return group;

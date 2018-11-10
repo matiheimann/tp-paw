@@ -1,7 +1,7 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 
@@ -74,7 +74,7 @@ public class PostController {
 			
 		}
 
-		final Post p = ps.create(form.getTitle(), form.getContent(), new Timestamp(System.currentTimeMillis()), g, user, imageId);
+		final Post p = ps.create(form.getTitle(), form.getContent(), LocalDateTime.now(), g, user, imageId);
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;
 	}
@@ -120,7 +120,7 @@ public class PostController {
 
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		cs.create(form.getContent(), p, null, user, new Timestamp(System.currentTimeMillis()));
+		cs.create(form.getContent(), p, null, user, LocalDateTime.now());
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
 		return mav;

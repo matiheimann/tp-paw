@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.persistence;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ public class PostHibernateDao implements PostDao {
 	private EntityManager em;
 	
 	@Override
-	public Post create(final String title, final String content, final Timestamp date, final Group group, final User user, final String imageId) {
+	public Post create(final String title, final String content, final LocalDateTime date, final Group group, final User user, final String imageId) {
 		final Post post = new Post(title, content, date, group, user, imageId);
 		em.persist(post);
 		return post;

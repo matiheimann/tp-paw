@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.persistence;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +21,8 @@ public class CommentHibernateDao implements CommentDao {
 	private EntityManager em;
 	
 	@Override
-	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final Timestamp creationDate) {
-		final Comment comment = new Comment(content, post, replyTo, user, creationDate);
+	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final LocalDateTime date) {
+		final Comment comment = new Comment(content, post, replyTo, user, date);
 		em.persist(comment);
 		return comment;
 	}

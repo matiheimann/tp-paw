@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.services;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import ar.edu.itba.pawddit.model.User;
 public interface GroupService {
 	
 	public Optional<Group> findByName(String name);
-	public Group create(String name, Timestamp date, String description, User user);
+	public Group create(String name, LocalDateTime date, String description, User user);
 	public List<Group> searchGroupsByString(String name, int limit, int offset);
 	public int searchGroupsByStringCount(String name);
 	public List<Group> findSubscribedByUser(User user, int limit, int offset);

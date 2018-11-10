@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.services;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +34,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group create(final String name, final Timestamp date, final String description, final User user) {
+	public Group create(final String name, final LocalDateTime date, final String description, final User user) {
 		if (findByName(name).isPresent())
 			throw new GroupAlreadyExists();
 		

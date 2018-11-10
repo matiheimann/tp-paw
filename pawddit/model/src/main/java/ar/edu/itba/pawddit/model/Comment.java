@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class Comment {
 	private User owner;
 	
 	@Column(name = "creationdate", nullable = false)
-	private Timestamp date;
+	private LocalDateTime date;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments_commentid_seq")
@@ -58,12 +58,12 @@ public class Comment {
 		// Just for Hibernate, we love you!
 	}
 	
-	public Comment(final String content, final Post post, final Comment replyTo, final User user, final Timestamp creationDate) {
+	public Comment(final String content, final Post post, final Comment replyTo, final User user, final LocalDateTime date) {
 		this.content = content;
 		this.post = post;
 		this.replyTo = replyTo;
 		this.owner = user;
-		this.date = creationDate;
+		this.date = date;
 	}
 
 	public String getContent() {
@@ -98,11 +98,11 @@ public class Comment {
 		this.owner = owner;
 	}
 	
-	public Timestamp getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 	
-	public void setDate(Timestamp date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 	

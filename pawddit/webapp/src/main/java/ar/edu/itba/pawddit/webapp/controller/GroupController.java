@@ -1,6 +1,6 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -62,7 +62,7 @@ public class GroupController {
 		final Group group;
 
 		try {
-			group = gs.create(form.getName(), new Timestamp(System.currentTimeMillis()), form.getDescription(), user);
+			group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
 		}
 		catch(GroupAlreadyExists e) {
 			return createGroup(form, true);

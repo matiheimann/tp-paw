@@ -9,14 +9,14 @@
     </head>
     <body>
         <div style="width: 100%">
-            <div style="display: block; min-height: 80px !important; background-color:#E85A4F" th:text="' '"></div>
-            <div style="display: block; height: 100px; background-color:#EDEAE5;">
-              <p th:text="#{mail.hi} + ' ' + ${username} + '!'" style="padding-left: 15px"></p>
+            <div style="display: block; min-height: 50px !important; background-color:#E85A4F" th:text="' '"></div>
+            <div style="display: block; background-color:#EDEAE5; padding: 20px 5px;">
+              <p th:text="#{mail.hi} + ' ' + ${username} + '!'" style="padding-left: 15px; font-weight: bold;"></p>
               <p th:text="#{mail.body}" style="padding-left: 15px"></p>
               <a th:href="${confirmationUrl}" th:text="${confirmationUrl}" style="padding-left: 15px"></a>
             </div>
-            <div style="width: 100%; display: flex; min-height: 200px !important; background-color:#42474c; justify-content:center;">
-              <div><h2 style="border: 3px solid white; border-radius: 10px; margin: auto; color: white; text-align:center">Pawddit.</h2></div>
+            <div style="width: 100%; display: block; justify-content:center; min-height: 90px !important; background-color:#42474c; padding: 15px 10px;">
+              <div style="max-width: 90px; margin:5px auto;"><h2 style="border: 3px solid white; border-radius: 10px; margin: auto; color: white; text-align:center">Pawddit.</h2></div>
             </div>
         </div>
     </body>

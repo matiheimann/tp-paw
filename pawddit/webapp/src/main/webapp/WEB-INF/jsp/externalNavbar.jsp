@@ -91,7 +91,7 @@
 			</button>
 		</a>
 	</div>
-	<a class="login-btn margin-left-100" href="<c:url value="/login"/>">
+	<a class="login-btn margin-left-180" href="<c:url value="/login"/>">
 		<button  role="button" class="app-btn-primary login-btn">
 			<spring:message code="login.button.message"/>
 		</button>

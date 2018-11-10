@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -82,7 +83,7 @@ public class UserController {
 		final String base = url.substring(0, url.length() - uri.length() + ctx.length());
 		
 		final VerificationToken token = us.createToken(user);
-		mss.sendVerificationToken(user, token, base);
+		mss.sendVerificationToken(user, token, base, LocaleContextHolder.getLocale());
 
 		return new ModelAndView("verifyAccount");
 	}

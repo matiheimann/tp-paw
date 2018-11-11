@@ -41,8 +41,8 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Post> findAll(final int limit, final int offset, final String sort) {
-		final List<Post> posts = postDao.findAll(limit, offset, sort);
+	public List<Post> findAll(final int limit, final int offset, final String sort, final String time) {
+		final List<Post> posts = postDao.findAll(limit, offset, sort, time);
 		for (final Post post : posts) {
 			post.setComments(commentDao.findByPostCount(post));
 		}
@@ -50,8 +50,8 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Post> findByGroup(final Group group, final int limit, final int offset, final String sort) {
-		final List<Post> posts = postDao.findByGroup(group, limit, offset, sort);
+	public List<Post> findByGroup(final Group group, final int limit, final int offset, final String sort, final String time) {
+		final List<Post> posts = postDao.findByGroup(group, limit, offset, sort, time);
 		for (final Post post : posts) {
 			post.setComments(commentDao.findByPostCount(post));
 		}
@@ -59,8 +59,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> findByUser(final User user, final int limit, final int offset, final String sort) {
-		final List<Post> posts = postDao.findByUser(user, limit, offset, sort);
+	public List<Post> findByUser(final User user, final int limit, final int offset, final String sort, final String time) {
+		final List<Post> posts = postDao.findByUser(user, limit, offset, sort, time);
 		for (final Post post : posts) {
 			post.setComments(commentDao.findByPostCount(post));
 		}
@@ -80,8 +80,8 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort) {
-		final List<Post> posts = postDao.findBySubscriptions(user, limit, offset, sort);
+	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort, final String time) {
+		final List<Post> posts = postDao.findBySubscriptions(user, limit, offset, sort, time);
 		for (final Post post : posts) {
 			post.setComments(commentDao.findByPostCount(post));
 		}
@@ -89,23 +89,23 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public int findAllCount() {
-		return postDao.findAllCount();
+	public int findAllCount(final String time) {
+		return postDao.findAllCount(time);
 	}
 
 	@Override
-	public int findByGroupCount(final Group group) {
-		return postDao.findByGroupCount(group);
+	public int findByGroupCount(final Group group, final String time) {
+		return postDao.findByGroupCount(group, time);
 	}
 
 	@Override
-	public int findByUserCount(final User user) {
-		return postDao.findByUserCount(user);
+	public int findByUserCount(final User user, final String time) {
+		return postDao.findByUserCount(user, time);
 	}
 
 	@Override
-	public int findBySubscriptionsCount(final User user) {
-		return postDao.findBySubscriptionsCount(user);
+	public int findBySubscriptionsCount(final User user, final String time) {
+		return postDao.findBySubscriptionsCount(user, time);
 	}
 
 	@Override

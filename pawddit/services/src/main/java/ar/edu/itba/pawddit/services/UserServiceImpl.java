@@ -92,5 +92,11 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(final User user) {
 		userDao.deleteUser(user);
 	}
+
+	@Override
+	public User changeData(int id, String username, String password, String email, Boolean byAdmin) {
+		
+		return null;
+	}
 	
 }

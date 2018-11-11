@@ -16,5 +16,6 @@ public interface UserDao {
 	public void deleteToken(VerificationToken token);
 	public User enableUser(User user);
 	public void deleteUser(User user);
+	public User changeData(int id, String username, String password, String email, Boolean byAdmin);
 	
 }

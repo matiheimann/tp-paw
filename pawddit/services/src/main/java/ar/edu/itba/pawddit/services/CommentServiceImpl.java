@@ -81,6 +81,7 @@ public class CommentServiceImpl implements CommentService {
 		final List<Comment> comments = commentDao.findRepliesByComment(comment, limit, offset);
 		for (final Comment c : comments) {
 			c.setUserVote(commentVoteDao.checkVote(user, c));
+			c.setReplies(commentDao.findRepliesByCommentCount(c));
 		}
 		return comments;
 	}

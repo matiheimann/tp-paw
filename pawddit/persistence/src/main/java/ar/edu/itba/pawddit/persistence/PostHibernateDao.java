@@ -29,7 +29,7 @@ public class PostHibernateDao implements PostDao {
 	
 	@Override
 	public List<Post> findAll(final int limit, final int offset, final String sort) {
-		final TypedQuery<Post> query = em.createQuery("select p from Post as p left join p.votesSet as v group by p " + getOrderBySort(sort), Post.class);
+		final TypedQuery<Post> query = em.createQuery("select p from Post as p " + getJoinBySort(sort) + " group by p " + getOrderBySort(sort), Post.class);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
 		return query.getResultList();
@@ -37,7 +37,7 @@ public class PostHibernateDao implements PostDao {
 
 	@Override
 	public List<Post> findByGroup(final Group group, final int limit, final int offset, final String sort) {
-		final TypedQuery<Post> query = em.createQuery("select p from Post as p left join p.votesSet as v where p.group = :group group by p " + getOrderBySort(sort), Post.class);
+		final TypedQuery<Post> query = em.createQuery("select p from Post as p " + getJoinBySort(sort) + " where p.group = :group group by p " + getOrderBySort(sort), Post.class);
 		query.setParameter("group", group);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -46,7 +46,7 @@ public class PostHibernateDao implements PostDao {
 
 	@Override
 	public List<Post> findByUser(final User user, final int limit, final int offset, final String sort) {
-		final TypedQuery<Post> query = em.createQuery("select p from Post as p left join p.votesSet as v where p.owner = :user group by p " + getOrderBySort(sort), Post.class);
+		final TypedQuery<Post> query = em.createQuery("select p from Post as p " + getJoinBySort(sort) + " where p.owner = :user group by p " + getOrderBySort(sort), Post.class);
 		query.setParameter("user", user);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -63,7 +63,7 @@ public class PostHibernateDao implements PostDao {
 	
 	@Override
 	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort) {
-		final TypedQuery<Post> query = em.createQuery("select p from Post as p join p.group.subscribedUsers as s left join p.votesSet as v where s = :user group by p " + getOrderBySort(sort), Post.class);
+		final TypedQuery<Post> query = em.createQuery("select p from Post as p join p.group.subscribedUsers as s " + getJoinBySort(sort) + " where s = :user group by p " + getOrderBySort(sort), Post.class);
 		query.setParameter("user", user);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -103,12 +103,28 @@ public class PostHibernateDao implements PostDao {
 		em.remove(p);
 	}
 	
+	private String getJoinBySort(final String sort) {
+		if (sort == null || sort.equals("new"))
+			return "";
+		
+		if (sort.equals("top"))
+			return "left join p.votesSet as v";
+		
+		if (sort.equals("controversial"))
+			return "left join p.commentsSet as c";
+		
+		return "";
+	}
+	
 	private String getOrderBySort(final String sort) {
 		if (sort == null || sort.equals("new"))
 			return "order by p.date desc";
 		
 		if (sort.equals("top"))
-			return " order by coalesce(sum(v.value), 0) desc";
+			return "order by coalesce(sum(v.value), 0) desc";
+		
+		if (sort.equals("controversial"))
+			return "order by coalesce(count(*), 0) desc";
 		
 		return "order by p.date desc";
 	}

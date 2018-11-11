@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
+import ar.edu.itba.pawddit.model.VoteComment;
 
 @Repository
 public class UserHibernateDao implements UserDao {
@@ -79,11 +80,19 @@ public class UserHibernateDao implements UserDao {
 		final User u = em.merge(user);
 		em.remove(u);
 	}
-
+	
 	@Override
-	public User changeData(int id, String username, String password, String email, Boolean byAdmin) {
-		
-		return null;
+	public void changeData(User user, String username, String password, String email) {
+		final User u = find(user).get();
+		u.setUsername(username);
+		u.setPassword(password);
+		u.setEmail(email);
+	}
+
+	public Optional<User> find(User user){
+		final TypedQuery<User> query = em.createQuery("from User as u where u.pk.user = user", User.class);
+		query.setParameter("user", user);
+		return query.getResultList().stream().findFirst();
 	}
 	
 }

@@ -100,6 +100,14 @@
 								<div class="activity-comments-component">
 									<div class="comment-header">
 										<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${comment.owner.username}'/>"'><c:out value="${comment.owner.username}" escapeXml="true"/></span>
+										<span><strong><spring:message code="commentedIn.message"/></strong></span>
+										<a class="no-underline" href="<c:url value="/group/${comment.post.group.name}/${comment.post.postid}"/>">
+											<span class="header-button group-name"><c:out value="${comment.post.title}" escapeXml="true"/></span>
+										</a>
+										<span><strong><spring:message code="postedIn.message"/></strong></span>
+										<a class="no-underline" href="<c:url value="/group/${comment.post.group.name}"/>">
+											<span class="header-button group-name"><c:out value="${comment.post.group.name}" escapeXml="true"/></span>
+										</a>
 										<span><strong><time class="timeago" datetime='<c:out value="${comment.date}" escapeXml="true"/>'></time></strong></span>
 									</div>
 									<hr class="comment-separator">

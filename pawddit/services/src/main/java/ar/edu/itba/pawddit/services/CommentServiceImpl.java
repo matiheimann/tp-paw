@@ -29,7 +29,11 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		return commentDao.findByUser(user, limit, offset);
+		final List<Comment> comments = commentDao.findByUser(user, limit, offset);
+		for (final Comment comment : comments) {
+			comment.getPost().getPostid();
+		}
+		return comments;
 	}
 
 	@Override

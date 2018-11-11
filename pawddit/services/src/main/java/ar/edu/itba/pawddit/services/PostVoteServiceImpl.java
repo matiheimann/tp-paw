@@ -24,8 +24,9 @@ public class PostVoteServiceImpl implements PostVoteService {
 		else if (vote == -1) {
 			pvd.changeVote(user, post);
 		}
-		else
+		else {
 			pvd.votePost(user, post, 1);
+		}
 	}
 	
 	@Override
@@ -37,8 +38,9 @@ public class PostVoteServiceImpl implements PostVoteService {
 		else if (vote == 1) {
 			pvd.changeVote(user, post);
 		}
-		else
+		else {
 			pvd.votePost(user, post, -1);
+		}
 	}
 
 	@Override

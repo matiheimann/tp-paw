@@ -13,7 +13,7 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VoteComment;
 
 @Repository
-public class CommentVoteHibernateDao implements CommentVoteDao{
+public class CommentVoteHibernateDao implements CommentVoteDao {
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -29,7 +29,6 @@ public class CommentVoteHibernateDao implements CommentVoteDao{
 	public void changeVote(User user, Comment comment) {
 		final VoteComment vc = find(user, comment).get();
 		vc.setValue(vc.getValue() * -1);
-		
 	}
 
 	@Override
@@ -41,10 +40,10 @@ public class CommentVoteHibernateDao implements CommentVoteDao{
 	@Override
 	public int checkVote(User user, Comment comment) {
 		final Optional<VoteComment> vc = find(user, comment);
-		if(vc.isPresent())
-		{
-			return 1;
+		if(vc.isPresent()) {
+			return vc.get().getValue();
 		}
+		
 		return 0;
 	}
 	
@@ -54,6 +53,5 @@ public class CommentVoteHibernateDao implements CommentVoteDao{
 		query.setParameter("comment", comment);
 		return query.getResultList().stream().findFirst();
 	}
-	
 
 }

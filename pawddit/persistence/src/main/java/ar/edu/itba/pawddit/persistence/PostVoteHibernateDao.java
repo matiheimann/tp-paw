@@ -22,7 +22,6 @@ public class PostVoteHibernateDao implements PostVoteDao {
 	public void changeVote(final User user, final Post post) {
 		final VotePost vp = find(user, post).get();
 		vp.setValue(-1 * vp.getValue());
-		
 	}
 
 	@Override

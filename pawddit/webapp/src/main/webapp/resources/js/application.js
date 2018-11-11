@@ -23,7 +23,7 @@ function searchGroups() {
       input.val(input.val().replace(/.$/, ''))
     input.val(input.val().replace(/[^a-zA-Z0-9]/g, ''));
     if (input.val() != "") {
-      $("#searchGroupForm").attr("href", getContextPath() + "/groups/?search=" +  input.val());
+      $("#searchGroupForm").attr("href", getContextPath() + "/groups?search=" +  input.val());
       $.ajax({
           type: 'GET',
           url: getContextPath() + '/searchGroup?name=' + input.val(),
@@ -42,7 +42,7 @@ function searchGroups() {
       });
     }
     else {
-      $("#searchGroupForm").attr("href", getContextPath() + "/groups/");
+      $("#searchGroupForm").attr("href", getContextPath() + "/groups");
       var results = document.getElementById('groupsFound');
       results.innerHTML = '';
     }

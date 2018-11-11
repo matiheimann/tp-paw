@@ -10,7 +10,7 @@ import ar.edu.itba.pawddit.model.User;
 public interface GroupDao {
 	
 	public Optional<Group> findByName(String name);
-	public Group create(String name, LocalDateTime date, String description, User owner);
+	public Group create(String name, LocalDateTime date, String description, User user);
 	public List<Group> searchGroupsByString(String name, int limit, int offset);
 	public int searchGroupsByStringCount(String name);
 	public List<Group> findSubscribedByUser(User user, int limit, int offset);
@@ -18,5 +18,6 @@ public interface GroupDao {
 	public List<Group> findRecommendedByUser(User user, int limit);
 	public void delete(Group group);
 	public List<String> search5NamesByString(String name);
+	public int findSubscriptorsCount(Group group);
 
 }

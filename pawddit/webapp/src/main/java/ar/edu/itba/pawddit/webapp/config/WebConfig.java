@@ -32,8 +32,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ITemplateResolver;
-import org.thymeleaf.templateresolver.StringTemplateResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
@@ -153,7 +151,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     /* **************************************************************** */
 
 	@Bean
-	public SpringResourceTemplateResolver templateResolver(){
+	public SpringResourceTemplateResolver templateResolver() {
       final SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
       templateResolver.setApplicationContext(this.applicationContext);
       templateResolver.setPrefix("/WEB-INF/templates/");

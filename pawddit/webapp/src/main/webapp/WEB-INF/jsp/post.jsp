@@ -62,7 +62,7 @@
 								<div class="form-group">
 									<button class="no-btn" type="submit">
 										<c:choose>
-											<c:when test="${vote eq 1}">
+											<c:when test="${post.userVote eq 1}">
 												<i class="fas fa-arrow-up icon-color-selected"></i>
 											</c:when>
 											<c:otherwise>
@@ -80,7 +80,7 @@
 								<div class="form-group">
 									<button class="no-btn" type="submit">
 										<c:choose>
-											<c:when test="${vote eq -1}">
+											<c:when test="${post.userVote eq -1}">
 												<i class="fas fa-arrow-down icon-color-selected"></i>
 											</c:when>
 											<c:otherwise>
@@ -150,7 +150,7 @@
 						 								<div class="form-group">
 						 									<button class="no-btn" type="submit">
 						 										<c:choose>
-						 											<c:when test="${vote eq 1}"><!-- TODO REAL NUMBERS-->
+						 											<c:when test="${comment.userVote eq 1}"><!-- TODO REAL NUMBERS-->
 						 												<i class="fas fa-arrow-up icon-color-selected"></i>
 						 											</c:when>
 						 											<c:otherwise>
@@ -161,14 +161,14 @@
 						 								</div>
 			 										</form:form>
 				 								</div>
-				 								<strong class="score-count"><c:out value="${post.votes}" escapeXml="true"/></strong>
+				 								<strong class="score-count"><c:out value="${comment.votes}" escapeXml="true"/></strong>
 				 				        <div>
 				 					        <c:url value="/group/${group.name}/${post.postid}/${comment.commentid}/downvote" var="commentPath" />
 						 							<form:form action="${commentPath}" method="post">
 						 								<div class="form-group">
 						 									<button class="no-btn" type="submit">
 						 										<c:choose>
-						 											<c:when test="${vote eq -1}"><!-- TODO REAL NUMBERS-->
+						 											<c:when test="${comment.userVote eq -1}"><!-- TODO REAL NUMBERS-->
 						 												<i class="fas fa-arrow-down icon-color-selected"></i>
 						 											</c:when>
 						 											<c:otherwise>

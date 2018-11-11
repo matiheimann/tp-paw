@@ -39,8 +39,8 @@ public class CommentController {
 	public ModelAndView upvoteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @PathVariable  final Integer commentId, @ModelAttribute("user") final User user) {
 		
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		final Comment c = cs.findById(p, commentId).orElseThrow(CommentNotFoundException::new);
+		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
+		final Comment c = cs.findById(user, p, commentId).orElseThrow(CommentNotFoundException::new);
 		cvs.upVote(user, c);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
@@ -53,8 +53,8 @@ public class CommentController {
 	public ModelAndView downvoteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @PathVariable  final Integer commentId, @ModelAttribute("user") final User user) {
 		
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
-		final Comment c = cs.findById(p, commentId).orElseThrow(CommentNotFoundException::new);
+		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
+		final Comment c = cs.findById(user, p, commentId).orElseThrow(CommentNotFoundException::new);
 		cvs.downVote(user, c);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());

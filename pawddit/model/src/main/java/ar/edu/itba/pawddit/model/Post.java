@@ -53,6 +53,9 @@ public class Post {
 	@Transient
 	private int votes;
 	
+	@Transient
+	private int userVote;
+	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "post")
 	private Set<Comment> commentsSet = new HashSet<Comment>();
 	
@@ -129,7 +132,11 @@ public class Post {
 	}
 
 	public int getComments() {
-		return getCommentsSet().size();
+		return comments;
+	}
+	
+	public void setComments(int comments) {
+		this.comments = comments;
 	}
 
 	public int getVotes() {
@@ -138,6 +145,14 @@ public class Post {
 			votes += vp.getValue();
 		}
 		return votes;
+	}
+
+	public int getUserVote() {
+		return userVote;
+	}
+
+	public void setUserVote(int userVote) {
+		this.userVote = userVote;
 	}
 
 	public Set<Comment> getCommentsSet() {

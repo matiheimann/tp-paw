@@ -17,7 +17,7 @@ public interface PostService {
 	public int findByGroupCount(Group group);
 	public List<Post> findByUser(User user, int limit, int offset, String sort);
 	public int findByUserCount(User user);
-	public Optional<Post> findById(Group group, long id);
+	public Optional<Post> findById(User user, Group group, long id);
 	public List<Post> findBySubscriptions(User user, int limit, int offset, String sort);
 	public int findBySubscriptionsCount(User user);
 	public void delete(User user, Group group, Post post);

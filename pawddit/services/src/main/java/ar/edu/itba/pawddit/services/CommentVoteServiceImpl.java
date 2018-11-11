@@ -13,41 +13,41 @@ import ar.edu.itba.pawddit.persistence.CommentVoteDao;
 public class CommentVoteServiceImpl implements CommentVoteService {
 	
 	@Autowired
-	CommentVoteDao cvd;
+	CommentVoteDao commentVoteDao;
 
 	@Override
 	public void upVote(User user, Comment comment) {
-		final Integer vote = cvd.checkVote(user, comment);
+		final int vote = comment.getUserVote();
 		if (vote == 1) {
-			cvd.cancelVote(user, comment);
+			commentVoteDao.cancelVote(user, comment);
 		}
 		else if (vote == -1) {
-			cvd.changeVote(user, comment);
+			commentVoteDao.changeVote(user, comment);
 		}
 		else {
-			cvd.voteComment(user, comment, 1);
+			commentVoteDao.voteComment(user, comment, 1);
 		}
 		
 	}
 
 	@Override
 	public void downVote(User user, Comment comment) {
-		final Integer vote = cvd.checkVote(user, comment);
+		final int vote = comment.getUserVote();
 		if (vote == -1) {
-			cvd.cancelVote(user, comment);
+			commentVoteDao.cancelVote(user, comment);
 		}
 		else if (vote == 1) {
-			cvd.changeVote(user, comment);
+			commentVoteDao.changeVote(user, comment);
 		}
 		else {
-			cvd.voteComment(user, comment, -1);
+			commentVoteDao.voteComment(user, comment, -1);
 		}
 		
 	}
 
 	@Override
 	public int checkVote(User user, Comment comment) {
-		return cvd.checkVote(user, comment);
+		return commentVoteDao.checkVote(user, comment);
 	}
 
 }

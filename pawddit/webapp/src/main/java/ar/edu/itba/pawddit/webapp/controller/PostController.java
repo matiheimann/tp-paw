@@ -88,7 +88,7 @@ public class PostController {
 	@RequestMapping(value =  "/group/{groupName}/{postId}/delete", method = { RequestMethod.POST })
 	public ModelAndView deletePost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
 		if (user != null) {
 			ps.delete(user, group, post);
 		}
@@ -100,14 +100,11 @@ public class PostController {
 	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("createCommentForm") final CreateCommentForm form, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("post");
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
-		if (user != null) {
-			final Integer vote = pvs.checkVote(user, post);
-			mav.addObject("vote", vote);
-		}
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+
 		mav.addObject("group", group);
 		mav.addObject("post", post);
-		mav.addObject("comments", cs.findByPost(post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
+		mav.addObject("comments", cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
 		mav.addObject("commentsPage", page);
 		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
 		return mav;
@@ -120,7 +117,7 @@ public class PostController {
 		}
 
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
 		cs.create(form.getContent(), p, null, user, LocalDateTime.now());
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
@@ -130,8 +127,8 @@ public class PostController {
 	@RequestMapping(value =  "/group/{groupName}/{postId}/comment/{commentId}/delete", method = { RequestMethod.POST })
 	public ModelAndView deleteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @PathVariable final Integer commentId, @ModelAttribute("user") final User user) {
 		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post post = ps.findById(group, postId).orElseThrow(PostNotFoundException::new);
-		final Comment comment = cs.findById(post, commentId).orElseThrow(CommentNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
 		if (user != null) {
 			cs.delete(user, group, post, comment);
 		}
@@ -142,7 +139,7 @@ public class PostController {
 	@RequestMapping(value="/group/{groupName}/{postId}/upvote", method = {RequestMethod.POST})
 	public ModelAndView upvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
 		pvs.upVote(user, p);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
@@ -153,7 +150,7 @@ public class PostController {
 	@RequestMapping(value="/group/{groupName}/{postId}/downvote", method = {RequestMethod.POST})
 	public ModelAndView downvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(g, postId).orElseThrow(PostNotFoundException::new);
+		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
 		pvs.downVote(user, p);
 		
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());

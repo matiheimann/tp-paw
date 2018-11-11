@@ -38,5 +38,4 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		return sd.isUserSub(user, group);
 	}
 
-
 }

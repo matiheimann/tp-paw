@@ -27,8 +27,8 @@ public class GroupHibernateDao implements GroupDao {
 	}
 	
 	@Override
-	public Group create(final String name, final LocalDateTime date, final String description, final User owner) {
-		final Group group = new Group(name, date, description, owner);
+	public Group create(final String name, final LocalDateTime date, final String description, final User user) {
+		final Group group = new Group(name, date, description, user);
 		em.persist(group);
 		return group;
 	}
@@ -111,6 +111,13 @@ public class GroupHibernateDao implements GroupDao {
 		query.setParameter("name", "%" + name + "%");
 		query.setMaxResults(5);
 		return query.getResultList();
+	}
+
+	@Override
+	public int findSubscriptorsCount(Group group) {
+		final TypedQuery<Long> query = em.createQuery("select count(*) from Group as g join g.subscribedUsers as su where g = :group", Long.class);
+		query.setParameter("group", group);
+		return query.getSingleResult().intValue();
 	}
 	
 }

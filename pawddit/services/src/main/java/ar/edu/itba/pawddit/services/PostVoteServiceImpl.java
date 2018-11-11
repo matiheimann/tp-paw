@@ -13,38 +13,38 @@ import ar.edu.itba.pawddit.persistence.PostVoteDao;
 public class PostVoteServiceImpl implements PostVoteService {
 	
 	@Autowired
-	PostVoteDao pvd;
+	PostVoteDao postVoteDao;
 
 	@Override
 	public void upVote(final User user, final Post post) {
-		final Integer vote = checkVote(user, post);
+		final int vote = post.getUserVote();
 		if (vote == 1) {
-			pvd.cancelVote(user, post);
+			postVoteDao.cancelVote(user, post);
 		}
 		else if (vote == -1) {
-			pvd.changeVote(user, post);
+			postVoteDao.changeVote(user, post);
 		}
 		else {
-			pvd.votePost(user, post, 1);
+			postVoteDao.votePost(user, post, 1);
 		}
 	}
 	
 	@Override
 	public void downVote(final User user, final Post post) {
-		final Integer vote = checkVote(user, post);
+		final int vote = post.getUserVote();
 		if (vote == -1) {
-			pvd.cancelVote(user, post);
+			postVoteDao.cancelVote(user, post);
 		}
 		else if (vote == 1) {
-			pvd.changeVote(user, post);
+			postVoteDao.changeVote(user, post);
 		}
 		else {
-			pvd.votePost(user, post, -1);
+			postVoteDao.votePost(user, post, -1);
 		}
 	}
 
 	@Override
 	public int checkVote(final User user, final Post post) {
-		return pvd.checkVote(user, post);
+		return postVoteDao.checkVote(user, post);
 	}
 }

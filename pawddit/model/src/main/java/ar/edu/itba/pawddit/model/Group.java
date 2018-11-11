@@ -93,7 +93,11 @@ public class Group {
 	}
 	
 	public int getSuscriptors() {
-		return getSubscribedUsers().size();
+		return suscriptors;
+	}
+	
+	public void setSuscriptors(int suscriptors) {
+		this.suscriptors = suscriptors;
 	}
 
 	public Set<Post> getPosts() {

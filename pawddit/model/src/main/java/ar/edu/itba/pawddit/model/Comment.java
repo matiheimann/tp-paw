@@ -47,6 +47,9 @@ public class Comment {
 	
 	@Transient
 	private int votes;
+	
+	@Transient
+	private int userVote;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "replyTo")
 	private Set<Comment> replies = new HashSet<Comment>();
@@ -120,6 +123,14 @@ public class Comment {
 			votes += vp.getValue();
 		}
 		return votes;
+	}
+	
+	public int getUserVote() {
+		return userVote;
+	}
+
+	public void setUserVote(int userVote) {
+		this.userVote = userVote;
 	}
 	
 	public Set<Comment> getReplies() {

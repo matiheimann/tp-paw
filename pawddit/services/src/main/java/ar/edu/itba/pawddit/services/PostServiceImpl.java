@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.persistence.CommentDao;
 import ar.edu.itba.pawddit.persistence.PostDao;
+import ar.edu.itba.pawddit.persistence.PostVoteDao;
 import ar.edu.itba.pawddit.persistence.SubscriptionDao;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
@@ -23,7 +25,13 @@ public class PostServiceImpl implements PostService {
 	private PostDao postDao;
 	
 	@Autowired
+	private CommentDao commentDao;
+	
+	@Autowired
 	private SubscriptionDao subscriptionDao;
+	
+	@Autowired
+	private PostVoteDao postVoteDao;
 
 	@Override
 	public Post create(final String title, final String content, final LocalDateTime date, final Group group, final User user, final String imageId) {
@@ -36,7 +44,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> findAll(final int limit, final int offset, final String sort) {
 		final List<Post> posts = postDao.findAll(limit, offset, sort);
 		for (final Post post : posts) {
-			post.getComments();
+			post.setComments(commentDao.findByPostCount(post));
 		}
 		return posts;
 	}
@@ -45,7 +53,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> findByGroup(final Group group, final int limit, final int offset, final String sort) {
 		final List<Post> posts = postDao.findByGroup(group, limit, offset, sort);
 		for (final Post post : posts) {
-			post.getComments();
+			post.setComments(commentDao.findByPostCount(post));
 		}
 		return posts;
 	}
@@ -54,16 +62,19 @@ public class PostServiceImpl implements PostService {
 	public List<Post> findByUser(final User user, final int limit, final int offset, final String sort) {
 		final List<Post> posts = postDao.findByUser(user, limit, offset, sort);
 		for (final Post post : posts) {
-			post.getComments();
+			post.setComments(commentDao.findByPostCount(post));
 		}
 		return posts;
 	}
 	
 	@Override
-	public Optional<Post> findById(final Group group, final long id) {
+	public Optional<Post> findById(final User user, final Group group, final long id) {
 		final Optional<Post> post = postDao.findById(group, id);
 		if (post.isPresent()) {
-			post.get().getComments();
+			final Post p = post.get();
+			p.setComments(commentDao.findByPostCount(p));
+			if (user != null)
+				p.setUserVote(postVoteDao.checkVote(user, p));
 		}
 		return post;
 	}
@@ -72,7 +83,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> findBySubscriptions(final User user, final int limit, final int offset, final String sort) {
 		final List<Post> posts = postDao.findBySubscriptions(user, limit, offset, sort);
 		for (final Post post : posts) {
-			post.getComments();
+			post.setComments(commentDao.findByPostCount(post));
 		}
 		return posts;
 	}

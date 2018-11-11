@@ -18,5 +18,6 @@ public interface GroupService {
 	public List<Group> findRecommendedByUser(User user, int limit);
 	public void delete(User user, Group group);
 	public List<String> search5NamesByString(String name);
+	public int findSubscriptorsCount(Group group);
 	
 }

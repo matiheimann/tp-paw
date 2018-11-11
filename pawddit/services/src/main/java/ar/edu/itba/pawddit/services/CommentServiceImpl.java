@@ -13,6 +13,7 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.CommentDao;
+import ar.edu.itba.pawddit.persistence.CommentVoteDao;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
 @Service
@@ -21,6 +22,9 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private CommentDao commentDao;
+	
+	@Autowired
+	private CommentVoteDao commentVoteDao;
 
 	@Override
 	public Comment create(final String content, final Post post, final Comment replyTo, final User user, final LocalDateTime date) {
@@ -37,13 +41,23 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
-		return commentDao.findByPost(post, limit, offset);
+	public List<Comment> findByPost(final User user, final Post post, final int limit, final int offset) {
+		final List<Comment> comments = commentDao.findByPost(post, limit, offset);
+		for (final Comment comment : comments) {
+			comment.setUserVote(commentVoteDao.checkVote(user, comment));
+		}
+		return comments;
 	}
 
 	@Override
-	public Optional<Comment> findById(final Post post, final long id) {
-		return commentDao.findById(post, id);
+	public Optional<Comment> findById(final User user, final Post post, final long id) {
+		final Optional<Comment> comment = commentDao.findById(post, id);
+		if (comment.isPresent()) {
+			final Comment c = comment.get();
+			if (user != null)
+				c.setUserVote(commentVoteDao.checkVote(user, c));
+		}
+		return comment;
 	}
 
 	@Override

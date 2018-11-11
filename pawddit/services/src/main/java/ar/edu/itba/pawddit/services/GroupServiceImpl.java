@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.GroupDao;
+import ar.edu.itba.pawddit.persistence.SubscriptionDao;
 import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
@@ -22,13 +23,14 @@ public class GroupServiceImpl implements GroupService {
 	private GroupDao groupDao;
 	
 	@Autowired 
-	private SubscriptionService subscriptionService;
+	private SubscriptionDao subscriptionDao;
 
 	@Override
 	public Optional<Group> findByName(final String name) {
 		final Optional<Group> group = groupDao.findByName(name);
 		if (group.isPresent()) {
-			group.get().getSuscriptors();
+			final Group g = group.get();
+			g.setSuscriptors(groupDao.findSubscriptorsCount(g));
 		}
 		return group;
 	}
@@ -39,7 +41,7 @@ public class GroupServiceImpl implements GroupService {
 			throw new GroupAlreadyExists();
 		
 		final Group group = groupDao.create(name, date, description, user);
-		subscriptionService.suscribe(user, group);
+		subscriptionDao.suscribe(user, group);
 		
 		return group;
 	}
@@ -48,7 +50,7 @@ public class GroupServiceImpl implements GroupService {
 	public List<Group> searchGroupsByString(String name, final int limit, final int offset) {
 		final List<Group> groups = groupDao.searchGroupsByString(name, limit, offset);
 		for (final Group group : groups) {
-			group.getSuscriptors();
+			group.setSuscriptors(groupDao.findSubscriptorsCount(group));
 		}
 		return groups;
 	}
@@ -62,7 +64,7 @@ public class GroupServiceImpl implements GroupService {
 	public List<Group> findSubscribedByUser(final User user, final int limit, final int offset) {
 		final List<Group> groups = groupDao.findSubscribedByUser(user, limit, offset);
 		for (final Group group : groups) {
-			group.getSuscriptors();
+			group.setSuscriptors(groupDao.findSubscriptorsCount(group));
 		}
 		return groups;
 	}
@@ -76,7 +78,7 @@ public class GroupServiceImpl implements GroupService {
 	public List<Group> findRecommendedByUser(final User user, final int limit) {
 		final List<Group> groups = groupDao.findRecommendedByUser(user, limit);
 		for (final Group group : groups) {
-			group.getSuscriptors();
+			group.setSuscriptors(groupDao.findSubscriptorsCount(group));
 		}
 		return groups;
 	}
@@ -91,6 +93,11 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public List<String> search5NamesByString(final String name) {
 		return groupDao.search5NamesByString(name);
+	}
+
+	@Override
+	public int findSubscriptorsCount(Group group) {
+		return groupDao.findSubscriptorsCount(group);
 	}
 	
 }

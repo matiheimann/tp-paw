@@ -14,9 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.UserService;
-import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
-import ar.edu.itba.pawddit.webapp.form.CreateUserForm;
+import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,33 +25,18 @@ public class AdminController {
 	private UserService us;
 	
 	@RequestMapping("/createUser")
-	public ModelAndView createUser(@ModelAttribute("createUserForm") final CreateUserForm form, final Boolean usernameExistsError, final Boolean emailExistsError) {
+	public ModelAndView createUser(@ModelAttribute("createUserForm") final UserRegisterForm form) {
 		final ModelAndView mav = new ModelAndView("admin/createUser");
-		mav.addObject("usernameExistsError", usernameExistsError);
-		mav.addObject("emailExistsError", emailExistsError);
 		return mav;
 	}
 	
 	@RequestMapping(value = "/createUser", method = { RequestMethod.POST })
-	public ModelAndView createUserPost(final HttpServletRequest req, @Valid @ModelAttribute("createUserForm") final CreateUserForm form, final BindingResult errors) {
+	public ModelAndView createUserPost(final HttpServletRequest req, @Valid @ModelAttribute("createUserForm") final UserRegisterForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
-			return createUser(form, false, false);
+			return createUser(form);
 		}
 
-		final User user;
-
-		try {
-			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), true);
-		}
-		catch(UserRepeatedDataException e) {
-			Boolean usernameExistsError = false;
-			Boolean emailExistsError = false;
-			if(e.isUsernameRepeated())
-				usernameExistsError = true;
-			if(e.isEmailRepeated())
-				emailExistsError = true;
-			return createUser(form, usernameExistsError, emailExistsError);
-		}
+		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), true);
 
 		return new ModelAndView("redirect:/profile/" + user.getUsername());
 	}

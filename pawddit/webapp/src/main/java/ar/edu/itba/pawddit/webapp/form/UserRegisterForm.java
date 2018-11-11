@@ -8,8 +8,12 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import ar.edu.itba.pawddit.webapp.form.formAnnotations.EmailNotRepeated;
+import ar.edu.itba.pawddit.webapp.form.formAnnotations.UsernameNotRepeated;
 import ar.edu.itba.pawddit.webapp.form.formAnnotations.MatchingPasswords;
 
+@EmailNotRepeated
+@UsernameNotRepeated
 @MatchingPasswords
 public class UserRegisterForm {
 	

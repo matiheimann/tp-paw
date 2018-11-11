@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.itba.pawddit.persistence.UserDao;
 import ar.edu.itba.pawddit.services.UserService;
-import ar.edu.itba.pawddit.services.exceptions.RepeatedData;
-import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
 
@@ -30,25 +28,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User create(final String username, final String password, final String email, final Boolean byAdmin) throws UserRepeatedDataException {
-		
-		UserRepeatedDataException repeatedDataException = new UserRepeatedDataException();
-		boolean repeatedUsername = false;
-		boolean repeatedEmail = false;
-		
-		if (findByUsername(username).isPresent()) {
-			repeatedUsername = true;
-			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_USERNAME);
-		}
-		
-		if (findByEmail(email).isPresent()) {
-			repeatedEmail = true;
-			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_EMAIL);
-		}
-		
-		if(repeatedEmail || repeatedUsername)
-			throw repeatedDataException;
-		
+	public User create(final String username, final String password, final String email, final boolean byAdmin) {
 		if (byAdmin)
 			return userDao.create(username, passwordEncoder.encode(password), email, false, true);
 		
@@ -94,27 +74,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void changeData(User user, String username, String password, String email) throws UserRepeatedDataException{
-		UserRepeatedDataException repeatedDataException = new UserRepeatedDataException();
-		boolean repeatedUsername = false;
-		boolean repeatedEmail = false;
-		
-		if (findByUsername(username).isPresent() && !user.getUsername().equals(username)) {
-			repeatedUsername = true;
-			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_USERNAME);
-		}
-		
-		if (findByEmail(email).isPresent() && !user.getEmail().equals(email)) {
-			repeatedEmail = true;
-			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_EMAIL);
-		}
-		
-		if(repeatedEmail || repeatedUsername)
-			throw repeatedDataException;
-		
+	public void changeData(User user, String username, String password, String email) {
 		userDao.changeData(user, username, password, email);
-		
 	}
-
 	
 }

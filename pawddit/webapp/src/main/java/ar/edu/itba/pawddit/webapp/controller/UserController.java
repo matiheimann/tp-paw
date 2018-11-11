@@ -25,7 +25,6 @@ import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.MailSenderService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
-import ar.edu.itba.pawddit.services.exceptions.UserRepeatedDataException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
@@ -49,34 +48,19 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 
 	@RequestMapping("/register")
-	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form, final Boolean usernameExistsError, final Boolean emailExistsError) {
+	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
 		final ModelAndView mav = new ModelAndView("register");
-		mav.addObject("usernameExistsError", usernameExistsError);
-		mav.addObject("emailExistsError", emailExistsError);
 		return mav;
 	}
 
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
 	public ModelAndView registerPost(final HttpServletRequest req, @Valid @ModelAttribute("registerForm") final UserRegisterForm form, final BindingResult errors) {
 		if(errors.hasErrors()) {
-			return register(form, false, false);
+			return register(form);
 		}
 
-		final User user;
+		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 
-		try {
-			user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
-		}
-		catch(UserRepeatedDataException e) {
-			Boolean usernameExistsError = false;
-			Boolean emailExistsError = false;
-			if(e.isUsernameRepeated())
-				usernameExistsError = true;
-			if(e.isEmailRepeated())
-				emailExistsError = true;
-			return register(form, usernameExistsError, emailExistsError);
-		}
-		
 		final StringBuffer url = req.getRequestURL();
 		final String uri = req.getRequestURI();
 		final String ctx = req.getContextPath();

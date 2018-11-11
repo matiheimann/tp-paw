@@ -3,6 +3,9 @@ package ar.edu.itba.pawddit.webapp.form;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import ar.edu.itba.pawddit.webapp.form.formAnnotations.GroupnameNotRepeated;
+
+@GroupnameNotRepeated
 public class CreateGroupForm {
 	
 	@Pattern(regexp = "[a-zA-Z0-9]+")

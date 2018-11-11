@@ -21,7 +21,6 @@ import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
-import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
@@ -47,26 +46,18 @@ public class GroupController {
 	}
 
 	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form, boolean isGroupRepeated) {
+	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form) {
 		final ModelAndView mav = new ModelAndView("createGroup");
-		mav.addObject("groupAlreadyExistsError", isGroupRepeated);
 		return mav;
 	}
 
 	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
 	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
 		if(errors.hasErrors()) {
-			return createGroup(form, false);
+			return createGroup(form);
 		}
 
-		final Group group;
-
-		try {
-			group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
-		}
-		catch(GroupAlreadyExists e) {
-			return createGroup(form, true);
-		}
+		final Group group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
 
 		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
 		return mav;

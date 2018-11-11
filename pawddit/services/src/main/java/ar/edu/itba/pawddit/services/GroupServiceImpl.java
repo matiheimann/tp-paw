@@ -12,7 +12,6 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.persistence.GroupDao;
 import ar.edu.itba.pawddit.persistence.SubscriptionDao;
-import ar.edu.itba.pawddit.services.exceptions.GroupAlreadyExists;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 
 @Service
@@ -36,10 +35,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group create(final String name, final LocalDateTime date, final String description, final User user) {
-		if (findByName(name).isPresent())
-			throw new GroupAlreadyExists();
-		
+	public Group create(final String name, final LocalDateTime date, final String description, final User user) {	
 		final Group group = groupDao.create(name, date, description, user);
 		subscriptionDao.suscribe(user, group);
 		

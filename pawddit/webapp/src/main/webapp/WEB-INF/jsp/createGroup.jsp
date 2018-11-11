@@ -39,11 +39,6 @@
 							<spring:message code="groupName.placeholder" var="groupNamePlaceholder"/>
     					    <form:input type="text" path="name" class="form-control" id="group-name" placeholder="${groupNamePlaceholder}"/>
     					    <form:errors path="name" cssClass="formError" element="p"/>
-    					    <c:if test="${groupAlreadyExistsError eq true}">
-			    				<label class="formError">
-		   							<spring:message code="error.groupAlreadyExists.message"/>
-		   						</label>
-			    			</c:if>
     					  </div>
     					  <div class="form-group">
     					    <form:label for="group-description" path="description">

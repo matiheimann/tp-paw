@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
-import ar.edu.itba.pawddit.model.VoteComment;
 
 @Repository
 public class UserHibernateDao implements UserDao {

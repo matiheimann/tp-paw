@@ -79,4 +79,11 @@ public class UserHibernateDao implements UserDao {
 		final User u = em.merge(user);
 		em.remove(u);
 	}
+
+	@Override
+	public User changeData(int id, String username, String password, String email, Boolean byAdmin) {
+		
+		return null;
+	}
+	
 }

@@ -8,6 +8,9 @@
 	<div class="dropdown show drop-menu">
 	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<c:set var="myVar" value="/profile/${user.username}" />
+			<c:if test="${!empty userProfile}">
+				<c:set var="theirsVar" value="/profile/${userProfile.username}" />
+			</c:if>
 			<c:choose>
 				<c:when test="${!empty group}">
 					<i class="dropdown-icon fas fa-users"></i><div class="dropdown-selected-group-overflow"><c:out value="${group.name}" escapeXml="true"/></div>
@@ -21,6 +24,21 @@
 				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == myVar}">
 					<i class="dropdown-icon fas fa-user"></i><spring:message code="myProfile.message"/>
 				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == theirsVar}">
+					<i class="dropdown-icon fas fa-user"></i><c:out value="${userProfile.username}" escapeXml="true"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/groups'}">
+					<i class="dropdown-icon fas fa-users"></i><spring:message code="dropdown.button.groups.message"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/myGroups'}">
+					<i class="dropdown-icon fas fa-hand-holding-heart"></i><spring:message code="dropdown.button.myGroups.message"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/recommendedGroups'}">
+					<i class="dropdown-icon fas fa-user-plus"></i><spring:message code="dropdown.button.recommendedGroups.message"/>
+				</c:when>
+				<c:when test="${!empty search}">
+					<i class="dropdown-icon fas fa-user"></i><spring:message code="dropdown.button.groups.message"/>
+				</c:when>
 				<c:otherwise>
 					<i class="dropdown-icon fas fa-user-friends"></i><spring:message code="dropdown.button.myfeed.message"/>
 				</c:otherwise>
@@ -33,14 +51,16 @@
 	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
 				<spring:message code="dropdown.button.all.message"/>
 			</a>
-			<c:if test="${!empty user.subscribedGroups}">
-				<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
-			</c:if>
-			<c:forEach items="${user.subscribedGroups}" var="group">
-				<a class="dropdown-item" href="<c:url value="/group/${group.name}"/>"><i class="dropdown-icon fas fa-users"></i>
-					<c:out value="${group.name}" escapeXml="true"/>
-				</a>
-			</c:forEach>
+			<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			<a class="dropdown-item" href="<c:url value="/myGroups"/>"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
+				<spring:message code="dropdown.button.myGroups.message"/>
+			</a>
+			<a class="dropdown-item" href="<c:url value="/groups"/>"><i class="dropdown-icon fas fa-users"></i>
+				<spring:message code="dropdown.button.groups.message"/>
+			</a>
+			<a class="dropdown-item" href="<c:url value="/recommendedGroups"/>"><i class="dropdown-icon fas fa-user-plus"></i>
+				<spring:message code="dropdown.button.recommendedGroups.message"/>
+			</a>
 			<div class="dropdown-groups-text"><spring:message code="dropdown.button.other.title"/></div>
 			<a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
 				<i class="dropdown-icon fas fa-user"></i>

@@ -157,6 +157,8 @@ EDEAE5*/
 .no-posts {
 	color: #b7b5b2;
 	margin-top: 60px;
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
 .post-container {
@@ -380,6 +382,10 @@ textarea {
 
 .margin-right-160 {
 	margin-right: 159px;
+}
+
+.margin-left-180 {
+	margin-left: 180px;
 }
 
 .padding-bottom-10 {

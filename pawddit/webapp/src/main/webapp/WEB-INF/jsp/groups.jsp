@@ -17,7 +17,7 @@
       	</title>
       	<meta name="description" content="<spring:message code="meta.description.recommendedGroups.message"/>">
       </c:when>
-      <c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/groups'}">
+      <c:when test="${!empty search}">
         <title>
       		Pawddit | <spring:message code="groupsSearchResult.title"/>
       	</title>
@@ -63,7 +63,7 @@
     					<h2 class="groups-title"><spring:message code="noGroups.made.signedIn.message"/></h2>
     				</c:if>
           </c:when>
-          <c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/groupsSearchResult'}">
+          <c:when test="${!empty search}">
             <c:if test="${!empty groups}">
     					<h2 class="groups-title"><spring:message code="groupsSearchResult.title"/></h2>
     				</c:if>

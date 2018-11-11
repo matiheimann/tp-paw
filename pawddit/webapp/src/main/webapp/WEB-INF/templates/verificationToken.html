@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title  th:text="#{mail.title}"></title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto" />
+    </head>
+    <body>
+        <div style="width: 100%">
+            <div style="display: block; min-height: 50px !important; background-color:#E85A4F" th:text="' '"></div>
+            <div style="display: block; background-color:#EDEAE5; padding: 20px 5px;">
+              <p th:text="#{mail.hi} + ' ' + ${username} + '!'" style="padding-left: 15px; font-weight: bold;"></p>
+              <p th:text="#{mail.body}" style="padding-left: 15px"></p>
+              <a th:href="${confirmationUrl}" th:text="${confirmationUrl}" style="padding-left: 15px"></a>
+            </div>
+            <div style="width: 100%; display: block; justify-content:center; min-height: 90px !important; background-color:#42474c; padding: 15px 10px;">
+              <div style="max-width: 90px; margin:5px auto;"><h2 style="border: 3px solid white; border-radius: 10px; margin: auto; color: white; text-align:center">Pawddit.</h2></div>
+            </div>
+        </div>
+    </body>
+</html>

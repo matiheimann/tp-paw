@@ -3,6 +3,55 @@
 		<h2 class="logo logo-full">Pawddit.</h2>
 		<h2 class="logo logo-reduced">P.</h2>
 	</a>
+	<div class="dropdown show drop-menu">
+	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<c:if test="${!empty userProfile}">
+				<c:set var="theirsVar" value="/profile/${userProfile.username}" />
+			</c:if>
+			<c:choose>
+				<c:when test="${!empty group}">
+					<i class="dropdown-icon fas fa-users"></i><div class="dropdown-selected-group-overflow"><c:out value="${group.name}" escapeXml="true"/></div>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/all'}">
+					<i class="dropdown-icon fas fa-list"></i><spring:message code="dropdown.button.all.message"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/'}">
+					<i class="dropdown-icon fas fa-user-friends"></i><spring:message code="dropdown.button.all.message"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == theirsVar}">
+					<i class="dropdown-icon fas fa-user"></i><c:out value="${userProfile.username}" escapeXml="true"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/groups'}">
+					<i class="dropdown-icon fas fa-users"></i><spring:message code="dropdown.button.groups.message"/>
+				</c:when>
+				<c:when test="${!empty search}">
+					<i class="dropdown-icon fas fa-user"></i><spring:message code="dropdown.button.groups.message"/>
+				</c:when>
+				<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/register'}">
+					<i class="dropdown-icon fas fa-user-plus"></i><spring:message code="register.button.message"/>
+				</c:when>
+				<c:otherwise>
+					<i class="dropdown-icon fas fa-sign-in-alt"></i><spring:message code="login.button.message"/>
+				</c:otherwise>
+			</c:choose>
+	  </button>
+	  <div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">
+	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
+				<spring:message code="dropdown.button.all.message"/>
+			</a>
+			<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
+			<a class="dropdown-item" href="<c:url value="/groups"/>"><i class="dropdown-icon fas fa-users"></i>
+				<spring:message code="dropdown.button.groups.message"/>
+			</a>
+			<div class="dropdown-groups-text"><spring:message code="dropdown.button.other.title"/></div>
+			<a class="dropdown-item" href="<c:url value="/login"/>"><i class="dropdown-icon fas fa-sign-in-alt"></i>
+				<spring:message code="login.button.message"/>
+			</a>
+			<a class="dropdown-item" href="<c:url value="/register"/>"><i class="dropdown-icon fas fa-user-plus"></i>
+				<spring:message code="register.button.message"/>
+			</a>
+		</div>
+	</div>
 	<c:set var="actualUrl" value = "${requestScope['javax.servlet.forward.servlet_path']}"/>
 	<c:set var="groupUrl" value = "/group/${group.name}"/>
 	<c:if test="${actualUrl == groupUrl or actualUrl == '/' or actualUrl == '/all'}">
@@ -42,7 +91,7 @@
 			</button>
 		</a>
 	</div>
-	<a class="login-btn margin-left-100" href="<c:url value="/login"/>">
+	<a class="login-btn margin-left-180" href="<c:url value="/login"/>">
 		<button  role="button" class="app-btn-primary login-btn">
 			<spring:message code="login.button.message"/>
 		</button>

@@ -46,6 +46,41 @@
 	white-space: pre-line;
 }
 
+.comment-footer {
+	align-items: center;
+	color: grey;
+	display: flex;
+	font-size: 12px;
+	line-height: 1.5;
+	margin-top: 8px;
+}
+
+
+.button-to-the-right {
+	display: flex;
+}
+
+.reply-button-submit {
+	margin-left: auto;
+}
+
+.comment-footer-button:active {
+	font-weight: bolder;
+	text-decoration: underline;
+}
+
+.more-replies-button {
+	font-size: 14px;
+	line-height: 1.5;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+.reply-comment-form {
+	display: none;
+	margin-left: auto;
+}
+
 .comment-component-replies{
 	margin: 5px 5px 5px 15px;
 }

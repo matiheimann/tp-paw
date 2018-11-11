@@ -82,16 +82,10 @@ public class UserHibernateDao implements UserDao {
 	
 	@Override
 	public void changeData(User user, String username, String password, String email) {
-		final User u = find(user).get();
+		final User u = em.merge(user);
 		u.setUsername(username);
 		u.setPassword(password);
 		u.setEmail(email);
-	}
-
-	public Optional<User> find(User user){
-		final TypedQuery<User> query = em.createQuery("from User as u where u.pk.user = user", User.class);
-		query.setParameter("user", user);
-		return query.getResultList().stream().findFirst();
 	}
 	
 }

@@ -185,7 +185,7 @@
 								   		<div class="info-item">
 												<strong class="score-count">
 													<c:out value="${comment.userVote}" escapeXml="true"/><!-- TODO REAL NUMBERS-->
-													<spring:message code="commments.votes"/>
+													<spring:message code="comments.votes"/>
 												</strong>
 											</div>
 								   	</c:if>

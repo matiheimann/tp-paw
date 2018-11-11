@@ -80,7 +80,7 @@
 					<spring:message code="dropdown.sort.button.top.message"/>
 				</c:when>
 				<c:when test="${param.sort == 'controversial'}">
-					<i class="dropdown-icon fas fa-user-alt"></i>
+					<i class="dropdown-icon fas fa-bullhorn"></i>
 					<spring:message code="dropdown.sort.button.controversial.message"/>
 				</c:when>
 				<c:otherwise>
@@ -96,7 +96,7 @@
 	    	<a class="dropdown-item" href="?sort=top&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-fire"></i>
 				<spring:message code="dropdown.sort.button.top.message"/>
 			</a>
-			<a class="dropdown-item" href="?sort=controversial&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-user-alt"></i>
+			<a class="dropdown-item" href="?sort=controversial&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-bullhorn"></i>
 				<spring:message code="dropdown.sort.button.controversial.message"/>
 			</a>
 	  </div>

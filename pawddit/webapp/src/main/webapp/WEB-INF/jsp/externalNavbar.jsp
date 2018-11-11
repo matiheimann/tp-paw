@@ -68,7 +68,7 @@
 					<spring:message code="dropdown.sort.button.top.message"/>
 				</c:when>
 				<c:otherwise>
-					<i class="dropdown-icon fas fa-user-alt"></i>
+					<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
 					<spring:message code="dropdown.sort.button.controversial.message"/>
 				</c:otherwise>
 			</c:choose>
@@ -80,7 +80,7 @@
 	    	<a class="dropdown-item" href="<c:out value="?sort=top&time=${param.time != null ? param.time : 'all'}&page=${param.page != null ? param.page : 1}" escapeXml="true"/>"><i class="dropdown-icon fas fa-fire"></i>
 				<spring:message code="dropdown.sort.button.top.message"/>
 			</a>
-			<a class="dropdown-item" href="<c:out value="?sort=controversial&time=${param.time != null ? param.time : 'all'}&page=${param.page != null ? param.page : 1}" escapeXml="true"/>"><i class="dropdown-icon fas fa-user-alt"></i>
+			<a class="dropdown-item" href="<c:out value="?sort=controversial&time=${param.time != null ? param.time : 'all'}&page=${param.page != null ? param.page : 1}" escapeXml="true"/>"><i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
 				<spring:message code="dropdown.sort.button.controversial.message"/>
 			</a>
 	  </div>

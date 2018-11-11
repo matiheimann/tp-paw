@@ -6,6 +6,10 @@ $(document).ready(function() {
       $(".owned-by").addClass("margin-left-auto");
     }
 
+    $(".group-list-component-owner").click( function(event) {
+      event.stopPropagation();
+    });
+
     if($(".sort-indicator").length == 0) {
       if($(".drop-menu").length) {
         $(".drop-menu").addClass("margin-right-160");

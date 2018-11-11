@@ -184,8 +184,8 @@
 										<c:if test="${empty user}">
 								   		<div class="info-item">
 												<strong class="score-count">
-													<c:out value="${post.votes}" escapeXml="true"/><!-- TODO REAL NUMBERS-->
-													<spring:message code="commments.votes"/>
+													<c:out value="${comment.userVote}" escapeXml="true"/><!-- TODO REAL NUMBERS-->
+													<spring:message code="comments.votes"/>
 												</strong>
 											</div>
 								   	</c:if>
@@ -214,7 +214,6 @@
 											</form:form>
 				 					  </c:if>
 									</div>
-									<!-- TODO REAL NUMBERS-->
 									<c:choose>
 										<c:when test="${comment.replies eq 1}">
 											<div class="comment-footer-button more-replies-button clickable">

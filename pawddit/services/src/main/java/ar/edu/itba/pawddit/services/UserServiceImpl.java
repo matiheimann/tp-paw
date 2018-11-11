@@ -94,9 +94,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User changeData(int id, String username, String password, String email, Boolean byAdmin) {
+	public void changeData(User user, String username, String password, String email) throws UserRepeatedDataException{
+		UserRepeatedDataException repeatedDataException = new UserRepeatedDataException();
+		boolean repeatedUsername = false;
+		boolean repeatedEmail = false;
 		
-		return null;
+		if (findByUsername(username).isPresent() && !user.getUsername().equals(username)) {
+			repeatedUsername = true;
+			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_USERNAME);
+		}
+		
+		if (findByEmail(email).isPresent() && !user.getEmail().equals(email)) {
+			repeatedEmail = true;
+			repeatedDataException.addRepeatedData(RepeatedData.REPEATED_EMAIL);
+		}
+		
+		if(repeatedEmail || repeatedUsername)
+			throw repeatedDataException;
+		
+		userDao.changeData(user, username, password, email);
+		
 	}
+
 	
 }

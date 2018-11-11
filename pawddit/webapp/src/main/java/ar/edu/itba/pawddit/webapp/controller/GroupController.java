@@ -41,7 +41,7 @@ public class GroupController {
 
 	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
 	public @ResponseBody List<String> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
-		List<String> groups = gs.search5NamesByString(groupName);
+		final List<String> groups = gs.search5NamesByString(groupName);
 		return groups;
 	}
 

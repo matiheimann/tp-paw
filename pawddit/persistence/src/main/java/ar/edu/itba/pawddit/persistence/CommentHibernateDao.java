@@ -29,7 +29,7 @@ public class CommentHibernateDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.owner = :user", Comment.class);
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.owner = :user order by c.date desc", Comment.class);
 		query.setParameter("user", user);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -37,8 +37,8 @@ public class CommentHibernateDao implements CommentDao {
 	}
 
 	@Override
-	public List<Comment> findByPost(final Post post, final int limit, final int offset) {
-		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post", Comment.class);
+	public List<Comment> findByPostNoReply(final Post post, final int limit, final int offset) {
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post and c.replyTo = null order by c.date desc", Comment.class);
 		query.setParameter("post", post);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -59,11 +59,34 @@ public class CommentHibernateDao implements CommentDao {
 		query.setParameter("user", user);
 		return query.getSingleResult().intValue();
 	}
+	
+	@Override
+	public int findByPostNoReplyCount(final Post post) {
+		final TypedQuery<Long> query = em.createQuery("select count(*) from Comment as c where c.post = :post and c.replyTo = null", Long.class);
+		query.setParameter("post", post);
+		return query.getSingleResult().intValue();
+	}
 
 	@Override
 	public int findByPostCount(final Post post) {
 		final TypedQuery<Long> query = em.createQuery("select count(*) from Comment as c where c.post = :post", Long.class);
 		query.setParameter("post", post);
+		return query.getSingleResult().intValue();
+	}
+	
+	@Override
+	public List<Comment> findRepliesByComment(final Comment comment, final int limit, final int offset) {
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.replyTo = :comment order by c.date desc", Comment.class);
+		query.setParameter("comment", comment);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		return query.getResultList();
+	}
+
+	@Override
+	public int findRepliesByCommentCount(final Comment comment) {
+		final TypedQuery<Long> query = em.createQuery("select count(*) from Comment as c where c.replyTo = :comment", Long.class);
+		query.setParameter("comment", comment);
 		return query.getSingleResult().intValue();
 	}
 

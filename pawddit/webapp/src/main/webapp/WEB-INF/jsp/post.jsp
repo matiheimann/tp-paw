@@ -198,6 +198,7 @@
 											<!-- Reply Comment Form -->
 											<c:url value="/group/${group.name}/${post.postid}" var="postPath"/>
 											<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
+											<form:hidden path="replyTo" value="${comment.commentid}"/>
 												<div class="form-group">
 			                    <form:label for="reply-comment-content" path="content">
 					   					   	  <spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
@@ -215,27 +216,20 @@
 									</div>
 									<!-- TODO REAL NUMBERS-->
 									<c:choose>
-										<c:when test="${vote eq 1}">
+										<c:when test="${comment.replies eq 1}">
 											<div class="comment-footer-button more-replies-button clickable">
 												<strong>
-													1 <spring:message code="comments.moreReply.button.message" />
+													<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
 												</strong>
 											</div>
 										</c:when>
-										<c:when test="${vote < 5}">
+										<c:when test="${comment.replies > 1}">
 											<div class="comment-footer-button more-replies-button clickable">
 												<strong>
-													2 <spring:message code="comments.moreReplies.button.message" />
+													<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
 												</strong>
 											</div>
 										</c:when>
-										<c:otherwise>
-											<div class="comment-footer-button more-replies-button clickable">
-												<strong>
-													5 <spring:message code="comments.moreReplies.button.message" />
-												</strong>
-											</div>
-										</c:otherwise>
 									</c:choose>
 									<div class="comment-component-replies">
 										<!-- TO BE FILLED WITH JS :) -->

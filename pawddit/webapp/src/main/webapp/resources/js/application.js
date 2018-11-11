@@ -20,6 +20,21 @@ $(document).ready(function() {
 
     }
 
+    if($(".time-indicator").length)
+    {
+      $(".timeFilterButton").removeClass("selectedFilter");
+      var timeFilter = $.trim($(".time-indicator").text());
+      switch(timeFilter)
+      {
+        case 'lasthour': $(".js-lhour").addClass("selectedFilter"); break;
+        case 'lastday': $(".js-lday").addClass("selectedFilter"); break;
+        case 'lastweek': $(".js-lweek").addClass("selectedFilter"); break;
+        case 'lastmonth': $(".js-lmonth").addClass("selectedFilter"); break;
+        case 'lastyear': $(".js-lyear").addClass("selectedFilter"); break;
+        default: $(".js-lall").addClass("selectedFilter"); break;
+      }
+    }
+
     $(".reply-button").on('click', function() {
       var replyForm = $(this).parent().parent().find(".reply-comment-form");
       if (replyForm.is( ":hidden")) {

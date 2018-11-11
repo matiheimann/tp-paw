@@ -69,7 +69,8 @@ public class PostController {
 		
 		String imageId = null;
 		try {
-			imageId = is.saveImage(form.getFile().getBytes());
+			if (!form.getFile().isEmpty())
+				imageId = is.saveImage(form.getFile().getBytes());
 		} catch (IOException e) {
 			
 		}

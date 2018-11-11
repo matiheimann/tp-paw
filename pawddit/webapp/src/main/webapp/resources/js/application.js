@@ -15,6 +15,15 @@ $(document).ready(function() {
       }
 
     }
+
+    $(".reply-button").on('click', function() {
+      var replyForm = $(this).parent().parent().find(".reply-comment-form");
+      if (replyForm.is( ":hidden")) {
+        replyForm.slideDown();
+      } else {
+        replyForm.hide();
+      }
+    });
 });
 
 function searchGroups() {

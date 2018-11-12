@@ -1,8 +1,8 @@
 package ar.edu.itba.pawddit.model;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,10 +57,10 @@ public class Post {
 	private int userVote;
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "post")
-	private Set<Comment> commentsSet = new HashSet<Comment>();
+	private List<Comment> commentsSet = new ArrayList<Comment>();
 	
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "pk.post")
-	private Set<VotePost> votesSet = new HashSet<VotePost>();
+	private List<VotePost> votesSet = new ArrayList<VotePost>();
 	
 	/* package */ Post() {
 		// Just for Hibernate, we love you!
@@ -155,19 +155,19 @@ public class Post {
 		this.userVote = userVote;
 	}
 
-	public Set<Comment> getCommentsSet() {
+	public List<Comment> getCommentsSet() {
 		return commentsSet;
 	}
 
-	public void setCommentsSet(Set<Comment> commentsSet) {
+	public void setCommentsSet(List<Comment> commentsSet) {
 		this.commentsSet = commentsSet;
 	}
 
-	public Set<VotePost> getVotesSet() {
+	public List<VotePost> getVotesSet() {
 		return votesSet;
 	}
 
-	public void setVotesSet(Set<VotePost> votesSet) {
+	public void setVotesSet(List<VotePost> votesSet) {
 		this.votesSet = votesSet;
 	}
 	

@@ -1,8 +1,8 @@
 package ar.edu.itba.pawddit.model;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,7 +39,7 @@ public class Group {
 	private int suscriptors;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "group")
-	private Set<Post> posts = new HashSet<Post>();
+	private List<Post> posts = new ArrayList<Post>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
 	@JoinTable(
@@ -47,7 +47,7 @@ public class Group {
 	        joinColumns = { @JoinColumn(name = "groupname") },
 	        inverseJoinColumns = { @JoinColumn(name = "userid") }
 	    )
-	private Set<User> subscribedUsers = new HashSet<User>();
+	private List<User> subscribedUsers = new ArrayList<User>();
 	
 	/* package */ Group() {
 		// Just for Hibernate, we love you!
@@ -100,19 +100,19 @@ public class Group {
 		this.suscriptors = suscriptors;
 	}
 
-	public Set<Post> getPosts() {
+	public List<Post> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(Set<Post> posts) {
+	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
 
-	public Set<User> getSubscribedUsers() {
+	public List<User> getSubscribedUsers() {
 		return subscribedUsers;
 	}
 
-	public void setSubscribedUsers(Set<User> subscribedUsers) {
+	public void setSubscribedUsers(List<User> subscribedUsers) {
 		this.subscribedUsers = subscribedUsers;
 	}
 

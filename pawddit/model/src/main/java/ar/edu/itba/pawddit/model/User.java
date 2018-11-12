@@ -1,7 +1,7 @@
 package ar.edu.itba.pawddit.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,13 +47,13 @@ public class User {
 	private long userid;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "owner")
-	private Set<Group> createdGroups = new HashSet<Group>();
+	private List<Group> createdGroups = new ArrayList<Group>();
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "owner")
-	private Set<Post> createdPosts = new HashSet<Post>();
+	private List<Post> createdPosts = new ArrayList<Post>();
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "owner")
-	private Set<Comment> createdComments = new HashSet<Comment>();
+	private List<Comment> createdComments = new ArrayList<Comment>();
 	
 	@OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy = "user")
 	private VerificationToken verificationToken;
@@ -64,13 +64,13 @@ public class User {
         joinColumns = { @JoinColumn(name = "userid") },
         inverseJoinColumns = { @JoinColumn(name = "groupname") }
     )
-	private Set<Group> subscribedGroups = new HashSet<Group>();
+	private List<Group> subscribedGroups = new ArrayList<Group>();
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "pk.user")
-	private Set<VotePost> votesPosts = new HashSet<VotePost>();
+	private List<VotePost> votesPosts = new ArrayList<VotePost>();
 	
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "pk.user")
-	private Set<VoteComment> votesComments = new HashSet<VoteComment>();
+	private List<VoteComment> votesComments = new ArrayList<VoteComment>();
 	
 	/* package */ User() {
 		// Just for Hibernate, we love you!
@@ -132,27 +132,27 @@ public class User {
 		this.userid = userid;
 	}
 
-	public Set<Group> getCreatedGroups() {
+	public List<Group> getCreatedGroups() {
 		return createdGroups;
 	}
 
-	public void setCreatedGroups(Set<Group> createdGroups) {
+	public void setCreatedGroups(List<Group> createdGroups) {
 		this.createdGroups = createdGroups;
 	}
 
-	public Set<Post> getCreatedPosts() {
+	public List<Post> getCreatedPosts() {
 		return createdPosts;
 	}
 
-	public void setCreatedPosts(Set<Post> createdPosts) {
+	public void setCreatedPosts(List<Post> createdPosts) {
 		this.createdPosts = createdPosts;
 	}
 
-	public Set<Comment> getCreatedComments() {
+	public List<Comment> getCreatedComments() {
 		return createdComments;
 	}
 
-	public void setCreatedComments(Set<Comment> createdComments) {
+	public void setCreatedComments(List<Comment> createdComments) {
 		this.createdComments = createdComments;
 	}
 
@@ -164,27 +164,27 @@ public class User {
 		this.verificationToken = verificationToken;
 	}
 
-	public Set<Group> getSubscribedGroups() {
+	public List<Group> getSubscribedGroups() {
 		return subscribedGroups;
 	}
 
-	public void setSubscribedGroups(Set<Group> subscribedGroups) {
+	public void setSubscribedGroups(List<Group> subscribedGroups) {
 		this.subscribedGroups = subscribedGroups;
 	}
 
-	public Set<VotePost> getVotesPosts() {
+	public List<VotePost> getVotesPosts() {
 		return votesPosts;
 	}
 
-	public void setVotesPosts(Set<VotePost> votesPosts) {
+	public void setVotesPosts(List<VotePost> votesPosts) {
 		this.votesPosts = votesPosts;
 	}
 
-	public Set<VoteComment> getVotesComments() {
+	public List<VoteComment> getVotesComments() {
 		return votesComments;
 	}
 
-	public void setVotesComments(Set<VoteComment> votesComments) {
+	public void setVotesComments(List<VoteComment> votesComments) {
 		this.votesComments = votesComments;
 	}
 	

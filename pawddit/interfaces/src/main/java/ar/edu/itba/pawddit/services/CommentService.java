@@ -14,9 +14,12 @@ public interface CommentService {
 	public Comment create(String content, Post post, Comment replyTo, User user, LocalDateTime creationDate);
 	public List<Comment> findByUser(User user, int limit, int offset);
 	public int findByUserCount(User user);
-	public List<Comment> findByPost(User user, Post post, int limit, int offset);
+	public List<Comment> findByPostNoReply(User user, Post post, int limit, int offset);
+	public int findByPostNoReplyCount(Post post);
 	public int findByPostCount(Post post);
 	public Optional<Comment> findById(User user, Post post, long id);
+	public List<Comment> findRepliesByComment(User user, Comment comment, int limit, int offset);
+	public int findRepliesByCommentCount(Comment comment);
 	public void delete(User user, Group group, Post post, Comment comment);
 	
 }

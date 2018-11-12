@@ -2,6 +2,7 @@ package ar.edu.itba.pawddit.model;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -50,9 +51,15 @@ public class Comment {
 	
 	@Transient
 	private int userVote;
+	
+	@Transient
+	private int replies;
+	
+	@Transient
+	private Set<Comment> initialReplies = new HashSet<Comment>();
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "replyTo")
-	private Set<Comment> replies = new HashSet<Comment>();
+	private Set<Comment> repliesSet = new HashSet<Comment>();
 	
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "pk.comment")
 	private Set<VoteComment> votesSet = new HashSet<VoteComment>();
@@ -133,14 +140,33 @@ public class Comment {
 		this.userVote = userVote;
 	}
 	
-	public Set<Comment> getReplies() {
+	public int getReplies() {
 		return replies;
 	}
 
-	public void setReplies(Set<Comment> replies) {
+	public void setReplies(int replies) {
 		this.replies = replies;
 	}
 
+	public Set<Comment> getInitialReplies() {
+		return initialReplies;
+	}
+
+	public void setInitialReplies(Set<Comment> initialReplies) {
+		this.initialReplies = initialReplies;
+	}
+	
+	public void addInitialReplies(List<Comment> initialReplies) {
+		this.initialReplies.addAll(initialReplies);
+	}
+	
+	public Set<Comment> getRepliesSet() {
+		return repliesSet;
+	}
+
+	public void setRepliesSet(Set<Comment> repliesSet) {
+		this.repliesSet = repliesSet;
+	}
 
 	public Set<VoteComment> getVotesSet() {
 		return votesSet;

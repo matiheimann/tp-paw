@@ -41,10 +41,11 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> findByPost(final User user, final Post post, final int limit, final int offset) {
-		final List<Comment> comments = commentDao.findByPost(post, limit, offset);
+	public List<Comment> findByPostNoReply(final User user, final Post post, final int limit, final int offset) {
+		final List<Comment> comments = commentDao.findByPostNoReply(post, limit, offset);
 		for (final Comment comment : comments) {
 			comment.setUserVote(commentVoteDao.checkVote(user, comment));
+			comment.setReplies(commentDao.findRepliesByCommentCount(comment));
 		}
 		return comments;
 	}
@@ -64,10 +65,30 @@ public class CommentServiceImpl implements CommentService {
 	public int findByUserCount(final User user) {
 		return commentDao.findByUserCount(user);
 	}
+	
+	@Override
+	public int findByPostNoReplyCount(final Post post) {
+		return commentDao.findByPostNoReplyCount(post);
+	}
 
 	@Override
 	public int findByPostCount(final Post post) {
 		return commentDao.findByPostCount(post);
+	}
+	
+	@Override
+	public List<Comment> findRepliesByComment(final User user, final Comment comment, final int limit, final int offset) {
+		final List<Comment> comments = commentDao.findRepliesByComment(comment, limit, offset);
+		for (final Comment c : comments) {
+			c.setUserVote(commentVoteDao.checkVote(user, c));
+			c.setReplies(commentDao.findRepliesByCommentCount(c));
+		}
+		return comments;
+	}
+
+	@Override
+	public int findRepliesByCommentCount(final Comment comment) {
+		return commentDao.findRepliesByCommentCount(comment);
 	}
 
 	@Override

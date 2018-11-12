@@ -101,7 +101,7 @@ public class UserController {
 		final User userProfile = us.findByUsername(profile).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("userProfile", userProfile);
-		mav.addObject("posts", ps.findByUser(userProfile, 5, 0, null));
+		mav.addObject("posts", ps.findByUser(userProfile, 5, 0, null, null));
 		mav.addObject("comments", cs.findByUser(userProfile, 5, 0));
 
 		return mav;

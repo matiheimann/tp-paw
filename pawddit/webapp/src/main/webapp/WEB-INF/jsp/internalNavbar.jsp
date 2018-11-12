@@ -79,6 +79,10 @@
 					<i class="dropdown-icon fas fa-fire"></i>
 					<spring:message code="dropdown.sort.button.top.message"/>
 				</c:when>
+				<c:when test="${param.sort == 'controversial'}">
+					<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+					<spring:message code="dropdown.sort.button.controversial.message"/>
+				</c:when>
 				<c:otherwise>
 					<i class="dropdown-icon fas fa-certificate"></i>
 					<spring:message code="dropdown.sort.button.new.message"/>
@@ -86,11 +90,15 @@
 			</c:choose>
 	  </button>
 	  <div class="dropdown-menu" aria-labelledby="dropdownSort">
-			<a class="dropdown-item" href="?sort=new&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-certificate"></i>
+			<a class="dropdown-item" href="<c:out value="?sort=new&time=${param.time != null ? param.time : 'all'}&page=${param.page != null ? param.page : 1}" escapeXml="true"/>"><i class="dropdown-icon fas fa-certificate"></i>
 				<spring:message code="dropdown.sort.button.new.message"/>
 			</a>
-	    <a class="dropdown-item" href="?sort=top&page=${param.page != null ? param.page : 1}"><i class="dropdown-icon fas fa-fire"></i>
+	    	<a class="dropdown-item" href="<c:out value="?sort=top&time=${param.time != null ? param.time : 'all'}&page=${param.page != null ? param.page : 1}" escapeXml="true"/>"><i class="dropdown-icon fas fa-fire"></i>
 				<spring:message code="dropdown.sort.button.top.message"/>
+			</a>
+
+			<a class="dropdown-item" href="<c:out value="?sort=controversial&time=${param.time != null ? param.time : 'all'}&page=${param.page != null ? param.page : 1}" escapeXml="true"/>"><i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+				<spring:message code="dropdown.sort.button.controversial.message"/>
 			</a>
 	  </div>
 	</div>

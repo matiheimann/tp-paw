@@ -41,7 +41,7 @@ public class GroupController {
 
 	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
 	public @ResponseBody List<String> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
-		List<String> groups = gs.search5NamesByString(groupName);
+		final List<String> groups = gs.search5NamesByString(groupName);
 		return groups;
 	}
 
@@ -74,7 +74,7 @@ public class GroupController {
 	}
 
 	@RequestMapping("/group/{groupName}")
-	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @ModelAttribute("user") final User user) {
+	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @RequestParam(defaultValue = "all", value="time") String time, @ModelAttribute("user") final User user) {
 		final ModelAndView mav = new ModelAndView("index");
 		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
 		mav.addObject("group", g);
@@ -83,9 +83,9 @@ public class GroupController {
 			mav.addObject("subscription", ss.isUserSub(user, g));
 		}
 
-		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort));
+		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time));
 		mav.addObject("postsPage", page);
-		mav.addObject("postsPageCount", (ps.findByGroupCount(g)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
+		mav.addObject("postsPageCount", (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
 		return mav;
 	}
 

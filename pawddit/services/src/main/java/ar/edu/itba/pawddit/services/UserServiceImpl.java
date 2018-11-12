@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void changeData(User user, String username, String password, String email) {
-		userDao.changeData(user, username, password, email);
+	public void changeData(User user, String username, String password, String email, String image) {
+		userDao.changeData(user, username, password, email, image);
 	}
 	
 }

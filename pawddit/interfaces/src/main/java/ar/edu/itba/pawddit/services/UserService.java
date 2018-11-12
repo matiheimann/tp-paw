@@ -15,6 +15,6 @@ public interface UserService {
 	public Optional<VerificationToken> findToken(String token);
 	public void enableUser(User user);
 	public void deleteUser(User user);
-	public void changeData(User user, String username, String password, String email);
+	public void changeData(User user, String username, String password, String email, String image);
 	
 }

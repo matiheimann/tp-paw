@@ -12,10 +12,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
+import ar.edu.itba.pawddit.webapp.form.FormWithImage;
 import ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat;
 
-public class ValidImageFormatValidator implements ConstraintValidator<ValidImageFormat, CreatePostForm> {
+public class ValidImageFormatValidator implements ConstraintValidator<ValidImageFormat, FormWithImage> {
 		
 	private final List<String> VALID_CONTENT_TYPES = Arrays.asList("image/png", "image/jpeg");
 
@@ -24,7 +24,7 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 	}
 
 	@Override
-	public boolean isValid(CreatePostForm form, ConstraintValidatorContext context) {
+	public boolean isValid(FormWithImage form, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
 		context.buildConstraintViolationWithTemplate( "{ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat.Message}" ).addNode("file").addConstraintViolation();
 		
@@ -32,6 +32,10 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 	}
 	
 	private boolean isValidFormat(MultipartFile file) {
+		
+		if(file==null)
+			return true;
+		
 		if (file.isEmpty())
 			return true;
 		

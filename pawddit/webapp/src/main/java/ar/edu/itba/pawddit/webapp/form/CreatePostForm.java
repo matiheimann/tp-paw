@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat;
 
 @ValidImageFormat
-public class CreatePostForm {
+public class CreatePostForm implements FormWithImage{
 	
 	@Size(min = 4, max = 60)
 	private String title;

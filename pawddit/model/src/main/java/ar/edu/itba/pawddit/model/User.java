@@ -37,6 +37,9 @@ public class User {
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
 	
+	@Column(name = "imageid", length = 36, nullable = true)
+	private String imageid;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_userid_seq")
 	@SequenceGenerator(sequenceName = "users_userid_seq", name = "users_userid_seq", allocationSize = 1)
@@ -183,6 +186,14 @@ public class User {
 
 	public void setVotesComments(Set<VoteComment> votesComments) {
 		this.votesComments = votesComments;
+	}
+	
+	public String getImageid() {
+		return imageid;
+	}
+	
+	public void setImageid(String imageid) {
+		this.imageid = imageid;
 	}
 	
 	public void addSubscribedGroup(Group group) {

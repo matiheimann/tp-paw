@@ -1,5 +1,8 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -19,14 +22,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.pawddit.model.Group;
+import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.model.VerificationToken;
 import ar.edu.itba.pawddit.services.CommentService;
+import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.MailSenderService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
+import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
+import ar.edu.itba.pawddit.webapp.form.ChangeProfilePictureForm;
+import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Controller
@@ -46,6 +55,9 @@ public class UserController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private ImageService is;
 
 	@RequestMapping("/register")
 	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
@@ -85,13 +97,38 @@ public class UserController {
 	}
 
 	@RequestMapping("/profile/{profile}")
-	public ModelAndView profile(@PathVariable final String profile, @ModelAttribute("user") final User user) {
+	public ModelAndView profile(@ModelAttribute("changeProfilePictureForm") final ChangeProfilePictureForm form, @PathVariable final String profile, @ModelAttribute("user") final User user) {
 		final User userProfile = us.findByUsername(profile).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, 0, null));
 		mav.addObject("comments", cs.findByUser(userProfile, 5, 0));
 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/profile/{profile}", method = { RequestMethod.POST })
+	public ModelAndView changeProfilePicture(@Valid @ModelAttribute("changeProfilePictureForm") final ChangeProfilePictureForm form, final BindingResult errors, @ModelAttribute("user") final User user, @PathVariable final String profile) {
+		if(errors.hasErrors()) {
+			return profile(form, profile, user);
+		}
+		
+		final User userProfile = us.findByUsername(profile).orElseThrow(UserNotFoundException::new);
+		
+		if(userProfile.getUserid() == user.getUserid())
+		{
+			String imageId = null;
+			try {
+				if (!form.getFile().isEmpty())
+					imageId = is.saveImage(form.getFile().getBytes());
+			} catch (IOException e) {
+				
+			}			
+			
+			us.changeData(user, user.getUsername(), user.getPassword(), user.getEmail(), imageId);
+		}
+				
+		final ModelAndView mav = new ModelAndView("redirect:/profile/" + userProfile.getUsername());
 		return mav;
 	}
 

@@ -60,7 +60,67 @@
 	color: grey;
 }
 
+.user-image-container-in-modal-no-picture {
+	color: lightgrey;
+	text-align: center;
+	border: 2px solid lightgrey;
+	border-radius: 10px;
+	height: 60px;
+	min-height: 60px;
+	margin: 10px auto;
+	padding: 4px;
+}
+
+.user-image-container-in-modal {
+	height: 180px;
+	min-height: 180px;
+	width: 180px;
+	min-width: 180px;
+	margin: 10px auto;
+}
+
+.logged-in-user-image-container {
+  cursor: pointer;
+	height: 180px;
+	min-height: 180px;
+	width: 180px;
+	min-width: 180px;
+	margin: 10px auto;
+}
+
+.logged-in-user-image-container-no-picture {
+  cursor: pointer;
+	color: lightgrey;
+	text-align: center;
+	border: 2px solid lightgrey;
+	border-radius: 10px;
+	height: 60px;
+	min-height: 60px;
+	margin: 10px auto;
+	padding: 4px;
+}
+
+.user-image-container-no-picture {
+	color: lightgrey;
+	text-align: center;
+	border: 2px solid lightgrey;
+	border-radius: 10px;
+	height: 60px;
+	min-height: 60px;
+	margin: 10px auto;
+	padding: 4px;
+}
+
 .user-image-container {
+	height: 180px;
+	min-height: 180px;
+	width: 180px;
+	min-width: 180px;
+	margin: 10px auto;
+}
+
+.logged-in-user-image-container-no-picture {
+  cursor: pointer;
 	color: lightgrey;
 	text-align: center;
 	border: 2px solid lightgrey;
@@ -75,4 +135,11 @@
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+}
+
+.profile-picture {
+	display: block;
+	margin: 10px auto;
+	max-height: 100%;
+	max-width: 100%;
 }

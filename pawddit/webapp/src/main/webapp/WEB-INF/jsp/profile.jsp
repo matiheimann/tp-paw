@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -14,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/post.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/profile.css" />" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/account.css" />" />
+		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/errorMessages.css" />" />
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Kosugi" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -24,9 +26,30 @@
 		<div class="application-background">
 			<div class="center-content">
 				<div class="activity-component">
-					<div class="user-image-container">
-						<i class="fas fa-user fa-3x"></i>
-					</div>
+					<c:if test="${empty userProfile.imageid}">
+						<c:if test="${user.username == userProfile.username}">
+							<div class="logged-in-user-image-container-no-picture" data-toggle="modal" data-target="#changeProfileImageModal">
+								<i class="fas fa-user fa-3x"></i>
+							</div>
+						</c:if>
+						<c:if test="${user.username != userProfile.username}">
+							<div class="user-image-container-no-picture">
+								<i class="fas fa-user fa-3x"></i>
+							</div>
+						</c:if>
+					</c:if>
+					<c:if test="${!empty userProfile.imageid}">
+						<c:if test="${user.username == userProfile.username}">
+							<div class="logged-in-user-image-container" data-toggle="modal" data-target="#changeProfileImageModal">
+								<img class="profile-picture" src="<c:url value="/image/${user.imageid}"/>" />
+							</div>
+						</c:if>
+						<c:if test="${user.username != userProfile.username}">
+							<div class="user-image-container">
+								<img class="profile-picture" src="<c:url value="/image/${userProfile.imageid}"/>" />
+							</div>
+						</c:if>
+					</c:if>
 					<h5 class="username-title"><c:out value="${userProfile.username}" escapeXml="true"/></h5>
 					<h4 class="margin-title">
 						<spring:message code="profileActivity.title" />
@@ -121,6 +144,7 @@
 					</div>
 				</div>
 		</div>
+		<%@include file="changeProfilePictureModal.jsp" %>
 		<%@include file="footer.jsp" %>
 	</body>
 	<%@include file="scripts.jsp" %>

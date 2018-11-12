@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          <c:out value="${userProfile.username}" escapeXml="true"/>
+          <spring:message code="user.modal.changeImage.message"/>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -24,7 +24,7 @@
           </c:if>
               <div class="form-group">
                 <form:label for='profile-picture' path="file">
-                  <spring:message code="user.modal.changeImage.message"/>
+
                 </form:label>
               <br>
                 <form:input type="file" path="file" id='profile-image' accept="image/png, image/jpeg"/>
@@ -32,10 +32,10 @@
               </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn app-btn-secondary" data-dismiss="modal">
             <spring:message code="user.modal.close.message" />
           </button>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn app-btn-primary">
             <spring:message code="user.modal.changeImageConfirmation.message" />
           </button>
         </div>

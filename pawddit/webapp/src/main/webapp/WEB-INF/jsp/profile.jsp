@@ -27,28 +27,20 @@
 			<div class="center-content">
 				<div class="activity-component">
 					<c:if test="${empty userProfile.imageid}">
-						<c:if test="${user.username == userProfile.username}">
-							<div class="logged-in-user-image-container-no-picture" data-toggle="modal" data-target="#changeProfileImageModal">
-								<i class="fas fa-user fa-3x"></i>
-							</div>
-						</c:if>
-						<c:if test="${user.username != userProfile.username}">
-							<div class="user-image-container-no-picture">
-								<i class="fas fa-user fa-3x"></i>
-							</div>
-						</c:if>
+						<div class="user-image-container-no-picture">
+							<i class="fas fa-user fa-3x"></i>
+						</div>
 					</c:if>
 					<c:if test="${!empty userProfile.imageid}">
-						<c:if test="${user.username == userProfile.username}">
-							<div class="logged-in-user-image-container" data-toggle="modal" data-target="#changeProfileImageModal">
-								<img class="profile-picture" src="<c:url value="/image/${user.imageid}"/>" />
-							</div>
-						</c:if>
-						<c:if test="${user.username != userProfile.username}">
-							<div class="user-image-container">
-								<img class="profile-picture" src="<c:url value="/image/${userProfile.imageid}"/>" />
-							</div>
-						</c:if>
+						<div class="user-image-container">
+							<img class="profile-picture" src="<c:url value="/image/${userProfile.imageid}"/>" />
+						</div>
+					</c:if>
+					<c:if test="${user.username == userProfile.username}">
+						<div class="clickable edit-prfile-image-modal-opener" data-toggle="modal" data-target="#changeProfileImageModal">
+							<spring:message code="user.modal.changeImage.message"/>
+							<i class="fas fa-edit"></i>
+						</div>
 					</c:if>
 					<h5 class="username-title"><c:out value="${userProfile.username}" escapeXml="true"/></h5>
 					<h4 class="margin-title">

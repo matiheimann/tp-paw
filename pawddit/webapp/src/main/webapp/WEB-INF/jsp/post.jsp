@@ -141,7 +141,7 @@
 	               	<c:if test="${!empty comment.replyTo}">
 										<div class="comment-reply">
 				               	<div class="comment-header">
-				                	<span class="header-button clickable" onclick='window.location="<c:url value='/profile/${comment.replyTo.owner.username}'/>"'><c:out value="${comment.replyTo.owner.username}" escapeXml="true"/></span>
+				                	<span class="header-button clickable comment-reply-button-color" onclick='window.location="<c:url value='/profile/${comment.replyTo.owner.username}'/>"'><c:out value="${comment.replyTo.owner.username}" escapeXml="true"/></span>
 				                 	<span><strong><time class="timeago" datetime='<c:out value="${comment.replyTo.date}" escapeXml="true"/>'></time></strong></span>
 				           			</div>
 				               	<hr class="comment-separator">

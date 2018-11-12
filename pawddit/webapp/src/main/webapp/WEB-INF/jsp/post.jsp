@@ -147,81 +147,70 @@
 	                 	<c:out value="${comment.content}" escapeXml="true"/>
 	               	</div>
 					<div class="comment-footer">
-						<c:if test="${!empty user}">
-				 			<div class="info-item votes-controls">
-				 				<div>
-				 				    <c:url value="/group/${group.name}/${post.postid}/${comment.commentid}/upvote" var="commentPath" />
-			 						<form:form action="${commentPath}" method="post">
-						 				<div class="form-group">
-						 					<button class="no-btn" type="submit">
-						 						<c:choose>
-						 							<c:when test="${comment.userVote eq 1}"><!-- TODO REAL NUMBERS-->
-						 								<i class="fas fa-arrow-up icon-color-selected"></i>
-						 							</c:when>
-						 							<c:otherwise>
-						 								<i class="fas fa-arrow-up icon-color"></i>
-						 							</c:otherwise>
-						 						</c:choose>
-						 					</button>
-						 				</div>
-			 						</form:form>
-				 				</div>
-				 				<strong class="score-count"><c:out value="${comment.votes}" escapeXml="true"/></strong>
-				 				<div>
-				 					<c:url value="/group/${group.name}/${post.postid}/${comment.commentid}/downvote" var="commentPath" />
-						 			<form:form action="${commentPath}" method="post">
-						 				<div class="form-group">
-						 					<button class="no-btn" type="submit">
-						 						<c:choose>
-						 							<c:when test="${comment.userVote eq -1}"><!-- TODO REAL NUMBERS-->
-						 								<i class="fas fa-arrow-down icon-color-selected"></i>
-						 							</c:when>
-						 							<c:otherwise>
-						 								<i class="fas fa-arrow-down icon-color"></i>
-						 							</c:otherwise>
-						 						</c:choose>
-						 					</button>
-						 				</div>
-						 			</form:form>
-				 				</div>
+				 		<div class="info-item votes-controls">
+				 			<c:if test="${!empty user}">
+				 			<div>
+				 				<c:url value="/group/${group.name}/${post.postid}/${comment.commentid}/upvote" var="commentPath" />
+			 					<form:form action="${commentPath}" method="post">
+						 			<div class="form-group">
+						 				<button class="no-btn" type="submit">
+						 					<c:choose>
+						 						<c:when test="${comment.userVote eq 1}"><!-- TODO REAL NUMBERS-->
+						 							<i class="fas fa-arrow-up icon-color-selected"></i>
+						 						</c:when>
+						 						<c:otherwise>
+						 							<i class="fas fa-arrow-up icon-color"></i>
+						 						</c:otherwise>
+						 					</c:choose>
+						 				</button>
+						 			</div>
+			 					</form:form>
 				 			</div>
-				 		</c:if>
-						<c:if test="${empty user}">
-							<div class="info-item">
-								<strong class="score-count">
-									<c:out value="${comment.votes}" escapeXml="true"/><!-- TODO REAL NUMBERS-->
-									<spring:message code="comments.votes"/>
-								</strong>
-								<strong>
-									<c:choose>
-										<c:when test="${comment.replies eq 1}">
-											<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
-										</c:when>
-										<c:when test="${comment.replies > 1}">
-											<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
-										</c:when>
-									</c:choose>
-								</strong>
-							</div>
-						</c:if>
+				 			</c:if>
+				 			<strong class="score-count">
+				 				<c:out value="${comment.votes}" escapeXml="true"/>
+				 				<c:if test="${empty user}">
+				 					<spring:message code="comments.votes"/>
+				 				</c:if>
+				 			</strong>
+				 			<c:if test="${!empty user}">
+				 			<div>
+				 				<c:url value="/group/${group.name}/${post.postid}/${comment.commentid}/downvote" var="commentPath" />
+						 		<form:form action="${commentPath}" method="post">
+						 			<div class="form-group">
+						 				<button class="no-btn" type="submit">
+						 					<c:choose>
+						 						<c:when test="${comment.userVote eq -1}"><!-- TODO REAL NUMBERS-->
+						 							<i class="fas fa-arrow-down icon-color-selected"></i>
+						 						</c:when>
+						 						<c:otherwise>
+						 							<i class="fas fa-arrow-down icon-color"></i>
+						 						</c:otherwise>
+						 					</c:choose>
+						 				</button>
+						 			</div>
+						 		</form:form>
+				 			</div>
+				 			</c:if>
+				 		</div>
 						<c:if test="${!empty user}">
 							<div class="comment-footer-button reply-button clickable"><strong><spring:message code="comments.reply.button.message" /></strong></div>
-							<div class="info-item">
-								<strong>
-									<c:choose>
-										<c:when test="${comment.replies eq 1}">
-											<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
-										</c:when>
-										<c:when test="${comment.replies > 1}">
-											<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
-										</c:when>
-									</c:choose>
-								</strong>
-							</div>
 						</c:if>
+						<div class="info-item">
+							<strong>
+								<c:choose>
+									<c:when test="${comment.replies eq 1}">
+										<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
+									</c:when>
+									<c:when test="${comment.replies > 1}">
+										<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
+									</c:when>
+								</c:choose>
+							</strong>
+						</div>
 					</div>
+					<c:if test="${!empty user}">
 					<div class="reply-comment-form">
-						<c:if test="${!empty user}">
 							<!-- Reply Comment Form -->
 							<c:url value="/group/${group.name}/${post.postid}" var="postPath"/>
 							<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
@@ -239,8 +228,8 @@
 				                  	</button>
 								</div>
 							</form:form>
-				 		</c:if>
 					</div>
+					</c:if>
 	            </div>
             </c:forEach>
 			<!-- End Comment List -->

@@ -60,7 +60,7 @@
     					<h2 class="groups-title"><spring:message code="recommendedGroups.title"/></h2>
     				</c:if>
             <c:if test="${empty groups}">
-    					<h2 class="groups-title"><spring:message code="noGroups.made.signedIn.message"/></h2>
+    					<h2 class="groups-title"><spring:message code="noGroups.toRecommend.message"/></h2>
     				</c:if>
           </c:when>
           <c:when test="${!empty search}">

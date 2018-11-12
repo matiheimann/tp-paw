@@ -126,7 +126,7 @@
 									<spring:message code="comments.suggestion"/>
 								</h5>
 							</c:if>
-			<!-- Comment List -->
+						<!-- Comment List -->
             <c:forEach items="${comments}" var="comment">
 	            <div class="comment">
 	               	<div class="comment-header">
@@ -139,9 +139,16 @@
 	               	</div>
 	               	<hr class="comment-separator">
 	               	<c:if test="${!empty comment.replyTo}">
-	               	<div class="comment-component-content">
-	               			RESPUESTA A: <c:out value="${comment.replyTo.content}" escapeXml="true"/>    
-	               	</div>
+										<div class="comment-reply">
+				               	<div class="comment-header">
+				                	<span class="header-button clickable comment-reply-button-color" onclick='window.location="<c:url value='/profile/${comment.replyTo.owner.username}'/>"'><c:out value="${comment.replyTo.owner.username}" escapeXml="true"/></span>
+				                 	<span><strong><time class="timeago" datetime='<c:out value="${comment.replyTo.date}" escapeXml="true"/>'></time></strong></span>
+				           			</div>
+				               	<hr class="comment-separator">
+				               	<div class="comment-component-content">
+				                 	<c:out value="${comment.replyTo.content}" escapeXml="true"/>
+				               	</div>
+				            </div>
 	               	</c:if>
 	               	<div class="comment-component-content">
 	                 	<c:out value="${comment.content}" escapeXml="true"/>

@@ -137,7 +137,7 @@ public class Comment {
 	}
 	
 	public int getReplies() {
-		return getRepliesSet().size();
+		return replies;
 	}
 
 	public void setReplies(int replies) {

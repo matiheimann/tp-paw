@@ -35,6 +35,15 @@ public class CommentHibernateDao implements CommentDao {
 		query.setMaxResults(limit);
 		return query.getResultList();
 	}
+	
+	@Override
+	public List<Comment> findByPost(Post post, int limit, int offset) {
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post order by c.date desc", Comment.class);
+		query.setParameter("post", post);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		return query.getResultList();
+	}
 
 	@Override
 	public List<Comment> findByPostNoReply(final Post post, final int limit, final int offset) {

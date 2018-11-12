@@ -13,6 +13,7 @@ public interface CommentDao {
 	public Comment create(String content, Post post, Comment replyTo, User user, LocalDateTime date);
 	public List<Comment> findByUser(User user, int limit, int offset);
 	public int findByUserCount(User user);
+	public List<Comment> findByPost(Post post, int limit, int offset);
 	public List<Comment> findByPostNoReply(Post post, int limit, int offset);
 	public int findByPostNoReplyCount(Post post);
 	public int findByPostCount(Post post);

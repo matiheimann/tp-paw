@@ -104,9 +104,9 @@ public class PostController {
 
 		mav.addObject("group", group);
 		mav.addObject("post", post);
-		mav.addObject("comments", cs.findByPostNoReply(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
+		mav.addObject("comments", cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
 		mav.addObject("commentsPage", page);
-		mav.addObject("commentsPageCount", (cs.findByPostNoReplyCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
+		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
 		return mav;
 	}
 	

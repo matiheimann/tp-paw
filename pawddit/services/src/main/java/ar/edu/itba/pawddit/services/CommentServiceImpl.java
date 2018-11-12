@@ -1,8 +1,6 @@
 package ar.edu.itba.pawddit.services;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,31 +39,27 @@ public class CommentServiceImpl implements CommentService {
 		}
 		return comments;
 	}
+	
+	@Override
+	public List<Comment> findByPost(User user, Post post, int limit, int offset) {
+		final List<Comment> comments = commentDao.findByPost(post, limit, offset);
+		for (final Comment comment : comments) {
+			comment.setUserVote(commentVoteDao.checkVote(user, comment));
+			comment.setReplies(commentDao.findRepliesByCommentCount(comment));
+			if(comment.getReplyTo() != null)
+				comment.getReplyTo().getCommentid();
+		}
+		return comments;
+	}
 
 	@Override
 	public List<Comment> findByPostNoReply(final User user, final Post post, final int limit, final int offset) {
 		final List<Comment> comments = commentDao.findByPostNoReply(post, limit, offset);
 		for (final Comment comment : comments) {
 			comment.setUserVote(commentVoteDao.checkVote(user, comment));
-			comment.getReplies();
-			initializeReplies(user, comment.getRepliesSet());
+			comment.setReplies(commentDao.findRepliesByCommentCount(comment));
 		}
 		return comments;
-	}
-	
-	private void initializeReplies(final User user, final List<Comment> comments) {
-		for (final Comment comment : comments) {
-			comment.setUserVote(commentVoteDao.checkVote(user, comment));
-			comment.getReplies();
-			initializeReplies(user, comment.getRepliesSet());
-		}
-		
-		Collections.sort(comments, new Comparator<Comment>() {
-		     @Override
-		     public int compare(Comment c1, Comment c2) {
-		         return -1*c1.getDate().compareTo(c2.getDate());
-		     }    
-		});
 	}
 
 	@Override

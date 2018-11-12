@@ -59,17 +59,17 @@
 	<div class="dropdown show">
 	  <button class="dropdown-btn dropdown-toggle" href="#" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<c:choose>
-				<c:when test="${param.sort == 'new'}">
-					<i class="dropdown-icon fas fa-certificate"></i>
-					<spring:message code="dropdown.sort.button.new.message"/>
-				</c:when>
 				<c:when test="${param.sort == 'top'}">
 					<i class="dropdown-icon fas fa-fire"></i>
 					<spring:message code="dropdown.sort.button.top.message"/>
 				</c:when>
-				<c:otherwise>
+				<c:when test="${param.sort == 'controversial'}">
 					<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
 					<spring:message code="dropdown.sort.button.controversial.message"/>
+				</c:when>
+				<c:otherwise>
+					<i class="dropdown-icon fas fa-certificate"></i>
+					<spring:message code="dropdown.sort.button.new.message"/>
 				</c:otherwise>
 			</c:choose>
 	  </button>

@@ -36,7 +36,6 @@ public class CommentServiceImpl implements CommentService {
 		final List<Comment> comments = commentDao.findByUser(user, limit, offset);
 		for (final Comment comment : comments) {
 			comment.getPost().getPostid();
-			comment.setUserVote(commentVoteDao.checkVote(user, comment));
 			comment.setReplies(commentDao.findRepliesByCommentCount(comment));
 			if(comment.getReplyTo() != null)
 				comment.getReplyTo().getCommentid();
@@ -48,7 +47,8 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> findByPost(User user, Post post, int limit, int offset) {
 		final List<Comment> comments = commentDao.findByPost(post, limit, offset);
 		for (final Comment comment : comments) {
-			comment.setUserVote(commentVoteDao.checkVote(user, comment));
+			if (user != null)
+				comment.setUserVote(commentVoteDao.checkVote(user, comment));
 			comment.setReplies(commentDao.findRepliesByCommentCount(comment));
 			if(comment.getReplyTo() != null)
 				comment.getReplyTo().getCommentid();
@@ -60,7 +60,8 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> findByPostNoReply(final User user, final Post post, final int limit, final int offset) {
 		final List<Comment> comments = commentDao.findByPostNoReply(post, limit, offset);
 		for (final Comment comment : comments) {
-			comment.setUserVote(commentVoteDao.checkVote(user, comment));
+			if (user != null)
+				comment.setUserVote(commentVoteDao.checkVote(user, comment));
 			comment.setReplies(commentDao.findRepliesByCommentCount(comment));
 		}
 		return comments;
@@ -96,7 +97,8 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> findRepliesByComment(final User user, final Comment comment, final int limit, final int offset) {
 		final List<Comment> comments = commentDao.findRepliesByComment(comment, limit, offset);
 		for (final Comment c : comments) {
-			c.setUserVote(commentVoteDao.checkVote(user, c));
+			if (user != null)
+				comment.setUserVote(commentVoteDao.checkVote(user, comment));
 			c.setReplies(commentDao.findRepliesByCommentCount(c));
 		}
 		return comments;

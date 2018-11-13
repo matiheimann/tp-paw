@@ -65,13 +65,6 @@ public class SubscriptionHibernateDaoTest {
 	}
 	
 	@Test
-	public void isUserSubTest() {
-		subscribedUser = userDao.findByUsername(SUBSCRIBED_USER_USERNAME);
-		subscriptionDao.suscribe(subscribedUser.get(), testGroup.get());
-		Assert.assertTrue(subscriptionDao.isUserSub(subscribedUser.get(), testGroup.get()));
-	}
-	
-	@Test
 	public void userNotSubscribedTest() {
 		unsubscribedUser = userDao.findByUsername(UNSUBSCRIBED_USER_USERNAME);
 		Assert.assertFalse(subscriptionDao.isUserSub(unsubscribedUser.get(), testGroup.get()));

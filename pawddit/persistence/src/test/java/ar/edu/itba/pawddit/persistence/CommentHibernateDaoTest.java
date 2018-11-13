@@ -1,6 +1,5 @@
 package ar.edu.itba.pawddit.persistence;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -102,6 +101,7 @@ public class CommentHibernateDaoTest {
 	
 	@After
 	public void tearDown() {
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "images");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "comments");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "posts");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "groups");

@@ -78,7 +78,6 @@ public class PostVoteHibernateDaoTest {
 	@Test
 	public void votingOnNonVotedPost() {
 		final User votingUser = userDao.findByUsername(EXISTING_NON_VOTING_USER_USERNAME).get();
-		Assert.assertEquals(0, postVoteDao.checkVote(votingUser, post));
 		postVoteDao.votePost(votingUser, post, 1);
 		Assert.assertEquals(1, postVoteDao.checkVote(votingUser, post));
 	}

@@ -42,7 +42,7 @@ public class GroupHibernateDaoTest {
 	private DataSource ds;
 	
 	@Autowired
-	private UserHibernateDao userDao;
+	private UserHibernateDao userDao; //User dao already tested successfully
 	
 	@Autowired
 	private GroupHibernateDao groupDao;

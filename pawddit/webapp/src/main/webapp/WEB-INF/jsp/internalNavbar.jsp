@@ -45,23 +45,27 @@
 			</c:choose>
 	  </button>
 	  <div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">
+	  	<c:if test="${fn:length(user.subscribedGroups) > 0}">
 	    <a class="dropdown-item" href="<c:url value="/"/>"><i class="dropdown-icon fas fa-user-friends"></i>
-				<spring:message code="dropdown.button.myfeed.message"/>
-			</a>
+			<spring:message code="dropdown.button.myfeed.message"/>
+		</a>
+		</c:if>
 	    <a class="dropdown-item" href="<c:url value="/all"/>"><i class="dropdown-icon fas fa-list"></i>
-				<spring:message code="dropdown.button.all.message"/>
-			</a>
-			<div class="dropdown-groups-text"><spring:message code="dropdown.button.groups.title"/></div>
-			<a class="dropdown-item" href="<c:url value="/myGroups"/>"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
-				<spring:message code="dropdown.button.myGroups.message"/>
-			</a>
-			<a class="dropdown-item" href="<c:url value="/groups"/>"><i class="dropdown-icon fas fa-users"></i>
-				<spring:message code="dropdown.button.groups.message"/>
-			</a>
-			<a class="dropdown-item" href="<c:url value="/recommendedGroups"/>"><i class="dropdown-icon fas fa-user-plus"></i>
-				<spring:message code="dropdown.button.recommendedGroups.message"/>
-			</a>
-			<div class="dropdown-groups-text"><spring:message code="dropdown.button.other.title"/></div>
+			<spring:message code="dropdown.button.all.message"/>
+		</a>
+		<div class="dropdown-groups-text">
+			<spring:message code="dropdown.button.groups.title"/>
+		</div>
+		<a class="dropdown-item" href="<c:url value="/myGroups"/>"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
+			<spring:message code="dropdown.button.myGroups.message"/>
+		</a>
+		<a class="dropdown-item" href="<c:url value="/groups"/>"><i class="dropdown-icon fas fa-users"></i>
+			<spring:message code="dropdown.button.groups.message"/>
+		</a>
+		<a class="dropdown-item" href="<c:url value="/recommendedGroups"/>"><i class="dropdown-icon fas fa-user-plus"></i>
+			<spring:message code="dropdown.button.recommendedGroups.message"/>
+		</a>
+		<div class="dropdown-groups-text"><spring:message code="dropdown.button.other.title"/></div>
 			<a class="dropdown-item" href="<c:url value='/profile/${user.username}'/>">
 				<i class="dropdown-icon fas fa-user"></i>
 				<spring:message code="myProfile.message"/>

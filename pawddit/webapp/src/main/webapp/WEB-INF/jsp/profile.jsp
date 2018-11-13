@@ -147,18 +147,18 @@
 								 				<c:out value="${comment.votes}" escapeXml="true"/>
 								 				<spring:message code="comments.votes"/>
 								 			</strong>
-											<div class="info-item">
-												<strong>
-													<c:choose>
-														<c:when test="${comment.replies eq 1}">
-															<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
-														</c:when>
-														<c:when test="${comment.replies > 1}">
-															<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
-														</c:when>
-													</c:choose>
-												</strong>
-											</div>
+										</div>
+										<div class="info-item">
+											<strong>
+												<c:choose>
+													<c:when test="${comment.replies eq 1}">
+														<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
+													</c:when>
+													<c:when test="${comment.replies > 1}">
+														<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
+													</c:when>
+												</c:choose>
+											</strong>
 										</div>
 									</div>
 								 </div>

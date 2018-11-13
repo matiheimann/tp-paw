@@ -126,8 +126,40 @@
 										<span><strong><time class="timeago" datetime='<c:out value="${comment.date}" escapeXml="true"/>'></time></strong></span>
 									</div>
 									<hr class="comment-separator">
+									<c:if test="${!empty comment.replyTo}">
+										<div class="comment-reply">
+				               	<div class="comment-header">
+				                	<span class="header-button clickable comment-reply-button-color" onclick='window.location="<c:url value='/profile/${comment.replyTo.owner.username}'/>"'><c:out value="${comment.replyTo.owner.username}" escapeXml="true"/></span>
+				                 	<span><strong><time class="timeago" datetime='<c:out value="${comment.replyTo.date}" escapeXml="true"/>'></time></strong></span>
+				           			</div>
+				               	<hr class="comment-separator">
+				               	<div class="comment-component-content">
+				                 	<c:out value="${comment.replyTo.content}" escapeXml="true"/>
+				               	</div>
+				            </div>
+	               	</c:if>
 									<div class="comment-component-content">
 										<c:out value="${comment.content}" escapeXml="true"/>
+									</div>
+									<div class="comment-footer">
+										<div class="info-item votes-controls">
+											<strong class="score-count">
+								 				<c:out value="${comment.votes}" escapeXml="true"/>
+								 				<spring:message code="comments.votes"/>
+								 			</strong>
+											<div class="info-item">
+												<strong>
+													<c:choose>
+														<c:when test="${comment.replies eq 1}">
+															<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReply.button.message" />
+														</c:when>
+														<c:when test="${comment.replies > 1}">
+															<c:out value="${comment.replies}" escapeXml="true"/> <spring:message code="comments.moreReplies.button.message" />
+														</c:when>
+													</c:choose>
+												</strong>
+											</div>
+										</div>
 									</div>
 								 </div>
 							 </c:forEach>

@@ -55,7 +55,7 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "owner")
 	private List<Comment> createdComments = new ArrayList<Comment>();
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy = "user")
+	@OneToOne(fetch = FetchType.LAZY, optional = true, mappedBy = "user")
 	private VerificationToken verificationToken;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })

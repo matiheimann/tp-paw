@@ -45,7 +45,6 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware{
 
 	private ApplicationContext applicationContext;
-	
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -72,14 +71,16 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public DataSource dataSource() {
 		final SimpleDriverDataSource ds = new SimpleDriverDataSource();
 		ds.setDriverClass(org.postgresql.Driver.class);
+		
 		//Test
-		ds.setUrl("jdbc:postgresql://localhost/paw");
-		ds.setUsername("root");
-		ds.setPassword("root");
+		//ds.setUrl("jdbc:postgresql://localhost/paw");
+		//ds.setUsername("root");
+		//ds.setPassword("root");
+		
 		//Deploy
-		//ds.setUrl("jdbc:postgresql://localhost/paw-2018b-08");
-		//ds.setUsername("paw-2018b-08");
-		//ds.setPassword("eecRn7Xr5");
+		ds.setUrl("jdbc:postgresql://localhost/paw-2018b-08");
+		ds.setUsername("paw-2018b-08");
+		ds.setPassword("eecRn7Xr5");
 		return ds;
 	}
 
@@ -97,8 +98,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
 
 		// Si ponen esto en prod, hay tabla!!!
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("format_sql", "true");
+		//properties.setProperty("hibernate.show_sql", "true");
+		//properties.setProperty("format_sql", "true");
 
 		factoryBean.setJpaProperties(properties);
 		return factoryBean;

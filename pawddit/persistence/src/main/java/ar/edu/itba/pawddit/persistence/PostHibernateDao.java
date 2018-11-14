@@ -153,15 +153,15 @@ public class PostHibernateDao implements PostDao {
 	
 	private String getOrderBySort(final String sort) {
 		if (sort == null || sort.equals("new"))
-			return "order by p.date desc";
+			return "order by p.date, p.postid desc";
 		
 		if (sort.equals("top"))
-			return "order by coalesce(sum(v.value), 0) desc";
+			return "order by coalesce(sum(v.value), 0), p.postid desc";
 		
 		if (sort.equals("controversial"))
-			return "order by count(c) desc";
+			return "order by count(c), p.postid desc";
 		
-		return "order by p.date desc";
+		return "order by p.date, p.postid desc";
 	}
 
 }

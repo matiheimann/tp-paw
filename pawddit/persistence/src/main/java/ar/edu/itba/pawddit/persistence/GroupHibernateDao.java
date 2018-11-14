@@ -35,7 +35,7 @@ public class GroupHibernateDao implements GroupDao {
 	
 	@Override
 	public List<Group> searchGroupsByString(final String name, final int limit, final int offset) {
-		final TypedQuery<Group> query = em.createQuery("from Group as g where upper(g.name) like upper(:name)", Group.class);
+		final TypedQuery<Group> query = em.createQuery("from Group as g where upper(g.name) like upper(:name) order by g.groupname", Group.class);
 		query.setParameter("name", "%" + name + "%");
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -51,7 +51,7 @@ public class GroupHibernateDao implements GroupDao {
 
 	@Override
 	public List<Group> findSubscribedByUser(final User user, final int limit, final int offset) {
-		final TypedQuery<Group> query = em.createQuery("select g from Group as g join g.subscribedUsers as su where su = :user", Group.class);
+		final TypedQuery<Group> query = em.createQuery("select g from Group as g join g.subscribedUsers as su where su = :user order by g.groupname", Group.class);
 		query.setParameter("user", user);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -72,7 +72,7 @@ public class GroupHibernateDao implements GroupDao {
 					"and su1 in (select u from User as u join u.subscribedGroups as sg where u <> :user " +
 						"and sg in (select g3 from Group as g3 join g3.subscribedUsers as su3 where su3 = :user)) " +
 				"group by g1 " + 
-				"order by count(distinct su1) desc", Group.class);
+				"order by count(distinct su1), g1.groupname desc", Group.class);
 		query.setParameter("user", user);
 		query.setMaxResults(limit);
 		List<Group> groups = query.getResultList();
@@ -81,7 +81,7 @@ public class GroupHibernateDao implements GroupDao {
 				final TypedQuery<Group> query2 = em.createQuery("select g1 from Group as g1 join g1.subscribedUsers as su1 " +
 						"where g1 not in (:groups) " + 
 							"and g1 not in (select g2 from Group as g2 join g2.subscribedUsers as su2 where su2 = :user) " +
-							"group by g1 order by count(distinct su1) desc", Group.class);
+							"group by g1 order by count(distinct su1), g1.groupname desc", Group.class);
 				query2.setParameter("groups", groups);
 				query2.setParameter("user", user);
 				query2.setMaxResults(limit - groups.size());
@@ -90,7 +90,7 @@ public class GroupHibernateDao implements GroupDao {
 			else {
 				final TypedQuery<Group> query2 = em.createQuery("select g1 from Group as g1 join g1.subscribedUsers as su1 " +
 						"where g1 not in (select g2 from Group as g2 join g2.subscribedUsers as su2 where su2 = :user) " +
-						"group by g1 order by count(distinct su1) desc", Group.class);
+						"group by g1 order by count(distinct su1), g1.groupname desc", Group.class);
 				query2.setParameter("user", user);
 				query2.setMaxResults(limit);
 				groups = query2.getResultList();

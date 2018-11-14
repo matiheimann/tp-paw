@@ -38,37 +38,37 @@
 					<div class="time-indicator"><c:out value="${param.time}" escapeXml="true"/></div>
 					<strong><spring:message code="time.filterBy.message"/></strong>
 					<div>
-						<a class="timeFilterButton js-lhour" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lasthour&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+						<a class="timeFilterButton js-lhour" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lasthour&page=1" escapeXml="true"/>">
 							<spring:message code="filter.button.lastHour.message"/>
 						</a>
 					</div>
 					|
 					<div>
-						<a class="timeFilterButton js-lday" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastday&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+						<a class="timeFilterButton js-lday" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastday&page=1" escapeXml="true"/>">
 							<spring:message code="filter.button.lastDay.message"/>
 						</a>
 					</div>
 					|
 					<div>
-						<a class="timeFilterButton js-lweek" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastweek&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+						<a class="timeFilterButton js-lweek" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastweek&page=1" escapeXml="true"/>">
 							<spring:message code="filter.button.lastWeek.message"/>
 						</a>
 					</div>
 					|
 					<div>
-						<a class="timeFilterButton js-lmonth" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastmonth&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+						<a class="timeFilterButton js-lmonth" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastmonth&page=1" escapeXml="true"/>">
 							<spring:message code="filter.button.lastMonth.message"/>
 						</a>
 					</div>
 					|
 					<div>
-						<a class="timeFilterButton js-lyear" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastyear&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+						<a class="timeFilterButton js-lyear" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastyear&page=1" escapeXml="true"/>">
 							<spring:message code="filter.button.lastYear.message"/>
 						</a>
 					</div>
 					|
 					<div>
-						<a class="timeFilterButton js-lall" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=all&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+						<a class="timeFilterButton js-lall" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=all&page=1" escapeXml="true"/>">
 							<spring:message code="filter.button.all.message"/>
 						</a>
 					</div>

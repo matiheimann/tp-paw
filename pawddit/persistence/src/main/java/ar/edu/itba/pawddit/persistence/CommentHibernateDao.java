@@ -29,7 +29,7 @@ public class CommentHibernateDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByUser(final User user, final int limit, final int offset) {
-		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.owner = :user order by c.date, c.commentid desc", Comment.class);
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.owner = :user order by c.date desc, c.commentid", Comment.class);
 		query.setParameter("user", user);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -38,7 +38,7 @@ public class CommentHibernateDao implements CommentDao {
 	
 	@Override
 	public List<Comment> findByPost(Post post, int limit, int offset) {
-		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post order by c.date, c.commentid desc", Comment.class);
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post order by c.date desc, c.commentid", Comment.class);
 		query.setParameter("post", post);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -47,7 +47,7 @@ public class CommentHibernateDao implements CommentDao {
 
 	@Override
 	public List<Comment> findByPostNoReply(final Post post, final int limit, final int offset) {
-		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post and c.replyTo = null order by c.date, c.commentid desc", Comment.class);
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.post = :post and c.replyTo = null order by c.date desc, c.commentid", Comment.class);
 		query.setParameter("post", post);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -85,7 +85,7 @@ public class CommentHibernateDao implements CommentDao {
 	
 	@Override
 	public List<Comment> findRepliesByComment(final Comment comment, final int limit, final int offset) {
-		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.replyTo = :comment order by c.date, c.commentid desc", Comment.class);
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.replyTo = :comment order by c.date desc, c.commentid", Comment.class);
 		query.setParameter("comment", comment);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);

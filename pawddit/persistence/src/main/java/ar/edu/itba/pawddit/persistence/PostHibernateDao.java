@@ -159,7 +159,7 @@ public class PostHibernateDao implements PostDao {
 			return "order by coalesce(sum(v.value), 0) desc";
 		
 		if (sort.equals("controversial"))
-			return "order by count(*) desc";
+			return "order by count(distinct c) desc";
 		
 		return "order by p.date desc";
 	}

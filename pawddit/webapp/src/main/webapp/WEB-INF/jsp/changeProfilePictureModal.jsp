@@ -18,8 +18,10 @@
             </div>
           </c:if>
           <c:if test="${!empty userProfile.imageid}">
-            <div class="user-image-container-in-modal">
-              <img class="profile-picture" src="<c:url value="/image/${userProfile.imageid}"/>" />
+            <div class="justify-content-center">
+              <div class="user-image-container-in-modal">
+                <img class="profile-picture" src="<c:url value="/image/${userProfile.imageid}"/>" />
+              </div>
             </div>
           </c:if>
               <div class="form-group">

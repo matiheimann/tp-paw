@@ -388,7 +388,7 @@ textarea {
 	margin-right: 159px;
 }
 
-.margin-left-180 {
+.margin-left-180-150 {
 	margin-left: 180px;
 }
 
@@ -478,6 +478,10 @@ textarea {
 @media screen and (max-width: 799px) {
 	.center-content {
 		padding-top: 170px;
+	}
+
+	.margin-left-180-150 {
+		margin-left: 100px;
 	}
 
 	.navbar-component {

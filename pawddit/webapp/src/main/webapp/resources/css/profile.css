@@ -73,11 +73,15 @@
 }
 
 .user-image-container-in-modal {
-	max-height: 180px;
-	max-width: 180px;
+	display: inline-block;
 	margin: 10px auto;
 	border: 2px solid lightgrey;
 	border-radius: 3px;
+}
+
+.justify-content-center {
+	display: flex;
+	justify-content: center;
 }
 
 .user-image-container-no-picture {
@@ -92,8 +96,6 @@
 }
 
 .user-image-container {
-	max-height: 180px;
-	max-width: 180px;
 	margin: 10px auto;
 	border: 2px solid lightgrey;
 	border-radius: 3px;
@@ -117,6 +119,6 @@
 
 .profile-picture {
 	display: block;
-	max-height: 100%;
-	max-width: 100%;
+	max-width: 180px;
+	max-height: 180px;
 }

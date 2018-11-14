@@ -34,6 +34,45 @@
 				<c:if test="${!empty group}">
 					<%@include file="group.jsp" %>
 				</c:if>
+				<div class="timeFilterControls">
+					<div class="time-indicator"><c:out value="${param.time}" escapeXml="true"/></div>
+					<strong><spring:message code="time.filterBy.message"/></strong>
+					<div>
+						<a class="timeFilterButton js-lhour" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lasthour&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+							<spring:message code="filter.button.lastHour.message"/>
+						</a>
+					</div>
+					|
+					<div>
+						<a class="timeFilterButton js-lday" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastday&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+							<spring:message code="filter.button.lastDay.message"/>
+						</a>
+					</div>
+					|
+					<div>
+						<a class="timeFilterButton js-lweek" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastweek&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+							<spring:message code="filter.button.lastWeek.message"/>
+						</a>
+					</div>
+					|
+					<div>
+						<a class="timeFilterButton js-lmonth" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastmonth&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+							<spring:message code="filter.button.lastMonth.message"/>
+						</a>
+					</div>
+					|
+					<div>
+						<a class="timeFilterButton js-lyear" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastyear&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+							<spring:message code="filter.button.lastYear.message"/>
+						</a>
+					</div>
+					|
+					<div>
+						<a class="timeFilterButton js-lall" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=all&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
+							<spring:message code="filter.button.all.message"/>
+						</a>
+					</div>
+				</div>
 				<c:if test="${empty posts}">
 					<c:if test="${empty user}">
 						<h2 class="no-posts"><spring:message code="noPosts.made.signedOut.message"/></h2>
@@ -41,47 +80,6 @@
 					<c:if test="${!empty user}">
 						<h2 class="no-posts"><spring:message code="noPosts.made.signedIn.message"/></h2>
 					</c:if>
-				</c:if>
-				<c:if test="${!empty posts}">
-					<div class="timeFilterControls">
-						<div class="time-indicator"><c:out value="${param.time}" escapeXml="true"/></div>
-						<strong><spring:message code="time.filterBy.message"/></strong>
-						<div>
-							<a class="timeFilterButton js-lhour" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lasthour&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
-								<spring:message code="filter.button.lastHour.message"/>
-							</a>
-						</div>
-						|
-						<div>
-							<a class="timeFilterButton js-lday" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastday&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
-								<spring:message code="filter.button.lastDay.message"/>
-							</a>
-						</div>
-						|
-						<div>
-							<a class="timeFilterButton js-lweek" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastweek&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
-								<spring:message code="filter.button.lastWeek.message"/>
-							</a>
-						</div>
-						|
-						<div>
-							<a class="timeFilterButton js-lmonth" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastmonth&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
-								<spring:message code="filter.button.lastMonth.message"/>
-							</a>
-						</div>
-						|
-						<div>
-							<a class="timeFilterButton js-lyear" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=lastyear&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
-								<spring:message code="filter.button.lastYear.message"/>
-							</a>
-						</div>
-						|
-						<div>
-							<a class="timeFilterButton js-lall" href="<c:out value="?sort=${param.sort != null ? param.sort : 'new'}&time=all&page=${param.page != null ? param.page : 1}" escapeXml="true"/>">
-								<spring:message code="filter.button.all.message"/>
-							</a>
-						</div>
-					</div>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="post-container">

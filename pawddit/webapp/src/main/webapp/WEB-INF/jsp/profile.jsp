@@ -41,6 +41,11 @@
 							<spring:message code="user.modal.changeImage.message"/>
 							<i class="fas fa-edit"></i>
 						</div>
+						<c:if test="${imageUploadError eq true}">
+		   					<label class="formError">
+		   						<spring:message code="image.upload.failed.message"/>
+		   					</label>
+		   				</c:if>
 					</c:if>
 					<h5 class="username-title"><c:out value="${userProfile.username}" escapeXml="true"/></h5>
 					<h4 class="margin-title">

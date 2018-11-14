@@ -14,11 +14,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.pawddit.model.User;
@@ -53,6 +55,9 @@ public class UserController {
 	
 	@Autowired
 	private ImageService is;
+	
+	@Autowired
+	private GlobalController gc;
 
 	@RequestMapping("/register")
 	public ModelAndView register(@ModelAttribute("registerForm") final UserRegisterForm form) {
@@ -92,9 +97,10 @@ public class UserController {
 	}
 
 	@RequestMapping("/profile/{profile}")
-	public ModelAndView profile(@ModelAttribute("changeProfilePictureForm") final ChangeProfilePictureForm form, @PathVariable final String profile, @ModelAttribute("user") final User user) {
+	public ModelAndView profile(@ModelAttribute("changeProfilePictureForm") final ChangeProfilePictureForm form, @PathVariable final String profile, @RequestParam(value = "error", required = false) final Boolean imageUploadError, @ModelAttribute("user") final User user) {
 		final User userProfile = us.findByUsername(profile).orElseThrow(UserNotFoundException::new);
 		final ModelAndView mav = new ModelAndView("profile");
+		mav.addObject("imageUploadError", imageUploadError);
 		mav.addObject("userProfile", userProfile);
 		mav.addObject("posts", ps.findByUser(userProfile, 5, 0, null, null));
 		mav.addObject("comments", cs.findByUser(userProfile, 5, 0));
@@ -105,7 +111,7 @@ public class UserController {
 	@RequestMapping(value = "/profile/{profile}", method = { RequestMethod.POST })
 	public ModelAndView changeProfilePicture(@Valid @ModelAttribute("changeProfilePictureForm") final ChangeProfilePictureForm form, final BindingResult errors, @ModelAttribute("user") final User user, @PathVariable final String profile) {
 		if(errors.hasErrors()) {
-			return profile(form, profile, user);
+			return profile(form, profile, false, user);
 		}
 		
 		final User userProfile = us.findByUsername(profile).orElseThrow(UserNotFoundException::new);
@@ -125,6 +131,12 @@ public class UserController {
 				
 		final ModelAndView mav = new ModelAndView("redirect:/profile/" + userProfile.getUsername());
 		return mav;
+	}
+	
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public ModelAndView maxUploadSizeExceededException() {
+		final User user = gc.loggedUser();
+		return new ModelAndView("redirect:/profile/" + user.getUsername() + "?error=true");	
 	}
 
 	@RequestMapping("/registrationConfirm")

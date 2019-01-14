@@ -8,9 +8,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import ar.edu.itba.pawddit.webapp.form.formAnnotations.EmailNotRepeated;
-import ar.edu.itba.pawddit.webapp.form.formAnnotations.UsernameNotRepeated;
-import ar.edu.itba.pawddit.webapp.form.formAnnotations.MatchingPasswords;
+import ar.edu.itba.pawddit.webapp.form.annotations.EmailNotRepeated;
+import ar.edu.itba.pawddit.webapp.form.annotations.MatchingPasswords;
+import ar.edu.itba.pawddit.webapp.form.annotations.UsernameNotRepeated;
 
 @EmailNotRepeated
 @UsernameNotRepeated

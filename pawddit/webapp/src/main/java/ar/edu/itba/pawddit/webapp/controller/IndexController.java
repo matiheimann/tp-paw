@@ -1,17 +1,26 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import ar.edu.itba.pawddit.model.User;
+import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.services.PostService;
+import ar.edu.itba.pawddit.webapp.dto.PostDto;
 
-@Controller
+@Path("/index")
+@Component
 public class IndexController {
 	
 	private static final int POSTS_PER_PAGE = 5;
@@ -19,30 +28,31 @@ public class IndexController {
 	@Autowired
 	private PostService ps;
 
-	@RequestMapping("/")
-	public ModelAndView index(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @RequestParam(defaultValue = "all", value="time") String time, @ModelAttribute("user") final User user)
-	{
-		ModelAndView mav;
-
-		if (user == null || user.getSubscribedGroups().isEmpty()) {
-			mav = new ModelAndView("redirect:/all");
-		}
-		else {
-			mav = new ModelAndView("index");
-			mav.addObject("posts", ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time));
-			mav.addObject("postsPage", page);
-			mav.addObject("postsPageCount", (ps.findBySubscriptionsCount(user, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
-		}
-		return mav;
+	@GET
+	@Path("/posts")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getAllPosts(
+			@QueryParam("page") @DefaultValue("1") Integer page, 
+			@QueryParam("sort") @DefaultValue("new") String sort, 
+			@QueryParam("time") @DefaultValue("all") String time) {
+		
+		final List<Post> posts = ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+		return Response.ok(
+			new GenericEntity<List<PostDto>>(
+				posts.stream()
+					.map(PostDto::fromPost)
+					.collect(Collectors.toList())
+			) {}
+		).build();
 	}
-
-	@RequestMapping("/all")
-	public ModelAndView all(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @RequestParam(defaultValue = "all", value="time") String time)
-	{
-		final ModelAndView mav = new ModelAndView("index");
-		mav.addObject("posts", ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time));
-		mav.addObject("postsPage", page);
-		mav.addObject("postsPageCount", (ps.findAllCount(time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
-		return mav;
+	
+	@GET
+	@Path("/posts/pageCount")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getAllPostsPageCount(
+			@QueryParam("time") @DefaultValue("all") String time) {
+		
+		final int count = (ps.findAllCount(time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+		return Response.ok(count).build();
 	}
 }

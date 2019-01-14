@@ -4,7 +4,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat;
+import ar.edu.itba.pawddit.webapp.form.annotations.ValidImageFormat;
 
 @ValidImageFormat
 public class CreatePostForm implements FormWithImage {
@@ -14,9 +14,6 @@ public class CreatePostForm implements FormWithImage {
 	
 	@Size(min = 6, max = 1000)
 	private String content;
-	
-	@Size(min = 4, max = 32)
-	private String groupName;
 	
 	private MultipartFile file;
 
@@ -34,14 +31,6 @@ public class CreatePostForm implements FormWithImage {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public String getGroupName() {
-		return groupName;
-	}
-
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
 	}
 
 	public MultipartFile getFile() {

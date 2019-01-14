@@ -1,41 +1,49 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.stereotype.Component;
 
-import ar.edu.itba.pawddit.model.Comment;
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
-import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
-import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
+import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
+import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
+import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
-import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 
-@Controller
+@Path("groups/{groupName}/posts")
+@Component
 public class PostController {
 	
-	private static final int COMMENTS_PER_PAGE = 5;
+	private static final int POSTS_PER_PAGE = 5;
 	
 	@Autowired
 	private GroupService gs;
@@ -44,124 +52,191 @@ public class PostController {
 	private PostService ps;
 	
 	@Autowired
-	private CommentService cs;
-	
-	@Autowired
 	private PostVoteService pvs;
 	
 	@Autowired
 	private ImageService is;
 	
-	@RequestMapping("/createPost")
-	public ModelAndView createPost(@ModelAttribute("createPostForm") final CreatePostForm form, @RequestParam(value = "error", required = false) final Boolean imageUploadError) {
-		final ModelAndView mav = new ModelAndView("createPost");
-		mav.addObject("imageUploadError", imageUploadError);
-		return mav;
-	}
+	@Autowired
+	private PawdditUserDetailsService userDetailsService;
 	
-	@RequestMapping(value = "/createPost", method = { RequestMethod.POST })
-	public ModelAndView createPostPost(@Valid @ModelAttribute("createPostForm") final CreatePostForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
-		if(errors.hasErrors()) {
-			return createPost(form, false);
-		}
+	@Context
+	private UriInfo uriInfo;
+	
+	@GET
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getGroupPosts(
+			@PathParam("groupName") final String groupName,
+			@QueryParam("page") @DefaultValue("1") Integer page, 
+			@QueryParam("sort") @DefaultValue("new") String sort, 
+			@QueryParam("time") @DefaultValue("all") String time) {
 		
-		final Group g = gs.findByName(form.getGroupName()).orElseThrow(GroupNotFoundException::new);
-		
-		String imageId = null;
 		try {
-			if (!form.getFile().isEmpty())
-				imageId = is.saveImage(form.getFile().getBytes());
-		} catch (IOException e) {
-			
+			final User user = userDetailsService.getLoggedUser();
+			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+			return Response.ok(
+				new GenericEntity<List<PostDto>>(
+					posts.stream()
+						.map(PostDto::fromPost)
+						.collect(Collectors.toList())
+				) {}
+			).build();
 		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+	
+	@GET
+	@Path("/pageCount")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getGroupPostsPageCount(
+			@PathParam("groupName") final String groupName,
+			@QueryParam("time") @DefaultValue("all") String time) {
+		
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+			return Response.ok(count).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+	
+	@POST
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response createPost(
+			@Valid final CreatePostForm form,
+			@PathParam("groupName") final String groupName) {
 
-		final Post p = ps.create(form.getTitle(), form.getContent(), LocalDateTime.now(), g, user, imageId);
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
-		return mav;
-	}
-	
-	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	public ModelAndView maxUploadSizeExceededException() {
-		return new ModelAndView("redirect:/createPost?error=true");	
-	}
-	
-	@RequestMapping(value =  "/group/{groupName}/{postId}/delete", method = { RequestMethod.POST })
-	public ModelAndView deletePost(@PathVariable final String groupName, @PathVariable final Integer postId, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-		if (user != null) {
-			ps.delete(user, group, post);
-		}
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
-		return mav;
-	}
-	
-	@RequestMapping("/group/{groupName}/{postId}")
-	public ModelAndView showPost(@PathVariable final String groupName, @PathVariable final Integer postId, @RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("createCommentForm") final CreateCommentForm form, @ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("post");
-		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			if (user != null) {
+				String imageId = null;
+				if (!form.getFile().isEmpty())
+					imageId = is.saveImage(form.getFile().getBytes());
 
-		mav.addObject("group", group);
-		mav.addObject("post", post);
-		mav.addObject("comments", cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE));
-		mav.addObject("commentsPage", page);
-		mav.addObject("commentsPageCount", (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE);
-		return mav;
+				final Post post = ps.create(form.getTitle(), form.getContent(), LocalDateTime.now(), g, user, imageId);
+				final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(post.getPostid())).build();
+				return Response.created(uri).build();
+			}
+			else {
+				return Response.status(Status.BAD_REQUEST).build();
+			}
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (IOException e) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
 	}
 	
-	@RequestMapping(value = "/group/{groupName}/{postId}", method = { RequestMethod.POST })
-	public ModelAndView createComment(@PathVariable final String groupName, @PathVariable final Integer postId, @Valid @ModelAttribute("createCommentForm") final CreateCommentForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
-		if(errors.hasErrors()) {
-			return showPost(groupName, postId, 1, form, user);
-		}
-
-		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
-		if (form.getReplyTo() != null) {
-			final Comment c = cs.findById(user, p, form.getReplyTo()).orElseThrow(CommentNotFoundException::new);
-			cs.create(form.getContent(), p, c, user, LocalDateTime.now());
-		}
-		else {
-			cs.create(form.getContent(), p, null, user, LocalDateTime.now());
-		}
+	@GET
+	@Path("/{postId}")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getPost(
+			@PathParam("groupName") final String groupName, 
+			@PathParam("postId") final long postId) {
 		
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
-		return mav;
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+			return Response.ok(PostDto.fromPost(post)).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (PostNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 	
-	@RequestMapping(value =  "/group/{groupName}/{postId}/comment/{commentId}/delete", method = { RequestMethod.POST })
-	public ModelAndView deleteComment(@PathVariable final String groupName, @PathVariable final Integer postId, @PathVariable final Integer commentId, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-		if (user != null) {
-			cs.delete(user, group, post, comment);
+	@DELETE
+	@Path("/{postId}")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response deletePost(
+			@PathParam("groupName") final String groupName, 
+			@PathParam("postId") final long postId) {
+		
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+			if (user != null) {
+				ps.delete(user, group, post);
+				return Response.noContent().build();
+			}
+			else {
+				return Response.status(Status.BAD_REQUEST).build();
+			}
 		}
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName()  + "/" + post.getPostid());
-		return mav;
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (PostNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (NoPermissionsException e) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 	
-	@RequestMapping(value="/group/{groupName}/{postId}/upvote", method = {RequestMethod.POST})
-	public ModelAndView upvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.upVote(user, p);
+	@POST
+	@Path("/{postId}/upvote")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response postUpVote(
+			@PathParam("groupName") final String groupName, 
+			@PathParam("postId") final long postId) {
 		
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
-		
-		return mav;
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+			if (user != null) {
+				pvs.upVote(user, post);
+				return Response.noContent().build();
+			}
+			else
+				return Response.status(Status.BAD_REQUEST).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (PostNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 	
-	@RequestMapping(value="/group/{groupName}/{postId}/downvote", method = {RequestMethod.POST})
-	public ModelAndView downvotePost(@PathVariable final Integer postId, @PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		final Post p = ps.findById(user, g, postId).orElseThrow(PostNotFoundException::new);
-		pvs.downVote(user, p);
+	@POST
+	@Path("/{postId}/downvote")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response postDownVote(
+			@PathParam("groupName") final String groupName, 
+			@PathParam("postId") final long postId) {
 		
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + g.getName() + "/" + p.getPostid());
-		
-		return mav;
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+			if (user != null) {
+				pvs.downVote(user, post);
+				return Response.noContent().build();
+			}
+			else
+				return Response.status(Status.BAD_REQUEST).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (PostNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 	
 }

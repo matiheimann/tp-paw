@@ -31,6 +31,7 @@ import ar.edu.itba.pawddit.services.SubscriptionService;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
+import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
@@ -75,7 +76,7 @@ public class GroupController {
 			@QueryParam("search") @DefaultValue("") String search) {
 		
 		final int count = (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
-		return Response.ok(count).build();
+		return Response.ok(PageCountDto.fromPageCount(count)).build();
 	}
 	
 	@POST

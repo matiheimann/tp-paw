@@ -17,9 +17,10 @@ import org.springframework.stereotype.Component;
 
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.services.PostService;
+import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 
-@Path("/index")
+@Path("/")
 @Component
 public class IndexController {
 	
@@ -53,6 +54,6 @@ public class IndexController {
 			@QueryParam("time") @DefaultValue("all") String time) {
 		
 		final int count = (ps.findAllCount(time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-		return Response.ok(count).build();
+		return Response.ok(PageCountDto.fromPageCount(count)).build();
 	}
 }

@@ -34,6 +34,7 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
+import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
@@ -99,7 +100,7 @@ public class PostController {
 			final User user = userDetailsService.getLoggedUser();
 			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 			final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-			return Response.ok(count).build();
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
 		}
 		catch (GroupNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

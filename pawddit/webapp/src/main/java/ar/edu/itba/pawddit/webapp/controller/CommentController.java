@@ -35,6 +35,7 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
+import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
@@ -104,7 +105,7 @@ public class CommentController {
 			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
 			final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
-			return Response.ok(count).build();
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
 		}
 		catch (GroupNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

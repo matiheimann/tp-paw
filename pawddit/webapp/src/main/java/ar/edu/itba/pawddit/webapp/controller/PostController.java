@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -22,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -108,9 +110,10 @@ public class PostController {
 	}
 	
 	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createPost(
-			@Valid final CreatePostForm form,
+			@Valid @FormDataParam("createPost") final CreatePostForm form,
 			@PathParam("groupName") final String groupName) {
 
 		try {

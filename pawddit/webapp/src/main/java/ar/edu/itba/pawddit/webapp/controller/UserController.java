@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -83,9 +85,10 @@ public class UserController {
 	
 	@POST
 	@Path("/register")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createUser(
-			@Valid final UserRegisterForm form) {
+			@Valid @FormDataParam("createUser") final UserRegisterForm form) {
 
 		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		final VerificationToken token = us.createToken(user);

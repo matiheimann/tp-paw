@@ -1,3 +1,5 @@
+@import "colors";
+
 .app-btn-primary,
 .app-btn-primary:visited,
 .app-btn-primary:focus {
@@ -92,4 +94,23 @@
 
 .all-post-btn {
   margin: 0 15px;
+}
+
+
+.header-button {
+	background-color: $primary-red;
+	color: $white;
+	border-radius: 5px;
+	display: inline-block;
+	height: 23px;
+	padding: 2px 5px;
+	margin: 0 10px;
+}
+
+.header-button-delete {
+	color: $grey;
+	font-size: 15px;
+	margin-left: auto;
+	display: inline-block;
+	padding: 2px;
 }

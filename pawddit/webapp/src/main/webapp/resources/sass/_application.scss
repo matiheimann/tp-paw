@@ -1,16 +1,13 @@
 /*E85A4F
 E98074
 EDEAE5*/
-
-.main-font {
-	font-family: 'Roboto', sans-serif;
-}
+@import "colors";
 
 .application-background {
   background-size:cover;
 	background-attachment: fixed;
   background-position: center bottom;
-  background-color: #EDEAE5;
+  background-color: $light-grey-background;
   background-image: url('../svg/Flat-Mountains.svg');
   background-repeat: no-repeat;
   padding-bottom: 40px;
@@ -19,15 +16,15 @@ EDEAE5*/
 
 .navbar-component {
 	align-items: center;
-	background-color: white;
+	background-color: $white;
 	display: flex;
 	height: 70px;
 	position: fixed;
 	z-index: 2;
 	width: 100%;
-	-webkit-box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
-	-moz-box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
-	box-shadow: 0px -13px 42px 7px rgba(0,0,0,1);
+	-webkit-box-shadow: 0px -13px 42px 7px $box-shadow-navbar;
+	-moz-box-shadow: 0px -13px 42px 7px $box-shadow-navbar;
+	box-shadow: 0px -13px 42px 7px $box-shadow-navbar;
 }
 
 .no-underline, .no-underline:hover, .no-underline:active, .no-underline:visited, .no-underline:focus {
@@ -35,10 +32,10 @@ EDEAE5*/
 }
 
 .logo {
-	border: 3px solid black;
+	border: 3px solid $black;
 	border-radius: 10px;
   font-family: 'Kosugi', sans-serif;
-  color: black;
+  color: $black;
  	margin: 10px;
  	padding: 4px;
 }
@@ -51,25 +48,25 @@ EDEAE5*/
 
 .dropdown-btn {
 	align-items: center;
-	background-color: white;
-	color: black;
+	background-color: $white;
+	color: $black;
 	cursor: pointer;
 	display: flex;
-	border: 1px solid white;
+	border: 1px solid $white;
 	height: 40px;
 }
 
 .dropdown-btn:focus {
-	background-color: white;
-	color: black;
+	background-color: $white;
+	color: $black;
 	outline: 0;
-	border: 1px solid lightgrey;
+	border: 1px solid $light-grey;
 	border-radius: 0.25rem;
 	height: 40px;
 }
 
 .dropdown-btn:hover {
-	border: 1px solid lightgrey;
+	border: 1px solid $light-grey;
 	border-radius: 0.25rem;
 }
 
@@ -81,7 +78,7 @@ EDEAE5*/
 }
 
 .dropdown-icon {
-	color: #E85A4F;
+	color: $primary-red;
 	margin-right: 10px;
 }
 
@@ -90,7 +87,7 @@ EDEAE5*/
 }
 
 .dropdown-groups-text {
-	color: grey;
+	color: $grey;
 	font-weight: bolder;
 	font-size: 10px;
 	margin-top: 4px;
@@ -98,7 +95,7 @@ EDEAE5*/
 }
 
 .sort-indicator {
-	color: grey;
+	color: $grey;
 	font-weight: bolder;
 	font-size: 12px;
 	margin-left: 30px;
@@ -130,7 +127,7 @@ EDEAE5*/
 
 .dropdown-component {
 	align-items: center;
-	color: black;
+	color: $black;
 	cursor: pointer;
 	display: flex !important;
 }
@@ -143,7 +140,7 @@ EDEAE5*/
 }
 
 .dropdown-username-icon {
-	color: grey;
+	color: $grey;
 	display: none;
 	margin: 8px;
 }
@@ -159,14 +156,14 @@ EDEAE5*/
 }
 
 .no-posts {
-	color: #b7b5b2;
+	color: $light-grey-no-posts ;
 	margin-top: 60px;
 	margin-left: 15px;
 	margin-right: 15px;
 }
 
 .post-container {
-	background-color: white;
+	background-color: $white;
 	border-radius: 10px;
 	max-height: 450px;
 	margin-top: 30px;
@@ -174,9 +171,9 @@ EDEAE5*/
 	width: 90%;
 	max-width: 700px;
 	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
 }
 
 .post-header {
@@ -197,7 +194,7 @@ EDEAE5*/
 
 .post-center-image {
 	align-self: center;
-	border: 2px solid lightgrey;
+	border: 2px solid $light-grey;
 	border-radius: 3px;
 	max-width: 100px;
 	max-height: 100px;
@@ -213,26 +210,8 @@ EDEAE5*/
 	visibility: hidden;
 }
 
-.header-button {
-	background-color: #E85A4F;
-	color: white;
-	border-radius: 5px;
-	display: inline-block;
-	height: 23px;
-	padding: 2px 5px;
-	margin: 0 10px;
-}
-
-.header-button-delete {
-	color: grey;
-	font-size: 15px;
-	margin-left: auto;
-	display: inline-block;
-	padding: 2px;
-}
-
 .header-button-delete-group {
-	color: grey;
+	color: $grey;
 	font-size: 15px;
 	display: inline-block;
 	margin-left: auto;
@@ -260,7 +239,7 @@ EDEAE5*/
 
 .post-info {
 	align-items: center;
-	color: grey;
+	color: $grey;
 	display: flex;
 	font-size: 12px;
 	line-height: 1.5;
@@ -271,8 +250,8 @@ EDEAE5*/
 }
 
 .footer-component {
-	background-color: #42474c;
-	color: white;
+	background-color: $grey-foot;
+	color: $white;
 	width: 100%;
 	height: 140px;
 	min-height: 100px;
@@ -286,8 +265,8 @@ EDEAE5*/
 }
 
 .footer-logo{
-	color: white;
-	border-color: white;
+	color: $white;
+	border-color: $white;
 	text-align: center;
 }
 
@@ -309,11 +288,11 @@ EDEAE5*/
 }
 
 .icon-color {
-	color: grey;
+	color: $grey;
 }
 
 .icon-color-selected {
-	color: blue;
+	color: $blue;
 }
 
 .no-btn {
@@ -408,22 +387,22 @@ textarea {
 .timeFilterButton:focus {
 	margin-left: 4px;
 	margin-right: 4px;
-	color: black;
+	color: $black;
 	text-decoration: none;
 }
 
 .timeFilterButton:hover {
-	color: black;
+	color: $black;
 	text-decoration: underline;
 }
 
 .timeFilterButton:active {
-	color: black;
+	color: $black;
 	font-weight: 900;
 }
 
 .selectedFilter {
-	color: black;
+	color: $black;
 	font-weight: 900;
 	text-decoration: underline;
 }

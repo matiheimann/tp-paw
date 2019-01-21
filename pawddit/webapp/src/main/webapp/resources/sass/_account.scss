@@ -1,3 +1,5 @@
+@import "colors";
+
 .login-btn {
 	margin-right: 10px;
 }
@@ -7,7 +9,7 @@
 }
 
 .form-container {
-	background-color: white;
+	background-color: $white;
 	border-radius: 10px;
 	margin-top: 30px;
 	overflow: auto;
@@ -15,13 +17,13 @@
 	width: 90%;
 	max-width: 600px;
 	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow ;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow ;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
 }
 
 .verfication-account-component {
-	background-color: white;
+	background-color: $white;
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
@@ -32,13 +34,13 @@
 	width: 90%;
 	max-width: 600px;
 	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
 }
 
 .verification-icon {
-	color: grey;
+	color: $grey;
 	margin: 10px;
 	font-size: 50px;
 }

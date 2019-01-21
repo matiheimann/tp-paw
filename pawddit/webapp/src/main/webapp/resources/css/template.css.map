@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../sass/template.scss"],"names":[],"mappings":"AAAA,oBACC,sBACA,mBACA,aACA,sBACA,mBACA,gBACC,mBACD,cACA,kBACA,UACA,gBACA,kBACA,qDACA,kDACA,6CAGD,eACC,WACA,YACA","file":"template.css"}
+{"version":3,"sourceRoot":"","sources":["../sass/template.scss","../sass/_colors.scss"],"names":[],"mappings":"AAEA,oBACC,iBCcQ,KDbR,mBACA,aACA,sBACA,mBACA,gBACC,mBACD,cACA,kBACA,UACA,gBACA,kBACA,qDACA,kDACA,6CAGD,eACC,MCFO,KDGP,YACA","file":"template.css"}

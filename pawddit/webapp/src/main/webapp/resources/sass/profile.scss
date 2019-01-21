@@ -1,5 +1,7 @@
+@import "colors";
+
 .activity-component {
-	background-color: white;
+	background-color: $white;
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
@@ -11,26 +13,26 @@
 	width: 90%;
 	max-width: 800px;
 	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
 }
 
 .activity-posts-component {
-	background-color: white;
+	background-color: $white;
 	border-radius: 10px;
 	max-height: 450px;
 	margin-top: 30px;
 	padding: 8px 15px;
 	width: 100%;
 	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
 }
 
 .activity-comments-component {
-	border-left: 3px solid lightgrey;
+	border-left: 3px solid $light-grey;
 	padding: 10px;
 	margin-top: 15px;
 	width: 100%;
@@ -57,13 +59,13 @@
 }
 
 .lightgrey {
-	color: grey;
+	color: $grey;
 }
 
 .user-image-container-in-modal-no-picture {
-	color: lightgrey;
+	color: $light-grey;
 	text-align: center;
-	border: 2px solid lightgrey;
+	border: 2px solid $light-grey;
 	border-radius: 10px;
 	height: 60px;
 	min-height: 60px;
@@ -75,7 +77,7 @@
 .user-image-container-in-modal {
 	display: inline-block;
 	margin: 10px auto;
-	border: 2px solid lightgrey;
+	border: 2px solid $light-grey;
 	border-radius: 3px;
 }
 
@@ -85,9 +87,9 @@
 }
 
 .user-image-container-no-picture {
-	color: lightgrey;
+	color: $light-grey;
 	text-align: center;
-	border: 2px solid lightgrey;
+	border: 2px solid $light-grey;
 	border-radius: 10px;
 	height: 60px;
 	min-height: 60px;
@@ -97,12 +99,12 @@
 
 .user-image-container {
 	margin: 10px auto;
-	border: 2px solid lightgrey;
+	border: 2px solid $light-grey;
 	border-radius: 3px;
 }
 
 .edit-prfile-image-modal-opener {
-	color: black;
+	color: $black;
 	font-weight: bolder;
 	margin: 20px auto;
 }

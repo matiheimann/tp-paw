@@ -1,5 +1,7 @@
+@import "colors";
+
 .post-component {
-	background-color: white;
+	background-color: $white;
 	border-radius: 10px;
 	margin: 15px 10px;
 	padding: 8px 15px;
@@ -7,9 +9,9 @@
 	max-width: 800px;
 	margin-top: 30px;
 	position: relative;
-	-webkit-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
-	box-shadow: 0px 4px 18px -4px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
 }
 
 .post-component-comments {
@@ -24,14 +26,14 @@
 }
 
 .comment {
-	border-left: 3px solid lightgrey;
+	border-left: 3px solid $light-grey;
 	padding: 10px;
 	margin-top: 15px;
 }
 
 .comment-reply {
-	background-color: #e4e2e2;
-	border-left: 3px solid grey;
+	background-color: $comment-reply;
+	border-left: 3px solid $grey;
 	border-radius: 8px;
 	padding: 5px 10px;
 	margin-top: 10px;
@@ -39,7 +41,7 @@
 }
 
 .comment-reply-button-color {
-	background-color: #BD4940;
+	background-color: $focus-red;
 }
 
 .comment-header {
@@ -61,7 +63,7 @@
 
 .comment-footer {
 	align-items: center;
-	color: grey;
+	color: $grey;
 	display: flex;
 	font-size: 12px;
 	line-height: 1.5;

@@ -25,11 +25,13 @@ public class GroupServiceImpl implements GroupService {
 	private SubscriptionDao subscriptionDao;
 
 	@Override
-	public Optional<Group> findByName(final String name) {
+	public Optional<Group> findByName(final User user, final String name) {
 		final Optional<Group> group = groupDao.findByName(name);
 		if (group.isPresent()) {
 			final Group g = group.get();
 			g.setSuscriptors(groupDao.findSubscriptorsCount(g));
+			if (user != null)
+				g.setUserSub(subscriptionDao.isUserSub(user, g));
 		}
 		return group;
 	}
@@ -38,7 +40,6 @@ public class GroupServiceImpl implements GroupService {
 	public Group create(final String name, final LocalDateTime date, final String description, final User user) {	
 		final Group group = groupDao.create(name, date, description, user);
 		subscriptionDao.suscribe(user, group);
-		
 		return group;
 	}
 	

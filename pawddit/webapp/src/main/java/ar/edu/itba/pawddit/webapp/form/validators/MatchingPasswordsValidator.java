@@ -1,10 +1,10 @@
-package ar.edu.itba.pawddit.webapp.form.formValidators;
+package ar.edu.itba.pawddit.webapp.form.validators;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
-import ar.edu.itba.pawddit.webapp.form.formAnnotations.MatchingPasswords;
+import ar.edu.itba.pawddit.webapp.form.annotations.MatchingPasswords;
 
 public class MatchingPasswordsValidator implements ConstraintValidator<MatchingPasswords, UserRegisterForm> {
 

@@ -1,141 +1,185 @@
 package ar.edu.itba.pawddit.webapp.controller;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.stereotype.Component;
 
 import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
-import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
+import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
+import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
+import ar.edu.itba.pawddit.webapp.dto.GroupDto;
+import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
-@Controller
+@Path("groups")
+@Component
 public class GroupController {
 
-	private static final int POSTS_PER_PAGE = 5;
 	private static final int GROUPS_PER_PAGE = 7;
 
 	@Autowired
 	private GroupService gs;
 
 	@Autowired
-	private PostService ps;
-
-	@Autowired
 	private SubscriptionService ss;
-
-	@RequestMapping(value = "/searchGroup", method = { RequestMethod.GET })
-	public @ResponseBody List<String> searchGroups(@RequestParam(value = "name", required = false) final String groupName) {
-		final List<String> groups = gs.search5NamesByString(groupName);
-		return groups;
+	
+	@Autowired
+	private PawdditUserDetailsService userDetailsService;
+	
+	@Context
+	private UriInfo uriInfo;
+	
+	@GET
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getGroups(
+			@QueryParam("page") @DefaultValue("1") int page, 
+			@QueryParam("search") @DefaultValue("") String search) {
+		
+		final List<Group> groups = gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
+		return Response.ok(
+			new GenericEntity<List<GroupDto>>(
+				groups.stream()
+					.map(GroupDto::fromGroup)
+					.collect(Collectors.toList())
+			) {}
+		).build();
 	}
-
-	@RequestMapping("/createGroup")
-	public ModelAndView createGroup(@ModelAttribute("createGroupForm") final CreateGroupForm form) {
-		final ModelAndView mav = new ModelAndView("createGroup");
-		return mav;
+	
+	@GET
+	@Path("/pageCount")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getGroupsPageCount(
+			@QueryParam("search") @DefaultValue("") String search) {
+		
+		final int count = (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
+		return Response.ok(PageCountDto.fromPageCount(count)).build();
 	}
+	
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response createGroup(
+			@Valid @FormDataParam("createGroup") final CreateGroupForm form) {
 
-	@RequestMapping(value = "/createGroup", method = { RequestMethod.POST })
-	public ModelAndView createGroupPost(@Valid @ModelAttribute("createGroupForm") final CreateGroupForm form, final BindingResult errors, @ModelAttribute("user") final User user) {
-		if(errors.hasErrors()) {
-			return createGroup(form);
-		}
-
-		final Group group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
-
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + group.getName());
-		return mav;
-	}
-
-	@RequestMapping(value =  "/group/{groupName}/delete", method = { RequestMethod.POST })
-	public ModelAndView deletePost(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
+		final User user = userDetailsService.getLoggedUser();
 		if (user != null) {
-			gs.delete(user, group);
+			final Group group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
+			final URI uri = uriInfo.getAbsolutePathBuilder().path(group.getName()).build();
+			return Response.created(uri).build();
+			
 		}
-		final ModelAndView mav = new ModelAndView("redirect:/");
-		return mav;
-	}
-
-	@RequestMapping("/group/{groupName}")
-	public ModelAndView showGroup(@PathVariable final String groupName, @RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "new", value="sort") String sort, @RequestParam(defaultValue = "all", value="time") String time, @ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("index");
-		final Group g = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-		mav.addObject("group", g);
-
-		if (user != null) {
-			mav.addObject("subscription", ss.isUserSub(user, g));
+		else {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
-
-		mav.addObject("posts", ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time));
-		mav.addObject("postsPage", page);
-		mav.addObject("postsPageCount", (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE);
-		return mav;
+	}
+	
+	@GET
+	@Path("/{groupName}")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getGroup(
+			@PathParam("groupName") final String groupName) {
+		
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			return Response.ok(GroupDto.fromGroup(group)).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 
-	@RequestMapping(value = "/group/{groupName}/subscribe", method = { RequestMethod.POST })
-	public ModelAndView groupSubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-
-		ss.suscribe(user, group);
-
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
-
-		return mav;
+	@DELETE
+	@Path("/{groupName}")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response deleteGroup(
+			@PathParam("groupName") final String groupName) {
+		
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			if (user != null) {
+				gs.delete(user, group);
+				return Response.noContent().build();
+			}
+			else {
+				return Response.status(Status.BAD_REQUEST).build();
+			}
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		catch (NoPermissionsException e) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
-
-	@RequestMapping(value = "/group/{groupName}/unsubscribe", method = { RequestMethod.POST })
-	public ModelAndView groupUnsubscribe(@PathVariable final String groupName, @ModelAttribute("user") final User user) {
-		final Group group = gs.findByName(groupName).orElseThrow(GroupNotFoundException::new);
-
-		ss.unsuscribe(user, group);
-
-		final ModelAndView mav = new ModelAndView("redirect:/group/" + groupName);
-
-		return mav;
+	
+	@POST
+	@Path("/{groupName}/subscribe")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response groupSubscribe(
+			@PathParam("groupName") final String groupName) {
+		
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			if (user != null) {
+				ss.suscribe(user, g);
+				return Response.noContent().build();
+			}
+			else
+				return Response.status(Status.BAD_REQUEST).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
-
-	@RequestMapping(value = "/groups")
-	public ModelAndView groups(@RequestParam(defaultValue = "1", value="page") int page, @RequestParam(defaultValue = "", value="search") final String search) {
-		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE));
-		mav.addObject("search", search);
-		mav.addObject("groupsPage", page);
-		mav.addObject("groupsPageCount", (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE);
-		return mav;
+	
+	@POST
+	@Path("/{groupName}/unsubscribe")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response groupUnsubscribe(
+			@PathParam("groupName") final String groupName) {
+		
+		try {
+			final User user = userDetailsService.getLoggedUser();
+			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+			if (user != null) {
+				ss.unsuscribe(user, g);
+				return Response.noContent().build();
+			}
+			else
+				return Response.status(Status.BAD_REQUEST).build();
+		}
+		catch (GroupNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
-
-	@RequestMapping(value = "/myGroups")
-	public ModelAndView myGroups(@RequestParam(defaultValue = "1", value="page") int page, @ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE));
-		mav.addObject("groupsPage", page);
-		mav.addObject("groupsPageCount", (gs.findSubscribedByUserCount(user)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE);
-		return mav;
-	}
-
-	@RequestMapping(value = "/recommendedGroups")
-	public ModelAndView recommendedGroups(@ModelAttribute("user") final User user) {
-		final ModelAndView mav = new ModelAndView("groups");
-		mav.addObject("groups", gs.findRecommendedByUser(user, GROUPS_PER_PAGE));
-		return mav;
-	}
-
-
+	
 }

@@ -9,7 +9,7 @@ import ar.edu.itba.pawddit.model.User;
 
 public interface GroupService {
 	
-	public Optional<Group> findByName(String name);
+	public Optional<Group> findByName(User user, String name);
 	public Group create(String name, LocalDateTime date, String description, User user);
 	public List<Group> searchGroupsByString(String name, int limit, int offset);
 	public int searchGroupsByStringCount(String name);

@@ -37,6 +37,9 @@ public class Group {
 	
 	@Transient
 	private int suscriptors;
+	
+	@Transient
+	private boolean userSub;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "group")
 	private List<Post> posts = new ArrayList<Post>();
@@ -98,6 +101,14 @@ public class Group {
 	
 	public void setSuscriptors(int suscriptors) {
 		this.suscriptors = suscriptors;
+	}
+
+	public boolean getUserSub() {
+		return userSub;
+	}
+
+	public void setUserSub(boolean userSub) {
+		this.userSub = userSub;
 	}
 
 	public List<Post> getPosts() {

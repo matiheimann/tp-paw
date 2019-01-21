@@ -1,4 +1,4 @@
-package ar.edu.itba.pawddit.webapp.form.formValidators;
+package ar.edu.itba.pawddit.webapp.form.validators;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import ar.edu.itba.pawddit.webapp.form.FormWithImage;
-import ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat;
+import ar.edu.itba.pawddit.webapp.form.annotations.ValidImageFormat;
 
 public class ValidImageFormatValidator implements ConstraintValidator<ValidImageFormat, FormWithImage> {
 		

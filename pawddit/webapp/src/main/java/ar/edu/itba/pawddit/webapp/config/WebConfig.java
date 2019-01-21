@@ -73,14 +73,14 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		ds.setDriverClass(org.postgresql.Driver.class);
 		
 		//Test
-		//ds.setUrl("jdbc:postgresql://localhost/paw");
-		//ds.setUsername("root");
-		//ds.setPassword("root");
+		ds.setUrl("jdbc:postgresql://localhost/paw");
+		ds.setUsername("root");
+		ds.setPassword("root");
 		
 		//Deploy
-		ds.setUrl("jdbc:postgresql://localhost/paw-2018b-08");
-		ds.setUsername("paw-2018b-08");
-		ds.setPassword("eecRn7Xr5");
+		//ds.setUrl("jdbc:postgresql://localhost/paw-2018b-08");
+		//ds.setUsername("paw-2018b-08");
+		//ds.setPassword("eecRn7Xr5");
 		return ds;
 	}
 

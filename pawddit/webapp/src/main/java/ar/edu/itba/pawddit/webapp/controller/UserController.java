@@ -196,7 +196,7 @@ public class UserController {
 	@Path("/me")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response modifyMyUser(
-			@Valid final ChangeProfilePictureForm form) {
+			@Valid @FormDataParam("modifyUser") final ChangeProfilePictureForm form) {
 		
 		try {
 			final User user = userDetailsService.getLoggedUser();

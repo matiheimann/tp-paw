@@ -37,23 +37,20 @@ public class IndexController {
 			@QueryParam("sort") @DefaultValue("new") String sort, 
 			@QueryParam("time") @DefaultValue("all") String time) {
 		
-		final List<Post> posts = ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
-		return Response.ok(
-			new GenericEntity<List<PostDto>>(
-				posts.stream()
-					.map(PostDto::fromPost)
-					.collect(Collectors.toList())
-			) {}
-		).build();
+		if (page == 0) {
+			final int count = (ps.findAllCount(time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
+		}
+		else {
+			final List<Post> posts = ps.findAll(POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+			return Response.ok(
+				new GenericEntity<List<PostDto>>(
+					posts.stream()
+						.map(PostDto::fromPost)
+						.collect(Collectors.toList())
+				) {}
+			).build();
+		}
 	}
-	
-	@GET
-	@Path("/posts/pageCount")
-	@Produces(value = { MediaType.APPLICATION_JSON, })
-	public Response getAllPostsPageCount(
-			@QueryParam("time") @DefaultValue("all") String time) {
-		
-		final int count = (ps.findAllCount(time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-		return Response.ok(PageCountDto.fromPageCount(count)).build();
-	}
+
 }

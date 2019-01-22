@@ -224,29 +224,20 @@ public class UserController {
 		
 		final User user = userDetailsService.getLoggedUser();
 		if (user != null) {
-			final List<Group> groups = gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
-			return Response.ok(
-				new GenericEntity<List<GroupDto>>(
-					groups.stream()
-						.map(GroupDto::fromGroup)
-						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
-		else {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-	}
-	
-	@GET
-	@Path("/me/subscribedGroups/pageCount")
-	@Produces(value = { MediaType.APPLICATION_JSON, })
-	public Response getMyGroupsPageCount() {
-		
-		final User user = userDetailsService.getLoggedUser();
-		if (user != null) {
-			final int count = (gs.findSubscribedByUserCount(user)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
+			if (page == 0) {
+				final int count = (gs.findSubscribedByUserCount(user)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
+				return Response.ok(PageCountDto.fromPageCount(count)).build();
+			}
+			else {
+				final List<Group> groups = gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
+				return Response.ok(
+					new GenericEntity<List<GroupDto>>(
+						groups.stream()
+							.map(GroupDto::fromGroup)
+							.collect(Collectors.toList())
+					) {}
+				).build();
+			}
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -263,30 +254,20 @@ public class UserController {
 		
 		final User user = userDetailsService.getLoggedUser();
 		if (user != null) {
-			final List<Post> posts = ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
-			return Response.ok(
-				new GenericEntity<List<PostDto>>(
-					posts.stream()
-						.map(PostDto::fromPost)
-						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
-		else {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-	}
-	
-	@GET
-	@Path("/me/feedPosts/pageCount")
-	@Produces(value = { MediaType.APPLICATION_JSON, })
-	public Response getFeedPostsPageCount(
-			@QueryParam("time") @DefaultValue("all") String time) {
-		
-		final User user = userDetailsService.getLoggedUser();
-		if (user != null) {
-			final int count = (ps.findBySubscriptionsCount(user, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
+			if (page == 0) {
+				final int count = (ps.findBySubscriptionsCount(user, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+				return Response.ok(PageCountDto.fromPageCount(count)).build();
+			}
+			else {
+				final List<Post> posts = ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+				return Response.ok(
+					new GenericEntity<List<PostDto>>(
+						posts.stream()
+							.map(PostDto::fromPost)
+							.collect(Collectors.toList())
+					) {}
+				).build();
+			}
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).build();

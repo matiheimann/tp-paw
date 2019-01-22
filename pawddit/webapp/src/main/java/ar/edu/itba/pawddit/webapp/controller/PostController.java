@@ -77,32 +77,20 @@ public class PostController {
 		try {
 			final User user = userDetailsService.getLoggedUser();
 			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
-			return Response.ok(
-				new GenericEntity<List<PostDto>>(
-					posts.stream()
-						.map(PostDto::fromPost)
-						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-	}
-	
-	@GET
-	@Path("/pageCount")
-	@Produces(value = { MediaType.APPLICATION_JSON, })
-	public Response getGroupPostsPageCount(
-			@PathParam("groupName") final String groupName,
-			@QueryParam("time") @DefaultValue("all") String time) {
-		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
+			if (page == 0) {
+				final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+				return Response.ok(PageCountDto.fromPageCount(count)).build();
+			}
+			else {
+				final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+				return Response.ok(
+					new GenericEntity<List<PostDto>>(
+						posts.stream()
+							.map(PostDto::fromPost)
+							.collect(Collectors.toList())
+					) {}
+				).build();
+			}
 		}
 		catch (GroupNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

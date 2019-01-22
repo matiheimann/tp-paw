@@ -61,24 +61,20 @@ public class GroupController {
 			@QueryParam("page") @DefaultValue("1") int page, 
 			@QueryParam("search") @DefaultValue("") String search) {
 		
-		final List<Group> groups = gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
-		return Response.ok(
-			new GenericEntity<List<GroupDto>>(
-				groups.stream()
-					.map(GroupDto::fromGroup)
-					.collect(Collectors.toList())
-			) {}
-		).build();
-	}
-	
-	@GET
-	@Path("/pageCount")
-	@Produces(value = { MediaType.APPLICATION_JSON, })
-	public Response getGroupsPageCount(
-			@QueryParam("search") @DefaultValue("") String search) {
-		
-		final int count = (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
-		return Response.ok(PageCountDto.fromPageCount(count)).build();
+		if (page == 0) {
+			final int count = (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
+		}
+		else {
+			final List<Group> groups = gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
+			return Response.ok(
+				new GenericEntity<List<GroupDto>>(
+					groups.stream()
+						.map(GroupDto::fromGroup)
+						.collect(Collectors.toList())
+				) {}
+			).build();
+		}
 	}
 	
 	@POST

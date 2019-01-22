@@ -78,36 +78,20 @@ public class CommentController {
 			final User user = userDetailsService.getLoggedUser();
 			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			final List<Comment> comments = cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
-			return Response.ok(
-				new GenericEntity<List<CommentDto>>(
+			if (page == 0) {
+				final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
+				return Response.ok(PageCountDto.fromPageCount(count)).build();
+			}
+			else {
+				final List<Comment> comments = cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
+				return Response.ok(
+					new GenericEntity<List<CommentDto>>(
 						comments.stream()
-						.map(CommentDto::fromComment)
-						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-	}
-	
-	@GET
-	@Path("/pageCount")
-	@Produces(value = { MediaType.APPLICATION_JSON, })
-	public Response getPostCommentsPageCount(
-			@PathParam("groupName") final String groupName, 
-			@PathParam("postId") final long postId) {
-		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
+							.map(CommentDto::fromComment)
+							.collect(Collectors.toList())
+					) {}
+				).build();
+			}
 		}
 		catch (GroupNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

@@ -264,4 +264,59 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>Frontend Build</id>
+      <activation>
+        <file>
+          <exists>../front-generator/Gruntfile.js</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>${frontend-maven-plugin.version}</version>
+            <configuration>
+              <workingDirectory>../front-generator/</workingDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <id>Install Node and NPM</id>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+                <configuration>
+                  <nodeVersion>v6.9.4</nodeVersion>
+                </configuration>
+              </execution>
+              <execution>
+                <id>npm install</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>bower install</id>
+                <goals>
+                  <goal>bower</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>grunt build</id>
+                <goals>
+                  <goal>grunt</goal>
+                </goals>
+                <configuration>
+                  <arguments>build --verbose</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

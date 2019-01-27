@@ -1,6 +1,15 @@
 
 # Created by https://www.gitignore.io/api/macos,linux,eclipse,windows,intellij
 
+### Front-End Generator ###
+
+.editorconfig
+.eslintrc
+bower_components/
+node_modules/
+.sass-cache/
+.tmp/
+
 ### Eclipse ###
 
 .metadata

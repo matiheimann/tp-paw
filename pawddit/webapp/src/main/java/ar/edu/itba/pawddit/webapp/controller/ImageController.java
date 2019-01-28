@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.webapp.exceptions.ImageNotFoundException;
 
-@Path("images")
+@Path("/api/images")
 @Component
 public class ImageController {
 	

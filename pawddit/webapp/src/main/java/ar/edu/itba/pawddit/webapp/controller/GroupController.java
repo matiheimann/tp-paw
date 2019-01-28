@@ -11,6 +11,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -37,7 +38,7 @@ import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 
-@Path("groups")
+@Path("/api/groups")
 @Component
 public class GroupController {
 
@@ -136,7 +137,7 @@ public class GroupController {
 		}
 	}
 	
-	@POST
+	@PUT
 	@Path("/{groupName}/subscribe")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response groupSubscribe(
@@ -157,7 +158,7 @@ public class GroupController {
 		}
 	}
 	
-	@POST
+	@PUT
 	@Path("/{groupName}/unsubscribe")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response groupUnsubscribe(

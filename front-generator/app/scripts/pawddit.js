@@ -38,7 +38,8 @@ define(['routes',
 
 					$translateProvider.translations('preferredLanguage', i18n);
 					$translateProvider.preferredLanguage('preferredLanguage');
-				}]);
+				}])
+			.value('url', 'http://pawserver.it.itba.edu.ar/paw-2018b-08/api');
 		return pawddit;
 	}
 );

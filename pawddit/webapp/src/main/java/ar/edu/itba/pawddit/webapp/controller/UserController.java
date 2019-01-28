@@ -52,7 +52,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.ChangeProfilePictureForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
-@Path("users")
+@Path("/api/users")
 @Component
 public class UserController {
 	

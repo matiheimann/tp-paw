@@ -11,6 +11,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,7 +44,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 
-@Path("groups/{groupName}/posts/{postId}/comments")
+@Path("/api/groups/{groupName}/posts/{postId}/comments")
 @Component
 public class CommentController {
 	
@@ -201,7 +202,7 @@ public class CommentController {
 		}
 	}
 	
-	@POST
+	@PUT
 	@Path("/{commentId}/upvote")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response commentUpVote(
@@ -232,7 +233,7 @@ public class CommentController {
 		}
 	}
 	
-	@POST
+	@PUT
 	@Path("/{commentId}/downvote")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response commentDownVote(

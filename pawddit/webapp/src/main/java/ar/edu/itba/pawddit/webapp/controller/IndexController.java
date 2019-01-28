@@ -20,7 +20,7 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 
-@Path("/")
+@Path("/api")
 @Component
 public class IndexController {
 	

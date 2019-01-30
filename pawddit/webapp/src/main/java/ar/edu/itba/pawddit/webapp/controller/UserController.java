@@ -49,7 +49,7 @@ import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.dto.UserDto;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
-import ar.edu.itba.pawddit.webapp.form.ChangeProfilePictureForm;
+import ar.edu.itba.pawddit.webapp.form.PictureForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Path("/api/users")
@@ -196,7 +196,7 @@ public class UserController {
 	@Path("/me")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response modifyMyUser(
-			@Valid @FormDataParam("modifyUser") final ChangeProfilePictureForm form) {
+			@Valid @FormDataParam("modifyUser") final PictureForm form) {
 		
 		try {
 			final User user = userDetailsService.getLoggedUser();

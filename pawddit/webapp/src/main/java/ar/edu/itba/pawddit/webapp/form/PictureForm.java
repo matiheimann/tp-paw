@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ar.edu.itba.pawddit.webapp.form.annotations.ValidImageFormat;
 
 @ValidImageFormat
-public class ChangeProfilePictureForm implements FormWithImage {
+public class PictureForm implements FormWithImage {
 
 	private MultipartFile file;
 	

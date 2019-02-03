@@ -1,0 +1,126 @@
+@import 'partials/colors';
+
+.activity-component {
+	background-color: $white;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	min-height: 850px;
+	max-height: 850px;
+	margin: 30px 10px 0 10px;
+	overflow: hidden;
+	padding: 8px 15px;
+	width: 90%;
+	max-width: 800px;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
+}
+
+.activity-posts-component {
+	background-color: $white;
+	border-radius: 10px;
+	max-height: 450px;
+	margin-top: 30px;
+	padding: 8px 15px;
+	width: 100%;
+	position: relative;
+	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
+	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
+	box-shadow: 0px 4px 18px -4px $box-shadow;
+}
+
+.activity-comments-component {
+	border-left: 3px solid $light-grey;
+	padding: 10px;
+	margin-top: 15px;
+	width: 100%;
+}
+
+.center-posts {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+
+.activity {
+	margin-top: 20px;
+	width: 100%;
+}
+
+.username-title {
+	margin: 10px auto 40px auto;
+}
+
+.margin-title {
+	margin-left: 5px;
+}
+
+.lightgrey {
+	color: $grey;
+}
+
+.user-image-container-in-modal-no-picture {
+	color: $light-grey;
+	text-align: center;
+	border: 2px solid $light-grey;
+	border-radius: 10px;
+	height: 60px;
+	min-height: 60px;
+	max-width: 60px;
+	margin: 10px auto;
+	padding: 4px;
+}
+
+.user-image-container-in-modal {
+	display: inline-block;
+	margin: 10px auto;
+	border: 2px solid $light-grey;
+	border-radius: 3px;
+}
+
+.justify-content-center {
+	display: flex;
+	justify-content: center;
+}
+
+.user-image-container-no-picture {
+	color: $light-grey;
+	text-align: center;
+	border: 2px solid $light-grey;
+	border-radius: 10px;
+	height: 60px;
+	min-height: 60px;
+	margin: 10px auto;
+	padding: 4px;
+}
+
+.user-image-container {
+	margin: 10px auto;
+	border: 2px solid $light-grey;
+	border-radius: 3px;
+}
+
+.edit-prfile-image-modal-opener {
+	color: $black;
+	font-weight: bolder;
+	margin: 20px auto;
+}
+
+.edit-prfile-image-modal-opener:hover {
+	text-decoration: underline;
+}
+
+.center-column {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.profile-picture {
+	display: block;
+	max-width: 180px;
+	max-height: 180px;
+}

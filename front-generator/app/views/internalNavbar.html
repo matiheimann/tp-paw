@@ -1,0 +1,145 @@
+<nav class="navbar-component">
+	<a class="no-underline first-logo" ng-href="#/">
+		<h2 class="logo logo-full">Pawddit.</h2>
+		<h2 class="logo logo-reduced">P.</h2>
+	</a>
+	<div class="dropdown show drop-menu">
+	  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  		<div ng-if="currentPath == '/groups/{{group.name}}'">
+				<i class="dropdown-icon fas fa-users"></i>
+				<div class="dropdown-selected-group-overflow">{{group.name}}</div>
+			</div>
+			<div ng-if="currentPath == '/all'">
+				<i class="dropdown-icon fas fa-list"></i>
+				{{'dropdown.button.all.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/'">
+				<i class="dropdown-icon fas fa-user-friends"></i>
+				{{'dropdown.button.myfeed.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/profile/{{profile.username}}'">
+				<i class="dropdown-icon fas fa-user"></i>
+				{{profile.username}}
+			</div>
+			<div ng-if="currentPath == '/groups'">
+				<i class="dropdown-icon fas fa-users"></i>
+				{{'dropdown.button.groups.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/myGroups'">
+				<i class="dropdown-icon fas fa-users"></i>
+				{{'dropdown.button.myGroups.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/recommendedGroups'">
+				<i class="dropdown-icon fas fa-users"></i>
+				{{'dropdown.button.recommendedGroups.message' | translate}}
+			</div>
+	  	</button>
+	  	<div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">
+	   		<a ng-if="loggedUser.subscribedGroups.length > 0" class="dropdown-item" ng-href="#/"><i class="dropdown-icon fas fa-user-friends"></i>
+				{{'dropdown.button.myfeed.message' | translate}}
+			</a>
+	    	<a class="dropdown-item" ng-href="#/all"><i class="dropdown-icon fas fa-list"></i>
+	    		{{'dropdown.button.all.message' | translate}}
+			</a>
+			<div class="dropdown-groups-text">
+				{{'dropdown.button.groups.title' | translate}}
+			</div>
+			<a class="dropdown-item" ng-href="#/myGroups"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
+				{{'dropdown.button.myGroups.message' | translate}}
+			</a>
+			<a class="dropdown-item" ng-href="#/groups"><i class="dropdown-icon fas fa-users"></i>
+				{{'dropdown.button.groups.message' | translate}}
+			</a>
+			<a class="dropdown-item" ng-href="#/recommendedGroups"><i class="dropdown-icon fas fa-user-plus"></i>
+				{{'dropdown.button.recommendedGroups.message' | translate}}
+			</a>
+			<div class="dropdown-groups-text">
+				{{'dropdown.button.other.title' | translate}}
+			</div>
+			<a class="dropdown-item" ng-href="#/profile/{{loggedUser.username}}">
+				<i class="dropdown-icon fas fa-user"></i>
+				{{'myProfile.message' | translate}}
+			</a>
+		</div>
+	</div>
+	<div ng-if="currentPath == '/groups/{{group.name}}' || currentPath == '/' || currentPath == '/all'" class="sort-indicator">
+		{{'dropdown.sort.button.title' | translate}}
+	</div>
+	<div ng-if="currentPath == '/groups/{{group.name}}' || currentPath == '/' || currentPath == '/all'" class="dropdown show">
+	  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  		<div ng-if="sort == 'top'">
+				<i class="dropdown-icon fas fa-fire"></i>
+				{{'dropdown.sort.button.top.message' | translate}}
+			</div>
+			<div ng-if="sort == 'controversial'">
+				<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+				{{'dropdown.sort.button.controversial.message' | translate}}
+			</div>
+			<div ng-if="sort == 'new'">
+				<i class="dropdown-icon fas fa-certificate"></i>
+				{{'dropdown.sort.button.new.message' | translate}}
+			</div>
+	  	</button>
+	  	<div class="dropdown-menu" aria-labelledby="dropdownSort">
+			<a class="dropdown-item" ng-href="{{buildURL({sort: 'new'})}}"><i class="dropdown-icon fas fa-certificate"></i>
+				{{'dropdown.sort.button.new.message' | translate}}<br>
+			</a>
+	    	<a class="dropdown-item" ng-href="{{buildURL({sort: 'top'})}}"><i class="dropdown-icon fas fa-fire"></i>
+				{{'dropdown.sort.button.top.message' | translate}}<br>
+			</a>
+			<a class="dropdown-item" ng-href="{{buildURL({sort: 'controversial'})}}"><i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+				{{'dropdown.sort.button.controversial.message' | translate}}<br>
+			</a>
+	  	</div>
+	</div>
+	<div class="search-navbar">
+		<div class="flex-column-center">
+		    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="{{'searchGroups.placeholder' | translate}}" aria-label="Search">
+		    <div class="list-group" id="groupsFound"></div>
+		</div>
+		<a id="searchGroupForm" class="create-post" ng-href="#/groups">
+			<button class="app-btn-outline" role="button">
+				{{'search.button.message' | translate}}
+			</button>
+		</a>
+	</div>
+	<a ng-if="loggedUser.subscribedGroups.length > 0" class="create-post margin-left-100" ng-href="#/createPost">
+		<button class="app-btn-primary" role="button">
+			<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
+			<span class="create-post-text">
+				{{'createPost.button.message' | translate}}
+			</span>
+		</button>
+	</a>
+	<a ng-if="loggedUser.subscribedGroups.length == 0" class="create-post margin-left-100" id="popoverPost" data-content="{{'createGroupFirst.message' | translate}}" rel="popover" data-placement="bottom" data-trigger="hover">
+		<button class="app-btn-primary-disabled" role="button">
+			<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
+			<span class="create-post-text">
+				{{'createPost.button.message' | translate}}
+			</span>
+		</button>
+	</a>
+	<a class="create-group" ng-href="#/createGroup">
+		<button class="app-btn-secondary" role="button">
+			<span class="create-group-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-users"></i></span>
+			<span class="create-group-text">
+				{{'createGroup.button.message' | translate}}
+			</span>
+		</button>
+	</a>
+	<div class="nav-item dropdown">
+		<div class="nav-link dropdown-toggle dropdown-component" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="dropdown-username-text">{{loggedUser.username}}</div>
+			<span class="dropdown-username-icon"><i class="fas fa-user"></i></span>
+		</div>
+    	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+     	 	<a class="dropdown-item" ng-href="#/profile/{{loggedUser.username}}">
+     	 		{{'myProfile.message' | translate}}
+			</a>
+    		<div class="dropdown-divider"></div>
+      		<a class="dropdown-item" ng-href="#/logout">
+				{{'logOut.button.message' | translate}}
+			</a>
+    	</div>
+  	</div>
+</nav>

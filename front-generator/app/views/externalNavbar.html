@@ -1,0 +1,109 @@
+<nav class="navbar-component navbar-component-external">
+	<a class="no-underline first-logo" ng-href="#/">
+		<h2 class="logo logo-full">Pawddit.</h2>
+		<h2 class="logo logo-reduced">P.</h2>
+	</a>
+	<div class="dropdown show drop-menu">
+	  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  		<div ng-if="currentPath == '/groups/{{group.name}}'">
+				<i class="dropdown-icon fas fa-users"></i>
+				<div class="dropdown-selected-group-overflow">{{group.name}}</div>
+			</div>
+			<div ng-if="currentPath == '/all'">
+				<i class="dropdown-icon fas fa-list"></i>
+				{{'dropdown.button.all.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/'">
+				<i class="dropdown-icon fas fa-list"></i>
+				{{'dropdown.button.all.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/profile/{{profile.username}}'">
+				<i class="dropdown-icon fas fa-user"></i>
+				{{profile.username}}
+			</div>
+			<div ng-if="currentPath == '/groups'">
+				<i class="dropdown-icon fas fa-users"></i>
+				{{'dropdown.button.groups.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/register'">
+				<i class="dropdown-icon fas fa-user-plus"></i>
+				{{'register.button.message' | translate}}
+			</div>
+			<div ng-if="currentPath == '/login'">
+				<i class="dropdown-icon fas fa-sign-in-alt"></i>
+				{{'login.button.message' | translate}}
+			</div>
+	  	</button>
+	  	<div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">
+	    	<a class="dropdown-item" ng-href="#/all"><i class="dropdown-icon fas fa-list"></i>
+				{{'dropdown.button.all.message' | translate}}
+			</a>
+			<div class="dropdown-groups-text">
+				{{'dropdown.button.groups.title' | translate}}
+			</div>
+			<a class="dropdown-item" ng-href="#/groups"><i class="dropdown-icon fas fa-users"></i>
+				{{'dropdown.button.groups.message' | translate}}
+			</a>
+			<div class="dropdown-groups-text">
+				{{'dropdown.button.other.title' | translate}}
+			</div>
+			<a class="dropdown-item" ng-href="#/login"><i class="dropdown-icon fas fa-sign-in-alt"></i>
+				{{'login.button.message' | translate}}
+			</a>
+			<a class="dropdown-item" ng-href="#/register"><i class="dropdown-icon fas fa-user-plus"></i>
+				{{'register.button.message' | translate}}
+			</a>
+		</div>
+	</div>
+	<div ng-if="currentPath == '/groups/{{group.name}}' || currentPath == '/' || currentPath == '/all'" class="sort-indicator">
+		{{'dropdown.sort.button.title' | translate}}
+	</div>
+	<div ng-if="currentPath == '/groups/{{group.name}}' || currentPath == '/' || currentPath == '/all'" class="dropdown show">
+	  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  		<div ng-if="sort == 'top'">
+				<i class="dropdown-icon fas fa-fire"></i>
+				{{'dropdown.sort.button.top.message' | translate}}
+			</div>
+			<div ng-if="sort == 'controversial'">
+				<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+				{{'dropdown.sort.button.controversial.message' | translate}}
+			</div>
+			<div ng-if="sort == 'new'">
+				<i class="dropdown-icon fas fa-certificate"></i>
+				{{'dropdown.sort.button.new.message' | translate}}
+			</div>
+	  	</button>
+	  	<div class="dropdown-menu" aria-labelledby="dropdownSort">
+			<a class="dropdown-item" ng-href="{{buildURL({sort: 'new'})}}"><i class="dropdown-icon fas fa-certificate"></i>
+				{{'dropdown.sort.button.new.message' | translate}}<br>
+			</a>
+	    	<a class="dropdown-item" ng-href="{{buildURL({sort: 'top'})}}"><i class="dropdown-icon fas fa-fire"></i>
+				{{'dropdown.sort.button.top.message' | translate}}<br>
+			</a>
+			<a class="dropdown-item" ng-href="{{buildURL({sort: 'controversial'})}}"><i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+				{{'dropdown.sort.button.controversial.message' | translate}}<br>
+			</a>
+	  	</div>
+	</div>
+	<div class="search-navbar">
+		<div class="flex-column-center">
+		    <input id="searchGroup" list="groupsFound" class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="{{'searchGroups.placeholder' | translate}}" aria-label="Search">
+		    <div class="list-group" id="groupsFound"></div>
+		</div>
+		<a id="searchGroupForm" class="create-post" ng-href="#/groups">
+			<button class="app-btn-outline" role="button">
+				{{'search.button.message' | translate}}
+			</button>
+		</a>
+	</div>
+	<a class="login-btn margin-left-180-150" ng-href="#/users/login">
+		<button  role="button" class="app-btn-primary login-btn">
+			{{'login.button.message' | translate}}
+		</button>
+	</a>
+	<a class="register-btn" ng-href="#/users/register">
+		<button  role="button" class="app-btn-primary">
+			{{'register.button.message' | translate}}
+		</button>
+	</a>
+</nav>

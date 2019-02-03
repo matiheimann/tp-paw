@@ -3,7 +3,12 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import 'bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
 // endbower
 
-@import 'partials/home';
+@import 'partials/application';
+@import 'partials/buttons';
+@import 'partials/account';
+@import 'partials/errorMessages';
+@import 'partials/fonts';
+@import 'partials/colors';
 
 .browsehappy {
   margin: 0.2em 0;
@@ -92,5 +97,3 @@ body {
     border-bottom: 0;
   }
 }
-
-

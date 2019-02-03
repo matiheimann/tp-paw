@@ -18,19 +18,20 @@ public class PostDto {
 	private int userVote;
 	
 	public static PostDto fromPost(Post post) {
+		if (post == null)
+			return null;
+		
 		final PostDto dto = new PostDto();
-		if (post != null) {
-			dto.title = post.getTitle();
-			dto.content = post.getContent();
-			dto.date = post.getDate();
-			dto.group = GroupDto.fromGroup(post.getGroup());
-			dto.owner = UserDto.fromUser(post.getOwner());
-			dto.postid = post.getPostid();
-			dto.imageid = post.getImageid();
-			dto.comments = post.getComments();
-			dto.votes = post.getVotes();
-			dto.userVote = post.getUserVote();
-		}
+		dto.title = post.getTitle();
+		dto.content = post.getContent();
+		dto.date = post.getDate();
+		dto.group = GroupDto.fromGroup(post.getGroup());
+		dto.owner = UserDto.fromUser(post.getOwner());
+		dto.postid = post.getPostid();
+		dto.imageid = post.getImageid();
+		dto.comments = post.getComments();
+		dto.votes = post.getVotes();
+		dto.userVote = post.getUserVote();
 		return dto;
 	}
 

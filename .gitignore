@@ -7,8 +7,11 @@
 .eslintrc
 bower_components/
 node_modules/
+node/
+dist/
 .sass-cache/
 .tmp/
+package-lock.json
 
 ### Eclipse ###
 

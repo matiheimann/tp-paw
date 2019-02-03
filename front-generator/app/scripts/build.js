@@ -23,7 +23,11 @@ require.config({
         scrollspy: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy',
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
-        transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition'
+        transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
+        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
+        'angular-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls',
+        'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
+        'angular-sanitize': '../../bower_components/angular-sanitize/angular-sanitize'
     },
     shim: {
         angular: {
@@ -53,6 +57,11 @@ require.config({
             ]
         },
         'angular-translate': {
+            deps: [
+                'angular'
+            ]
+        },
+        'angular-bootstrap': {
             deps: [
                 'angular'
             ]

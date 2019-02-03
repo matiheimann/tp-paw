@@ -1,0 +1,116 @@
+@import 'colors';
+
+.app-btn-primary,
+.app-btn-primary:visited,
+.app-btn-primary:focus {
+    color: $white;
+    cursor: pointer;
+    background-color: $primary-red;
+    border-color: $primary-red;
+    border-radius: 0.25rem;
+    height: 40px;
+}
+
+.app-btn-primary:focus {
+  outline-color: $focus-red;
+}
+
+.app-btn-primary:hover {
+  background-color: $focus-red;
+  border-color: $focus-red;
+}
+
+.app-btn-primary:active {
+  background-color: $focus-red;
+  border-color: $focus-red;
+  outline-color: $focus-red;
+}
+
+.app-btn-primary-disabled,
+.app-btn-primary-disabled:focus {
+  border: 0;
+  color: $white;
+  background-color: $disabled-red;
+  border-radius: 0.25rem;
+  height: 40px;
+  outline: 0;
+}
+
+
+.app-btn-secondary,
+.app-btn-secondary:visited,
+.app-btn-secondary:focus {
+    color: $white;
+    cursor: pointer;
+    background-color: $secondary-grey;
+    border-color: $secondary-grey;
+    border-radius: 0.25rem;
+    height: 40px;
+}
+
+.app-btn-secondary:focus {
+  outline-color: $focus-grey;
+}
+
+.app-btn-secondary:hover {
+  background-color: $focus-grey;
+  border-color: $focus-grey;
+}
+
+.app-btn-secondary:active {
+  background-color: $focus-grey;
+  border-color: $focus-grey;
+  outline-color: $focus-grey;
+}
+
+.app-btn-outline,
+.app-btn-outline:visited,
+.app-btn-outline:focus {
+    color:  $primary-red;
+    cursor: pointer;
+    background-color: $white;
+    border: 1px solid  $primary-red;
+    border-radius: 0.25rem;
+    height: 40px;
+}
+
+.app-btn-outline:focus {
+  outline-color: $primary-red;
+  color: $white
+}
+
+.app-btn-outline:hover {
+  background-color: $primary-red;
+  border-color: $primary-red;
+  color: $white
+}
+
+.app-btn-outline:active {
+  background-color: $primary-red;
+  border-color: $primary-red;
+  color: $white;
+  outline-color: $primary-red;
+}
+
+.all-post-btn {
+  margin: 0 15px;
+}
+
+
+.header-button {
+	background-color: $primary-red;
+	color: $white;
+	border-radius: 5px;
+	display: inline-block;
+	height: 23px;
+	padding: 2px 5px;
+	margin: 0 10px;
+}
+
+.header-button-delete {
+	color: $grey;
+	font-size: 15px;
+	margin-left: auto;
+	display: inline-block;
+	padding: 2px;
+}

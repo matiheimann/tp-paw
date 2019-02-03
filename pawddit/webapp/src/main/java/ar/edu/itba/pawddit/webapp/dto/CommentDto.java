@@ -17,18 +17,50 @@ public class CommentDto {
 	private int replies;
 	
 	public static CommentDto fromComment(Comment comment) {
+		if (comment == null)
+			return null;
+		
 		final CommentDto dto = new CommentDto();
-		if (comment != null) {
-			dto.content = comment.getContent();
-			dto.post = PostDto.fromPost(comment.getPost());
-			dto.replyTo = fromComment(comment.getReplyTo());
-			dto.owner = UserDto.fromUser(comment.getOwner());
-			dto.date = comment.getDate();
-			dto.commentid = comment.getCommentid();
-			dto.votes = comment.getVotes();
-			dto.userVote = comment.getUserVote();
-			dto.replies = comment.getReplies();
-		}
+		dto.content = comment.getContent();
+		dto.post = PostDto.fromPost(comment.getPost());
+		dto.replyTo = fromCommentWithoutPostAndReplyTo(comment.getReplyTo());
+		dto.owner = UserDto.fromUser(comment.getOwner());
+		dto.date = comment.getDate();
+		dto.commentid = comment.getCommentid();
+		dto.votes = comment.getVotes();
+		dto.userVote = comment.getUserVote();
+		dto.replies = comment.getReplies();
+		return dto;
+	}
+	
+	public static CommentDto fromCommentWithoutPost(Comment comment) {
+		if (comment == null)
+			return null;
+		
+		final CommentDto dto = new CommentDto();
+		dto.content = comment.getContent();
+		dto.replyTo = fromCommentWithoutPostAndReplyTo(comment.getReplyTo());
+		dto.owner = UserDto.fromUser(comment.getOwner());
+		dto.date = comment.getDate();
+		dto.commentid = comment.getCommentid();
+		dto.votes = comment.getVotes();
+		dto.userVote = comment.getUserVote();
+		dto.replies = comment.getReplies();
+		return dto;
+	}
+	
+	public static CommentDto fromCommentWithoutPostAndReplyTo(Comment comment) {
+		if (comment == null)
+			return null;
+		
+		final CommentDto dto = new CommentDto();
+		dto.content = comment.getContent();
+		dto.owner = UserDto.fromUser(comment.getOwner());
+		dto.date = comment.getDate();
+		dto.commentid = comment.getCommentid();
+		dto.votes = comment.getVotes();
+		dto.userVote = comment.getUserVote();
+		dto.replies = comment.getReplies();
 		return dto;
 	}
 

@@ -88,7 +88,7 @@ public class CommentController {
 				return Response.ok(
 					new GenericEntity<List<CommentDto>>(
 						comments.stream()
-							.map(CommentDto::fromComment)
+							.map(CommentDto::fromCommentWithoutPost)
 							.collect(Collectors.toList())
 					) {}
 				).build();

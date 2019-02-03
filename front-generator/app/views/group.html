@@ -1,12 +1,30 @@
-<div class="jumbotron">
-	<h1>'Allo, 'Allo!</h1>
-	<p class="lead">
-		<img src="images/yeoman.png" alt="I'm Yeoman"><br>
-		{{'WELCOME_CONTROLLER' | translate}}
+<div class="group-component">
+	<h2 class="group-component-title">{{group.name}}</h2>
+	<p class="group-description">
+		{{group.description}}
 	</p>
-	<p><a class="btn btn-lg btn-success" ng-href="#">Incredible!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
-
-<div class="row marketing">
-	<p>{{'WELCOME_CONTROLLER_FOLLOWUP' | translate}}</p>
+	<hr>
+	<div class="group-footer">
+		<div class="info-item owned-by">
+			{{'groupMembers.owner.message' | translate}}
+			<span class="group-owner-btn clickable" ng-click="gotoProfile(post.owner.username)">{{group.owner.username}}</span>
+		</div>
+		<div class="info-item">
+		  	<strong>
+		  		<i class="fas fa-users"></i>
+		  		{{group.suscriptors}} {{(group.suscriptors == 1 ? 'groupMember.message' : 'groupMembers.message') | translate}}
+		  	</strong>
+		</div>
+		<div class="info-item">
+			<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)" class="form-group">
+				<button ng-if="!group.userSub" class="app-btn-primary" ng-click="subscribe(group.name)">
+					{{'joinGroup.button.message' | translate}}
+				</button>
+				<button ng-if="group.userSub" class="app-btn-primary" ng-click="unsubscribe(group.name)">
+					{{'leaveGroup.button.message' | translate}}
+				</button>
+			</div>
+		</div>
+		<i ng-if="loggedUser.userid == group.owner.userid || loggedUser.admin" class="header-button-delete-group fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmGroupDeletion"></i>
+	</div>
 </div>

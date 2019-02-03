@@ -1,43 +1,75 @@
 <!doctype html>
 <html class="no-js">
-<head>
-  <meta charset="utf-8">
-  <title>pawddit</title>
-  <meta name="description" content="">
+	<head>
+	  	<meta charset="utf-8">
+  		<title>Pawddit.</title>
+  		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
+		<link rel="icon" href="images/tab-logo.png">
 
-</head>
-<body ng-controller="IndexCtrl">
-  <!--[if lt IE 7]>
-  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
-  <!-- Add your site or application content here -->
-  <div class="container">
-    <div class="header">
-      <ul class="nav nav-pills pull-right">
-        <li class="active"><a ng-href="#">Home</a></li>
-        <li><a ng-href="#/about">About</a></li>
-        <li><a ng-href="#">Contact</a></li>
-      </ul>
-      <h3 class="text-muted">pawddit</h3>
-    </div>
-    <div ng-view=""></div>
+		<!-- build:css(.tmp) "styles/css/account.css -->
+		<link rel="stylesheet" href="styles/css/account.css">
+		<!-- endbuild -->
 
-    <div class="footer">
-      <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-    </div>
-  </div>
+		<!-- build:css(.tmp) styles/css/application.css -->
+		<link rel="stylesheet" href="styles/css/application.css">
+		<!-- endbuild -->
 
- <!-- build:js(.) scripts/oldieshim.js -->
-  <!--[if lt IE 9]>
-  <script src="bower_components/es5-shim/es5-shim.js"></script>
-  <script src="bower_components/json3/lib/json3.js"></script>
-  <![endif]-->
-  <!-- endbuild -->
-  <script src="/scripts/paths.js"></script>
-  <script src="bower_components/requirejs/require.js" data-main="/scripts/build.js"></script>
-</body>
+		<!-- build:css(.tmp) styles/css/buttons.css -->
+		<link rel="stylesheet" href="styles/css/buttons.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/createGroup.css -->
+		<link rel="stylesheet" href="styles/css/createGroup.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/createPost.css -->
+		<link rel="stylesheet" href="styles/css/createPost.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/errorMessages.css -->
+		<link rel="stylesheet" href="styles/css/errorMessages.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/group.css -->
+		<link rel="stylesheet" href="styles/css/group.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/post.css -->
+		<link rel="stylesheet" href="styles/css/post.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/profile.css -->
+		<link rel="stylesheet" href="styles/css/profile.css">
+		<!-- endbuild -->
+
+		<!-- build:css(.tmp) styles/css/template.css -->
+		<link rel="stylesheet" href="styles/css/template.css">
+		<!-- endbuild -->
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Kosugi" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	</head>
+	<body class="main-font" ng-controller="IndexCtrl">
+		<ng-include src="!isLoggedIn ? 'views/externalNavbar.html' : 'views/internalNavbar.html'"></ng-include>
+		<div ng-view=""></div>
+		<footer class="footer-component">
+			<div class="footer-logo-container">
+				<h1 class="logo footer-logo">Pawddit.</h1>
+			</div>
+			Pawddit® is a registered trademark. Authors: Matías Heimann, Lóránt Mikolás, Diego Bruno and Johnathan Katan.
+		</footer>
+
+		<!-- build:js(.) scripts/oldieshim.js -->
+  		<!--[if lt IE 9]>
+  			<script src="bower_components/es5-shim/es5-shim.js"></script>
+  			<script src="bower_components/json3/lib/json3.js"></script>
+  		<![endif]-->
+  		<!-- endbuild -->
+  		<script src="/scripts/paths.js"></script>
+  		<script src="bower_components/requirejs/require.js" data-main="/scripts/build.js"></script>
+	</body>
 </html>

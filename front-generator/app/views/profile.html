@@ -1,0 +1,150 @@
+<div class="application-background">
+	<div class="center-content">
+		<div class="activity-component">
+			<div ng-if="!profile.imageid" class="user-image-container-no-picture">
+				<i class="fas fa-user fa-3x"></i>
+			</div>
+			<div ng-if="profile.imageid" class="user-image-container">
+				<img class="profile-picture" ng-src="{{getImageURL(profile.imageid)}}"/>
+			</div>
+			<div ng-if="loggedUser.username == profile.username" class="clickable edit-prfile-image-modal-opener" data-toggle="modal" data-target="#changeProfileImageModal">
+				{{'user.modal.changeImage.message' | translate}}
+				<i class="fas fa-edit"></i>
+			</div>
+		   	<label ng-if="error" class="formError">
+		   		{{'image.upload.failed.message' | translate}}
+		   	</label>
+			<h5 class="username-title">{{profile.username}}</h5>
+			<h4 class="margin-title">
+				{{'profileActivity.title' | translate}}
+			</h4>
+			<h6 class="margin-title lightgrey">
+				{{'profileActivity.message' | translate}}
+			</h6>
+			<nav class="activity">
+				<div class="nav nav-tabs" id="nav-tab" role="tablist">
+					<a class="nav-item nav-link active" id="nav-posts-tab" data-toggle="tab" href="#nav-posts" role="tab" aria-controls="nav-posts" aria-selected="true">
+						{{'profilePosts.title' | translate}}
+					</a>
+					<a class="nav-item nav-link" id="nav-comments-tab" data-toggle="tab" href="#nav-comments" role="tab" aria-controls="nav-comments" aria-selected="false">
+						{{'profileComments.title' | translate}}
+					</a>
+		 		</div>
+			</nav>
+			<div class="tab-content center-posts" id="nav-tabContent">
+		  		<div class="tab-pane fade show active overflow-y-scroll width-full height-full padding-bottom-10" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
+					<div ng-if="lastPosts.length == 0">
+						<br>
+		  				<strong>
+		  					<spring:message code="userDoesNotHavePosts.message" arguments="${userProfile.username}" />
+		  				</strong>
+					</div>
+					<!-- Posts -->
+					<div ng-if="lastPosts.length > 0" ng-repeat="post in lastPosts" class="activity-posts-component">
+						<div class="post-header">
+							<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
+								{{'post.owner.username' | translate}}
+							</span>
+							<span><strong>
+								{{'postedIn.message' | translate}}
+							</strong></span>
+							<a class="no-underline" ng-href="#/groups/{{post.group.name}}">
+								<span class="header-button group-name">{{post.group.name}}</span>
+							</a>
+							<span><strong>
+								{{post.date}}
+							</strong></span>
+						</div>
+						<hr>
+						<div class="clickable post-center" ng-click="gotoPost(post.group.name, post.postid)">
+							<div class="post-center-text">
+								<h2 class="post-wrap">{{post.title}}</h2>
+								<div class="post-description-text post-wrap">
+									{{post.content}}
+								</div>
+							</div>
+							<img ng-if="post.imageid != null" class="post-center-image" ng-src="{{getImageURL(post.imageid)}}"/>
+						</div>
+						<hr>
+						<div class="post-info">
+							<div class="info-item">
+					        	<strong><i class="fas fa-comment"></i>
+					         		{{post.comments}} {{'comments.message' | translate}}
+					         	</strong>
+					    	</div>
+							<div class="info-item">
+								<strong class="score-count">
+									{{post.votes}} {{'posts.votes' | translate}}
+								</strong>
+					    	</div>
+						</div>
+					</div>
+				</div>
+		  		<div class="tab-pane fade overflow-y-scroll width-full height-full padding-bottom-10" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
+					<div ng-if="lastComments.length == 0">
+						<br>
+						<strong>
+							{{'userDoesNotHaveComments.message' | translate}}
+						</strong>
+					</div>
+					<div ng-if="lastComments.length > 0" ng-repeat="comment in lastComments" class="activity-comments-component">
+						<div class="comment-header">
+							<span class="header-button clickable" ng-click="gotoProfile(comment.owner.username)">
+								{{comment.owner.username}}
+							</span>
+							<span><strong>
+								{{'commentedIn.message' | translate}}
+							</strong></span>
+							<a class="no-underline" ng-href="#/groups/{{comment.post.group.name}}/posts/{{comment.post.postid}}">
+								<span class="header-button group-name">
+									{{comment.post.title}}
+								</span>
+							</a>
+							<span><strong>
+								{{'postedIn.message' | translate}}
+							</strong></span>
+							<a class="no-underline" ng-href="#/groups/{{comment.post.group.name}}">
+								<span class="header-button group-name">
+									{{comment.post.group.name}}
+								</span>
+							</a>
+							<span><strong>
+								{{comment.date}}
+							</strong></span>
+						</div>
+						<hr class="comment-separator">
+						<div ng-if="comment.replyTo" class="comment-reply">
+				        	<div class="comment-header">
+				           		<span class="header-button clickable comment-reply-button-color" ng-click="gotoProfile(comment.replyTo.owner.username)">
+				                	{{comment.replyTo.owner.username}}
+				            	</span>
+				            	<span><strong>
+				                	{{comment.replyTo.date}}
+				            	</strong></span>
+				        	</div>
+				        	<hr class="comment-separator">
+				        	<div class="comment-component-content">
+				            	{{comment.replyTo.content}}
+				        	</div>
+				    	</div>
+						<div class="comment-component-content">
+							{{comment.content}}
+						</div>
+						<div class="comment-footer">
+							<div class="info-item votes-controls">
+								<strong class="score-count">
+									{{comment.votes}} {{'comment.votes' | translate}}
+								</strong>
+							</div>
+							<div class="info-item">
+								<strong>
+									{{group.suscriptors}} {{(comment.replies == 1 ? 'comments.moreReply.button.message' : 'comments.moreReplies.button.message') | translate}}
+								</strong>
+							</div>
+						</div>
+			    	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

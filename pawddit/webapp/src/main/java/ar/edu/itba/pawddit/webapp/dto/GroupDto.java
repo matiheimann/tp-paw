@@ -14,15 +14,16 @@ public class GroupDto {
 	private boolean userSub;
 	
 	public static GroupDto fromGroup(Group group) {
+		if (group == null)
+			return null;
+		
 		final GroupDto dto = new GroupDto();
-		if (group != null) {
-			dto.name = group.getName();
-			dto.date = group.getDate();
-			dto.description = group.getDescription();
-			dto.owner = UserDto.fromUser(group.getOwner());
-			dto.suscriptors = group.getSuscriptors();
-			dto.userSub = group.getUserSub();
-		}
+		dto.name = group.getName();
+		dto.date = group.getDate();
+		dto.description = group.getDescription();
+		dto.owner = UserDto.fromUser(group.getOwner());
+		dto.suscriptors = group.getSuscriptors();
+		dto.userSub = group.getUserSub();
 		return dto;
 	}
 

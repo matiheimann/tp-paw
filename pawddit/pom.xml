@@ -43,6 +43,8 @@
     <org.hibernate.jpa.version>1.0.0.Final</org.hibernate.jpa.version>
     <org.thymeleaf-spring5>3.0.11.RELEASE</org.thymeleaf-spring5>
     <jersey.version>3.0-SNAPSHOT</jersey.version>
+    <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+    <jetty.version>9.4.8.v20171121</jetty.version>
   </properties>
   <build>
     <plugins>
@@ -258,10 +260,15 @@
 		 <version>${jersey.version}</version>
 	  </dependency>
 	  <dependency>
-         <groupId>org.glassfish.jersey.media</groupId>
-         <artifactId>jersey-media-multipart</artifactId>
-         <version>${jersey.version}</version>
-      </dependency>
+     <groupId>org.glassfish.jersey.media</groupId>
+     <artifactId>jersey-media-multipart</artifactId>
+     <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+     <groupId>org.eclipse.jetty</groupId>
+     <artifactId>jetty-servlets</artifactId>
+     <version>${jetty.version}</version>
+    </dependency>
     </dependencies>
   </dependencyManagement>
 

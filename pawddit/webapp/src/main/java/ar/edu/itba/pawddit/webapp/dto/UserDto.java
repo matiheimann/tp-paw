@@ -10,13 +10,14 @@ public class UserDto {
 	private long userid;
 	
 	public static UserDto fromUser(User user) {
+		if (user == null)
+			return null;
+		
 		final UserDto dto = new UserDto();
-		if (user != null) {
-			dto.username = user.getUsername();
-			dto.isAdmin = user.getIsAdmin();
-			dto.imageid = user.getImageid();
-			dto.userid = user.getUserid();
-		}
+		dto.username = user.getUsername();
+		dto.isAdmin = user.getIsAdmin();
+		dto.imageid = user.getImageid();
+		dto.userid = user.getUserid();
 		return dto;
 	}
 

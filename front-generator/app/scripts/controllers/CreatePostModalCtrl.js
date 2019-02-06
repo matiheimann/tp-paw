@@ -12,7 +12,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 			if ($scope.createPostForm.$valid) {
 				restService.createPost($scope.newPost.groupNname, $scope.newPost.title, $scope.newPost.content, $scope.newPost.file).then(function(response) {             
 					$modal.dismiss();
-					$location.url(response.headers.get('Location'));
+					$location.url('/groups/' + response.data.group.name + '/posts/' + response.data.postid);
 				});
 			}
 		};

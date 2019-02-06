@@ -115,7 +115,7 @@ public class PostController {
 
 				final Post post = ps.create(form.getTitle(), form.getContent(), LocalDateTime.now(), g, user, imageId);
 				final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(post.getPostid())).build();
-				return Response.created(uri).build();
+				return Response.created(uri).entity(PostDto.fromPost(post)).build();
 			}
 			else {
 				return Response.status(Status.BAD_REQUEST).build();

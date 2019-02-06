@@ -13,7 +13,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 			if ($scope.createGroupForm.$valid) {
 				restService.createGroup($scope.newGroup.name, $scope.newGroup.description).then(function(response) {             
 					$modal.dismiss();
-					$location.url(response.headers.get('Location'));
+					$location.url('/groups/' + response.data.name);
 				})
 				.catch(function(response) {
 					$scope.groupnameNotRepeatedError = true;

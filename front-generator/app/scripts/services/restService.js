@@ -215,8 +215,8 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			createGroup: function(name, description) {
 				var data = {name: name, description: description};
 				var formData = new FormData();
-				formData.append('createGroup', data);
-				return httpPost('/groups/', formData, {}, false);
+				formData.append('createGroup', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+				return httpPost('/groups', formData, {}, true);
 			},
 			createPost: function(groupname, title, content, file) {
 				var data = {title: title, content: content, file: file};

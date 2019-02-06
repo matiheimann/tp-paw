@@ -95,7 +95,7 @@ public class UserController {
 		mss.sendVerificationToken(user, token, uriInfo.getBaseUri().toString(), LocaleContextHolder.getLocale());
 		
 		final URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
-		return Response.created(uri).build();
+		return Response.created(uri).entity(UserDto.fromUser(user)).build();
 	}
 	
 	@GET

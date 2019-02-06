@@ -124,7 +124,7 @@ public class CommentController {
 					comment = cs.create(form.getContent(), post, null, user, LocalDateTime.now());
 				}
 				final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(comment.getCommentid())).build();
-				return Response.created(uri).build();
+				return Response.created(uri).entity(CommentDto.fromComment(comment)).build();
 			}
 			else {
 				return Response.status(Status.BAD_REQUEST).build();

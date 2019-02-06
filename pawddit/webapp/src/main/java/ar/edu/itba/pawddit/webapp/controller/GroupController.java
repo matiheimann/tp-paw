@@ -79,7 +79,7 @@ public class GroupController {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createGroup(
 			@Valid @FormDataParam("createGroup") final CreateGroupForm form) {
@@ -88,7 +88,7 @@ public class GroupController {
 		if (user != null) {
 			final Group group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
 			final URI uri = uriInfo.getAbsolutePathBuilder().path(group.getName()).build();
-			return Response.created(uri).build();
+			return Response.created(uri).entity(GroupDto.fromGroup(group)).build();
 			
 		}
 		else {

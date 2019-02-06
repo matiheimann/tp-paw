@@ -1,5 +1,5 @@
 'use strict';
-define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl'], function(pawddit) {
+define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl'], function(pawddit) {
 
 	pawddit.service('modalService', ['$uibModal', function($uibModal) {
 
@@ -15,6 +15,14 @@ define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCt
 			return $uibModal.open({
 				templateUrl: 'views/createGroupModal.html',
 				controller: 'CreateGroupModalCtrl',
+				size: 'md'
+			});
+		};
+
+		this.createPostModal = function() {
+			return $uibModal.open({
+				templateUrl: 'views/createPostModal.html',
+				controller: 'CreatePostModalCtrl',
 				size: 'md'
 			});
 		};

@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import ar.edu.itba.pawddit.webapp.auth.PawdditLoginSuccessHandler;
@@ -76,6 +77,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessHandler(new PawdditLogoutSuccessHandler())
 			.and().exceptionHandling()
 				.accessDeniedPage("/404")
+				.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 			.and().csrf().disable()
 				.addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
 	}

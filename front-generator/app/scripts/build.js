@@ -26,8 +26,6 @@ require.config({
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
         'angular-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls',
-        'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
-        'angular-sanitize': '../../bower_components/angular-sanitize/angular-sanitize',
         'angular-cookies': '../../bower_components/angular-cookies/angular-cookies'
     },
     shim: {

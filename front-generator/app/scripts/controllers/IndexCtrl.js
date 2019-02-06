@@ -14,6 +14,9 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 					$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
 				});
 			}
+		}).catch(function(response) {
+			$scope.loggedUser = null;
+			$scope.isLoggedIn = false;
 		});
 
 		$scope.$on('user:updated', function() {
@@ -25,13 +28,14 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 						$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
 					});
 				}
+			}).catch(function(response) {
+				$scope.loggedUser = null;
+				$scope.isLoggedIn = false;
 			});
 		});
 
 		$scope.logout = function() {
 			restService.logoutUser().then(function(data) {
-				$scope.loggedUser = null;
-				$scope.isLoggedIn = false;
 				$rootScope.$broadcast('user:updated');
 			});
 		};
@@ -65,6 +69,7 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 
 		$scope.$on('$locationChangeSuccess', function(event) {
 			$scope.currentPath = $location.path();
+			console.log($scope.currentPath);
 		});
 
 		$scope.gotoProfile = function(name) {

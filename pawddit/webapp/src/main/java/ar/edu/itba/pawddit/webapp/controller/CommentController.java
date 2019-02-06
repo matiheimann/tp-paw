@@ -154,7 +154,7 @@ public class CommentController {
 			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
 			final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-			return Response.ok(CommentDto.fromComment(comment)).build();
+			return Response.ok(CommentDto.fromCommentWithoutPost(comment)).build();
 		}
 		catch (GroupNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

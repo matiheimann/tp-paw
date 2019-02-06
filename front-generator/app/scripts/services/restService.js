@@ -186,22 +186,22 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				return httpGet('/users/me/recommendedGroups', {});
 			},
 			subscribeGroup: function(name) {
-				return httpPut('/groups/' + name + '/subscribe', {});
+				return httpPut('/groups/' + name + '/subscribe', {}, false);
 			},
 			unsubscribeGroup: function(name) {
-				return httpPut('/groups/' + name + '/unsubscribe', {});
+				return httpPut('/groups/' + name + '/unsubscribe', {}, false);
 			},
 			upvotePost: function(name, id) {
-				return httpPut('/groups/' + name + '/posts/' + id + '/upvote', {});
+				return httpPut('/groups/' + name + '/posts/' + id + '/upvote', {}, false);
 			},
 			downvotePost: function(name, id) {
-				return httpPut('/groups/' + name + '/posts/' + id + '/downvote', {});
+				return httpPut('/groups/' + name + '/posts/' + id + '/downvote', {}, false);
 			},
 			upvoteComment: function(name, pid, cid) {
-				return httpPut('/groups/' + name + '/posts/' + pid + '/comments/' + cid + '/upvote', {});
+				return httpPut('/groups/' + name + '/posts/' + pid + '/comments/' + cid + '/upvote', {}, false);
 			},
 			downvoteComment: function(name, pid, cid) {
-				return httpPut('/groups/' + name + '/posts/' + pid + '/comments/' + cid + '/downvote', {});
+				return httpPut('/groups/' + name + '/posts/' + pid + '/comments/' + cid + '/downvote', {}, false);
 			},
 			deleteGroup: function(name) {
 				return httpDelete('/groups/' + name, {});
@@ -216,25 +216,25 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				var data = {name: name, description: description};
 				var formData = new FormData();
 				formData.append('createGroup', data);
-				return httpPost('/groups/', formData, {});
+				return httpPost('/groups/', formData, {}, false);
 			},
 			createPost: function(groupname, title, content, file) {
 				var data = {title: title, content: content, file: file};
 				var formData = new FormData();
 				formData.append('createPost', data);
-				return httpPost('/groups/' + groupname + '/posts', formData, {});
+				return httpPost('/groups/' + groupname + '/posts', formData, {}, true);
 			},
 			createComment: function(groupname, pid, content, replyTo) {
 				var data = {content: content, replyTo: replyTo};
 				var formData = new FormData();
 				formData.append('createComment', data);
-				return httpPost('/groups/' + groupname + '/posts/' + pid + '/comments', formData, {});
+				return httpPost('/groups/' + groupname + '/posts/' + pid + '/comments', formData, {}, false);
 			},
 			registerUser: function(email, username, password, repeatPassword) {
 				var data = {email: email, username: username, password: password, repeatPassword: repeatPassword};
 				var formData = new FormData();
 				formData.append('createUser', data);
-				return httpPost('/users/register', formData, {});
+				return httpPost('/users/register', formData, {}, false);
 			},
 			loginUser: function(username, password, rememberMe) {
 				var data;
@@ -252,7 +252,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				var data = {file: file};
 				var formData = new FormData();
 				formData.append('modifyUser', data);
-				return httpPost('/users/me', formData, {});
+				return httpPost('/users/me', formData, {}, true);
 			}
 		};
 	}]);

@@ -5,7 +5,7 @@
 	</a>
 	<div class="dropdown show drop-menu">
 	  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	  		<div ng-if="currentPath == '/groups/{{group.name}}'">
+	  		<div ng-if="currentPath == ('/groups/' + group.name)">
 				<i class="dropdown-icon fas fa-users"></i>
 				<div class="dropdown-selected-group-overflow">{{group.name}}</div>
 			</div>
@@ -17,7 +17,7 @@
 				<i class="dropdown-icon fas fa-user-friends"></i>
 				{{'dropdown.button.myfeed.message' | translate}}
 			</div>
-			<div ng-if="currentPath == '/profile/{{profile.username}}'">
+			<div ng-if="currentPath == ('/profile/' + profile.username)">
 				<i class="dropdown-icon fas fa-user"></i>
 				{{profile.username}}
 			</div>

@@ -23,9 +23,10 @@ define(['routes',
 				'$filterProvider',
 				'$provide',
 				'$translateProvider',
+				'$qProvider',
 				'$locationProvider',
 				'$httpProvider',
-				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, $locationProvider, $httpProvider) {
+				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, $qProvider, $locationProvider, $httpProvider) {
 
 					pawddit.controller = $controllerProvider.register;
 					pawddit.directive = $compileProvider.directive;
@@ -56,6 +57,7 @@ define(['routes',
 					$translateProvider.translations('preferredLanguage', i18n);
 					$translateProvider.preferredLanguage('preferredLanguage');
 
+					// $qProvider.errorOnUnhandledRejections(false);
 					$locationProvider.hashPrefix('');
 					$httpProvider.defaults.withCredentials = true;
 				}])

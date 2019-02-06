@@ -9,10 +9,8 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 		};
 
 		$scope.doSubmit = function() {
-			if($scope.createPostForm.$valid) {
-				restService.createPost($scope.newPost.groupNname, $scope.newPost.title, 
-					$scope.newPost.content, $scope.newPost.file)
-				.then(function(response) {             
+			if ($scope.createPostForm.$valid) {
+				restService.createPost($scope.newPost.groupNname, $scope.newPost.title, $scope.newPost.content, $scope.newPost.file).then(function(response) {             
 					$modal.dismiss();
 					$location.url(response.headers.get('Location'));
 				});

@@ -7,7 +7,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
 			return $http.get(url + path + params)
 				.then(function(response) { 
-					return response.data; 
+					return response; 
 				})
 				.catch(function(response) {
 					return $q.reject(response);
@@ -19,7 +19,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			if (isMultipart) {
 				return $http.post(url + path + params, data, multipartConfig())
 					.then(function(response) { 
-						return response.data; 
+						return response; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -27,7 +27,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			} else {
 				return $http.post(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
 					.then(function(response) { 
-						return response.data; 
+						return response; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -40,7 +40,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			if (isMultipart) {
 				return $http.put(url + path + params, data, multipartConfig())
 					.then(function(response) { 
-						return response.data; 
+						return response; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -48,7 +48,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			} else {
 				return $http.put(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
 					.then(function(response) { 
-						return response.data; 
+						return response; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -60,7 +60,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
 			return $http.delete(url + path + params)
 				.then(function(response) { 
-					return response.data; 
+					return response; 
 				})
 				.catch(function(response) {
 					return $q.reject(response);

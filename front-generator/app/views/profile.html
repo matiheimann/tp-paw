@@ -36,14 +36,14 @@
 					<div ng-if="lastPosts.length == 0">
 						<br>
 		  				<strong>
-		  					<spring:message code="userDoesNotHavePosts.message" arguments="${userProfile.username}" />
+		  					{{'userDoesNotHavePosts.message' | translate}}
 		  				</strong>
 					</div>
 					<!-- Posts -->
 					<div ng-if="lastPosts.length > 0" ng-repeat="post in lastPosts" class="activity-posts-component">
 						<div class="post-header">
 							<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
-								{{'post.owner.username' | translate}}
+								{{post.owner.username}}
 							</span>
 							<span><strong>
 								{{'postedIn.message' | translate}}
@@ -133,12 +133,15 @@
 						<div class="comment-footer">
 							<div class="info-item votes-controls">
 								<strong class="score-count">
-									{{comment.votes}} {{'comment.votes' | translate}}
+									{{comment.votes}} {{'comments.votes' | translate}}
 								</strong>
 							</div>
 							<div class="info-item">
-								<strong>
-									{{group.suscriptors}} {{(comment.replies == 1 ? 'comments.moreReply.button.message' : 'comments.moreReplies.button.message') | translate}}
+								<strong ng-if="comment.replies == 1">
+									{{comment.replies}} {{'comments.moreReply.button.message' | translate}}
+								</strong>
+								<strong ng-if="comment.replies > 1">
+									{{comment.replies}} {{'comments.moreReplies.button.message' | translate}}
 								</strong>
 							</div>
 						</div>

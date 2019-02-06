@@ -21,8 +21,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+import ar.edu.itba.pawddit.webapp.auth.PawdditLoginSuccessHandler;
+import ar.edu.itba.pawddit.webapp.auth.PawdditLogoutSuccessHandler;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
+import ar.edu.itba.pawddit.webapp.auth.WebSecurityCorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -49,26 +54,30 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/api/users/login").anonymous()
 				.antMatchers(HttpMethod.POST, "/api/users/register").anonymous()
+				.antMatchers("/api/users/logout").authenticated()
 				.antMatchers("/api/users/me/**").authenticated()
 				.antMatchers(HttpMethod.POST).authenticated()
 				.antMatchers(HttpMethod.DELETE).authenticated()
 				.antMatchers(HttpMethod.PUT).authenticated()
 				.antMatchers("/**").permitAll()
 			.and().formLogin()
-				.usernameParameter("j_username")
-				.passwordParameter("j_password")
+				.usernameParameter("jUsername")
+				.passwordParameter("jPassword")
 				.loginProcessingUrl("/api/users/login")
+				.successHandler(new PawdditLoginSuccessHandler())
+				.failureHandler(new SimpleUrlAuthenticationFailureHandler())
 			.and().rememberMe()
-				.rememberMeParameter("j_rememberme")
+				.rememberMeParameter("jRememberme")
 				.userDetailsService(userDetailsService)
 				.key(getRememberMeKey())
 				.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
 			.and().logout()
 				.logoutUrl("/api/users/logout")
-				.logoutSuccessUrl("/")
+				.logoutSuccessHandler(new PawdditLogoutSuccessHandler())
 			.and().exceptionHandling()
-				.accessDeniedPage("/invalidUrl")
-			.and().csrf().disable();
+				.accessDeniedPage("/404")
+			.and().csrf().disable()
+				.addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
 	}
 	
 	private String getRememberMeKey() {

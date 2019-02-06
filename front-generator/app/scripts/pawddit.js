@@ -4,12 +4,14 @@ define(['routes',
 	'i18n/i18nLoader!',
 	'angular',
 	'angular-route',
+	'angular-cookies',
 	'angular-bootstrap',
 	'bootstrap',
 	'angular-translate'],
 	function(config, dependencyResolverFor, i18n) {
 		var pawddit = angular.module('pawddit', [
 			'ngRoute',
+			'ngCookies',
 			'pascalprecht.translate',
 			'ui.bootstrap'
 		]);
@@ -22,7 +24,8 @@ define(['routes',
 				'$provide',
 				'$translateProvider',
 				'$locationProvider',
-				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, $locationProvider) {
+				'$httpProvider',
+				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, $locationProvider, $httpProvider) {
 
 					pawddit.controller = $controllerProvider.register;
 					pawddit.directive = $compileProvider.directive;
@@ -54,6 +57,7 @@ define(['routes',
 					$translateProvider.preferredLanguage('preferredLanguage');
 
 					$locationProvider.hashPrefix('');
+					$httpProvider.defaults.withCredentials = true;
 				}])
 			// .value('url', 'http://pawserver.it.itba.edu.ar/paw-2018b-08/api')
 			.value('url', 'http://localhost:8080/webapp/api');

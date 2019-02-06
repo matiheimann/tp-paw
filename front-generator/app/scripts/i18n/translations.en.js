@@ -19,8 +19,8 @@ define([], function() {
 		'Size.createCommentForm.content': 'Message length must be between {2} and {1} characters',
 
 		// Create group form error messages
-		'Size.createGroupForm.name': 'Group name length must be between {2} and {1} characters',
-		'Size.createGroupForm.description': 'Group description length must be between {2} and {1} characters',
+		'Size.createGroupForm.name': 'Group name length must be between 4 and 32 characters',
+		'Size.createGroupForm.description': 'Group description length must be between 6 and 1000 characters',
 		'GroupnameNotRepeated.createGroupForm.name': 'Group already exists',
 		'createGroupFirst.message': 'You must join or create a group to create a post.',
 		'Pattern.createGroupForm.name': 'Group name must contain only alphanumeric characters without spaces',
@@ -137,9 +137,9 @@ define([], function() {
 		'groupMembers.owner.lower.message': 'owned by',
 		'groups.memberWhoShareAGroup': 'Member who shares a group with you',
 		'groups.membersWhoShareAGroup': 'Members who share a group with you',
-		'userDoesNotHaveComments.message': '{0} doesn\u2019t have any comments.',
-		'userDoesNotHaveUpvotes.message': '{0} doesn\u2019t have any upvotes.',
-		'userDoesNotHavePosts.message': '{0} doesn\u2019t have any posts.',
+		'userDoesNotHaveComments.message': '{{profile.username}} doesn\u2019t have any comments.',
+		'userDoesNotHaveUpvotes.message': '{{profile.username}} doesn\u2019t have any upvotes.',
+		'userDoesNotHavePosts.message': '{{profile.username}} doesn\u2019t have any posts.',
 		'weWillNeverShareYourEmail.message': 'We\u2019ll never share your email with anyone else.',
 		'verifyAccount.message': 'Please make sure to check your email and follow the instructions to verify your account.',
 		'verifiedAccount.message': 'Your account was verified succesfully.',

@@ -47,10 +47,10 @@
 			<div class="dropdown-groups-text">
 				{{'dropdown.button.other.title' | translate}}
 			</div>
-			<a class="dropdown-item" ng-href="#/login"><i class="dropdown-icon fas fa-sign-in-alt"></i>
+			<a class="dropdown-item" ng-click="loginModal()"><i class="dropdown-icon fas fa-sign-in-alt"></i>
 				{{'login.button.message' | translate}}
 			</a>
-			<a class="dropdown-item" ng-href="#/register"><i class="dropdown-icon fas fa-user-plus"></i>
+			<a class="dropdown-item" ng-click="registerModal()"><i class="dropdown-icon fas fa-user-plus"></i>
 				{{'register.button.message' | translate}}
 			</a>
 		</div>
@@ -96,12 +96,12 @@
 			</button>
 		</a>
 	</div>
-	<a class="login-btn margin-left-180-150" ng-href="#/users/login">
+	<a class="login-btn margin-left-180-150" ng-click="loginModal()">
 		<button  role="button" class="app-btn-primary login-btn">
 			{{'login.button.message' | translate}}
 		</button>
 	</a>
-	<a class="register-btn" ng-href="#/users/register">
+	<a class="register-btn" ng-click="registerModal()">
 		<button  role="button" class="app-btn-primary">
 			{{'register.button.message' | translate}}
 		</button>

@@ -79,7 +79,7 @@ public class GroupController {
 	}
 	
 	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createGroup(
 			@Valid @FormDataParam("createGroup") final CreateGroupForm form) {

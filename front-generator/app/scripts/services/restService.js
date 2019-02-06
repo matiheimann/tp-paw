@@ -1,30 +1,59 @@
 'use strict';
 define(['pawddit', 'jquery'], function(pawddit) {
 
-	pawddit.factory('restService', ['$http', 'url', function($http, url) {
+	pawddit.factory('restService', ['$http', '$cookies', '$q', 'url', function($http, $cookies, $q, url) {
 
 		function httpGet(path, params) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
 			return $http.get(url + path + params)
 				.then(function(response) { 
 					return response.data; 
+				})
+				.catch(function(response) {
+					return $q.reject(response);
 				});
 		}
 
-		function httpPost(path, data, params) {
+		function httpPost(path, data, params, isMultipart) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
-			return $http.post(url + path + params, data, formDataConfig())
-				.then(function(response) { 
-					return response.data; 
-				});
+			if (isMultipart) {
+				return $http.post(url + path + params, data, multipartConfig())
+					.then(function(response) { 
+						return response.data; 
+					})
+					.catch(function(response) {
+						return $q.reject(response);
+					});
+			} else {
+				return $http.post(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
+					.then(function(response) { 
+						return response.data; 
+					})
+					.catch(function(response) {
+						return $q.reject(response);
+					});
+			}
 		}
 
-		function httpPut(path, data, params) {
+		function httpPut(path, data, params, isMultipart) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
-			return $http.put(url + path + params, data, formDataConfig())
-				.then(function(response) { 
-					return response.data; 
-				}); 
+			if (isMultipart) {
+				return $http.put(url + path + params, data, multipartConfig())
+					.then(function(response) { 
+						return response.data; 
+					})
+					.catch(function(response) {
+						return $q.reject(response);
+					});
+			} else {
+				return $http.put(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
+					.then(function(response) { 
+						return response.data; 
+					})
+					.catch(function(response) {
+						return $q.reject(response);
+					});
+			}
 		}
 
 		function httpDelete(path, params) {
@@ -32,10 +61,22 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			return $http.delete(url + path + params)
 				.then(function(response) { 
 					return response.data; 
+				})
+				.catch(function(response) {
+					return $q.reject(response);
 				});
 		}
 
-		function formDataConfig() {
+		function formConfig() {
+			return {
+				transformRequest: angular.identity,
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			};
+		}
+
+		function multipartConfig() {
 			return {
 				transformRequest: angular.identity,
 				headers: {
@@ -194,6 +235,18 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				var formData = new FormData();
 				formData.append('createUser', data);
 				return httpPost('/users/register', formData, {});
+			},
+			loginUser: function(username, password, rememberMe) {
+				var data;
+				if (rememberMe) {
+					data = {jUsername: username, jPassword: password, jRememberme: 'on'};
+				} else {
+					data = {jUsername: username, jPassword: password};
+				}
+				return httpPost('/users/login', data, {}, false);
+			},
+			logoutUser: function() {
+				return httpGet('/users/logout', {});
 			},
 			modifyProfilePicture: function(file) {
 				var data = {file: file};

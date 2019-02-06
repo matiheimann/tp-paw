@@ -1,10 +1,40 @@
 'use strict';
-define(['pawddit', 'services/restService'], function(pawddit) {
+define(['pawddit', 'services/restService', 'services/modalService'], function(pawddit) {
 
-	pawddit.controller('IndexCtrl', ['$scope', '$routeParams', '$location', 'restService', 'url', function($scope, $routeParams, $location, restService, url) {
+	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'restService', 'modalService', 'url', function($scope, $rootScope, $routeParams, $location, restService, modalService, url) {
 		$scope.page = $routeParams.page || 1;
 		$scope.sort = $routeParams.sort || 'new';
 		$scope.time = $routeParams.time || 'all';
+
+		restService.getLoggedUser().then(function(data) {
+			if (data.userid !== undefined) {
+				$scope.loggedUser = data;
+				$scope.isLoggedIn = true;
+				restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+					$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
+				});
+			}
+		});
+
+		$scope.$on('user:updated', function() {
+			restService.getLoggedUser().then(function(data) {
+				if (data.userid !== undefined) {
+					$scope.loggedUser = data;
+					$scope.isLoggedIn = true;
+					restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+						$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
+					});
+				}
+			});
+		});
+
+		$scope.logout = function() {
+			restService.logoutUser().then(function(data) {
+				$scope.loggedUser = null;
+				$scope.isLoggedIn = false;
+				$rootScope.$broadcast('user:updated');
+			});
+		};
 
 		$scope.buildURL = function(params) {
 			var url = '#' + $location.path();
@@ -37,10 +67,6 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 			$scope.currentPath = $location.path();
 		});
 
-		$scope.test = function(i) {
-			console.log(i);
-		};
-
 		$scope.gotoProfile = function(name) {
 			$location.url('profile/' + name);
 		};
@@ -48,5 +74,13 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 		$scope.gotoPost = function(name, pid) {
 			$location.url('groups/' + name + '/posts/' + pid);
 		};
+
+		$scope.createGroupModal = modalService.createGroupModal;
+		$scope.loginModal = modalService.loginModal;
+
+		$scope.test = function(i) {
+			console.log(i);
+		};
+
 	}]);
 });

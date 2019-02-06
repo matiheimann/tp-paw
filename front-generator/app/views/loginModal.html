@@ -1,0 +1,32 @@
+<div class="login form-container">
+    <h2>
+        {{'login.title' | translate}}
+    </h2>
+    <br>
+    <form ng-submit="doSubmit()" name="loginForm" accept-charset="UTF-8" novalidate>
+        <div class="form-group">
+            <span ng-show="loginError && loginForm.$submitted" class="formError">
+                {{'login.error.message' | translate}}
+            </span>
+            <label for="username">
+                {{'loginUsernameField.title' | translate}}
+            </label>
+            <input type="text" class="form-control" id="username" name="jUsername" placeholder="{{'loginUsername.placeholder' | translate}}" ng-model="loginUser.username"/>
+        </div>
+        <div class="form-group">
+            <label for="password">
+                {{'loginPasswordField.title' | translate}}
+            </label>
+            <input type="password" class="form-control" id="password" name="jPassword" placeholder="{{'loginPassword.placeholder' | translate}}" ng-model="loginUser.password"/>
+        </div>
+        <div>
+            <label>
+                {{'loginRememberMe.title' | translate}}
+            </label>
+            <input type="checkbox" name="jRememberme" ng-model="loginUser.rememberMe"/>
+        </div>
+        <button type="submit" class="app-btn-primary login-btn">
+            {{'loginSubmit.button.message' | translate}}
+        </button>
+    </form>
+</div>

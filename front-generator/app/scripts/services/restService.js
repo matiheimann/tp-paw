@@ -221,19 +221,19 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			createPost: function(groupname, title, content, file) {
 				var data = {title: title, content: content, file: file};
 				var formData = new FormData();
-				formData.append('createPost', data);
+				formData.append('createPost', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 				return httpPost('/groups/' + groupname + '/posts', formData, {}, true);
 			},
 			createComment: function(groupname, pid, content, replyTo) {
 				var data = {content: content, replyTo: replyTo};
 				var formData = new FormData();
-				formData.append('createComment', data);
+				formData.append('createComment', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 				return httpPost('/groups/' + groupname + '/posts/' + pid + '/comments', formData, {}, false);
 			},
 			registerUser: function(email, username, password, repeatPassword) {
 				var data = {email: email, username: username, password: password, repeatPassword: repeatPassword};
 				var formData = new FormData();
-				formData.append('createUser', data);
+				formData.append('createUser', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 				return httpPost('/users/register', formData, {}, false);
 			},
 			loginUser: function(username, password, rememberMe) {
@@ -251,7 +251,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			modifyProfilePicture: function(file) {
 				var data = {file: file};
 				var formData = new FormData();
-				formData.append('modifyUser', data);
+				formData.append('modifyUser', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 				return httpPost('/users/me', formData, {}, true);
 			}
 		};

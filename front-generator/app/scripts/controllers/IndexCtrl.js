@@ -83,6 +83,7 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 		$scope.createGroupModal = modalService.createGroupModal;
 		$scope.loginModal = modalService.loginModal;
 		$scope.createPostModal = modalService.createPostModal;
+		$scope.deleteConfirmModal = modalService.deleteConfirmModal;
 
 		$scope.test = function(i) {
 			console.log(i);

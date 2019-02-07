@@ -14,7 +14,7 @@
              	<span><strong>
              		{{post.date}}
              	</strong></span>
-			 	<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmPostDeletion"></i>
+			 	<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: post.group, post: post}, 'post')"></i>
            	</div>
            	<hr>
            	<h2 class="post-wrap">{{post.title}}</h2>
@@ -89,7 +89,7 @@
 	                 	<span><strong>
 	                 		{{comment.date}}
 	                 	</strong></span>
-						<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid) || (loggedUser.userid == comment.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" data-toggle="modal" data-target="#confirmCommentDeletion"></i>
+						<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid) || (loggedUser.userid == comment.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: post.group, post: post, comment: comment}, 'comment')"></i>
 	               	</div>
 	               	<hr class="comment-separator">
 					<div ng-if="comment.replyTo" class="comment-reply">

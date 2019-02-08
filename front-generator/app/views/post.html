@@ -12,7 +12,7 @@
                		<span class="header-button">{{post.group.name}}</span>
              	</a>
              	<span><strong>
-             		{{post.date}}
+             		{{post.date | timeAgo}}
              	</strong></span>
 			 	<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: post.group, post: post}, 'post')"></i>
            	</div>
@@ -84,7 +84,7 @@
 	                		{{comment.owner.username}}
 	                	</span>
 	                 	<span><strong>
-	                 		{{comment.date}}
+	                 		{{comment.date | timeAgo}}
 	                 	</strong></span>
 						<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid) || (loggedUser.userid == comment.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: post.group, post: post, comment: comment}, 'comment')"></i>
 	               	</div>
@@ -95,7 +95,7 @@
 				                {{comment.replyTo.owner.username}}
 				            </span>
 				            <span><strong>
-				                {{comment.replyTo.date}}
+				                {{comment.replyTo.date | timeAgo}}
 				            </strong></span>
 				        </div>
 				        <hr class="comment-separator">

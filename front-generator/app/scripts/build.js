@@ -26,7 +26,8 @@ require.config({
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
         'angular-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls',
-        'angular-cookies': '../../bower_components/angular-cookies/angular-cookies'
+        'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
+        'angular-timeago': '../../bower_components/angular-timeago/dist/angular-timeago'
     },
     shim: {
         angular: {
@@ -66,6 +67,11 @@ require.config({
             ]
         },
         'angular-bootstrap': {
+            deps: [
+                'angular'
+            ]
+        },
+        'angular-timeago': {
             deps: [
                 'angular'
             ]

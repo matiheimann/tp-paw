@@ -1,7 +1,19 @@
 'use strict';
 define(['pawddit', 'services/restService', 'services/modalService'], function(pawddit) {
 
-	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'restService', 'modalService', 'url', function($scope, $rootScope, $routeParams, $location, restService, modalService, url) {
+	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$routeParams', '$location', 'restService', 'modalService', 'url', 'timeAgoSettings', function($scope, $rootScope, $translate, $routeParams, $location, restService, modalService, url, timeAgoSettings) {
+		$translate('Lang.code').then(function(translatedValue) {
+            switch (translatedValue) {
+				case 'en':
+					timeAgoSettings.overrideLang = 'en_US';
+					break;
+				case 'es':
+					timeAgoSettings.overrideLang = 'es_LA';
+					break;
+				default:
+			}
+        });
+
 		$scope.page = $routeParams.page || 1;
 		$scope.sort = $routeParams.sort || 'new';
 		$scope.time = $routeParams.time || 'all';

@@ -2,12 +2,15 @@
 define([], function() {
 
 	return {
+		// Language
+		'Lang.code': 'es',
+
 		// Register form error messages
 		'Email': 'Invalid email address',
 		'NotEmpty.registerForm.email': 'Invalid email address',
 		'Pattern.registerForm.username': 'Username must contain only alphanumeric characters without space',
-		'Size.registerForm.username': 'Username length must be between {2} and {1} characters',
-		'Size.registerForm.password': 'Password length must be between {2} and {1} characters',
+		'Size.registerForm.username': 'Username length must be between 4 and 100 characters',
+		'Size.registerForm.password': 'Password length must be between 6 and 100 characters',
 		'MatchingPasswords.registerForm.repeatPassword': 'Passwords must match',
 		'UsernameNotRepeated.registerForm.username': 'Username already registered',
 		'EmailNotRepeated.registerForm.email': 'Email already registered',
@@ -16,7 +19,7 @@ define([], function() {
 		'login.error.message': 'Error, invalid username or password',
 
 		// Create comment form error messages
-		'Size.createCommentForm.content': 'Message length must be between {2} and {1} characters',
+		'Size.createCommentForm.content': 'Message length must be between 1 and 1000 characters',
 
 		// Create group form error messages
 		'Size.createGroupForm.name': 'Group name length must be between 4 and 32 characters',
@@ -26,8 +29,8 @@ define([], function() {
 		'Pattern.createGroupForm.name': 'Group name must contain only alphanumeric characters without spaces',
 
 		// Create post form error messages
-		'Size.createPostForm.title': 'Title length must be between {2} and {1} characters',
-		'Size.createPostForm.content': 'Content length must be between {2} and {1} characters',
+		'Size.createPostForm.title': 'Title length must be between 4 and 60 characters',
+		'Size.createPostForm.content': 'Content length must be between 6 and 1000 characters',
 		'ValidImageFormat.createPostForm.file': 'invalid format, supported formats are jpg and png',
 		'image.upload.failed.message': 'image upload failed',
 

@@ -7,13 +7,15 @@ define(['routes',
 	'angular-cookies',
 	'angular-bootstrap',
 	'bootstrap',
-	'angular-translate'],
+	'angular-translate',
+	'angular-timeago'],
 	function(config, dependencyResolverFor, i18n) {
 		var pawddit = angular.module('pawddit', [
 			'ngRoute',
 			'ngCookies',
 			'pascalprecht.translate',
-			'ui.bootstrap'
+			'ui.bootstrap',
+			'yaru22.angular-timeago'
 		]);
 		pawddit
 			.config(

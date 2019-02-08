@@ -13,6 +13,7 @@ define(function() {
 	if (userLang === undefined || listOfSupportedLanguages.indexOf(userLang) < 0) {
 		userLang = 'en';
 	}
+
 	return {
 		load: function (name, require, load) {
 			require(['i18n/translations.' + userLang], function (value) {

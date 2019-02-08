@@ -52,7 +52,7 @@
 								<span class="header-button group-name">{{post.group.name}}</span>
 							</a>
 							<span><strong>
-								{{post.date}}
+								{{post.date | timeAgo}}
 							</strong></span>
 						</div>
 						<hr>
@@ -109,7 +109,7 @@
 								</span>
 							</a>
 							<span><strong>
-								{{comment.date}}
+								{{comment.date | timeAgo}}
 							</strong></span>
 						</div>
 						<hr class="comment-separator">
@@ -119,7 +119,7 @@
 				                	{{comment.replyTo.owner.username}}
 				            	</span>
 				            	<span><strong>
-				                	{{comment.replyTo.date}}
+				                	{{comment.replyTo.date | timeAgo}}
 				            	</strong></span>
 				        	</div>
 				        	<hr class="comment-separator">

@@ -74,6 +74,9 @@ public class CommentServiceImpl implements CommentService {
 			final Comment c = comment.get();
 			if (user != null)
 				c.setUserVote(commentVoteDao.checkVote(user, c));
+			c.setReplies(commentDao.findRepliesByCommentCount(c));
+			if(c.getReplyTo() != null)
+				c.getReplyTo().getCommentid();
 		}
 		return comment;
 	}

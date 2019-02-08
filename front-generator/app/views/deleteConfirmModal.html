@@ -1,21 +1,21 @@
-
-      <div class="modal-header">
-        <h5 ng-if="type == 'group'" class="modal-title">
-          {{'groupConfirmDelete.title' | translate}}
-        </h5>
-        <h5 ng-if="type == 'post'" class="modal-title">
-          {{'postConfirmDelete.title' | translate}}
-        </h5>
-        <h5 ng-if="type == 'comment'" class="modal-title">
-          {{'commentConfirmDelete.title' | translate}}
-        </h5>
-      </div>
-      <div class="modal-footer-buttons">
-        <button class="app-btn-secondary modal-footer-button" data-dismiss="modal" ng-click="cancel()">
-          {{'groupConfirmDelete.cancel.button.message' | translate}}
-        </button>
-        <button class="app-btn-primary" ng-click="doSubmit()">
-          {{'groupConfirmDelete.delete.button.message' | translate}}
-        </button>
-      </div>
-    </div>
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 ng-if="type == 'group'" class="modal-title">
+      {{'groupConfirmDelete.title' | translate}}
+    </h5>
+    <h5 ng-if="type == 'post'" class="modal-title">
+      {{'postConfirmDelete.title' | translate}}
+    </h5>
+    <h5 ng-if="type == 'comment'" class="modal-title">
+      {{'commentConfirmDelete.title' | translate}}
+    </h5>
+  </div>
+  <div class="modal-footer">
+    <button class="app-btn-secondary modal-footer-button" data-dismiss="modal" ng-click="cancel()">
+      {{'groupConfirmDelete.cancel.button.message' | translate}}
+    </button>
+    <button class="app-btn-primary" ng-click="doSubmit()">
+      {{'groupConfirmDelete.delete.button.message' | translate}}
+    </button>
+  </div>
+</div>

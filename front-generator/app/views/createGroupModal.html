@@ -1,38 +1,43 @@
-<div class="create-group-component">
-    <h2>
-        {{'createGroup.title' | translate}}
-	</h2>
-    <br>
-    <form ng-submit="doSubmit()" name="createGroupForm" accept-charset="UTF-8" novalidate>
-    	<div class="form-group">
-    		<label for="groupName">
-                {{'groupName.title' | translate}}
-			</label>
-    		<input type="text" class="form-control" id="groupName" placeholder="{{'groupName.placeholder' | translate}}" name="name" ng-model="newGroup.name" ng-minlength="4" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9]+$/"/>
-            <span ng-show="(createGroupForm.name.$error.minlength || createGroupForm.name.$error.maxlength) && createGroupForm.$submitted" class="formError">
-                {{'Size.createGroupForm.name' | translate}}
-            </span>
-            <span ng-show="createGroupForm.name.$error.pattern && createGroupForm.$submitted" class="formError">
-                {{'Pattern.createGroupForm.name' | translate}}
-            </span>
-            <span ng-show="groupnameNotRepeatedError && createGroupForm.$submitted" class="formError">
-                {{'GroupnameNotRepeated.createGroupForm.name' | translate}}
-            </span>
-    	</div>
-    	<div class="form-group">
-    		<label for="groupDescription">
-                {{'groupDescription.title' | translate}}
-			<label>
-    		<textarea class="form-control" id="groupDescription" rows="6" ng-model="newGroup.description" name="description" ng-minlength="6" ng-maxlength="1000"></textarea>
-            <span ng-show="(createGroupForm.description.$error.minlength || createGroupForm.description.$error.maxlength) && createGroupForm.$submitted" class="formError">
-                {{'Size.createGroupForm.description' | translate}}
-            </span>
-    	</div>
-    	<button type="submit" class="create-group-btn app-btn-primary">
-            {{'createGroupConfirmation.button.message' | translate}}
-		</button>
-	    <button type="button" class="app-btn-secondary" data-dismiss="modal" ng-click="cancel()" >
-            {{'cancelGroupCreation.button.message' | translate}}
-	   	</button>
-    </form>
+<div class="modal-content">
+    <div class="modal-header">
+        <h2>
+            {{'createGroup.title' | translate}}
+    	</h2>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="doSubmit()" name="createGroupForm" accept-charset="UTF-8" novalidate>
+        	<div class="form-group">
+        		<label for="groupname">
+                    {{'groupName.title' | translate}}
+    			</label>
+        		<input type="text" class="form-control" id="groupname" placeholder="{{'groupName.placeholder' | translate}}" name="name" ng-model="newGroup.name" ng-minlength="4" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9]+$/"/>
+                <span ng-show="(createGroupForm.name.$error.minlength || createGroupForm.name.$error.maxlength) && createGroupForm.$submitted" class="formError">
+                    {{'Size.createGroupForm.name' | translate}}
+                </span>
+                <span ng-show="createGroupForm.name.$error.pattern && createGroupForm.$submitted" class="formError">
+                    {{'Pattern.createGroupForm.name' | translate}}
+                </span>
+                <span ng-show="groupnameNotRepeatedError && createGroupForm.$submitted" class="formError">
+                    {{'GroupnameNotRepeated.createGroupForm.name' | translate}}
+                </span>
+        	</div>
+        	<div class="form-group">
+        		<label for="groupDescription">
+                    {{'groupDescription.title' | translate}}
+    			</label>
+        		<textarea class="form-control" id="groupDescription" rows="6" ng-model="newGroup.description" name="description" ng-minlength="6" ng-maxlength="1000"></textarea>
+                <span ng-show="(createGroupForm.description.$error.minlength || createGroupForm.description.$error.maxlength) && createGroupForm.$submitted" class="formError">
+                    {{'Size.createGroupForm.description' | translate}}
+                </span>
+        	</div>
+            <div class="modal-footer">
+            	<button type="submit" class="create-group-btn app-btn-primary">
+                    {{'createGroupConfirmation.button.message' | translate}}
+        		</button>
+        	    <button type="button" class="app-btn-secondary" data-dismiss="modal" ng-click="cancel()" >
+                    {{'cancelGroupCreation.button.message' | translate}}
+        	   	</button>
+            </div>
+        </form>
+    </div>
 </div>

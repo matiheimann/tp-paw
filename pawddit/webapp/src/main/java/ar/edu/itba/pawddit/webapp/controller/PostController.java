@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -42,6 +43,7 @@ import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
+import ar.edu.itba.pawddit.webapp.form.ImageForm;
 
 @Path("/api/groups/{groupName}/posts")
 @Component
@@ -103,6 +105,7 @@ public class PostController {
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createPost(
 			@Valid @FormDataParam("createPost") final CreatePostForm form,
+			@BeanParam final ImageForm imageForm,
 			@PathParam("groupName") final String groupName) {
 
 		try {
@@ -110,8 +113,8 @@ public class PostController {
 			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 			if (user != null) {
 				String imageId = null;
-				if (!form.getFile().isEmpty())
-					imageId = is.saveImage(form.getFile().getBytes());
+				if (imageForm != null && imageForm.getFileBytes() != null)
+					imageId = is.saveImage(imageForm.getFileBytes());
 
 				final Post post = ps.create(form.getTitle(), form.getContent(), LocalDateTime.now(), g, user, imageId);
 				final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(post.getPostid())).build();

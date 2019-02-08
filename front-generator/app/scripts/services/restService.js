@@ -7,7 +7,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
 			return $http.get(url + path + params)
 				.then(function(response) { 
-					return response; 
+					return response.data; 
 				})
 				.catch(function(response) {
 					return $q.reject(response);
@@ -19,7 +19,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			if (isMultipart) {
 				return $http.post(url + path + params, data, multipartConfig())
 					.then(function(response) { 
-						return response; 
+						return response.data; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -27,7 +27,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			} else {
 				return $http.post(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
 					.then(function(response) { 
-						return response; 
+						return response.data; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -40,7 +40,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			if (isMultipart) {
 				return $http.put(url + path + params, data, multipartConfig())
 					.then(function(response) { 
-						return response; 
+						return response.data; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -48,7 +48,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			} else {
 				return $http.put(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
 					.then(function(response) { 
-						return response; 
+						return response.data; 
 					})
 					.catch(function(response) {
 						return $q.reject(response);
@@ -60,7 +60,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
 			return $http.delete(url + path + params)
 				.then(function(response) { 
-					return response; 
+					return response.data; 
 				})
 				.catch(function(response) {
 					return $q.reject(response);
@@ -86,30 +86,26 @@ define(['pawddit', 'jquery'], function(pawddit) {
 		}
 
 		function dataURItoBlob(dataURI) {
-			if (dataURI !== '') {
-				// convert base64 to raw binary data held in a string
-				var byteString = atob(dataURI.split(',')[1]);
+			// convert base64 to raw binary data held in a string
+			var byteString = atob(dataURI.split(',')[1]);
 
-				// separate out the mime component
-				var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+			// separate out the mime component
+			var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-				// write the bytes of the string to an ArrayBuffer
-				var ab = new ArrayBuffer(byteString.length);
+			// write the bytes of the string to an ArrayBuffer
+			var ab = new ArrayBuffer(byteString.length);
 
-				// create a view into the buffer
-				var ia = new Uint8Array(ab);
+			// create a view into the buffer
+			var ia = new Uint8Array(ab);
 
-				// set the bytes of the buffer to the correct values
-				for (var i = 0; i < byteString.length; i++) {
-					ia[i] = byteString.charCodeAt(i);
-				}
-
-				// write the ArrayBuffer to a blob, and you're done
-				var blob = new Blob([ab], {type: mimeString});
-				return blob;
-			} else {
-				return null;
+			// set the bytes of the buffer to the correct values
+			for (var i = 0; i < byteString.length; i++) {
+				ia[i] = byteString.charCodeAt(i);
 			}
+
+			// write the ArrayBuffer to a blob, and you're done
+			var blob = new Blob([ab], {type: mimeString});
+			return blob;
 		}
 
 		return {
@@ -219,22 +215,33 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				return httpPost('/groups', formData, {}, true);
 			},
 			createPost: function(groupname, title, content, file) {
-				var data = {title: title, content: content, file: file};
+				var data = {title: title, content: content};
 				var formData = new FormData();
 				formData.append('createPost', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+				if (file) {
+					formData.append('image', dataURItoBlob(file));
+				} else {
+					formData.append('image', null);
+				}
 				return httpPost('/groups/' + groupname + '/posts', formData, {}, true);
 			},
 			createComment: function(groupname, pid, content, replyTo) {
-				var data = {content: content, replyTo: replyTo};
+				var data;
+				if (replyTo) {
+					data = {content: content, replyTo: replyTo};
+				} else {
+					data = {content: content};
+				}
+				
 				var formData = new FormData();
 				formData.append('createComment', new Blob([JSON.stringify(data)], {type: 'application/json'}));
-				return httpPost('/groups/' + groupname + '/posts/' + pid + '/comments', formData, {}, false);
+				return httpPost('/groups/' + groupname + '/posts/' + pid + '/comments', formData, {}, true);
 			},
 			registerUser: function(email, username, password, repeatPassword) {
 				var data = {email: email, username: username, password: password, repeatPassword: repeatPassword};
 				var formData = new FormData();
 				formData.append('createUser', new Blob([JSON.stringify(data)], {type: 'application/json'}));
-				return httpPost('/users/register', formData, {}, false);
+				return httpPost('/users/register', formData, {}, true);
 			},
 			loginUser: function(username, password, rememberMe) {
 				var data;
@@ -249,9 +256,8 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				return httpGet('/users/logout', {});
 			},
 			modifyProfilePicture: function(file) {
-				var data = {file: file};
 				var formData = new FormData();
-				formData.append('modifyUser', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+				formData.append('image', dataURItoBlob(file));
 				return httpPost('/users/me', formData, {}, true);
 			}
 		};

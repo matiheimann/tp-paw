@@ -6,12 +6,12 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 		$scope.sort = $routeParams.sort || 'new';
 		$scope.time = $routeParams.time || 'all';
 
-		restService.getLoggedUser().then(function(response) {
-			if (response.data.userid !== undefined) {
-				$scope.loggedUser = response.data;
+		restService.getLoggedUser().then(function(data) {
+			if (data.userid !== undefined) {
+				$scope.loggedUser = data;
 				$scope.isLoggedIn = true;
-				restService.getMySubscribedGroupsPageCount({}).then(function(response) {
-					$scope.loggedUser.subscribedGroupsPageCount = response.data.pageCount;
+				restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+					$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
 				});
 			}
 		}).catch(function(response) {
@@ -20,12 +20,12 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 		});
 
 		$scope.$on('user:updated', function() {
-			restService.getLoggedUser().then(function(response) {
-				if (response.data.userid !== undefined) {
-					$scope.loggedUser = response.data;
+			restService.getLoggedUser().then(function(data) {
+				if (data.userid !== undefined) {
+					$scope.loggedUser = data;
 					$scope.isLoggedIn = true;
-					restService.getMySubscribedGroupsPageCount({}).then(function(response) {
-						$scope.loggedUser.subscribedGroupsPageCount = response.data.pageCount;
+					restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+						$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
 					});
 				}
 			}).catch(function(response) {
@@ -35,7 +35,7 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 		});
 
 		$scope.logout = function() {
-			restService.logoutUser().then(function(response) {
+			restService.logoutUser().then(function(data) {
 				$rootScope.$broadcast('user:updated');
 			});
 		};

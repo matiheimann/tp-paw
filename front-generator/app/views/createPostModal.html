@@ -1,48 +1,53 @@
-<div class="create-post-component">
-    <h2>
-        {{'createPost.title' | translate}}
-	</h2>
-    <br>
-    <form ng-submit="doSubmit()" name="createPostForm" accept-charset="UTF-8" enctype="multipart/form-data" novalidate>
-    	<div class="form-post">
-            <div class="form-group">
-                <label for="post-title" path="title">
-                    {{'postTitleField.title' | translate}}
-                </label>
-                <input type="text" class="form-control" id="postTitle" placeholder="{{'postTitleField.title' | translate}}"name="title" ng-model="newPost.title" ng-minlength="4" ng-maxlength="60"/>
-                <span ng-show="(createPostForm.title.$error.minlength || createPostForm.title.$error.maxlength) && createPostForm.$submitted" class="formError">
-                    {{'Size.createPostForm.title' | translate}}
-                </span>
+<div class="modal-content">
+    <div class="modal-header">
+        <h2>
+            {{'createPost.title' | translate}}
+    	</h2>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="doSubmit()" name="createPostForm" accept-charset="UTF-8" enctype="multipart/form-data" novalidate>
+        	<div class="form-post">
+                <div class="form-group">
+                    <label for="post-title" path="title">
+                        {{'postTitleField.title' | translate}}
+                    </label>
+                    <input type="text" class="form-control" id="postTitle" placeholder="{{'postTitleField.title' | translate}}" name="title" ng-model="newPost.title" ng-minlength="4" ng-maxlength="60"/>
+                    <span ng-show="(createPostForm.title.$error.minlength || createPostForm.title.$error.maxlength) && createPostForm.$submitted" class="formError">
+                        {{'Size.createPostForm.title' | translate}}
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="post-group-select" path="groupname">
+                        {{'selectGroupOnPostCreate.title' | translate}}
+                    </label>
+                    <select ng-required="true" path="groupname" class="form-control" id="post-group-select" name="group" ng-model="newPost.group" ng-options="group.name for group in subscribedGroups">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="post-content" path="content">
+                       {{'postContent.title' | translate}}
+                    </label>
+                    <textarea path="content" class="form-control" id="post-content" rows="6" name="content" ng-model="newPost.content" ng-minlength="6" ng-maxlength="1000"></textarea>
+                    <span ng-show="((createPostForm.content.$error.minlength || createPostForm.content.$error.maxlength) && createPostForm.$submitted)" class="formError">
+                        {{'Size.createPostForm.content' | translate}}
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="post-image" path="file">
+                        {{'selectImageOnPostCreate.title' | translate}}
+                    </label>
+                    <br>
+                    <input type="file" path="file" id="post-image" accept="image/*" file-read="newPost.file" name="file"/>
+                </div>
+                <div class="modal-footer">
+                	<button type="submit" class="create-group-btn app-btn-primary">
+                        {{'createPostConfirmation.button.message' | translate}}
+            		</button>
+            	    <button type="button" class="app-btn-secondary" data-dismiss="modal" ng-click="cancel()" >
+                        {{'cancelPostCreation.button.message' | translate}}
+            	   	</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="post-group-select" path="groupName">
-                    {{'selectGroupOnPostCreate.title' | translate}}
-                </label>
-                <select required="required" path="groupName" class="form-control" id="post-group-select" ng-model="newPost.groupName">
-                    <option ng-repeat="group in groups" value="{{group.groupname}}"> {{group.groupname}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="post-content" path="content">
-                   {{'postContent.title' | translate}}
-                </label>
-                <textarea path="content" class="form-control" id="post-content" ng-model="newPost.content" rows="6" ng-minlength="6" ng-maxlength="1000"></textarea>
-                <span ng-show="((createPostForm.content.$error.minlength || createPostForm.content.$error.maxlength) && createPostForm.content.$submitted)" class="formError">
-                    {{'Size.createPostForm.content' | translate}}
-                </span>
-            </div>
-            <div class="form-group">
-                <label for="post-image" path="file">
-                    {{'selectImageOnPostCreate.title' | translate}}
-                </label>
-                <br>
-                <input type="file" path="file" id='post-image' accept="image/png, image/jpeg" ng-model="newPost.image"/>
-            </div>
-    	<button type="submit" class="create-group-btn app-btn-primary">
-            {{'createPostConfirmation.button.message' | translate}}
-		</button>
-	    <button type="button" class="app-btn-secondary" data-dismiss="modal" ng-click="cancel()" >
-            {{'cancelPostCreation.button.message' | translate}}
-	   	</button>
-    </form>
+        </form>
+    </div>
 </div>

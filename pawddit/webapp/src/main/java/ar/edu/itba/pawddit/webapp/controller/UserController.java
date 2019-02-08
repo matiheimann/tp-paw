@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -49,7 +50,7 @@ import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.dto.UserDto;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
-import ar.edu.itba.pawddit.webapp.form.PictureForm;
+import ar.edu.itba.pawddit.webapp.form.ImageForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 
 @Path("/api/users")
@@ -89,7 +90,7 @@ public class UserController {
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createUser(
 			@Valid @FormDataParam("createUser") final UserRegisterForm form) {
-
+		
 		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		final VerificationToken token = us.createToken(user);
 		mss.sendVerificationToken(user, token, uriInfo.getBaseUri().toString(), LocaleContextHolder.getLocale());
@@ -196,14 +197,14 @@ public class UserController {
 	@Path("/me")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response modifyMyUser(
-			@Valid @FormDataParam("modifyUser") final PictureForm form) {
-		
+			@BeanParam final ImageForm imageForm) {
+
 		try {
 			final User user = userDetailsService.getLoggedUser();
 			if (user != null) {
 				String imageId = null;
-				if (!form.getFile().isEmpty())
-					imageId = is.saveImage(form.getFile().getBytes());
+				if (imageForm != null && imageForm.getFileBytes() != null)
+					imageId = is.saveImage(imageForm.getFileBytes());
 				
 				us.changeData(user, user.getUsername(), user.getPassword(), user.getEmail(), imageId);
 				return Response.ok(UserDto.fromUser(user)).build();

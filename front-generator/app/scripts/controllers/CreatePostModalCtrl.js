@@ -1,8 +1,16 @@
 'use strict';
-define(['pawddit', 'services/restService'], function(pawddit) {
+define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawddit) {
 
-	pawddit.controller('CreatePostModalCtrl', ['$scope', '$location', '$uibModalInstance', 'restService', function($scope, $location, $modal, restService) {
+	pawddit.controller('CreatePostModalCtrl', ['$scope', '$location', '$uibModalInstance', 'restService', 'subscribedGroups', 'subscribedGroupsPageCount', function($scope, $location, $modal, restService, subscribedGroups, subscribedGroupsPageCount) {
 		$scope.newPost = {};
+		$scope.subscribedGroups = subscribedGroups;
+		$scope.newPost.group = subscribedGroups[0];
+
+		for (var i = 2; i <= subscribedGroupsPageCount.pageCount; i++) {
+			restService.getMySubscribedGroups({page: i}).then(function(data) {
+				$scope.subscribedGroups.push(data);
+			});
+		}
 
 		$scope.cancel = function() {
 			$scope.$dismiss();
@@ -10,14 +18,19 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 
 		$scope.doSubmit = function() {
 			if ($scope.createPostForm.$valid) {
-				restService.createPost($scope.newPost.groupNname, $scope.newPost.title, $scope.newPost.content, $scope.newPost.file).then(function(response) {             
-					$modal.dismiss();
-					$location.url('/groups/' + response.data.group.name + '/posts/' + response.data.postid);
-				});
+				if ($scope.newPost.file) {
+    				restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, $scope.newPost.file).then(function(data) {       
+						$modal.dismiss();
+						$location.url('/groups/' + data.group.name + '/posts/' + data.postid);
+					});
+				} else {
+					restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, null).then(function(data) {           
+						$modal.dismiss();
+						$location.url('/groups/' + data.group.name + '/posts/' + data.postid);
+					});
+				}
 			}
 		};
-
-
 
 	}]);
 });

@@ -11,9 +11,9 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 		$scope.doSubmit = function() {
 			$scope.groupnameNotRepeatedError = false;
 			if ($scope.createGroupForm.$valid) {
-				restService.createGroup($scope.newGroup.name, $scope.newGroup.description).then(function(response) {             
+				restService.createGroup($scope.newGroup.name, $scope.newGroup.description).then(function(data) {             
 					$modal.dismiss();
-					$location.url('/groups/' + response.data.name);
+					$location.url('/groups/' + data.name);
 				})
 				.catch(function(response) {
 					$scope.groupnameNotRepeatedError = true;

@@ -61,6 +61,11 @@ define(['routes',
 					$locationProvider.hashPrefix('');
 					$httpProvider.defaults.withCredentials = true;
 				}])
+			.run(['$rootScope', '$location', function($rootScope, $location) {
+					$rootScope.$on('$routeChangeSuccess', function() {
+						document.body.scrollTop = document.documentElement.scrollTop = 0;
+					});
+			}])
 			// .value('url', 'http://pawserver.it.itba.edu.ar/paw-2018b-08/api')
 			.value('url', 'http://localhost:8080/webapp/api');
 			

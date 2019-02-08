@@ -29,7 +29,7 @@
 			            {{post.comments}} {{'comments.message' | translate}}
 			        </strong>
 			    </div>
-				<div ng-if="loggedUser" class="info-item votes-controls">
+				<div ng-if="isLoggedIn" class="info-item votes-controls">
 				    <div>
 						<div class="form-group">
 							<button class="no-btn" ng-click="upvotePost(post.group.name, post.postid)">
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 				</div>
-		   		<div ng-if="!loggedUser" class="info-item">
+		   		<div ng-if="!isLoggedIn" class="info-item">
 					<strong class="score-count">
 						{{post.votes}} {{'posts.votes' | translate}}
 					</strong>
@@ -59,25 +59,22 @@
              	<h4>
              		{{'postCommentsTitle.title' | translate}}
              	</h4>
-             	<!-- Create Comment
-	 			<c:if test="${!empty user}">
-					<c:url value="/group/${group.name}/${post.postid}" var="postPath"/>
-					<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
+             	<!-- Create Comment -->
+				<form name="createCommentForm" accept-charset="UTF-8" novalidate>
+					<div ng-if="isLoggedIn">
 						<div class="form-group">
-                    		<form:label for="comment-content" path="content">
-		   					   	<spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
-                    		</form:label>
-		   					<form:textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="${addCommentPlaceholder}"></form:textarea>
-		   					<form:errors path="content" cssClass="formError" element="p"/>
-		   				</div>
-                  		<button type="submit" class="create-comment-btn app-btn-primary">
-                    		<spring:message code="createCommentConfirmation.button.message"/>
-                  		</button>
-					</form:form>
-	 			</c:if>
-	 			-->
+			   				<textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newComment.content" ng-minlength="1" ng-maxlength="1000"></textarea>
+			   				<span ng-show="((createCommentForm.content.$error.minlength || createCommentForm.content.$error.maxlength) && createCommentForm.$submitted)" class="formError">
+	                        	{{'Size.createCommentForm.content' | translate}}
+	                    	</span>
+			   			</div>
+	                  	<button type="submit" ng-click="doSubmit(createCommentForm, null)" class="create-comment-btn app-btn-primary">
+	                  		{{'createCommentConfirmation.button.message' | translate}}
+	                  	</button>
+                  	</div>
+				</form>
 				<!-- Sign in suggestion-->
-				<h5 ng-if="!loggedUser">
+				<h5 ng-if="!isLoggedIn">
 					{{'comments.suggestion' | translate}}
 				</h5>
 				<!-- Comment List -->
@@ -111,7 +108,7 @@
 	               	</div>
 					<div class="comment-footer">
 				 		<div class="info-item votes-controls">
-				 			<div ng-if="loggedUser">
+				 			<div ng-if="isLoggedIn">
 						 		<div class="form-group">
 						 			<button class="no-btn" ng-click="upvoteComment(post.group.name, post.postid, comment.commentid)">
 						 				<i ng-if="comment.userVote == 1" class="fas fa-arrow-up icon-color-selected"></i>
@@ -122,7 +119,7 @@
 				 			<strong class="score-count">
 				 				{{comment.votes}} {{(!loggedUser ? 'comments.votes' : '') | translate}}
 				 			</strong>
-				 			<div ng-if="loggedUser">
+				 			<div ng-if="isLoggedIn">
 						 		<div class="form-group">
 						 			<button class="no-btn" ng-click="downvoteComment(post.group.name, post.postid, comment.commentid)">
 						 				<i ng-if="comment.userVote == -1" class="fas fa-arrow-down icon-color-selected"></i>
@@ -131,7 +128,7 @@
 						 		</div>
 				 			</div>
 				 		</div>
-						<div ng-if="loggedUser" class="comment-footer-button reply-button clickable">
+						<div ng-if="isLoggedIn" ng-click="showReplyForm($event)" class="comment-footer-button reply-button clickable">
 							<strong>
 								{{'comments.reply.button.message' | translate}}
 							</strong>
@@ -145,28 +142,24 @@
 							</strong>						
 						</div>
 					</div>
-					<!-- Reply Comment Form
-					<c:if test="${!empty user}">
+					<!-- Reply Comment Form   -->
 					<div class="reply-comment-form">
-							<c:url value="/group/${group.name}/${post.postid}" var="postPath"/>
-							<form:form modelAttribute="createCommentForm" action="${postPath}" method="post">
-								<form:hidden path="replyTo" value="${comment.commentid}"/>
+						<form name="createCommentReplyForm" accept-charset="UTF-8" novalidate>
+							<div ng-if="isLoggedIn">
 								<div class="form-group">
-			                    	<form:label for="reply-comment-content" path="content">
-					   					<spring:message code="addComment.placeholder" var="addCommentPlaceholder"/>
-			                    	</form:label>
-					   				<form:textarea path="content" class="form-control" id="reply-comment-content" rows="3" placeholder="${addCommentPlaceholder}"></form:textarea>
-					   				<form:errors path="content" cssClass="formError" element="p"/>
-					   			</div>
+						   			<textarea path="content" class="form-control" id="reply-comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newCommentReply.content" ng-minlength="1" ng-maxlength="1000"></textarea>
+						   			<span ng-show="((createCommentReplyForm.content.$error.minlength || createCommentReplyForm.content.$error.maxlength) && createCommentReplyForm.$submitted)" class="formError">
+	                        			{{'Size.createCommentForm.content' | translate}}
+	                    			</span>
+						   		</div>
 								<div class="button-to-the-right">
-				                  	<button type="submit" class="reply-button-submit create-comment-btn app-btn-primary">
-				                    	<spring:message code="createCommentConfirmation.button.message"/>
-				                  	</button>
+					                  <button type="submit" ng-click="doSubmit(createCommentReplyForm, comment.commentid)" class="reply-button-submit create-comment-btn app-btn-primary">
+					                  	{{'createCommentConfirmation.button.message' | translate}}    
+					                  </button>
 								</div>
-							</form:form>
-					</div>
-					</c:if>
-					-->
+							</div>
+						</form>
+					</div>	         
 	            </div>
 				<!-- End Comment List -->
             	<br>

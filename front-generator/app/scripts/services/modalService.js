@@ -1,7 +1,7 @@
 'use strict';
-define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl', 'controllers/DeleteConfirmModalCtrl'], function(pawddit) {
+define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl', 'controllers/DeleteConfirmModalCtrl', 'services/restService'], function(pawddit) {
 
-	pawddit.service('modalService', ['$uibModal', function($uibModal) {
+	pawddit.service('modalService', ['$uibModal', 'restService', function($uibModal, restService) {
 
 		this.loginModal = function() {
 			return $uibModal.open({
@@ -23,7 +23,15 @@ define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCt
 			return $uibModal.open({
 				templateUrl: 'views/createPostModal.html',
 				controller: 'CreatePostModalCtrl',
-				size: 'md'
+				size: 'md',
+				resolve: {
+					subscribedGroups: function() {
+						return restService.getMySubscribedGroups({page: 1});
+					},
+					subscribedGroupsPageCount: function() {
+						return restService.getMySubscribedGroupsPageCount({});
+					}
+				}
 			});
 		};
 

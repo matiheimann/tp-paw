@@ -4,7 +4,7 @@
 						{{'register.title' | translate}}
 					</h2>
 					<br>
-					<form modelAttribute="registerForm" action="${postPath}" method="post">
+					<form modelAttribute="registerForm" method="post">
 		  				<div class="form-group">
 			    			<label for="exampleInputEmail1">
 								{{ 'registerEmailAddress.title' | translate}}
@@ -21,7 +21,7 @@
 			    			</span>
 		 			 	</div>
 		  				<div class="form-group">
-		    				<label for="exampleInputUsername" path="username">
+		    				<label for="exampleInputUsername">
 								{{'registerUsername.title' | translate}}
 							</label>
 		   					<input type="text" class="form-control" id="exampleInputUsername" placeholder="{{'registerUsername.placeholder' | translate}}" ng-pattern="/^[a-zA-Z0-9]+$/" ng-required="true" ng-minlength="4" ng-maxlength="100"/>
@@ -46,7 +46,7 @@
 					 		<label for="exampleInputConfirmPassword">
 								{{'registerConfirmPassword.title' | translate}}
 							</label>
-					    	<input type="password" class="form-control" id="exampleInputConfirmPassword" placeholder="{{'confirmPasswordPlaceholder' | translate}}" ng-minlength="6" ng-maxlength="100"/>
+					    	<input type="password" class="form-control" id="exampleInputConfirmPassword" placeholder="{{'registerConfirmPassword.placeholder' | translate}}" ng-minlength="6" ng-maxlength="100"/>
 					  	</div>
 					  	<button type="submit" class="app-btn-primary login-btn">
 							{{'registerSubmit.button.message' | translate}}

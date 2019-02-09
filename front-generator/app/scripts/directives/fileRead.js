@@ -7,7 +7,6 @@ define(['pawddit'], function(pawddit) {
 			},
 			link: function (scope, element, attributes) {
 				element.bind('change', function (changeEvent) {
-					console.log(changeEvent.target.files[0]);
 					var reader = new FileReader();
 					reader.onload = function (loadEvent) {
 						scope.$apply(function () {

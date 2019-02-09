@@ -220,8 +220,6 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				formData.append('createPost', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 				if (file) {
 					formData.append('image', dataURItoBlob(file));
-				} else {
-					formData.append('image', null);
 				}
 				return httpPost('/groups/' + groupname + '/posts', formData, {}, true);
 			},

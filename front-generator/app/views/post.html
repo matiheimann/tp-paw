@@ -63,8 +63,8 @@
 				<form name="createCommentForm" accept-charset="UTF-8" novalidate>
 					<div ng-if="isLoggedIn">
 						<div class="form-group">
-			   				<textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newComment.content" ng-minlength="1" ng-maxlength="1000"></textarea>
-			   				<span ng-show="((createCommentForm.content.$error.minlength || createCommentForm.content.$error.maxlength) && createCommentForm.$submitted)" class="formError">
+			   				<textarea path="content" class="form-control" id="comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newComment.content" ng-minlength="1" ng-maxlength="1000" ng-required="true"></textarea>
+			   				<span ng-show="((createCommentForm.content.$error.required || createCommentForm.content.$error.minlength || createCommentForm.content.$error.maxlength) && createCommentForm.$submitted)" class="formError">
 	                        	{{'Size.createCommentForm.content' | translate}}
 	                    	</span>
 			   			</div>
@@ -147,8 +147,8 @@
 						<form name="createCommentReplyForm" accept-charset="UTF-8" novalidate>
 							<div ng-if="isLoggedIn">
 								<div class="form-group">
-						   			<textarea path="content" class="form-control" id="reply-comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newCommentReply.content" ng-minlength="1" ng-maxlength="1000"></textarea>
-						   			<span ng-show="((createCommentReplyForm.content.$error.minlength || createCommentReplyForm.content.$error.maxlength) && createCommentReplyForm.$submitted)" class="formError">
+						   			<textarea path="content" class="form-control" id="reply-comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newCommentReply.content" ng-minlength="1" ng-maxlength="1000" ng-required="true"></textarea>
+						   			<span ng-show="((createCommentReplyForm.content.$error.required || createCommentReplyForm.content.$error.minlength || createCommentReplyForm.content.$error.maxlength) && createCommentReplyForm.$submitted)" class="formError">
 	                        			{{'Size.createCommentForm.content' | translate}}
 	                    			</span>
 						   		</div>

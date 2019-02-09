@@ -11,8 +11,8 @@
                     <label for="post-title" path="title">
                         {{'postTitleField.title' | translate}}
                     </label>
-                    <input type="text" class="form-control" id="postTitle" placeholder="{{'postTitleField.title' | translate}}" name="title" ng-model="newPost.title" ng-minlength="4" ng-maxlength="60"/>
-                    <span ng-show="(createPostForm.title.$error.minlength || createPostForm.title.$error.maxlength) && createPostForm.$submitted" class="formError">
+                    <input type="text" class="form-control" id="postTitle" placeholder="{{'postTitleField.title' | translate}}" name="title" ng-model="newPost.title" ng-minlength="4" ng-maxlength="60" ng-required="true"/>
+                    <span ng-show="(createPostForm.title.$error.required || createPostForm.title.$error.minlength || createPostForm.title.$error.maxlength) && createPostForm.$submitted" class="formError">
                         {{'Size.createPostForm.title' | translate}}
                     </span>
                 </div>
@@ -27,8 +27,8 @@
                     <label for="post-content" path="content">
                        {{'postContent.title' | translate}}
                     </label>
-                    <textarea path="content" class="form-control" id="post-content" rows="6" name="content" ng-model="newPost.content" ng-minlength="6" ng-maxlength="1000"></textarea>
-                    <span ng-show="((createPostForm.content.$error.minlength || createPostForm.content.$error.maxlength) && createPostForm.$submitted)" class="formError">
+                    <textarea path="content" class="form-control" id="post-content" rows="6" name="content" ng-model="newPost.content" ng-minlength="6" ng-maxlength="1000" ng-required="true"></textarea>
+                    <span ng-show="(createPostForm.content.$error.required || createPostForm.content.$error.minlength || createPostForm.content.$error.maxlength) && createPostForm.$submitted" class="formError">
                         {{'Size.createPostForm.content' | translate}}
                     </span>
                 </div>

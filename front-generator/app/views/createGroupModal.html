@@ -10,8 +10,8 @@
         		<label for="groupname">
                     {{'groupName.title' | translate}}
     			</label>
-        		<input type="text" class="form-control" id="groupname" placeholder="{{'groupName.placeholder' | translate}}" name="name" ng-model="newGroup.name" ng-minlength="4" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9]+$/"/>
-                <span ng-show="(createGroupForm.name.$error.minlength || createGroupForm.name.$error.maxlength) && createGroupForm.$submitted" class="formError">
+        		<input type="text" class="form-control" id="groupname" placeholder="{{'groupName.placeholder' | translate}}" name="name" ng-model="newGroup.name" ng-minlength="4" ng-maxlength="32" ng-pattern="/^[a-zA-Z0-9]+$/" ng-required="true"/>
+                <span ng-show="(createGroupForm.name.$error.required || createGroupForm.name.$error.minlength || createGroupForm.name.$error.maxlength) && createGroupForm.$submitted" class="formError">
                     {{'Size.createGroupForm.name' | translate}}
                 </span>
                 <span ng-show="createGroupForm.name.$error.pattern && createGroupForm.$submitted" class="formError">
@@ -25,8 +25,8 @@
         		<label for="groupDescription">
                     {{'groupDescription.title' | translate}}
     			</label>
-        		<textarea class="form-control" id="groupDescription" rows="6" ng-model="newGroup.description" name="description" ng-minlength="6" ng-maxlength="1000"></textarea>
-                <span ng-show="(createGroupForm.description.$error.minlength || createGroupForm.description.$error.maxlength) && createGroupForm.$submitted" class="formError">
+        		<textarea class="form-control" id="groupDescription" rows="6" ng-model="newGroup.description" name="description" ng-minlength="6" ng-maxlength="1000" ng-required="true"></textarea>
+                <span ng-show="(createGroupForm.description.$error.required || createGroupForm.description.$error.minlength || createGroupForm.description.$error.maxlength) && createGroupForm.$submitted" class="formError">
                     {{'Size.createGroupForm.description' | translate}}
                 </span>
         	</div>

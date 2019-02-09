@@ -20,6 +20,8 @@ public class ImageForm {
 	}
 	
 	public byte[] getFileBytes() {
+		if (getFileBodyPart() == null)
+			return null;
 		return getFileBodyPart().getValueAs(byte[].class);
 	}
 

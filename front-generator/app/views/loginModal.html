@@ -7,19 +7,19 @@
     <div class="modal-body">
         <form ng-submit="doSubmit()" name="loginForm" accept-charset="UTF-8" novalidate>
             <div class="form-group">
-                <span ng-show="loginError && loginForm.$submitted" class="formError">
+                <span ng-show="(loginForm.username.$error.required || loginForm.password.$error.required || loginError) && loginForm.$submitted" class="formError">
                     {{'login.error.message' | translate}}
                 </span>
                 <label for="username">
                     {{'loginUsernameField.title' | translate}}
                 </label>
-                <input type="text" class="form-control" id="username" name="jUsername" placeholder="{{'loginUsername.placeholder' | translate}}" ng-model="loginUser.username"/>
+                <input type="text" class="form-control" id="username" name="username" placeholder="{{'loginUsername.placeholder' | translate}}" ng-model="loginUser.username" ng-required="true"/>
             </div>
             <div class="form-group">
                 <label for="password">
                     {{'loginPasswordField.title' | translate}}
                 </label>
-                <input type="password" class="form-control" id="password" name="jPassword" placeholder="{{'loginPassword.placeholder' | translate}}" ng-model="loginUser.password"/>
+                <input type="password" class="form-control" id="password" name="password" placeholder="{{'loginPassword.placeholder' | translate}}" ng-model="loginUser.password" ng-required="true"/>
             </div>
             <div>
                 <label>

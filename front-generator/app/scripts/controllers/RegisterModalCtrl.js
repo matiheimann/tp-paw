@@ -9,7 +9,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 		};
 
 		$scope.doSubmit = function() {
-
+	
 		};
 
 	}]);

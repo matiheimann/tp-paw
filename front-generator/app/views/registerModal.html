@@ -16,6 +16,12 @@
 			    			<span class="formError" ng-show="(registerForm.email.$error.pattern && registerForm.$submitted)">
 			    				{{'Email' | translate}}
 			    			</span>
+			    			<span class="formError" ng-show="(registerForm.email.$error.required && registerForm.$submitted)">
+			    				{{'NotEmpty.registerForm.email' | translate}}
+			    			</span>
+			    			<span class="formError" ng-show="(emailMatch && registerForm.$submitted)">
+			    				{{'EmailNotRepeated.registerForm.email' | translate}}
+			    			</span>
 		 			 	</div>
 		  				<div class="form-group">
 		    				<label for="exampleInputUsername">
@@ -25,8 +31,11 @@
 		   					<span class="formError" ng-show="((registerForm.username.$error.pattern) && registerForm.$submitted)">
 		   						{{'Pattern.registerForm.username' | translate}}
 		   					</span>
-		   					<span class="formError" ng-show="((registerForm.username.$error.maxlength || registerForm.username.$error.minlength) && registerForm.$submitted)">
+		   					<span class="formError" ng-show="((registerForm.username.$error.required || registerForm.username.$error.maxlength || registerForm.username.$error.minlength) && registerForm.$submitted)">
 		   						{{'Size.registerForm.username' | translate}}
+		   					</span>
+		   					<span class="formError" ng-show="(usernameUsed && registerForm.$submitted)">
+		   						{{'EmailNotRepeated.registerForm.email' | translate}}
 		   					</span>
 		 			 	</div>
 					  	<div class="form-group">
@@ -35,7 +44,7 @@
 							</label>
 							
 					    	<input type="password" ng-model="newUser.password" class="form-control" name="password" id="exampleInputPassword1" placeholder="{{'registerPassword.placeholder' | translate}}" ng-minlength="6" ng-maxlength="100" ng-required="true"/>
-					    	<span class="formError" ng-show="((registerForm.password.$error.maxlength || registerForm.password.$error.minlength) && registerForm.$submitted)">
+					    	<span class="formError" ng-show="((registerForm.password.$error.required || registerForm.password.$error.maxlength || registerForm.password.$error.minlength) && registerForm.$submitted)">
 					    		{{'Size.registerForm.password' | translate}}
 					    	</span>
 					  	</div>
@@ -43,7 +52,10 @@
 					 		<label for="exampleInputConfirmPassword">
 								{{'registerConfirmPassword.title' | translate}}
 							</label>
-					    	<input type="password" class="form-control" name="confirmPassword" id="exampleInputConfirmPassword" placeholder="{{'registerConfirmPassword.placeholder' | translate}}" ng-minlength="6" ng-maxlength="100"/>
+					    	<input type="password" class="form-control" ng-model="newUser.confirmPassword" name="confirmPassword" id="exampleInputConfirmPassword" placeholder="{{'registerConfirmPassword.placeholder' | translate}}" ng-minlength="6" ng-maxlength="100">
+					    	<span class="formError" ng-show="(passwordNotMatch && registerForm.$submitted)">
+					    		{{'MatchingPasswords.registerForm.repeatPassword' | translate}}
+					    	</span>
 					  	</div>
 					  	<button type="submit" class="app-btn-primary login-btn">
 							{{'registerSubmit.button.message' | translate}}

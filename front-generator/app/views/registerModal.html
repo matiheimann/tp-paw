@@ -1,0 +1,55 @@
+
+				<div class="register form-container">
+					<h2>
+						{{'register.title' | translate}}
+					</h2>
+					<br>
+					<form modelAttribute="registerForm" action="${postPath}" method="post">
+		  				<div class="form-group">
+			    			<label for="exampleInputEmail1">
+								{{ 'registerEmailAddress.title' | translate}}
+							</label>
+			   				<input class="form-control" id="exampleInputEmail1" placeholder="{{'registerEmailAddress.placeholder' | translate}}" ng-required="true" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"/>
+			    			<small id="emailHelp" class="form-text text-muted">
+								{{'weWillNeverShareYourEmail.message' | translate}}
+							</small>
+			    			<span class="formError" ng-show="(registerForm.exampleInputEmail1.$error.pattern)">
+			    				{{'Email' | translate}}
+			    			</span>
+			    			<span class="formError" ng-show="(registerForm.exampleInputEmail1.$error.required)">
+			    				{{'NotEmpty.registerForm.email'}}
+			    			</span>
+		 			 	</div>
+		  				<div class="form-group">
+		    				<label for="exampleInputUsername" path="username">
+								{{'registerUsername.title' | translate}}
+							</label>
+		   					<input type="text" class="form-control" id="exampleInputUsername" placeholder="{{'registerUsername.placeholder' | translate}}" ng-pattern="/^[a-zA-Z0-9]+$/" ng-required="true" ng-minlength="4" ng-maxlength="100"/>
+		   					<span class="formError" ng-show="(registerForm.exampleInputUsername.$error.pattern)">
+		   						{{'Pattern.registerForm.username' | translate}}
+		   					</span>
+		   					<span class="formError" ng-show="(registerForm.exampleInputUsername.$error.maxlength || registerForm.exampleInputUsername.$error.minlength)">
+		   						{{'Size.registerForm.username' | translate}}
+		   					</span>
+		 			 	</div>
+					  	<div class="form-group">
+					 		<label for="exampleInputPassword1">
+								{{'registerPassword.title' | translate}}
+							</label>
+							
+					    	<input type="password" class="form-control" id="exampleInputPassword1" placeholder="{{'registerPassword.placeholder' | translate}}" ng-minlength="6" ng-maxlength="100" ng-required="true"/>
+					    	<span class="formError" ng-show="(registerForm.exampleInputPassword1.$error.maxlength || registerForm.exampleInputPassword1.minlength)">
+					    		{{'Size.registerForm.password' | translate}}
+					    	</span>
+					  	</div>
+					  	<div class="form-group">
+					 		<label for="exampleInputConfirmPassword">
+								{{'registerConfirmPassword.title' | translate}}
+							</label>
+					    	<input type="password" class="form-control" id="exampleInputConfirmPassword" placeholder="{{'confirmPasswordPlaceholder' | translate}}" ng-minlength="6" ng-maxlength="100"/>
+					  	</div>
+					  	<button type="submit" class="app-btn-primary login-btn">
+							{{'registerSubmit.button.message' | translate}}
+						</button>
+					</form>
+				</div>

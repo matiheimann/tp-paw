@@ -51,5 +51,12 @@ define(['pawddit', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCt
 			});
 		};
 
+		this.registerModal = function() {
+			return $uibModal.open({
+				templateUrl: 'views/registerModal.html',
+				size: 'md'
+			});
+		};
+
 	}]);
 });

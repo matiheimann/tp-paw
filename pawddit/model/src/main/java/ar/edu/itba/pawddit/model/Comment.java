@@ -54,7 +54,7 @@ public class Comment {
 	@Transient
 	private int replies;
 
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "replyTo")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "replyTo")
 	private List<Comment> repliesSet = new ArrayList<Comment>();
 	
 	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "pk.comment")

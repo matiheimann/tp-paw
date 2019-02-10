@@ -27,7 +27,8 @@ require.config({
         'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
         'angular-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls',
         'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
-        'angular-timeago': '../../bower_components/angular-timeago/dist/angular-timeago'
+        'angular-timeago': '../../bower_components/angular-timeago/dist/angular-timeago',
+        ngInfiniteScroll: '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll'
     },
     shim: {
         angular: {
@@ -72,6 +73,11 @@ require.config({
             ]
         },
         'angular-timeago': {
+            deps: [
+                'angular'
+            ]
+        },
+        ngInfiniteScroll: {
             deps: [
                 'angular'
             ]

@@ -1,17 +1,25 @@
 'use strict';
-define(['pawddit', 'services/restService'], function(pawddit) {
+define(['pawddit', 'services/restService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('PostsCtrl', ['$scope', '$location', '$routeParams', 'restService', 'group', 'posts', 'postsPageCount', 'url', function($scope, $location, $routeParams, restService, group, posts, postsPageCount, url) {
+	pawddit.controller('PostsCtrl', ['$scope', '$rootScope', '$location', 'restService', 'navbarService', 'group', 'posts', 'url', function($scope, $rootScope, $location, restService, navbarService, group, posts, url) {
+		navbarService.page = 1;
+		navbarService.sort = 'new';
+		navbarService.time = 'all';
+		navbarService.feed = navbarService.feed || false;
+
 		if (group) {
 			$scope.group = group;
+			navbarService.currentPage = 'group';
+			navbarService.currentPageText = group.name;
+		} else if (navbarService.feed) {
+			navbarService.currentPage = 'feedPosts';
+			navbarService.currentPageText = 'dropdown.button.myfeed.message';
+		} else {
+			navbarService.currentPage = 'allPosts';
+			navbarService.currentPageText = 'dropdown.button.all.message';
 		}
 
 		$scope.posts = posts;
-		$scope.postsPageCount = postsPageCount.pageCount;
-
-		$scope.page = $routeParams.page || 1;
-		$scope.sort = $routeParams.sort || 'new';
-		$scope.time = $routeParams.time || 'all';
 
 		$scope.subscribe = function(name) {
 			restService.subscribeGroup(name).then(function(data) {
@@ -30,6 +38,70 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 				$scope.group = data;
 			});
 		}
+
+		function updatePosts() {
+			navbarService.page = 1;
+			document.body.scrollTop = document.documentElement.scrollTop = 0;
+			$scope.loadingPosts = false;
+			$scope.noMorePosts = false;
+			var params = {page: navbarService.page, sort: navbarService.sort, time: navbarService.time};
+			if (navbarService.feed) {
+				restService.getMyFeedPosts(params).then(function(data) {
+					$scope.posts = data;
+				});
+			} else {
+				restService.getPosts(params).then(function(data) {
+					$scope.posts = data;
+				});
+			}
+		}
+
+		$scope.$on('posts:updated', function() {
+			updatePosts();
+		});
+
+		$scope.loadMorePosts = function() {
+			$scope.loadingPosts = true;
+			navbarService.page++;
+			var params = {page: navbarService.page, sort: navbarService.sort, time: navbarService.time};
+			if (group) {
+				restService.getGroupPosts(group.name, params).then(function(data) {
+						if (data.length > 0) {
+							$scope.posts.push.apply($scope.posts, data);
+							$scope.noMorePosts = data.length < 5;
+						} else {
+							$scope.noMorePosts = true;
+						}
+						$scope.loadingPosts = false;
+					}).catch(function(response) {
+						$scope.loadingPosts = false;
+				});
+			} else if (navbarService.feed) {
+				restService.getMyFeedPosts(params).then(function(data) {
+					if (data.length > 0) {
+						$scope.posts.push.apply($scope.posts, data);
+						$scope.noMorePosts = data.length < 5;
+					} else {
+						$scope.noMorePosts = true;
+					}
+					$scope.loadingPosts = false;
+				}).catch(function(response) {
+					$scope.loadingPosts = false;
+				});
+			} else {
+				restService.getPosts(params).then(function(data) {
+					if (data.length > 0) {
+						$scope.posts.push.apply($scope.posts, data);
+						$scope.noMorePosts = data.length < 5;
+					} else {
+						$scope.noMorePosts = true;
+					}
+					$scope.loadingPosts = false;
+				}).catch(function(response) {
+					$scope.loadingPosts = false;
+				});
+			}
+		};
 
 	}]);
 });

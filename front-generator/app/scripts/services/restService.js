@@ -1,7 +1,7 @@
 'use strict';
 define(['pawddit', 'jquery'], function(pawddit) {
 
-	pawddit.factory('restService', ['$http', '$cookies', '$q', 'url', function($http, $cookies, $q, url) {
+	pawddit.factory('restService', ['$http', '$rootScope', '$cookies', '$q', 'url', function($http, $rootScope, $cookies, $q, url) {
 
 		function httpGet(path, params) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
@@ -10,6 +10,9 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					return response.data; 
 				})
 				.catch(function(response) {
+					if (response.status === 403) {
+						$rootScope.$broadcast('user:updated');
+					}
 					return $q.reject(response);
 				});
 		}
@@ -22,14 +25,20 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
+						if (response.status === 403) {
+							$rootScope.$broadcast('user:updated');
+						}
 						return $q.reject(response);
 					});
 			} else {
 				return $http.post(url + path + params, Object.keys(data).length ? jQuery.param(data) : '', formConfig())
-					.then(function(response) { 
+					.then(function(response) {
 						return response.data; 
 					})
 					.catch(function(response) {
+						if (response.status === 403) {
+							$rootScope.$broadcast('user:updated');
+						}
 						return $q.reject(response);
 					});
 			}
@@ -43,6 +52,9 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
+						if (response.status === 403) {
+							$rootScope.$broadcast('user:updated');
+						}
 						return $q.reject(response);
 					});
 			} else {
@@ -51,6 +63,9 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
+						if (response.status === 403) {
+							$rootScope.$broadcast('user:updated');
+						}
 						return $q.reject(response);
 					});
 			}
@@ -159,7 +174,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				return httpGet('/users/profile/' + name + '/lastComments', {});
 			},
 			getLoggedUser: function() {
-				return httpGet('/users/me', {});
+				return httpGet('/users/me/profile', {});
 			},
 			getMySubscribedGroups: function(params) {
 				return httpGet('/users/me/subscribedGroups', {page: params.page});
@@ -257,6 +272,11 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				var formData = new FormData();
 				formData.append('image', dataURItoBlob(file));
 				return httpPost('/users/me', formData, {}, true);
+			},
+			isLoggedIn: function() {
+				return httpGet('/users/me', {}).then(function(data) {
+					return data;
+				});
 			}
 		};
 	}]);

@@ -45,6 +45,7 @@ import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
+import ar.edu.itba.pawddit.webapp.dto.IsLoggedInDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.dto.UserDto;
@@ -183,6 +184,18 @@ public class UserController {
 	
 	@GET
 	@Path("/me")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response isLoggedIn() {
+		
+		final User user = userDetailsService.getLoggedUser();
+		if (user != null)
+			return Response.ok(IsLoggedInDto.fromIsLoggedIn(true)).build();
+		else 
+			return Response.ok(IsLoggedInDto.fromIsLoggedIn(false)).build();
+	}
+	
+	@GET
+	@Path("/me/profile")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response getMyUser() {
 		

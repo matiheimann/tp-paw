@@ -12,7 +12,8 @@
     "moment": "~2.8.3",
     "requirejs": "~2.1.11",
     "angular-bootstrap": "^2.5.0",
-    "angular-timeago": "~0.4.6"
+    "angular-timeago": "~0.4.6",
+    "ngInfiniteScroll": "~1.2.2"
   },
   "resolutions": {
     "angular": "~1.6.7"
@@ -21,4 +22,3 @@
     "bootstrap": "~3.3.1"
   }
 }
-

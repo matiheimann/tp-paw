@@ -8,7 +8,7 @@ define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawd
 
 		for (var i = 2; i <= subscribedGroupsPageCount.pageCount; i++) {
 			restService.getMySubscribedGroups({page: i}).then(function(data) {
-				$scope.subscribedGroups.push(data);
+				$scope.subscribedGroups.push.apply($scope.subscribedGroups, data);
 			});
 		}
 

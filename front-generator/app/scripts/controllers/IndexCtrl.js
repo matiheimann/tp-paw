@@ -1,7 +1,9 @@
 'use strict';
-define(['pawddit', 'services/restService', 'services/modalService'], function(pawddit) {
+define(['pawddit', 'services/restService', 'services/modalService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$routeParams', '$location', 'restService', 'modalService', 'url', 'timeAgoSettings', function($scope, $rootScope, $translate, $routeParams, $location, restService, modalService, url, timeAgoSettings) {
+	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$route', '$location', 'restService', 'modalService', 'navbarService', 'url', 'timeAgoSettings', function($scope, $rootScope, $translate, $route, $location, restService, modalService, navbarService, url, timeAgoSettings) {
+		$scope.navbar = navbarService;
+
 		$translate('Lang.code').then(function(translatedValue) {
             switch (translatedValue) {
 				case 'en':
@@ -14,35 +16,19 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 			}
         });
 
-		$scope.page = $routeParams.page || 1;
-		$scope.sort = $routeParams.sort || 'new';
-		$scope.time = $routeParams.time || 'all';
-
-		restService.getLoggedUser().then(function(data) {
-			if (data.userid !== undefined) {
-				$scope.loggedUser = data;
-				$scope.isLoggedIn = true;
-				restService.getMySubscribedGroupsPageCount({}).then(function(data) {
-					$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
-				});
+        restService.isLoggedIn().then(function(data) {
+        	$scope.isLoggedIn = data.isLoggedIn;
+        	if ($scope.isLoggedIn) {
+				getLoggedUser();
 			}
-		}).catch(function(response) {
-			$scope.loggedUser = null;
-			$scope.isLoggedIn = false;
 		});
 
 		$scope.$on('user:updated', function() {
-			restService.getLoggedUser().then(function(data) {
-				if (data.userid !== undefined) {
-					$scope.loggedUser = data;
-					$scope.isLoggedIn = true;
-					restService.getMySubscribedGroupsPageCount({}).then(function(data) {
-						$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
-					});
+			restService.isLoggedIn().then(function(data) {
+				$scope.isLoggedIn = data.isLoggedIn;
+        		if ($scope.isLoggedIn) {
+					getLoggedUser();
 				}
-			}).catch(function(response) {
-				$scope.loggedUser = null;
-				$scope.isLoggedIn = false;
 			});
 		});
 
@@ -52,37 +38,35 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 			});
 		};
 
-		$scope.buildURL = function(params) {
-			var url = '#' + $location.path();
-			var hasParams = false;
+		$scope.changeSort = function(sort) {
+			navbarService.sort = sort;
+			$rootScope.$broadcast('posts:updated');
+		};
 
-			var page = (params.page || $scope.page);
-			if (page !== 1) {
-				url += '?page=' + page;
-				hasParams = true;
-			}
-			var sort = (params.sort || $scope.sort);
-			if (sort !== 'new') {
-				url += (hasParams ? '&' : '?') + 'sort=' + sort;
-				hasParams = true;
-			}
-			var time = (params.time || $scope.time);
-			if (time !== 'all') {
-				url += (hasParams ? '&' : '?') + 'time=' + time;
-				hasParams = true;
-			}
+		$scope.changeTime = function(time) {
+			navbarService.time = time;
+			$rootScope.$broadcast('posts:updated');
+		};
 
-			return url;
+		$scope.home = function(feed) {
+			navbarService.page = 1;
+			navbarService.sort = 'new';
+			navbarService.time = 'all';
+			navbarService.feed = feed;
+			$location.url('');
+			if (feed) {
+				navbarService.currentPage = 'feedPosts';
+				navbarService.currentPageText = 'dropdown.button.myfeed.message';
+			} else {
+				navbarService.currentPage = 'allPosts';
+				navbarService.currentPageText = 'dropdown.button.all.message';
+			}
+			$rootScope.$broadcast('posts:updated');
 		};
 
 		$scope.getImageURL = function(imageid) {
 			return url + '/images/' + imageid;
 		};
-
-		$scope.$on('$locationChangeSuccess', function(event) {
-			$scope.currentPath = $location.path();
-			console.log($scope.currentPath);
-		});
 
 		$scope.gotoProfile = function(name) {
 			$location.url('profile/' + name);
@@ -92,12 +76,30 @@ define(['pawddit', 'services/restService', 'services/modalService'], function(pa
 			$location.url('groups/' + name + '/posts/' + pid);
 		};
 
+		$scope.$on('$locationChangeSuccess', function(event) {
+			$scope.currentPath = $location.path();
+			console.log($scope.currentPath);
+		});
+
 		$scope.createGroupModal = modalService.createGroupModal;
 		$scope.loginModal = modalService.loginModal;
 		$scope.createPostModal = modalService.createPostModal;
 		$scope.deleteConfirmModal = modalService.deleteConfirmModal;
 
-		$scope.test = function(i) {
+		function getLoggedUser() {
+			restService.getLoggedUser().then(function(data) {
+				$scope.loggedUser = data;
+				$scope.isLoggedIn = true;
+				restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+					$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
+				});
+			}).catch(function(response) {
+				$scope.loggedUser = null;
+				$scope.isLoggedIn = false;
+			});
+        }
+
+        $scope.test = function(i) {
 			console.log(i);
 		};
 

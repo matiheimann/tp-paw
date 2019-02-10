@@ -26,7 +26,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 				case 'comment':
 					restService.deleteComment(item.group.name, item.post.postid, item.comment.commentid).then(function(data) {
 						$modal.dismiss();
-						$rootScope.$broadcast('comments:updated');
+						$rootScope.$broadcast('comment:deleted', item.comment);
 					});
 					break;
 

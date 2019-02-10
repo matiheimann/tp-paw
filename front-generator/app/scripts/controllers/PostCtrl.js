@@ -1,12 +1,14 @@
 'use strict';
-define(['pawddit', 'jquery'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], function(pawddit) {
 
-    pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'restService', 'post', 'comments', 'commentsPageCount', 'url', function($scope, $rootScope, $location, $routeParams, restService, post, comments, commentsPageCount, url) {
+    pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', 'restService', 'navbarService', 'post', 'comments', 'url', function($scope, $rootScope, $location, restService, navbarService, post, comments, url) {
+        navbarService.currentPage = 'post';
+		navbarService.currentPageText = post.group.name;
+
         $scope.post = post;
         $scope.comments = comments;
-		$scope.commentsPageCount = commentsPageCount.pageCount;
 
-		$scope.page = $routeParams.page || 1;
+		$scope.commentsPage = 1;
 
 		$scope.newComment = {};
 		$scope.newCommentReply = {};
@@ -51,21 +53,44 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			});
 		}
 
+		$scope.$on('comment:deleted', function(event, deletedComment) {
+			var index = $scope.comments.findIndex(function(comment) {
+				return comment.commentid === deletedComment.commentid;
+			});
+			$scope.comments.splice(index, 1);
+			if (deletedComment.replyTo) {
+				index = $scope.comments.findIndex(function(comment) {
+					return comment.commentid === deletedComment.replyTo.commentid;
+				});
+				$scope.comments[index].replies--;
+			}
+		});
+
 		$scope.doSubmit = function(form, replyTo) {
+			$scope.submitted = true;
 			if (form.$valid) {
 				if (!replyTo) {
 					restService.createComment($scope.post.group.name, $scope.post.postid, $scope.newComment.content, null).then(function(data) {            
 						$scope.newComment.content = '';
-						$rootScope.$broadcast('comments:updated');
+						$scope.comments.unshift(data);
+						var commentsStartPos = $('.post-component-comments').offset().top;
+						document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});
 				} else {
 					restService.createComment($scope.post.group.name, $scope.post.postid, $scope.newCommentReply.content, replyTo).then(function(data) {            
 						$scope.newCommentReply.content = ''; 
 						activeReplyForm.slideUp();
       					activeReplyForm = null;
-      					$rootScope.$broadcast('comments:updated');
+      					$scope.comments.unshift(data);
+      					var index = $scope.comments.findIndex(function(comment) {
+							return comment.commentid === replyTo;
+						});
+						$scope.comments[index].replies++;
+      					var commentsStartPos = $('.post-component-comments').offset().top;
+      					document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});
-				} 
+				}
+				$scope.submitted = false;
 			}
 		};
 
@@ -85,14 +110,22 @@ define(['pawddit', 'jquery'], function(pawddit) {
       		}
 		};
 
-		$scope.$on('comments:updated', function() {
-			restService.getPostComments(post.group.name, post.postid, {page: $scope.page}).then(function(data) {
-				$scope.comments = data;
+		$scope.loadMoreComments = function() {
+			$scope.loadingComments = true;
+			$scope.commentsPage++;
+			var params = {page: $scope.commentsPage};
+			restService.getPostComments(post.group.name, post.postid, params).then(function(data) {
+				if (data.length > 0) {
+					$scope.comments.push.apply($scope.comments, data);
+					$scope.noMoreComments = data.length < 5;
+				} else {
+					$scope.noMoreComments = true;
+				}
+				$scope.loadingComments = false;
+			}).catch(function(response) {
+				$scope.loadingComments = false;
 			});
-			restService.getPostCommentsPageCount(post.group.name, post.postid, {}).then(function(data) {
-				$scope.commentsPageCount = data.pageCount;
-			});
-		});
+		};
 
     }]);
 });

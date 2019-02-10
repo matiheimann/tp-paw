@@ -11,19 +11,16 @@ define(function() {
                     group: [function() {
                         return null;
                     }],
-                    posts: ['$route', 'restService', function($route, restService) {
-                        var params = $route.current.params;
-                        params.page = params.page || 1;
-                        params.sort = params.sort || 'new';
-                        params.time = params.time || 'all';
-                        return restService.getPosts(params);
-                    }],
-                    postsPageCount: ['$route', 'restService', function($route, restService) {
-                        var params = $route.current.params;
-                        params.page = params.page || 1;
-                        params.sort = params.sort || 'new';
-                        params.time = params.time || 'all';
-                        return restService.getPostsPageCount(params);
+                    posts: ['restService', 'navbarService', function(restService, navbarService) {
+                        var params = {};
+                        params.page = 1;
+                        params.sort = 'new';
+                        params.time = 'all';
+                        if (navbarService.feed) {
+                            return restService.getMyFeedPosts(params);
+                        } else {
+                            return restService.getPosts(params);
+                        }
                     }]
                 }
             },
@@ -41,13 +38,6 @@ define(function() {
                         params.sort = params.sort || 'new';
                         params.time = params.time || 'all';
                         return restService.getGroupPosts(params.name, params);
-                    }],
-                    postsPageCount: ['$route', 'restService', function($route, restService) {
-                        var params = $route.current.params;
-                        params.page = params.page || 1;
-                        params.sort = params.sort || 'new';
-                        params.time = params.time || 'all';
-                        return restService.getGroupPostsPageCount(params.name, params);
                     }]
                 }
             },
@@ -63,11 +53,6 @@ define(function() {
                         var params = $route.current.params;
                         params.page = params.page || 1;
                         return restService.getPostComments(params.name, params.id, params);
-                    }],
-                    commentsPageCount: ['$route', 'restService', function($route, restService) {
-                        var params = $route.current.params;
-                        params.page = params.page || 1;
-                        return restService.getPostCommentsPageCount(params.name, params.id, params);
                     }]
                 }
             },

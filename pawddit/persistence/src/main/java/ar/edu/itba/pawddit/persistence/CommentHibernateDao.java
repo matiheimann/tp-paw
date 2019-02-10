@@ -102,6 +102,13 @@ public class CommentHibernateDao implements CommentDao {
 	@Override
 	public void delete(final Comment comment) {
 		final Comment c = em.merge(comment);
+		final TypedQuery<Comment> query = em.createQuery("from Comment as c where c.replyTo = :comment", Comment.class);
+		query.setParameter("comment", comment);
+		final List<Comment> comments = query.getResultList();
+		for (final Comment commentReply : comments) {
+			final Comment cr = em.merge(commentReply);
+			cr.setReplyTo(null);
+		}
 		em.remove(c);
 	}
 

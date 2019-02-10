@@ -8,14 +8,16 @@ define(['routes',
 	'angular-bootstrap',
 	'bootstrap',
 	'angular-translate',
-	'angular-timeago'],
+	'angular-timeago',
+	'ngInfiniteScroll'],
 	function(config, dependencyResolverFor, i18n) {
 		var pawddit = angular.module('pawddit', [
 			'ngRoute',
 			'ngCookies',
 			'pascalprecht.translate',
 			'ui.bootstrap',
-			'yaru22.angular-timeago'
+			'yaru22.angular-timeago',
+			'infinite-scroll'
 		]);
 		pawddit
 			.config(
@@ -63,7 +65,7 @@ define(['routes',
 					$locationProvider.hashPrefix('');
 					$httpProvider.defaults.withCredentials = true;
 				}])
-			.run(['$rootScope', '$location', function($rootScope, $location) {
+			.run(['$rootScope', function($rootScope) {
 					$rootScope.$on('$routeChangeSuccess', function() {
 						document.body.scrollTop = document.documentElement.scrollTop = 0;
 					});

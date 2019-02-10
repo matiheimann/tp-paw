@@ -2,44 +2,41 @@
 	<div class="center-content">
 		<ng-include src="group ? 'views/group.html' : ''"></ng-include>
 		<div class="timeFilterControls">
-			<div class="time-indicator">
-				{{time}}
-			</div>
 			<strong>
 				{{'time.filterBy.message' | translate}}
 			</strong>
 			<div>
-				<a class="timeFilterButton js-lhour" ng-href="{{buildURL({time: 'lasthour'})}}">
+				<a class="timeFilterButton js-lhour" ng-click="changeTime('lasthour')" ng-class="{selectedFilter: navbar.time == 'lasthour'}">
 					{{'filter.button.lastHour.message' | translate}}
 				</a>
 			</div>
 			|
 			<div>
-				<a class="timeFilterButton js-lday" ng-href="{{buildURL({time: 'lastday'})}}">
+				<a class="timeFilterButton js-lday" ng-click="changeTime('lastday')" ng-class="{selectedFilter: navbar.time == 'lastday'}">
 					{{'filter.button.lastDay.message' | translate}}
 				</a>
 			</div>
 			|
 			<div>
-				<a class="timeFilterButton js-lweek" ng-href="{{buildURL({time: 'lastweek'})}}">
+				<a class="timeFilterButton js-lweek" ng-click="changeTime('lastweek')" ng-class="{selectedFilter: navbar.time == 'lastweek'}">
 					{{'filter.button.lastWeek.message' | translate}}
 				</a>
 			</div>
 			|
 			<div>
-				<a class="timeFilterButton js-lmonth" ng-href="{{buildURL({time: 'lastmonth'})}}">
+				<a class="timeFilterButton js-lmonth" ng-click="changeTime('lastmonth')" ng-class="{selectedFilter: navbar.time == 'lastmonth'}">
 					{{'filter.button.lastMonth.message' | translate}}
 				</a>
 			</div>
 			|
 			<div>
-				<a class="timeFilterButton js-lyear" ng-href="{{buildURL({time: 'lastyear'})}}">
+				<a class="timeFilterButton js-lyear" ng-click="changeTime('lastyear')" ng-class="{selectedFilter: navbar.time == 'lastyear'}">
 					{{'filter.button.lastYear.message' | translate}}
 				</a>
 			</div>
 			|
 			<div>
-				<a class="timeFilterButton js-lall" ng-href="{{buildURL({time: 'all'})}}">
+				<a class="timeFilterButton js-lall" ng-click="changeTime('all')" ng-class="{selectedFilter: navbar.time == 'all'}">
 					{{'filter.button.all.message' | translate}}
 				</a>
 			</div>
@@ -52,72 +49,48 @@
 			{{'noPosts.made.signedIn.message' | translate}}
 		</h2>
 
-		<div ng-if="posts.length > 0" ng-repeat="post in posts">
-			<div class="post-container">
-				<div class="post-header">
-					<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
-						{{post.owner.username}}
-					</span>
-					<span><strong>
-						{{'postedIn.message' | translate}}
-					</strong></span>
-					<a class="no-underline" ng-href="#/groups/{{post.group.name}}">
-						<span class="header-button group-name">{{post.group.name}}</span>
-					</a>
-					<span><strong>
-						{{post.date | timeAgo}}
-					</strong></span>
-				</div>
-				<hr>
-				<div class="clickable post-center" ng-click="gotoPost(post.group.name, post.postid)">
-					<div class="post-center-text">
-						<h2 class="post-wrap">{{post.title}}</h2>
-						<div class="post-description-text post-wrap">
-							{{post.content}}
-						</div>
+		<div ng-if="posts.length > 0" infinite-scroll='loadMorePosts()' infinite-scroll-disabled="loadingPosts || noMorePosts">
+			<div ng-repeat="post in posts track by post.postid">
+				<div class="post-container">
+					<div class="post-header">
+						<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
+							{{post.owner.username}}
+						</span>
+						<span><strong>
+							{{'postedIn.message' | translate}}
+						</strong></span>
+						<a class="no-underline" ng-href="#/groups/{{post.group.name}}">
+							<span class="header-button group-name">{{post.group.name}}</span>
+						</a>
+						<span><strong>
+							{{post.date | timeAgo}}
+						</strong></span>
 					</div>
-					<img ng-if="post.imageid != null" class="post-center-image" ng-src="{{getImageURL(post.imageid)}}"/>
-				</div>
-				<hr>
-				<div class="post-info">
-					<div class="info-item">
-		         		<strong><i class="fas fa-comment"></i>
-		         			{{post.comments}} {{'comments.message' | translate}}
-		         		</strong>
-		     		</div>
-					<div class="info-item">
-						<strong class="score-count">
-							{{post.votes}} {{'posts.votes' | translate}}
-						</strong>
-		     		</div>
+					<hr>
+					<div class="clickable post-center" ng-click="gotoPost(post.group.name, post.postid)">
+						<div class="post-center-text">
+							<h2 class="post-wrap">{{post.title}}</h2>
+							<div class="post-description-text post-wrap">
+								{{post.content}}
+							</div>
+						</div>
+						<img ng-if="post.imageid != null" class="post-center-image" ng-src="{{getImageURL(post.imageid)}}"/>
+					</div>
+					<hr>
+					<div class="post-info">
+						<div class="info-item">
+			         		<strong><i class="fas fa-comment"></i>
+			         			{{post.comments}} {{'comments.message' | translate}}
+			         		</strong>
+			     		</div>
+						<div class="info-item">
+							<strong class="score-count">
+								{{post.votes}} {{'posts.votes' | translate}}
+							</strong>
+			     		</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<br>
-		<nav ng-if="postsPageCount > 1" aria-label="...">
-  			<ul class="pagination">
-    			<li ng-if="page == 1" class="page-item disabled">
-      				<span class="page-link">Back</span>
-    			</li>
-            	<li ng-if="page != 1" class="page-item">
-      				<a class="page-link" ng-href="{{buildURL({page: page-1})}}">Back</a>
-    			</li>
-    			<li ng-repeat="x in [].constructor(postsPageCount) track by $index" class="page-item" ng-class="{active: page == $index+1}">
-    				<a ng-if="page != $index+1" class="page-link" ng-href="{{buildURL({page: $index+1})}}">
-    					{{$index+1}}
-    				</a>
-    				<span ng-if="page == $index+1" class="page-link">
-      					{{$index+1}}
-      					<span class="sr-only">(current)</span>
-      				</span>
-    			</li>
-    			<li ng-if="page == postsPageCount" class="page-item disabled">
-      				<span class="page-link">Next</span>
-    			</li>
-    			<li ng-if="page != postsPageCount" class="page-item">
-      				<a class="page-link" ng-href="{{buildURL({page: page+1})}}">Next</a>
-    			</li>
-  			</ul>
-		</nav>
 	</div>
 </div>

@@ -13,10 +13,9 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 			$scope.usernameUsed = false;
 			$scope.passwordNotMatch = false;
 
-			if($scope.newUser.password != $scope.newUser.confirmPassword){
+			if ($scope.newUser.password !== $scope.newUser.confirmPassword) {
 				$scope.passwordNotMatch = true;
 			}
-
 		};
 
 	}]);

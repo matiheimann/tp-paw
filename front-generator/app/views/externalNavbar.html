@@ -23,13 +23,13 @@
 			</div>
 	  	</button>
 	  	<div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">
-	    	<a class="dropdown-item" ng-href="#/all"><i class="dropdown-icon fas fa-list"></i>
+	    	<a class="dropdown-item" ng-click="home(false)"><i class="dropdown-icon fas fa-list"></i>
 				{{'dropdown.button.all.message' | translate}}
 			</a>
 			<div class="dropdown-groups-text">
 				{{'dropdown.button.groups.title' | translate}}
 			</div>
-			<a class="dropdown-item" ng-href="#/groups"><i class="dropdown-icon fas fa-users"></i>
+			<a class="dropdown-item" ng-click="groupsModal('allGroups', null)"><i class="dropdown-icon fas fa-users"></i>
 				{{'dropdown.button.groups.message' | translate}}
 			</a>
 			<div class="dropdown-groups-text">

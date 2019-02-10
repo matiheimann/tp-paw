@@ -1,7 +1,15 @@
 'use strict';
-define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl', 'controllers/DeleteConfirmModalCtrl', 'services/restService'], function(pawddit) {
+define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl', 'controllers/DeleteConfirmModalCtrl', 'controllers/GroupsModalCtrl', 'services/restService'], function(pawddit) {
 
 	pawddit.service('modalService', ['$uibModal', 'restService', function($uibModal, restService) {
+
+		this.registerModal = function() {
+			return $uibModal.open({
+				templateUrl: 'views/registerModal.html',
+				controller: 'RegisterModalCtrl',
+				size: 'md'
+			});
+		};
 
 		this.loginModal = function() {
 			return $uibModal.open({
@@ -51,11 +59,32 @@ define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl'
 			});
 		};
 
-		this.registerModal = function() {
+		this.groupsModal = function(type, search) {
 			return $uibModal.open({
-				templateUrl: 'views/registerModal.html',
-				controller: 'RegisterModalCtrl',
-				size: 'md'
+				templateUrl: 'views/groupsModal.html',
+				controller: 'GroupsModalCtrl',
+				size: 'md',
+				resolve: {
+					groups: function() {
+						var params = {page: 1};
+						if (type === 'allGroups') {
+							if (search) {
+								params.search = search;
+							}
+							return restService.getGroups(params);
+						} else if (type === 'myGroups') {
+							return restService.getMySubscribedGroups(params);
+						} else if (type === 'recommendedGroups') {
+							return restService.getRecommendedGroups(params);
+						}
+					},
+					type: function() {
+						return type;
+					},
+					search: function() {
+						return search;
+					}
+				}
 			});
 		};
 

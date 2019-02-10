@@ -79,7 +79,7 @@
 				</h5>
 				<!-- Comment List -->
 				<div ng-if="comments.length > 0" infinite-scroll='loadMoreComments()' infinite-scroll-disabled="loadingComments || noMoreComments">
-		            <div ng-repeat="comment in comments" class="comment">
+		            <div ng-repeat="comment in comments track by comment.commentid" class="comment">
 		               	<div class="comment-header">
 		                	<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
 		                		{{comment.owner.username}}

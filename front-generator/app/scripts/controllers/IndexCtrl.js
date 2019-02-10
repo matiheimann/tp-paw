@@ -81,11 +81,13 @@ define(['pawddit', 'services/restService', 'services/modalService', 'services/na
 			console.log($scope.currentPath);
 		});
 
-		$scope.createGroupModal = modalService.createGroupModal;
+		
+		$scope.registerModal = modalService.registerModal;
 		$scope.loginModal = modalService.loginModal;
+		$scope.createGroupModal = modalService.createGroupModal;
 		$scope.createPostModal = modalService.createPostModal;
 		$scope.deleteConfirmModal = modalService.deleteConfirmModal;
-		$scope.registerModal = modalService.registerModal;
+		$scope.groupsModal = modalService.groupsModal;
 
 		function getLoggedUser() {
 			restService.getLoggedUser().then(function(data) {

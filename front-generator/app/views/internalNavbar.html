@@ -44,13 +44,13 @@
 			<div class="dropdown-groups-text">
 				{{'dropdown.button.groups.title' | translate}}
 			</div>
-			<a class="dropdown-item" ng-href="#/myGroups"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
+			<a class="dropdown-item" ng-click="groupsModal('myGroups', null)"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
 				{{'dropdown.button.myGroups.message' | translate}}
 			</a>
-			<a class="dropdown-item" ng-href="#/groups"><i class="dropdown-icon fas fa-users"></i>
+			<a class="dropdown-item" ng-click="groupsModal('allGroups', null)"><i class="dropdown-icon fas fa-users"></i>
 				{{'dropdown.button.groups.message' | translate}}
 			</a>
-			<a class="dropdown-item" ng-href="#/recommendedGroups"><i class="dropdown-icon fas fa-user-plus"></i>
+			<a class="dropdown-item" ng-click="groupsModal('recommendedGroups', null)"><i class="dropdown-icon fas fa-user-plus"></i>
 				{{'dropdown.button.recommendedGroups.message' | translate}}
 			</a>
 			<div class="dropdown-groups-text">

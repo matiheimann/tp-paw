@@ -1,0 +1,46 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h2 ng-if="type == 'allGroups' && search">
+      {{'groupsSearchResult.title' | translate}}
+    </h2>
+    <h2 ng-if="type == 'allGroups' && !search">
+      {{'groups.title' | translate}}
+    </h2>
+    <h2 ng-if="type == 'myGroups'">
+      {{'groups.title' | translate}}
+    </h2>
+    <h2 ng-if="type == 'recommendedGroups'">
+      {{'recommendedGroups.title' | translate}}
+    </h2>
+  </div>
+  <div class="modal-body">
+    <div ng-if="groups.length > 0" infinite-scroll='loadMoreGroups()' infinite-scroll-disabled="loadingGroups || noMoreGroups">
+      <div ng-repeat="group in groups track by group.name" class="comment">
+        <div class="clickable group-list-component" ng-click=gotoGroup(group.name)>
+          <div class="group-list-component-header">
+            <h5 class="group-list-component-name">
+              {{group.name}}
+            </h5>
+            <span class="group-list-component-owned-by">
+              {{'groupMembers.owner.lower.message' | translate}}
+            </span>
+            <span class="clickable group-list-component-owner" ng-click="gotoProfile(group.owner.username)">
+              {{group.owner.username}}
+            </span>
+          </div>
+          <div class="group-list-component-info">
+            <div class="group-list-description">
+              {{group.description}}
+            </div>
+            <strong>{{group.suscriptors}}<i class="group-list-component-members fas fa-users"></i></strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="app-btn-secondary" data-dismiss="modal" ng-click="cancel()" >
+      {{'cancelGroupCreation.button.message' | translate}}
+    </button>
+  </div>
+</div>

@@ -17,8 +17,8 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 				$scope.passwordNotMatch = true;
 			}
 
-			if($scope.registerForm.$valid && !$scope.passwordNotMatch){
-				//restService.registerUser($scope.newUser.email, $scope.newUser.username, $scope.newUser.password, $scope.newUser.confirmPassword);
+			if ($scope.registerForm.$valid && !$scope.passwordNotMatch) {
+				// restService.registerUser($scope.newUser.email, $scope.newUser.username, $scope.newUser.password, $scope.newUser.confirmPassword);
 			}
 		};
 

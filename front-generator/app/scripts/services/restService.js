@@ -1,7 +1,7 @@
 'use strict';
 define(['pawddit', 'jquery'], function(pawddit) {
 
-	pawddit.factory('restService', ['$http', '$rootScope', '$cookies', '$q', 'url', function($http, $rootScope, $cookies, $q, url) {
+	pawddit.factory('restService', ['$http', '$rootScope', '$location', '$cookies', '$q', 'url', function($http, $rootScope, $location, $cookies, $q, url) {
 
 		function httpGet(path, params) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
@@ -12,6 +12,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 				.catch(function(response) {
 					if (response.status === 403) {
 						$rootScope.$broadcast('user:updated');
+						$location.url('');
 					}
 					return $q.reject(response);
 				});
@@ -27,6 +28,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					.catch(function(response) {
 						if (response.status === 403) {
 							$rootScope.$broadcast('user:updated');
+							$location.url('');
 						}
 						return $q.reject(response);
 					});
@@ -38,6 +40,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					.catch(function(response) {
 						if (response.status === 403) {
 							$rootScope.$broadcast('user:updated');
+							$location.url('');
 						}
 						return $q.reject(response);
 					});
@@ -54,6 +57,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					.catch(function(response) {
 						if (response.status === 403) {
 							$rootScope.$broadcast('user:updated');
+							$location.url('');
 						}
 						return $q.reject(response);
 					});
@@ -65,6 +69,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					.catch(function(response) {
 						if (response.status === 403) {
 							$rootScope.$broadcast('user:updated');
+							$location.url('');
 						}
 						return $q.reject(response);
 					});
@@ -78,6 +83,10 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					return response.data; 
 				})
 				.catch(function(response) {
+					if (response.status === 403) {
+						$rootScope.$broadcast('user:updated');
+						$location.url('');
+					}
 					return $q.reject(response);
 				});
 		}

@@ -49,6 +49,9 @@ import ar.edu.itba.pawddit.webapp.dto.IsLoggedInDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.dto.UserDto;
+import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
+import ar.edu.itba.pawddit.webapp.exceptions.RepeatedEmailException;
+import ar.edu.itba.pawddit.webapp.exceptions.RepeatedUsernameException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.ImageForm;
@@ -82,6 +85,7 @@ public class UserController {
 	@Autowired
 	private PawdditUserDetailsService userDetailsService;
 	
+	
 	@Context
 	private UriInfo uriInfo;
 	
@@ -90,11 +94,18 @@ public class UserController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createUser(
-			@Valid @FormDataParam("createUser") final UserRegisterForm form) {
+			@Valid @FormDataParam("createUser") final UserRegisterForm form) throws DTOValidationException, 
+				RepeatedUsernameException, RepeatedEmailException {
+		
+		if(form == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
 		
 		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		final VerificationToken token = us.createToken(user);
 		mss.sendVerificationToken(user, token, uriInfo.getBaseUri().toString(), LocaleContextHolder.getLocale());
+		
 		
 		final URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
 		return Response.created(uri).entity(UserDto.fromUser(user)).build();

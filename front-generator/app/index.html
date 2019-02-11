@@ -8,44 +8,32 @@
 
 		<link rel="icon" href="images/tab-logo.png">
 
-		<!-- build:css(.tmp) "styles/css/account.css -->
-		<link rel="stylesheet" href="styles/css/account.css">
+		<!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
 		<!-- endbuild -->
 
-		<!-- build:css(.tmp) styles/css/application.css -->
-		<link rel="stylesheet" href="styles/css/application.css">
+		<!-- build:css(.tmp) styles/createGroup.css -->
+		<link rel="stylesheet" href="styles/createGroup.css">
 		<!-- endbuild -->
 
-		<!-- build:css(.tmp) styles/css/buttons.css -->
-		<link rel="stylesheet" href="styles/css/buttons.css">
+		<!-- build:css(.tmp) styles/createPost.css -->
+		<link rel="stylesheet" href="styles/createPost.css">
 		<!-- endbuild -->
 
-		<!-- build:css(.tmp) styles/css/createGroup.css -->
-		<link rel="stylesheet" href="styles/css/createGroup.css">
+		<!-- build:css(.tmp) styles/group.css -->
+		<link rel="stylesheet" href="styles/group.css">
 		<!-- endbuild -->
 
-		<!-- build:css(.tmp) styles/css/createPost.css -->
-		<link rel="stylesheet" href="styles/css/createPost.css">
+		<!-- build:css(.tmp) styles/post.css -->
+		<link rel="stylesheet" href="styles/post.css">
 		<!-- endbuild -->
 
-		<!-- build:css(.tmp) styles/css/errorMessages.css -->
-		<link rel="stylesheet" href="styles/css/errorMessages.css">
+		<!-- build:css(.tmp) styles/profile.css -->
+		<link rel="stylesheet" href="styles/profile.css">
 		<!-- endbuild -->
 
-		<!-- build:css(.tmp) styles/css/group.css -->
-		<link rel="stylesheet" href="styles/css/group.css">
-		<!-- endbuild -->
-
-		<!-- build:css(.tmp) styles/css/post.css -->
-		<link rel="stylesheet" href="styles/css/post.css">
-		<!-- endbuild -->
-
-		<!-- build:css(.tmp) styles/css/profile.css -->
-		<link rel="stylesheet" href="styles/css/profile.css">
-		<!-- endbuild -->
-
-		<!-- build:css(.tmp) styles/css/template.css -->
-		<link rel="stylesheet" href="styles/css/template.css">
+		<!-- build:css(.tmp) styles/template.css -->
+		<link rel="stylesheet" href="styles/template.css">
 		<!-- endbuild -->
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -55,7 +43,7 @@
 	</head>
 	<body class="main-font" ng-controller="IndexCtrl">
 		<ng-include src="!isLoggedIn ? 'views/externalNavbar.html' : 'views/internalNavbar.html'"></ng-include>
-		<div ng-view=""></div>
+		<div ng-view="" class="application-center"></div>
 		<footer class="footer-component">
 			<div class="footer-logo-container">
 				<h1 class="logo footer-logo">Pawddit.</h1>

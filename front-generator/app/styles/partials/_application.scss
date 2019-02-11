@@ -3,14 +3,34 @@ E98074
 EDEAE5*/
 @import 'colors';
 
+html {
+  height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100%;
+}
+
+.application-center {
+	flex: 1;
+	position: relative;
+}
+
 .application-background {
-  background-size:cover;
+  background-size: cover;
 	background-attachment: fixed;
   background-position: center bottom;
   background-color: $light-grey-background;
   background-image: url('../images/Flat-Mountains.svg');
-  background-repeat: no-repeat;
-  padding-bottom: 40px;
+	background-repeat: no-repeat;
+	padding-bottom: 40px;
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	width: 100%;
   /* background by SVGBackgrounds.com */
 }
 

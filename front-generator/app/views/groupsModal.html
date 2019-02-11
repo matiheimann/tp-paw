@@ -13,8 +13,8 @@
       {{'recommendedGroups.title' | translate}}
     </h2>
   </div>
-  <div class="modal-body">
-    <div ng-if="groups.length > 0" infinite-scroll='loadMoreGroups()' infinite-scroll-disabled="loadingGroups || noMoreGroups">
+  <div class="modal-body modal-body-groups">
+    <div ng-if="groups.length > 0" infinite-scroll='loadMoreGroups()' infinite-scroll-disabled="loadingGroups || noMoreGroups" infinite-scroll-container="'.modal-body-groups'">
       <div ng-repeat="group in groups track by group.name" class="comment">
         <div class="clickable group-list-component" ng-click=gotoGroup(group.name)>
           <div class="group-list-component-header">

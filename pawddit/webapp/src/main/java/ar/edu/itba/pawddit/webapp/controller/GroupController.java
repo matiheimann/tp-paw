@@ -42,7 +42,7 @@ import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 @Component
 public class GroupController {
 
-	private static final int GROUPS_PER_PAGE = 7;
+	private static final int GROUPS_PER_PAGE = 5;
 
 	@Autowired
 	private GroupService gs;

@@ -16,6 +16,10 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 			if ($scope.newUser.password !== $scope.newUser.confirmPassword) {
 				$scope.passwordNotMatch = true;
 			}
+
+			if ($scope.registerForm.$valid && !$scope.passwordNotMatch) {
+				// restService.registerUser($scope.newUser.email, $scope.newUser.username, $scope.newUser.password, $scope.newUser.confirmPassword);
+			}
 		};
 
 	}]);

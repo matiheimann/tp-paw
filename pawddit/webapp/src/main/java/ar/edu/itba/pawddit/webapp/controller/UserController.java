@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -50,8 +49,6 @@ import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.dto.UserDto;
 import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
-import ar.edu.itba.pawddit.webapp.exceptions.RepeatedEmailException;
-import ar.edu.itba.pawddit.webapp.exceptions.RepeatedUsernameException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.ImageForm;
@@ -89,7 +86,6 @@ public class UserController {
 	@Autowired
 	private DTOConstraintValidator DTOValidator;
 	
-	
 	@Context
 	private UriInfo uriInfo;
 	
@@ -98,15 +94,9 @@ public class UserController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createUser(
-			@Valid @FormDataParam("createUser") final UserRegisterForm form) throws DTOValidationException, 
-				RepeatedUsernameException, RepeatedEmailException {
+			@FormDataParam("createUser") final UserRegisterForm form) throws DTOValidationException {
 		
-		if(form == null) {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-		
-		
-		//DTOValidator.validate(form, "Failed to validate User");
+		DTOValidator.validate(form, "Failed to validate User");
 		
 		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		final VerificationToken token = us.createToken(user);
@@ -227,14 +217,16 @@ public class UserController {
 	@Path("/me")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response modifyMyUser(
-			@BeanParam final ImageForm imageForm) {
+			@BeanParam final ImageForm imageForm) throws DTOValidationException {
 
 		try {
 			final User user = userDetailsService.getLoggedUser();
 			if (user != null) {
 				String imageId = null;
-				if (imageForm != null && imageForm.getFileBytes() != null)
+				if (imageForm != null && imageForm.getFileBytes() != null) {
+					DTOValidator.validate(imageForm, "Failed to validate Image");
 					imageId = is.saveImage(imageForm.getFileBytes());
+				}
 				
 				us.changeData(user, user.getUsername(), user.getPassword(), user.getEmail(), imageId);
 				return Response.ok(UserDto.fromUser(user)).build();

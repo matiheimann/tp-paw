@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -35,8 +34,10 @@ import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
+import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
+import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
 @Path("/api/groups")
 @Component
@@ -52,6 +53,9 @@ public class GroupController {
 	
 	@Autowired
 	private PawdditUserDetailsService userDetailsService;
+	
+	@Autowired
+	private DTOConstraintValidator DTOValidator;
 	
 	@Context
 	private UriInfo uriInfo;
@@ -82,10 +86,12 @@ public class GroupController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createGroup(
-			@Valid @FormDataParam("createGroup") final CreateGroupForm form) {
+			@FormDataParam("createGroup") final CreateGroupForm form) throws DTOValidationException {
 
 		final User user = userDetailsService.getLoggedUser();
 		if (user != null) {
+			DTOValidator.validate(form, "Failed to validate Group");
+			
 			final Group group = gs.create(form.getName(), LocalDateTime.now(), form.getDescription(), user);
 			final URI uri = uriInfo.getAbsolutePathBuilder().path(group.getName()).build();
 			return Response.created(uri).entity(GroupDto.fromGroup(group)).build();

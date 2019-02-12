@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -40,9 +39,11 @@ import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
+import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
+import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
 @Path("/api/groups/{groupName}/posts/{postId}/comments")
 @Component
@@ -64,6 +65,9 @@ public class CommentController {
 	
 	@Autowired
 	private PawdditUserDetailsService userDetailsService;
+	
+	@Autowired
+	private DTOConstraintValidator DTOValidator;
 	
 	@Context
 	private UriInfo uriInfo;
@@ -106,9 +110,9 @@ public class CommentController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createComment(
-			@Valid @FormDataParam("createComment") final CreateCommentForm form,
+			@FormDataParam("createComment") final CreateCommentForm form,
 			@PathParam("groupName") final String groupName, 
-			@PathParam("postId") final long postId) {
+			@PathParam("postId") final long postId) throws DTOValidationException {
 
 		try {
 			final User user = userDetailsService.getLoggedUser();
@@ -116,6 +120,7 @@ public class CommentController {
 			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
 			if (user != null) {
 				final Comment comment;
+				DTOValidator.validate(form, "Failed to validate Comment");
 				if (form.getReplyTo() != null) {
 					final Comment replyTo = cs.findById(user, post, form.getReplyTo()).orElseThrow(CommentNotFoundException::new);
 					comment = cs.create(form.getContent(), post, replyTo, user, LocalDateTime.now());

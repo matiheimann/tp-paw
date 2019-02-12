@@ -9,9 +9,9 @@ define(['pawddit', 'services/restService', 'services/messageService'], function(
 		};
 
 		$scope.doSubmit = function() {
-			$scope.emailMatch = false;
-			$scope.usernameUsed = false;
 			$scope.passwordNotMatch = false;
+			$scope.usernameNotRepeatedError = false;
+			$scope.emailNotRepeatedError = false;
 
 			if ($scope.newUser.password !== $scope.newUser.confirmPassword) {
 				$scope.passwordNotMatch = true;
@@ -24,6 +24,20 @@ define(['pawddit', 'services/restService', 'services/messageService'], function(
 						messageService.text = 'verifyAccount.message';
 						messageService.icon = 'fa-envelope';
 						$location.url('/info');
+				}).catch(function(response) {
+					if (response.status === 409) {
+						angular.forEach(response.data.errors, function(error, key) {
+  							switch (error.field) {
+  								case 'username':
+  									$scope.usernameNotRepeatedError = true;
+  									break;
+  								case 'email':
+  									$scope.emailNotRepeatedError = true;
+  									break;
+  								default:
+  							}
+						});
+					}
 				});
 			}
 		};

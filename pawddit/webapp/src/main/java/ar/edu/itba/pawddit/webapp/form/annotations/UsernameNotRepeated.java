@@ -17,7 +17,7 @@ import ar.edu.itba.pawddit.webapp.form.validators.UsernameNotRepeatedValidator;
 @Documented
 public @interface UsernameNotRepeated {
 
-	public String message() default "{ar.edu.itba.pawddit.webapp.form.formAnnotations.UsernameNotRepeated.Message}";
+	public String message() default "{ar.edu.itba.pawddit.webapp.form.annotations.UsernameNotRepeated.message}";
 
 	public Class<?>[] groups() default {};
 

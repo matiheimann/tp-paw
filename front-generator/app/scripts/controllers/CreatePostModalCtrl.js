@@ -17,18 +17,23 @@ define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawd
 		};
 
 		$scope.doSubmit = function() {
+			$scope.validImageFormatError = false;
 			if ($scope.createPostForm.$valid) {
-				if ($scope.newPost.file) {
-    				restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, $scope.newPost.file).then(function(data) {       
-						$modal.dismiss();
-						$location.url('/groups/' + data.group.name + '/posts/' + data.postid);
-					});
-				} else {
-					restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, null).then(function(data) {           
-						$modal.dismiss();
-						$location.url('/groups/' + data.group.name + '/posts/' + data.postid);
-					});
-				}
+				restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, null).then(function(data) {           
+					$modal.dismiss();
+					$location.url('/groups/' + data.group.name + '/posts/' + data.postid);
+				}).catch(function(response) {
+					if (response.status === 409) {
+						angular.forEach(response.data.errors, function(error, key) {
+  							switch (error.field) {
+  								case 'file':
+  									$scope.validImageFormatError = true;
+  									break;
+  								default:
+  							}
+						});
+					}
+				});
 			}
 		};
 

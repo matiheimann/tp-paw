@@ -17,7 +17,7 @@ import ar.edu.itba.pawddit.webapp.form.validators.ValidImageFormatValidator;
 @Documented
 public @interface ValidImageFormat {
 
-	public String message() default "{ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat.Message}";
+	public String message() default "{ar.edu.itba.pawddit.webapp.form.annotations.ValidImageFormat.message}";
 
 	public Class<?>[] groups() default {};
 

@@ -17,7 +17,7 @@ import ar.edu.itba.pawddit.webapp.form.validators.EmailNotRepeatedValidator;
 @Documented
 public @interface EmailNotRepeated {
 
-	public String message() default "{ar.edu.itba.pawddit.webapp.form.formAnnotations.EmailNotRepeated.Message}";
+	public String message() default "{ar.edu.itba.pawddit.webapp.form.annotations.EmailNotRepeated.message}";
 
 	public Class<?>[] groups() default {};
 

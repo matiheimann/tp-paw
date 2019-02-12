@@ -70,14 +70,6 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 			}
 		};
 
-		$scope.searchFocus = function(focus) {
-			if (focus) {
-				$('.list-group').show();
-			} else {
-				$('.list-group').hide();
-			}
-		};
-
 		$scope.gotoFoundGroup = function(name) {
 			$scope.searchGroup.name = '';
 			$scope.foundGroups = null;

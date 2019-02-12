@@ -21,7 +21,7 @@ public class UsernameNotRepeatedValidator implements ConstraintValidator<Usernam
 	@Override
 	public boolean isValid(UserRegisterForm form, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate( "{ar.edu.itba.pawddit.webapp.form.formAnnotations.UsernameNotRepeated.Message}" ).addNode("username").addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("username").addConstraintViolation();
 		return !us.findByUsername(form.getUsername()).isPresent();
 	}
 

@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -40,10 +39,12 @@ import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
+import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.ImageForm;
+import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
 @Path("/api/groups/{groupName}/posts")
 @Component
@@ -65,6 +66,9 @@ public class PostController {
 	
 	@Autowired
 	private PawdditUserDetailsService userDetailsService;
+	
+	@Autowired
+	private DTOConstraintValidator DTOValidator;
 	
 	@Context
 	private UriInfo uriInfo;
@@ -104,17 +108,20 @@ public class PostController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response createPost(
-			@Valid @FormDataParam("createPost") final CreatePostForm form,
+			@FormDataParam("createPost") final CreatePostForm form,
 			@BeanParam final ImageForm imageForm,
-			@PathParam("groupName") final String groupName) {
+			@PathParam("groupName") final String groupName) throws DTOValidationException {
 
 		try {
 			final User user = userDetailsService.getLoggedUser();
 			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 			if (user != null) {
+				DTOValidator.validate(form, "Failed to validate Post");
 				String imageId = null;
-				if (imageForm != null && imageForm.getFileBytes() != null)
+				if (imageForm != null && imageForm.getFileBytes() != null) {
+					DTOValidator.validate(imageForm, "Failed to validate Image");
 					imageId = is.saveImage(imageForm.getFileBytes());
+				}
 
 				final Post post = ps.create(form.getTitle(), form.getContent(), LocalDateTime.now(), g, user, imageId);
 				final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(post.getPostid())).build();

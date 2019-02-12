@@ -14,9 +14,17 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 				restService.createGroup($scope.newGroup.name, $scope.newGroup.description).then(function(data) {             
 					$modal.dismiss();
 					$location.url('/groups/' + data.name);
-				})
-				.catch(function(response) {
-					$scope.groupnameNotRepeatedError = true;
+				}).catch(function(response) {
+					if (response.status === 409) {
+						angular.forEach(response.data.errors, function(error, key) {
+  							switch (error.field) {
+  								case 'name':
+  									$scope.groupnameNotRepeatedError = true;
+  									break;
+  								default:
+  							}
+						});
+					}
 				});
 			}
 		};

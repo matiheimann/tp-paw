@@ -15,7 +15,7 @@ public class MatchingPasswordsValidator implements ConstraintValidator<MatchingP
 	@Override
 	public boolean isValid(UserRegisterForm form, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate( "{ar.edu.itba.pawddit.webapp.form.formAnnotations.MatchingPasswords.Message}" ).addNode("repeatPassword").addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("repeatPassword").addConstraintViolation();
 		return form.getPassword().equals(form.getRepeatPassword()) && !(form.getPassword().isEmpty() && form.getRepeatPassword().isEmpty());
 	}
 

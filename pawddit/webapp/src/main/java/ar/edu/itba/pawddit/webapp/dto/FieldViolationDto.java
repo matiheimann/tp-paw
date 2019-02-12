@@ -2,11 +2,14 @@ package ar.edu.itba.pawddit.webapp.dto;
 
 import javax.validation.ConstraintViolation;
 
-public class FieldViolationDTO {
+public class FieldViolationDto {
+	
 	private String field;
 	private String violation;
 	
-	public FieldViolationDTO(final ConstraintViolation<?> constraintViolation) {
+	public FieldViolationDto() {}
+	
+	public FieldViolationDto(final ConstraintViolation<?> constraintViolation) {
 		this.setField(constraintViolation.getPropertyPath().toString());
 		this.setViolation(constraintViolation.getMessage());
 	}
@@ -26,4 +29,5 @@ public class FieldViolationDTO {
 	public void setViolation(String violation) {
 		this.violation = violation;
 	}
+	
 }

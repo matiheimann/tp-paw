@@ -38,6 +38,9 @@
                     </label>
                     <br>
                     <input type="file" path="file" id="post-image" accept="image/*" file-read="newPost.file" name="file"/>
+                    <span ng-show="validImageFormatError && createPostForm.$submitted" class="formError">
+                        {{'Size.createPostForm.content' | translate}}
+                    </span>
                 </div>
                 <div class="modal-footer">
                 	<button type="submit" class="create-group-btn app-btn-primary">

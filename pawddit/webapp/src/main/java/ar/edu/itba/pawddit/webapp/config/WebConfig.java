@@ -7,8 +7,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
@@ -26,6 +29,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -160,7 +164,10 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	}
 	
 	@Bean
-	public Validator validator() {
-		return Validation.buildDefaultValidatorFactory().getValidator();
+	Validator validator(final AutowireCapableBeanFactory autowireCapableBeanFactory) {
+		 ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+				 .configure().constraintValidatorFactory(new SpringConstraintValidatorFactory(autowireCapableBeanFactory))
+				 .buildValidatorFactory();
+		return validatorFactory.getValidator();
 	}
 }

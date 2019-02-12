@@ -21,7 +21,7 @@ public class EmailNotRepeatedValidator implements ConstraintValidator<EmailNotRe
 	@Override
 	public boolean isValid(UserRegisterForm form, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate( "{ar.edu.itba.pawddit.webapp.form.formAnnotations.EmailNotRepeated.Message}" ).addNode("email").addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("email").addConstraintViolation();
 		return !us.findByEmail(form.getEmail()).isPresent();
 	}
 

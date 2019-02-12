@@ -17,7 +17,7 @@ import ar.edu.itba.pawddit.webapp.form.validators.GroupnameNotRepeatedValidator;
 @Documented
 public @interface GroupnameNotRepeated {
 
-	public String message() default "{ar.edu.itba.pawddit.webapp.form.formAnnotations.GroupnameNotRepeated.Message}";
+	public String message() default "{ar.edu.itba.pawddit.webapp.form.annotations.GroupnameNotRepeated.message}";
 
 	public Class<?>[] groups() default {};
 

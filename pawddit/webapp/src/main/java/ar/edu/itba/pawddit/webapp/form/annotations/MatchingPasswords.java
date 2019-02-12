@@ -17,7 +17,7 @@ import ar.edu.itba.pawddit.webapp.form.validators.MatchingPasswordsValidator;
 @Documented
 public @interface MatchingPasswords {
 
-	public String message() default "{ar.edu.itba.pawddit.webapp.form.formAnnotations.MatchingPasswords.Message}";
+	public String message() default "{ar.edu.itba.pawddit.webapp.form.annotations.MatchingPasswords.message}";
 
 	public Class<?>[] groups() default {};
 

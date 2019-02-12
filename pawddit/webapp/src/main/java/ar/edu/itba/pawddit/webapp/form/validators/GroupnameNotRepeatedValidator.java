@@ -21,7 +21,7 @@ public class GroupnameNotRepeatedValidator implements ConstraintValidator<Groupn
 	@Override
 	public boolean isValid(CreateGroupForm form, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate( "{ar.edu.itba.pawddit.webapp.form.formAnnotations.GroupnameNotRepeated.Message}" ).addNode("name").addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("name").addConstraintViolation();
 		return !gs.findByName(null, form.getName()).isPresent();
 	}
 

@@ -19,7 +19,7 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 	@Override
 	public boolean isValid(ImageForm form, ConstraintValidatorContext context) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate( "{ar.edu.itba.pawddit.webapp.form.formAnnotations.ValidImageFormat.Message}" ).addNode("file").addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("file").addConstraintViolation();
 		
 		return isValidFormat(form.getFileBytes());
 	}

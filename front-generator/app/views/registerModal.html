@@ -20,7 +20,7 @@
 				<span class="formError" ng-show="(registerForm.email.$error.required && registerForm.$submitted)">
 					{{'NotEmpty.registerForm.email' | translate}}
 				</span>
-				<span class="formError" ng-show="(emailMatch && registerForm.$submitted)">
+				<span class="formError" ng-show="(emailNotRepeatedError && registerForm.$submitted)">
 					{{'EmailNotRepeated.registerForm.email' | translate}}
 				</span>
 			</div>
@@ -35,8 +35,8 @@
 				<span class="formError" ng-show="((registerForm.username.$error.required || registerForm.username.$error.maxlength || registerForm.username.$error.minlength) && registerForm.$submitted)">
 					{{'Size.registerForm.username' | translate}}
 				</span>
-				<span class="formError" ng-show="(usernameUsed && registerForm.$submitted)">
-					{{'EmailNotRepeated.registerForm.email' | translate}}
+				<span class="formError" ng-show="(usernameNotRepeatedError && registerForm.$submitted)">
+					{{'UsernameNotRepeated.registerForm.username' | translate}}
 				</span>
 			</div>
 			<div class="form-group">

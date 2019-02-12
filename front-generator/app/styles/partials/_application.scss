@@ -1,8 +1,7 @@
-/*E85A4F
-E98074
-EDEAE5*/
 @import 'colors';
 
+
+/* bootstrap fixes */
 html {
   height: 100%;
 }
@@ -13,6 +12,14 @@ body {
 	justify-content: start;
 	min-height: 100%;
 	font-size: 16px;
+}
+
+.modal-backdrop {
+	position: fixed !important;
+}
+
+.modal-content {
+	border: 0;
 }
 
 .nav-link {
@@ -26,6 +33,8 @@ body {
 	flex-direction: column;
 	justify-content: start;
 }
+
+/* bootstrap fixes end */
 
 .application-background {
 	flex: 1;

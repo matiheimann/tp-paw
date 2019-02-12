@@ -12,6 +12,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	min-height: 100%;
+	font-size: 16px;
 }
 
 .application-center {
@@ -112,6 +113,44 @@ body {
 	font-size: 10px;
 	margin-top: 4px;
 	padding: .25rem 1.5rem;
+}
+div .dropdown-menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1000;
+	display: none;
+	float: left;
+	min-width: 10rem;
+	padding: .5rem 0;
+	margin: .125rem 0 0;
+	color: #212529;
+	text-align: left;
+	list-style: none;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid rgba(0,0,0,.15);
+	border-radius: .25rem;
+}
+.dropdown-item, .dropdown-item:hover, .dropdown-item:active, .dropdown-item:visited, .dropdown-item:focus {
+	display: block;
+	width: 100%;
+	padding: .25rem 1.5rem;
+	clear: both;
+	font-size: 16px;
+	font-weight: 400;
+	color: #212529;
+	text-align: inherit;
+	white-space: nowrap;
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
+	font-size: 16px !important;
+	text-decoration: none;
+}
+
+.dropdown-item:hover {
+	background-color: $very-light-grey;
 }
 
 .sort-indicator {

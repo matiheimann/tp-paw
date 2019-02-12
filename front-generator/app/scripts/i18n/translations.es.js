@@ -149,6 +149,7 @@ define([], function() {
 		'groupConfirmDelete.delete.message': 'Delete',
 		'profileActivity.message': 'Here you can see the last 5 posts and the last 5 comments of this user.',
 		'time.filterBy.message': 'Filter by:',
+		'footer.RegisteredMark': 'Pawddit® is a registered trademark. Authors: Matías Heimann, Lóránt Mikolás, Diego Bruno and Johnathan Katan.',
 
 		// Placeholders
 		'groupName.placeholder': 'Group Name',

@@ -49,8 +49,8 @@
 			{{'noPosts.made.signedIn.message' | translate}}
 		</h2>
 
-		<div ng-if="posts.length > 0" infinite-scroll='loadMorePosts()' infinite-scroll-disabled="loadingPosts || noMorePosts">
-			<div ng-repeat="post in posts track by post.postid">
+		<div ng-if="posts.length > 0" infinite-scroll='loadMorePosts()' infinite-scroll-disabled="loadingPosts || noMorePosts" class="width-100percent">
+			<div ng-repeat="post in posts track by post.postid" class="width-100percent">
 				<div class="post-container">
 					<div class="post-header">
 						<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">

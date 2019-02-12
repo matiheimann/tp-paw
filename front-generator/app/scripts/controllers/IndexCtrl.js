@@ -1,8 +1,9 @@
 'use strict';
-define(['pawddit', 'services/restService', 'services/modalService', 'services/navbarService'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 'services/navbarService'], function(pawddit) {
 
 	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$route', '$location', 'restService', 'modalService', 'navbarService', 'url', 'timeAgoSettings', function($scope, $rootScope, $translate, $route, $location, restService, modalService, navbarService, url, timeAgoSettings) {
 		$scope.navbar = navbarService;
+		$scope.searchGroup = {};
 
 		$translate('Lang.code').then(function(translatedValue) {
             switch (translatedValue) {
@@ -48,6 +49,34 @@ define(['pawddit', 'services/restService', 'services/modalService', 'services/na
 			$rootScope.$broadcast('posts:updated');
 		};
 
+		$scope.searchGroups = function() {
+			if ($scope.searchGroup.name !== undefined && $scope.searchGroup.name !== '') {
+				if ($scope.searchGroup.name.length > 32) {
+      				$scope.searchGroup.name = $scope.searchGroup.name.replace(/.$/, '');
+				}
+    			$scope.searchGroup.name = $scope.searchGroup.name.replace(/[^a-zA-Z0-9]/g, '');
+    			restService.getGroups({page: 1, search: $scope.searchGroup.name}).then(function(data) {
+    				$scope.foundGroups = data;
+    			});
+			} else {
+				$scope.foundGroups = null;
+			}
+		};
+
+		$scope.searchFocus = function(focus) {
+			if (focus) {
+				$('.list-group').show();
+			} else {
+				$('.list-group').hide();
+			}
+		};
+
+		$scope.gotoFoundGroup = function(name) {
+			$scope.searchGroup.name = '';
+			$scope.foundGroups = null;
+			$location.url('/groups/' + name);
+		};
+
 		$scope.home = function(feed) {
 			navbarService.page = 1;
 			navbarService.sort = 'new';
@@ -80,7 +109,6 @@ define(['pawddit', 'services/restService', 'services/modalService', 'services/na
 			$scope.currentPath = $location.path();
 			console.log($scope.currentPath);
 		});
-
 		
 		$scope.registerModal = modalService.registerModal;
 		$scope.loginModal = modalService.loginModal;

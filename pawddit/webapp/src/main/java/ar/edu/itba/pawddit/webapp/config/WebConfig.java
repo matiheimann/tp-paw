@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -36,7 +38,8 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 @EnableAsync
 @ComponentScan({ "ar.edu.itba.pawddit.webapp.controller",
 				 "ar.edu.itba.pawddit.services",
-	             "ar.edu.itba.pawddit.persistence", })
+	             "ar.edu.itba.pawddit.persistence", 
+	             "ar.edu.itba.pawddit.webapp.form.validators"})
 public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware{
 
 	private ApplicationContext applicationContext;
@@ -154,5 +157,10 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 			 templateEngine.setTemplateResolver(templateResolver());
 			 templateEngine.setEnableSpringELCompiler(true);
 			 return templateEngine;
+	}
+	
+	@Bean
+	public Validator validator() {
+		return Validation.buildDefaultValidatorFactory().getValidator();
 	}
 }

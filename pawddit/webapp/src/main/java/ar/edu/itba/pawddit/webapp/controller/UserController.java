@@ -56,6 +56,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.VerificationTokenNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.ImageForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
+import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
 @Path("/api/users")
 @Component
@@ -85,6 +86,9 @@ public class UserController {
 	@Autowired
 	private PawdditUserDetailsService userDetailsService;
 	
+	@Autowired
+	private DTOConstraintValidator DTOValidator;
+	
 	
 	@Context
 	private UriInfo uriInfo;
@@ -101,6 +105,8 @@ public class UserController {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
+		
+		//DTOValidator.validate(form, "Failed to validate User");
 		
 		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		final VerificationToken token = us.createToken(user);

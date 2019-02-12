@@ -14,7 +14,7 @@ public class RepeteadEmailMapper implements ExceptionMapper<RepeatedEmailExcepti
 	
 	@Override
 	public Response toResponse(final RepeatedEmailException exception) {
-		return Response.status(Status.CONFLICT).entity(new ExceptionDTO(exception.getMessage(), exception.getConstraintViolations())).type(MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.CONFLICT).entity(new ExceptionDTO("Repetead email")).type(MediaType.APPLICATION_JSON).build();
 	}
 
 }

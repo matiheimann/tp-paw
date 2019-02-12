@@ -14,7 +14,7 @@ public class RepeatedUsernameMapper implements ExceptionMapper<RepeatedUsernameE
 
 	@Override
 	public Response toResponse(final RepeatedUsernameException exception) {
-		return Response.status(Status.CONFLICT).entity(new ExceptionDTO(exception.getMessage(), exception.getConstraintViolations())).type(MediaType.APPLICATION_JSON).build();
+		return Response.status(Status.CONFLICT).entity(new ExceptionDTO("Repetead Username")).type(MediaType.APPLICATION_JSON).build();
 	}
 
 	

@@ -75,11 +75,11 @@ define(function() {
                 }
             },
             '/confirm': {
-                templateUrl: 'messageTemplate.html',
+                templateUrl: 'views/messageTemplate.html',
                 controller: 'ConfirmAccountCtrl'
             },
             '/info': {
-                templateUrl: 'MessageTemplate.html',
+                templateUrl: 'views/messageTemplate.html',
                 controller: 'MessageTemplateCtrl'
             }
             /* ===== yeoman hook ===== */

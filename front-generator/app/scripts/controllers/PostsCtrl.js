@@ -24,12 +24,14 @@ define(['pawddit', 'services/restService', 'services/navbarService'], function(p
 		$scope.subscribe = function(name) {
 			restService.subscribeGroup(name).then(function(data) {
 				updateGroup(name);
+				$rootScope.$broadcast('userSubs:updated');
 			});
 		};
 
 		$scope.unsubscribe = function(name) {
 			restService.unsubscribeGroup(name).then(function(data) {
 				updateGroup(name);
+				$rootScope.$broadcast('userSubs:updated');
 			});
 		};
 

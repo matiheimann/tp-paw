@@ -2,7 +2,8 @@
 define(['pawddit', 'services/messageService'], function(pawddit) {
 
 	pawddit.controller('MessageTemplateCtrl', ['$scope', 'messageService', function($scope, messageService) {
-		if (!messageService.text && !messageService.icon) {
+
+		if (messageService.text && messageService.icon) {
 			$scope.message = {text: messageService.text, icon: messageService.icon};
 			messageService.text = null;
 			messageService.icon = null;

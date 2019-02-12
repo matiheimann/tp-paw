@@ -33,9 +33,16 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 			});
 		});
 
+		$scope.$on('userSubs:updated', function() {
+        	if ($scope.isLoggedIn) {
+				getLoggedUserSubsPageCount();
+			};
+		});
+
 		$scope.logout = function() {
 			restService.logoutUser().then(function(data) {
 				$rootScope.$broadcast('user:updated');
+				$scope.home(false);
 			});
 		};
 
@@ -121,12 +128,16 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 			restService.getLoggedUser().then(function(data) {
 				$scope.loggedUser = data;
 				$scope.isLoggedIn = true;
-				restService.getMySubscribedGroupsPageCount({}).then(function(data) {
-					$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
-				});
+				getLoggedUserSubsPageCount();
 			}).catch(function(response) {
 				$scope.loggedUser = null;
 				$scope.isLoggedIn = false;
+			});
+        }
+
+        function getLoggedUserSubsPageCount() {
+        	restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+				$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
 			});
         }
 

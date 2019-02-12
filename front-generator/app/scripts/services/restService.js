@@ -280,7 +280,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			modifyProfilePicture: function(file) {
 				var formData = new FormData();
 				formData.append('image', dataURItoBlob(file));
-				return httpPost('/users/me', formData, {}, true);
+				return httpPut('/users/me', formData, {}, true);
 			},
 			isLoggedIn: function() {
 				return httpGet('/users/me', {}).then(function(data) {

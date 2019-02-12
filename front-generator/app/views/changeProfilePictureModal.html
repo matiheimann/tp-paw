@@ -1,0 +1,35 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h2>
+      {{'user.modal.changeImage.message' | translate}}
+    </h2>
+  </div>
+  <div class="modal-body">
+    <div ng-if="!imageid" class="user-image-container-in-modal-no-picture">
+      <i class="fas fa-user fa-3x"></i>
+    </div>
+    <div ng-if="imageid" class="justify-content-center">
+      <div class="user-image-container-in-modal">
+        <img class="profile-picture" ng-src="{{getImageURL(imageid)}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="profile-image" path="file">
+        {{'selectImageOnPostCreate.title' | translate}}
+      </label>
+      <br>
+      <input type="file" path="file" id="profile-image" accept="image/*" file-read="newPicture.file" name="file"/>
+      <span ng-show="validImageFormatError && submitted" class="formError">
+        {{'ValidImageFormat.createPostForm.file' | translate}}
+      </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn app-btn-secondary" ng-click="cancel()">
+      {{'user.modal.close.message' | translate}}
+    </button>
+    <button type="submit" class="btn app-btn-primary" ng-click="doSubmit()">
+      {{'user.modal.changeImageConfirmation.message' | translate}}
+    </button>
+  </div>
+</div>

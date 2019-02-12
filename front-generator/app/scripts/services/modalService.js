@@ -1,5 +1,5 @@
 'use strict';
-define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl', 'controllers/DeleteConfirmModalCtrl', 'controllers/GroupsModalCtrl', 'services/restService'], function(pawddit) {
+define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl', 'controllers/CreateGroupModalCtrl', 'controllers/CreatePostModalCtrl', 'controllers/DeleteConfirmModalCtrl', 'controllers/GroupsModalCtrl', 'controllers/ChangeProfilePictureModalCtrl', 'services/restService'], function(pawddit) {
 
 	pawddit.service('modalService', ['$uibModal', 'restService', function($uibModal, restService) {
 
@@ -83,6 +83,19 @@ define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl'
 					},
 					search: function() {
 						return search;
+					}
+				}
+			});
+		};
+
+		this.changeProfilePictureModal = function(imageid) {
+			return $uibModal.open({
+				templateUrl: 'views/changeProfilePictureModal.html',
+				controller: 'ChangeProfilePictureModalCtrl',
+				size: 'md',
+				resolve: {
+					imageid: function() {
+						return imageid;
 					}
 				}
 			});

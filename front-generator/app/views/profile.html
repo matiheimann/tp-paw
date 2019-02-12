@@ -7,7 +7,7 @@
 			<div ng-if="profile.imageid" class="user-image-container">
 				<img class="profile-picture" ng-src="{{getImageURL(profile.imageid)}}"/>
 			</div>
-			<div ng-if="loggedUser.username == profile.username" class="clickable edit-prfile-image-modal-opener" data-toggle="modal" data-target="#changeProfileImageModal">
+			<div ng-if="loggedUser.username == profile.username" class="clickable edit-prfile-image-modal-opener" ng-click="changeProfilePictureModal(profile.imageid)">
 				{{'user.modal.changeImage.message' | translate}}
 				<i class="fas fa-edit"></i>
 			</div>

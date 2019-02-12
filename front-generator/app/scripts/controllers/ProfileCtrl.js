@@ -13,5 +13,11 @@ define(['pawddit', 'services/restService', 'services/navbarService'], function(p
 			return url + '/images/' + imageid;
 		};
 
+		$scope.$on('profile:updated', function() {
+        	restService.getProfile(profile.username).then(function(data) {
+        		$scope.profile = data;
+        	});
+		});
+
 	}]);
 });

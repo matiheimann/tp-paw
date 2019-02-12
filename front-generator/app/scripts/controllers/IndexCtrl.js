@@ -115,6 +115,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 		$scope.createPostModal = modalService.createPostModal;
 		$scope.deleteConfirmModal = modalService.deleteConfirmModal;
 		$scope.groupsModal = modalService.groupsModal;
+		$scope.changeProfilePictureModal = modalService.changeProfilePictureModal;
 
 		function getLoggedUser() {
 			restService.getLoggedUser().then(function(data) {

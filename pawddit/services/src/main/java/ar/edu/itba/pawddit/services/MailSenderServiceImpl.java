@@ -46,7 +46,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 
 		// Prepare the evaluation context
 		final Context ctx = new Context(locale);
-		String confirmationUrl = url + "/registrationConfirm?token=" + token.getToken();	
+		String confirmationUrl = url + "/#/users/confirm?token=" + token.getToken();	
 		ctx.setVariable("username", user.getUsername());
 		ctx.setVariable("confirmationUrl", confirmationUrl);
 		final MimeMessage mimeMessage = this.mailSender.createMimeMessage();

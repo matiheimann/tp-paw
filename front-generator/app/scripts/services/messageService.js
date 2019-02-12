@@ -1,7 +1,7 @@
 'use strict';
 define(['pawddit'], function(pawddit) {
 
-	pawddit.factory('navbarService', [function() {
+	pawddit.factory('messageService', [function() {
 		return {};
 	}]);
 	

@@ -2,7 +2,7 @@
 
 define(function() {
     return {
-        defaultRoutePath: '/404',
+        defaultRoutePath: '/info',
         routes: {
             '/': {
                 templateUrl: 'views/posts.html',
@@ -74,9 +74,13 @@ define(function() {
                     }]
                 }
             },
-            '/404': {
-                templateUrl: '404.html',
-                controller: 'NotFoundCtrl'
+            '/confirm': {
+                templateUrl: 'messageTemplate.html',
+                controller: 'ConfirmAccountCtrl'
+            },
+            '/info': {
+                templateUrl: 'MessageTemplate.html',
+                controller: 'MessageTemplateCtrl'
             }
             /* ===== yeoman hook ===== */
             /* Do not remove these commented lines! Needed for auto-generation */

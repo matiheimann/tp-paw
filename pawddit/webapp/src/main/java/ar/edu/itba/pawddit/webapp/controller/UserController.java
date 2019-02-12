@@ -127,7 +127,7 @@ public class UserController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 			final URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
-			return Response.created(uri).build();
+			return Response.created(uri).entity(UserDto.fromUser(user)).build();
 		}
 		catch (VerificationTokenNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

@@ -37,7 +37,7 @@ define([], function() {
 		// Button messages
 		'register.button.message': 'Register',
 		'login.button.message': 'Login',
-		'dropdown.button.info.message': 'Info',
+		'dropdown.button.info.message': 'Information',
 		'dropdown.button.all.message': 'All Posts',
 		'dropdown.button.myfeed.message': 'My Feed',
 		'dropdown.button.myGroups.message': 'My Groups',
@@ -83,6 +83,7 @@ define([], function() {
 
 		// Title messages
 		'error.title': 'Error',
+		'info.title': 'Information',
 		'homePage.title': 'Home Page',
 		'createGroup.title': 'Create Group',
 		'groupName.title': 'Group Name',

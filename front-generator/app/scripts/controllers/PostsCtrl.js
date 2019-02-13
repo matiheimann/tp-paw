@@ -1,7 +1,7 @@
 'use strict';
 define(['pawddit', 'services/restService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('PostsCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'group', 'posts', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, group, posts, url) {
+	pawddit.controller('PostsCtrl', ['$scope', '$rootScope', '$location', '$translate', '$window', 'restService', 'navbarService', 'group', 'posts', 'url', function($scope, $rootScope, $location, $translate, $window, restService, navbarService, group, posts, url) {
 		navbarService.page = 1;
 		navbarService.sort = 'new';
 		navbarService.time = 'all';
@@ -13,11 +13,15 @@ define(['pawddit', 'services/restService', 'services/navbarService'], function(p
 			navbarService.currentPage = 'group';
 			navbarService.currentPageText = group.name;
 		} else if (navbarService.feed) {
-			$window.document.title = 'Pawddit. | Home';
+			$translate('homePage.title').then(function(translatedValue) {
+				$window.document.title = 'Pawddit. | ' + translatedValue;
+			});
 			navbarService.currentPage = 'feedPosts';
 			navbarService.currentPageText = 'dropdown.button.myfeed.message';
 		} else {
-			$window.document.title = 'Pawddit. | Home';
+			$translate('homePage.title').then(function(translatedValue) {
+				$window.document.title = 'Pawddit. | ' + translatedValue;
+			});
 			navbarService.currentPage = 'allPosts';
 			navbarService.currentPageText = 'dropdown.button.all.message';
 		}

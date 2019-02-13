@@ -1,8 +1,10 @@
 'use strict';
 define(['pawddit', 'services/messageService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('MessageTemplateCtrl', ['$scope', '$window', 'messageService', 'navbarService', function($scope, $window, messageService, navbarService) {
-		$window.document.title = 'Pawddit. | Info';
+	pawddit.controller('MessageTemplateCtrl', ['$scope', '$translate', '$window', 'messageService', 'navbarService', function($scope, $translate, $window, messageService, navbarService) {
+		$translate('info.title').then(function(translatedValue) {
+			$window.document.title = 'Pawddit. | ' + translatedValue;
+		});
 		navbarService.currentPage = 'info';
 		navbarService.currentPageText = 'dropdown.button.info.message';
 

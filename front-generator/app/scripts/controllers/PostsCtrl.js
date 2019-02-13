@@ -54,7 +54,11 @@ define(['pawddit', 'services/restService', 'services/navbarService'], function(p
 			$scope.loadingPosts = false;
 			$scope.noMorePosts = false;
 			var params = {page: navbarService.page, sort: navbarService.sort, time: navbarService.time};
-			if (navbarService.feed) {
+			if (group) {
+				restService.getGroupPosts(group.name, params).then(function(data) {
+					$scope.posts = data;
+				});
+			} else if (navbarService.feed) {
 				restService.getMyFeedPosts(params).then(function(data) {
 					$scope.posts = data;
 				});

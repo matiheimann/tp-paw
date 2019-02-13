@@ -20,7 +20,7 @@
                     <label for="post-group-select" path="groupname">
                         {{'selectGroupOnPostCreate.title' | translate}}
                     </label>
-                    <select ng-required="true" path="groupname" class="form-control" id="post-group-select" name="group" ng-model="newPost.group" ng-options="group.name for group in subscribedGroups">
+                    <select ng-disabled="group" ng-required="true" path="groupname" class="form-control" id="post-group-select" name="group" ng-model="newPost.group" ng-options="group.name for group in subscribedGroups">
                     </select>
                 </div>
                 <div class="form-group">

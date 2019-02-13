@@ -1,15 +1,20 @@
 'use strict';
 define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawddit) {
 
-	pawddit.controller('CreatePostModalCtrl', ['$scope', '$location', '$uibModalInstance', 'restService', 'subscribedGroups', 'subscribedGroupsPageCount', function($scope, $location, $modal, restService, subscribedGroups, subscribedGroupsPageCount) {
+	pawddit.controller('CreatePostModalCtrl', ['$scope', '$location', '$uibModalInstance', 'restService', 'subscribedGroups', 'subscribedGroupsPageCount', 'group', function($scope, $location, $modal, restService, subscribedGroups, subscribedGroupsPageCount, group) {
 		$scope.newPost = {};
 		$scope.subscribedGroups = subscribedGroups;
-		$scope.newPost.group = subscribedGroups[0];
-
-		for (var i = 2; i <= subscribedGroupsPageCount.pageCount; i++) {
-			restService.getMySubscribedGroups({page: i}).then(function(data) {
-				$scope.subscribedGroups.push.apply($scope.subscribedGroups, data);
-			});
+		$scope.group = group;
+		if (group) {
+			$scope.newPost.group = group;
+			$scope.subscribedGroups = [group];
+		} else {
+			$scope.newPost.group = subscribedGroups[0];
+			for (var i = 2; i <= subscribedGroupsPageCount.pageCount; i++) {
+				restService.getMySubscribedGroups({page: i}).then(function(data) {
+					$scope.subscribedGroups.push.apply($scope.subscribedGroups, data);
+				});
+			}
 		}
 
 		$scope.cancel = function() {

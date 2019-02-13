@@ -53,17 +53,8 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 					$scope.loadingGroups = false;
 				});
 			} else if (type === 'recommendedGroups') {
-				restService.getRecommendedPosts(params).then(function(data) {
-					if (data.length > 0) {
-						$scope.groups.push.apply($scope.groups, data);
-						$scope.noMoreGroups = data.length < 5;
-					} else {
-						$scope.noMoreGroups = true;
-					}
-					$scope.loadingGroups = false;
-				}).catch(function(response) {
-					$scope.loadingGroups = false;
-				});
+				$scope.noMoreGroups = true;
+				$scope.loadingGroups = false;
 			}
 		};
 

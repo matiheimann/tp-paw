@@ -61,7 +61,7 @@ import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 @Component
 public class UserController {
 	
-	private static final int GROUPS_PER_PAGE = 7;
+	private static final int GROUPS_PER_PAGE = 5;
 	private static final int POSTS_PER_PAGE = 5;
 
 	@Autowired

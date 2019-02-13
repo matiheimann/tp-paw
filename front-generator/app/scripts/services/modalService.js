@@ -27,17 +27,24 @@ define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl'
 			});
 		};
 
-		this.createPostModal = function() {
+		this.createPostModal = function(group) {
 			return $uibModal.open({
 				templateUrl: 'views/createPostModal.html',
 				controller: 'CreatePostModalCtrl',
 				size: 'md',
 				resolve: {
 					subscribedGroups: function() {
-						return restService.getMySubscribedGroups({page: 1});
+						if (!group) {
+							return restService.getMySubscribedGroups({page: 1});
+						}
 					},
 					subscribedGroupsPageCount: function() {
-						return restService.getMySubscribedGroupsPageCount({});
+						if (!group) {
+							return restService.getMySubscribedGroupsPageCount({});
+						}
+					},
+					group: function() {
+						return group;
 					}
 				}
 			});

@@ -1,7 +1,8 @@
 'use strict';
 define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], function(pawddit) {
 
-    pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', 'restService', 'navbarService', 'post', 'comments', 'url', function($scope, $rootScope, $location, restService, navbarService, post, comments, url) {
+    pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'post', 'comments', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, post, comments, url) {
+        $window.document.title = 'Pawddit. | ' + post.title;
         navbarService.currentPage = 'post';
 		navbarService.currentPageText = post.group.name;
 

@@ -30,7 +30,6 @@ import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.User;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
-import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
@@ -108,14 +107,9 @@ public class GroupController {
 	public Response getGroup(
 			@PathParam("groupName") final String groupName) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			return Response.ok(GroupDto.fromGroup(group)).build();
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		return Response.ok(GroupDto.fromGroup(group)).build();
 	}
 
 	@DELETE
@@ -124,22 +118,14 @@ public class GroupController {
 	public Response deleteGroup(
 			@PathParam("groupName") final String groupName) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			if (user != null) {
-				gs.delete(user, group);
-				return Response.noContent().build();
-			}
-			else {
-				return Response.status(Status.BAD_REQUEST).build();
-			}
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		if (user != null) {
+			gs.delete(user, group);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (NoPermissionsException e) {
-			return Response.status(Status.FORBIDDEN).build();
+		else {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 	
@@ -149,19 +135,14 @@ public class GroupController {
 	public Response groupSubscribe(
 			@PathParam("groupName") final String groupName) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			if (user != null) {
-				ss.suscribe(user, g);
-				return Response.noContent().build();
-			}
-			else
-				return Response.status(Status.BAD_REQUEST).build();
+		final User user = userDetailsService.getLoggedUser();
+		final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		if (user != null) {
+			ss.suscribe(user, g);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		else
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 	
 	@PUT
@@ -169,20 +150,15 @@ public class GroupController {
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response groupUnsubscribe(
 			@PathParam("groupName") final String groupName) {
-		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			if (user != null) {
-				ss.unsuscribe(user, g);
-				return Response.noContent().build();
-			}
-			else
-				return Response.status(Status.BAD_REQUEST).build();
+
+		final User user = userDetailsService.getLoggedUser();
+		final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		if (user != null) {
+			ss.unsuscribe(user, g);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		else
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 	
 }

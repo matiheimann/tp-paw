@@ -35,7 +35,6 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
-import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
@@ -81,26 +80,21 @@ public class PostController {
 			@QueryParam("sort") @DefaultValue("new") String sort, 
 			@QueryParam("time") @DefaultValue("all") String time) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			if (page == 0) {
-				final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-				return Response.ok(PageCountDto.fromPageCount(count)).build();
-			}
-			else {
-				final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
-				return Response.ok(
+		final User user = userDetailsService.getLoggedUser();
+		final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		if (page == 0) {
+			final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
+		}
+		else {
+			final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+			return Response.ok(
 					new GenericEntity<List<PostDto>>(
-						posts.stream()
+							posts.stream()
 							.map(PostDto::fromPost)
 							.collect(Collectors.toList())
-					) {}
-				).build();
-			}
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+							) {}
+					).build();
 		}
 	}
 	
@@ -131,9 +125,6 @@ public class PostController {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
 		catch (IOException e) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -146,18 +137,10 @@ public class PostController {
 			@PathParam("groupName") final String groupName, 
 			@PathParam("postId") final long postId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			return Response.ok(PostDto.fromPost(post)).build();
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		return Response.ok(PostDto.fromPost(post)).build();
 	}
 	
 	@DELETE
@@ -167,26 +150,15 @@ public class PostController {
 			@PathParam("groupName") final String groupName, 
 			@PathParam("postId") final long postId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			if (user != null) {
-				ps.delete(user, group, post);
-				return Response.noContent().build();
-			}
-			else {
-				return Response.status(Status.BAD_REQUEST).build();
-			}
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		if (user != null) {
+			ps.delete(user, group, post);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (NoPermissionsException e) {
-			return Response.status(Status.FORBIDDEN).build();
+		else {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 	
@@ -197,23 +169,15 @@ public class PostController {
 			@PathParam("groupName") final String groupName, 
 			@PathParam("postId") final long postId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			if (user != null) {
-				pvs.upVote(user, post);
-				return Response.noContent().build();
-			}
-			else
-				return Response.status(Status.BAD_REQUEST).build();
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		if (user != null) {
+			pvs.upVote(user, post);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		else
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 	
 	@PUT
@@ -223,23 +187,15 @@ public class PostController {
 			@PathParam("groupName") final String groupName, 
 			@PathParam("postId") final long postId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			if (user != null) {
-				pvs.downVote(user, post);
-				return Response.noContent().build();
-			}
-			else
-				return Response.status(Status.BAD_REQUEST).build();
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		if (user != null) {
+			pvs.downVote(user, post);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		else
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 	
 }

@@ -28,7 +28,7 @@ public class PawdditUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(final String username) {
-		final User user = us.findByUsername(username).orElseThrow(() -> new UserNotFoundException());
+		final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
 		
 		final Collection<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

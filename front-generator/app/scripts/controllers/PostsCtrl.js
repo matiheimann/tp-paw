@@ -1,20 +1,23 @@
 'use strict';
 define(['pawddit', 'services/restService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('PostsCtrl', ['$scope', '$rootScope', '$location', 'restService', 'navbarService', 'group', 'posts', 'url', function($scope, $rootScope, $location, restService, navbarService, group, posts, url) {
+	pawddit.controller('PostsCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'group', 'posts', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, group, posts, url) {
 		navbarService.page = 1;
 		navbarService.sort = 'new';
 		navbarService.time = 'all';
 		navbarService.feed = navbarService.feed || false;
 
 		if (group) {
+			$window.document.title = 'Pawddit. | ' + group.name;
 			$scope.group = group;
 			navbarService.currentPage = 'group';
 			navbarService.currentPageText = group.name;
 		} else if (navbarService.feed) {
+			$window.document.title = 'Pawddit. | Home';
 			navbarService.currentPage = 'feedPosts';
 			navbarService.currentPageText = 'dropdown.button.myfeed.message';
 		} else {
+			$window.document.title = 'Pawddit. | Home';
 			navbarService.currentPage = 'allPosts';
 			navbarService.currentPageText = 'dropdown.button.all.message';
 		}

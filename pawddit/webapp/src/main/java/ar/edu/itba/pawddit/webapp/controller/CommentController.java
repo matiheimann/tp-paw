@@ -34,7 +34,6 @@ import ar.edu.itba.pawddit.services.CommentService;
 import ar.edu.itba.pawddit.services.CommentVoteService;
 import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
-import ar.edu.itba.pawddit.services.exceptions.NoPermissionsException;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
@@ -79,30 +78,22 @@ public class CommentController {
 			@PathParam("postId") final long postId,
 			@QueryParam("page") @DefaultValue("1") Integer page) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			if (page == 0) {
-				final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
-				return Response.ok(PageCountDto.fromPageCount(count)).build();
-			}
-			else {
-				final List<Comment> comments = cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
-				return Response.ok(
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		if (page == 0) {
+			final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
+		}
+		else {
+			final List<Comment> comments = cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
+			return Response.ok(
 					new GenericEntity<List<CommentDto>>(
-						comments.stream()
+							comments.stream()
 							.map(CommentDto::fromCommentWithoutPost)
 							.collect(Collectors.toList())
-					) {}
-				).build();
-			}
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+							) {}
+					).build();
 		}
 	}
 	
@@ -114,35 +105,25 @@ public class CommentController {
 			@PathParam("groupName") final String groupName, 
 			@PathParam("postId") final long postId) throws DTOValidationException {
 
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			if (user != null) {
-				final Comment comment;
-				DTOValidator.validate(form, "Failed to validate Comment");
-				if (form.getReplyTo() != null) {
-					final Comment replyTo = cs.findById(user, post, form.getReplyTo()).orElseThrow(CommentNotFoundException::new);
-					comment = cs.create(form.getContent(), post, replyTo, user, LocalDateTime.now());
-				}
-				else {
-					comment = cs.create(form.getContent(), post, null, user, LocalDateTime.now());
-				}
-				final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(comment.getCommentid())).build();
-				return Response.created(uri).entity(CommentDto.fromComment(comment)).build();
+
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		if (user != null) {
+			final Comment comment;
+			DTOValidator.validate(form, "Failed to validate Comment");
+			if (form.getReplyTo() != null) {
+				final Comment replyTo = cs.findById(user, post, form.getReplyTo()).orElseThrow(CommentNotFoundException::new);
+				comment = cs.create(form.getContent(), post, replyTo, user, LocalDateTime.now());
 			}
 			else {
-				return Response.status(Status.BAD_REQUEST).build();
+				comment = cs.create(form.getContent(), post, null, user, LocalDateTime.now());
 			}
+			final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(comment.getCommentid())).build();
+			return Response.created(uri).entity(CommentDto.fromComment(comment)).build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (CommentNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+		else {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 	
@@ -154,22 +135,11 @@ public class CommentController {
 			@PathParam("postId") final long postId, 
 			@PathParam("commentId") final long commentId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-			return Response.ok(CommentDto.fromCommentWithoutPost(comment)).build();
-		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (CommentNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
+		return Response.ok(CommentDto.fromCommentWithoutPost(comment)).build();
 	}
 	
 	@DELETE
@@ -180,30 +150,16 @@ public class CommentController {
 			@PathParam("postId") final long postId, 
 			@PathParam("commentId") final long commentId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-			if (user != null) {
-				cs.delete(user, group, post, comment);
-				return Response.noContent().build();
-			}
-			else {
-				return Response.status(Status.BAD_REQUEST).build();
-			}
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
+		if (user != null) {
+			cs.delete(user, group, post, comment);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (CommentNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (NoPermissionsException e) {
-			return Response.status(Status.FORBIDDEN).build();
+		else {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 	
@@ -215,27 +171,16 @@ public class CommentController {
 			@PathParam("postId") final long postId,
 			@PathParam("commentId") final long commentId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-			if (user != null) {
-				cvs.upVote(user, comment);
-				return Response.noContent().build();
-			}
-			else
-				return Response.status(Status.BAD_REQUEST).build();
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
+		if (user != null) {
+			cvs.upVote(user, comment);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (CommentNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		else
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 	
 	@PUT
@@ -246,27 +191,16 @@ public class CommentController {
 			@PathParam("postId") final long postId,
 			@PathParam("commentId") final long commentId) {
 		
-		try {
-			final User user = userDetailsService.getLoggedUser();
-			final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-			final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-			final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-			if (user != null) {
-				cvs.downVote(user, comment);
-				return Response.noContent().build();
-			}
-			else
-				return Response.status(Status.BAD_REQUEST).build();
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
+		if (user != null) {
+			cvs.downVote(user, comment);
+			return Response.noContent().build();
 		}
-		catch (GroupNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (PostNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		catch (CommentNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		else
+			return Response.status(Status.BAD_REQUEST).build();
 	}
 
 }

@@ -1,7 +1,10 @@
 package ar.edu.itba.pawddit.webapp.exceptions;
 
-public class CommentNotFoundException extends RuntimeException {
-
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class CommentNotFoundException extends NotFoundException {
+	
+	public CommentNotFoundException() {
+		super("CommentNotFound");
+	}
 
 }

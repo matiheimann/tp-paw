@@ -1,7 +1,10 @@
 package ar.edu.itba.pawddit.services.exceptions;
 
+@SuppressWarnings("serial")
 public class NoPermissionsException extends RuntimeException {
 	
-	private static final long serialVersionUID = 1L;
+	public NoPermissionsException() {
+		super("NoPermissions");
+	}
 
 }

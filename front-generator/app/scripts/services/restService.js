@@ -1,7 +1,7 @@
 'use strict';
-define(['pawddit', 'jquery'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
 
-	pawddit.factory('restService', ['$http', '$rootScope', '$location', '$cookies', '$q', 'url', function($http, $rootScope, $location, $cookies, $q, url) {
+	pawddit.factory('restService', ['$http', '$rootScope', '$location', '$cookies', '$q', 'messageService', 'url', function($http, $rootScope, $location, $cookies, $q, messageService, url) {
 
 		function httpGet(path, params) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
@@ -10,10 +10,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					return response.data; 
 				})
 				.catch(function(response) {
-					if (response.status === 403) {
-						$rootScope.$broadcast('user:updated');
-						$location.url('');
-					}
+					redirect(response);
 					return $q.reject(response);
 				});
 		}
@@ -26,10 +23,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
-						if (response.status === 403) {
-							$rootScope.$broadcast('user:updated');
-							$location.url('');
-						}
+						redirect(response);
 						return $q.reject(response);
 					});
 			} else {
@@ -38,10 +32,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
-						if (response.status === 403) {
-							$rootScope.$broadcast('user:updated');
-							$location.url('');
-						}
+						redirect(response);
 						return $q.reject(response);
 					});
 			}
@@ -55,10 +46,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
-						if (response.status === 403) {
-							$rootScope.$broadcast('user:updated');
-							$location.url('');
-						}
+						redirect(response);
 						return $q.reject(response);
 					});
 			} else {
@@ -67,10 +55,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 						return response.data; 
 					})
 					.catch(function(response) {
-						if (response.status === 403) {
-							$rootScope.$broadcast('user:updated');
-							$location.url('');
-						}
+						redirect(response);
 						return $q.reject(response);
 					});
 			}
@@ -83,10 +68,7 @@ define(['pawddit', 'jquery'], function(pawddit) {
 					return response.data; 
 				})
 				.catch(function(response) {
-					if (response.status === 403) {
-						$rootScope.$broadcast('user:updated');
-						$location.url('');
-					}
+					redirect(response);
 					return $q.reject(response);
 				});
 		}
@@ -130,6 +112,37 @@ define(['pawddit', 'jquery'], function(pawddit) {
 			// write the ArrayBuffer to a blob, and you're done
 			var blob = new Blob([ab], {type: mimeString});
 			return blob;
+		}
+
+		function redirect(response) {
+			if (response.status === 403) {
+				$rootScope.$broadcast('user:updated');
+				$location.url('');
+			} else if (response.status === 404) {
+				switch (response.data.message) {
+					case 'GroupNotFound':
+						messageService.text = 'errorGroupNotFound.message';
+						break;
+					case 'PostNotFound':
+						messageService.text = 'errorPostNotFound.message';
+						break;
+					case 'CommentNotFound':
+						messageService.text = 'errorCommentNotFound.message';
+						break;
+					case 'UserNotFound':
+						messageService.text = 'errorUserNotFound.message';
+						break;
+					case 'ImageNotFound':
+						messageService.text = 'errorImageNotFound.message';
+						break;
+					case 'VerificationTokenNotFound':
+						messageService.text = 'errorVerificationTokenNotFound.message';
+						break;
+					default:
+				}
+				messageService.icon = 'fa-times';
+				$location.url('/info');
+			}
 		}
 
 		return {

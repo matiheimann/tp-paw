@@ -1,7 +1,10 @@
 'use strict';
-define(['pawddit', 'services/messageService'], function(pawddit) {
+define(['pawddit', 'services/messageService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('MessageTemplateCtrl', ['$scope', 'messageService', function($scope, messageService) {
+	pawddit.controller('MessageTemplateCtrl', ['$scope', '$window', 'messageService', 'navbarService', function($scope, $window, messageService, navbarService) {
+		$window.document.title = 'Pawddit. | Info';
+		navbarService.currentPage = 'info';
+		navbarService.currentPageText = 'dropdown.button.info.message';
 
 		if (messageService.text && messageService.icon) {
 			$scope.message = {text: messageService.text, icon: messageService.icon};

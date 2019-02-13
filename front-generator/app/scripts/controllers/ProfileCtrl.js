@@ -1,7 +1,8 @@
 'use strict';
 define(['pawddit', 'services/restService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('ProfileCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'restService', 'navbarService', 'profile', 'lastPosts', 'lastComments', 'url', function($scope, $rootScope, $location, $routeParams, restService, navbarService, profile, lastPosts, lastComments, url) {
+	pawddit.controller('ProfileCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'profile', 'lastPosts', 'lastComments', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, profile, lastPosts, lastComments, url) {
+		$window.document.title = 'Pawddit. | ' + profile.username;
 		navbarService.currentPage = 'profile';
 		navbarService.currentPageText = profile.username;
 

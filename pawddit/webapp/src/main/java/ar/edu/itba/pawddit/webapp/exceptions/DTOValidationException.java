@@ -6,11 +6,11 @@ import javax.validation.ConstraintViolation;
 
 
 @SuppressWarnings("serial")
-public class DTOValidationException extends Exception {
+public class DTOValidationException extends RuntimeException {
 	
 	private final Set<? extends ConstraintViolation<?>> constraintViolations;
 	
-	public DTOValidationException(final String message, final Set<? extends ConstraintViolation<?>> constraintViolations){
+	public DTOValidationException(final String message, final Set<? extends ConstraintViolation<?>> constraintViolations) {
 		super(message);
 		this.constraintViolations = constraintViolations;
 	}

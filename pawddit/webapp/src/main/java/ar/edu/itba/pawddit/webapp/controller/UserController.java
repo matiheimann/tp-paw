@@ -113,21 +113,16 @@ public class UserController {
 	public Response confirmUser(
 			@QueryParam("token") @DefaultValue("") String token) {
 
-		try {
-			 final VerificationToken verificationToken = us.findToken(token).orElseThrow(VerificationTokenNotFoundException::new);
-			 final User user = verificationToken.getUser();
-			 us.enableUser(user);
-			 
-			 /* Auto Login */
-			Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-			final URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
-			return Response.created(uri).entity(UserDto.fromUser(user)).build();
-		}
-		catch (VerificationTokenNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		final VerificationToken verificationToken = us.findToken(token).orElseThrow(VerificationTokenNotFoundException::new);
+		final User user = verificationToken.getUser();
+		us.enableUser(user);
+
+		/* Auto Login */
+		Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		final URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
+		return Response.created(uri).entity(UserDto.fromUser(user)).build();
 	}
 	
 	@GET
@@ -136,13 +131,8 @@ public class UserController {
 	public Response getUser(
 			@PathParam("username") final String username) {
 		
-		try {
-			final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
-			return Response.ok(UserDto.fromUser(user)).build();
-		}
-		catch (UserNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
+		return Response.ok(UserDto.fromUser(user)).build();
 	}
 	
 	@GET
@@ -151,20 +141,15 @@ public class UserController {
 	public Response getUserLastPosts(
 			@PathParam("username") final String username) {
 		
-		try {
-			final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
-			final List<Post> posts = ps.findByUser(user, 5, 0, null, null);
-			return Response.ok(
+		final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
+		final List<Post> posts = ps.findByUser(user, 5, 0, null, null);
+		return Response.ok(
 				new GenericEntity<List<PostDto>>(
-					posts.stream()
+						posts.stream()
 						.map(PostDto::fromPost)
 						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
-		catch (UserNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+						) {}
+				).build();
 	}
 	
 	@GET
@@ -173,20 +158,15 @@ public class UserController {
 	public Response getUserLastComments(
 			@PathParam("username") final String username) {
 		
-		try {
-			final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
-			final List<Comment> comments = cs.findByUser(user, 5, 0);
-			return Response.ok(
+		final User user = us.findByUsername(username).orElseThrow(UserNotFoundException::new);
+		final List<Comment> comments = cs.findByUser(user, 5, 0);
+		return Response.ok(
 				new GenericEntity<List<CommentDto>>(
-					comments.stream()
+						comments.stream()
 						.map(CommentDto::fromComment)
 						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
-		catch (UserNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+						) {}
+				).build();
 	}
 	
 	@GET

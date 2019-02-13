@@ -21,17 +21,9 @@
 				<i class="dropdown-icon fas fa-user"></i>
 				{{navbar.currentPageText}}
 			</div>
-			<div ng-if="navbar.currentPage == 'groups'">
-				<i class="dropdown-icon fas fa-users"></i>
-				{{'dropdown.button.groups.message' | translate}}
-			</div>
-			<div ng-if="navbar.currentPage == 'myGroups'">
-				<i class="dropdown-icon fas fa-users"></i>
-				{{'dropdown.button.myGroups.message' | translate}}
-			</div>
-			<div ng-if="navbar.currentPage == 'recommendedGroups'">
-				<i class="dropdown-icon fas fa-users"></i>
-				{{'dropdown.button.recommendedGroups.message' | translate}}
+			<div ng-if="navbar.currentPage == 'info'">
+				<i class="dropdown-icon fas fa-info"></i>
+				{{navbar.currentPageText | translate}}
 			</div>
 	  	</button>
 	  	<div class="dropdown-menu max-height-270 overflow-y-scroll" aria-labelledby="dropdownMenuNav">

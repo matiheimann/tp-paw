@@ -37,6 +37,7 @@ define([], function() {
 		// Button messages
 		'register.button.message': 'Registrar',
 		'login.button.message': 'Iniciar sesión',
+		'dropdown.button.info.message': 'Info',
 		'dropdown.button.all.message': 'Todos los Posts',
 		'dropdown.button.myfeed.message': 'Mi Feed',
 		'dropdown.button.myGroups.message': 'Mis Grupos',

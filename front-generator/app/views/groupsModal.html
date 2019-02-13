@@ -1,16 +1,31 @@
 <div class="modal-content">
   <div class="modal-header">
-    <h2 ng-if="type == 'allGroups' && search">
+    <h2 ng-if="type == 'allGroups' && search && groups.length > 0">
       {{'groupsSearchResult.title' | translate}}
     </h2>
-    <h2 ng-if="type == 'allGroups' && !search">
+    <h2 ng-if="type == 'allGroups' && search && groups.length == 0">
+      {{'noGroups.found.message' | translate}}
+    </h2>
+    <h2 ng-if="type == 'allGroups' && !search && groups.length > 0">
       {{'groups.title' | translate}}
     </h2>
-    <h2 ng-if="type == 'myGroups'">
-      {{'groups.title' | translate}}
+    <h2 ng-if="type == 'allGroups' && !search && groups.length == 0 && isLoggedIn">
+      {{'noGroups.made.signedIn.message' | translate}}
     </h2>
-    <h2 ng-if="type == 'recommendedGroups'">
+    <h2 ng-if="type == 'allGroups' && !search && groups.length == 0 && !isLoggedIn">
+      {{'noGroups.made.signedOut.message' | translate}}
+    </h2>
+    <h2 ng-if="type == 'myGroups' && groups.length > 0">
+      {{'myGroups.title' | translate}}
+    </h2>
+    <h2 ng-if="type == 'myGroups' && groups.length == 0">
+      {{'noGroups.joined.message' | translate}}
+    </h2>
+    <h2 ng-if="type == 'recommendedGroups' && groups.length > 0">
       {{'recommendedGroups.title' | translate}}
+    </h2>
+    <h2 ng-if="type == 'recommendedGroups' && groups.length == 0">
+      {{'noGroups.toRecommend.message' | translate}}
     </h2>
   </div>
   <div class="modal-body modal-body-groups">

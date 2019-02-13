@@ -24,11 +24,13 @@ import javax.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
 
 import ar.edu.itba.pawddit.model.Comment;
 import ar.edu.itba.pawddit.model.Group;
@@ -86,8 +88,16 @@ public class UserController {
 	@Autowired
 	private DTOConstraintValidator DTOValidator;
 	
+	@Autowired
+	private ApplicationContext applicationContext;
+	
+	@Autowired
+	private TemplateEngine htmlTemplateEngine;
+	
 	@Context
 	private UriInfo uriInfo;
+	
+	private static final String VERIFICATION_TOKEN_TEMPLATE_NAME = "verificationToken.html";
 	
 	@POST
 	@Path("/register")
@@ -100,8 +110,17 @@ public class UserController {
 		
 		final User user = us.create(form.getUsername(), form.getPassword(), form.getEmail(), false);
 		final VerificationToken token = us.createToken(user);
-		mss.sendVerificationToken(user, token, uriInfo.getBaseUri().toString(), LocaleContextHolder.getLocale());
 		
+		// Prepare the evaluation context
+		final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context(LocaleContextHolder.getLocale());
+		// final String confirmationUrl = uriInfo.getBaseUri().toString() + "#/users/confirm?token=" + token.getToken();
+		final String confirmationUrl = "http://localhost:9000/#/confirm?token=" + token.getToken();	
+		ctx.setVariable("username", user.getUsername());
+		ctx.setVariable("confirmationUrl", confirmationUrl);
+		final String htmlContent = this.htmlTemplateEngine.process(VERIFICATION_TOKEN_TEMPLATE_NAME, ctx);
+		final String subject = applicationContext.getMessage("mail.subject", null, LocaleContextHolder.getLocale());
+		
+		mss.sendVerificationToken("Pawddit.", user.getEmail(), subject, htmlContent);
 		
 		final URI uri = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
 		return Response.created(uri).entity(UserDto.fromUser(user)).build();

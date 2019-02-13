@@ -2,6 +2,11 @@
 
 
 /* bootstrap fixes */
+hr {
+	margin-top: 6px !important;
+	margin-bottom: 6px !important;
+}
+
 html {
   height: 100%;
 }
@@ -32,6 +37,11 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
+}
+
+.post-h2 {
+	margin-top: 5px !important;
+	margin-bottom: 2px !important;
 }
 
 /* bootstrap fixes end */
@@ -320,9 +330,6 @@ div .dropdown-menu {
 .post-description-text {
 	position: relative;
 	max-height: 140px;
-	background: -webkit-linear-gradient(rgba(0,0,0,1) 50px, rgba(0,0,0,0) 160px);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 	overflow: hidden;
 }
 

@@ -43,10 +43,3 @@ CREATE TABLE IF NOT EXISTS comments (
 	FOREIGN KEY (postid) REFERENCES posts(postid) ON DELETE CASCADE,
 	FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
 );
-
-INSERT INTO users(userid, username, email, password, admin, enabled) VALUES (1, 'testUser', 'testEmail', 'testPassword', FALSE, TRUE);
-INSERT INTO groups(name, creationdate, description, owner) VALUES ('testGroup', '2018-09-21 19:15:40.5', 'testDescription', 1);
-INSERT INTO posts(postid, title, content, creationdate, groupname, userid, imageid) VALUES (1, 'testPost', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);
-INSERT INTO comments(commentid, content, replyto, postid, userid, creationdate) VALUES (1, 'testComment1', 1, 1, 1, '2018-09-21 19:15:40.5');
-INSERT INTO comments(commentid, content, replyto, postid, userid, creationdate) VALUES (2, 'testComment2', 1, 1, 1, '2018-09-21 19:15:40.6');
-INSERT INTO comments(commentid, content, replyto, postid, userid, creationdate) VALUES (3, 'testComment3', 1, 1, 1, '2018-09-21 19:15:40.7');

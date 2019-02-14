@@ -1,5 +1,8 @@
 package ar.edu.itba.pawddit.persistence;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
@@ -17,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.itba.pawddit.model.Group;
 import ar.edu.itba.pawddit.model.Post;
 import ar.edu.itba.pawddit.model.User;
 
@@ -26,11 +30,8 @@ import ar.edu.itba.pawddit.model.User;
 @Transactional
 public class PostVoteHibernateDaoTest {
 	
-	private static final String EXISTING_UPVOTING_USER_USERNAME = "upvotingUser";
-	private static final String EXISTING_DOWNVOTING_USER_USERNAME = "downvotingUser";
-	private static final String EXISTING_NON_VOTING_USER_USERNAME = "nonVotingUser";
-	private static final String EXISTING_POSTING_USER_USERNAME = "postingUser";
-	
+	private static final LocalDateTime GROUP_CREATION_DATE = LocalDateTime.parse("2018-09-21 19:15", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+		
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -41,66 +42,68 @@ public class PostVoteHibernateDaoTest {
 	private PostVoteHibernateDao postVoteDao;
 	
 	@Autowired
-	private UserHibernateDao userDao; //User dao already tested successfully
+	private UserHibernateDao userDao;
 	
 	@Autowired
-	private PostHibernateDao postDao; //Post dao already tested successfully
+	private PostHibernateDao postDao;
+	
+	@Autowired
+	private GroupHibernateDao groupDao;
 	
 	private JdbcTemplate jdbcTemplate;
-	private User user;
-	private Post post;
+	
+	private User userDummy;
+	
+	private Group groupDummy;
+	
+	private Post postDummy;
 	
 	@Before
 	public void setUp() {
 		jdbcTemplate = new JdbcTemplate(ds);
-		user = userDao.findByUsername(EXISTING_POSTING_USER_USERNAME).get();
-		post = postDao.findByUser(user, 5, 0, null, "all").get(0);
-	}
-	
-	@Test
-	public void checkExistingUpvote() {
-		final User upvotingUser = userDao.findByUsername(EXISTING_UPVOTING_USER_USERNAME).get();
-		Assert.assertEquals(1, postVoteDao.checkVote(upvotingUser, post));
-	}
-	
-	@Test
-	public void checkExistingDownVote() {
-		final User downvotingUser = userDao.findByUsername(EXISTING_DOWNVOTING_USER_USERNAME).get();
-		Assert.assertEquals(-1, postVoteDao.checkVote(downvotingUser, post));
+		
+		userDummy = userDao.create("dummyUser", "dummyPassword", "dummyEmail", false, true);
+		groupDummy = groupDao.create("dummyName", GROUP_CREATION_DATE, "dummyDescription", userDummy);
+		postDummy = postDao.create("dummyTitle", "dummyContent", GROUP_CREATION_DATE, groupDummy, userDummy, "");
 	}
 	
 	@Test
 	public void checkNonExistingVote() {
-		final User nonVotingUser = userDao.findByUsername(EXISTING_NON_VOTING_USER_USERNAME).get();
-		Assert.assertEquals(0, postVoteDao.checkVote(nonVotingUser, post));
+		Assert.assertEquals(0, postVoteDao.checkVote(userDummy, postDummy));
 	}
 	
 	@Test
-	public void votingOnNonVotedPost() {
-		final User votingUser = userDao.findByUsername(EXISTING_NON_VOTING_USER_USERNAME).get();
-		postVoteDao.votePost(votingUser, post, 1);
-		Assert.assertEquals(1, postVoteDao.checkVote(votingUser, post));
+	public void checkVotingOnNonVotedPost() {
+		postVoteDao.votePost(userDummy, postDummy, 1);
+		
+		Assert.assertEquals(1, postVoteDao.checkVote(userDummy, postDummy));
 	}
 	
 	@Test
-	public void cancelVoteTest() {
-		final User upvotingUser = userDao.findByUsername(EXISTING_UPVOTING_USER_USERNAME).get();
-		postVoteDao.cancelVote(upvotingUser, post);
-		Assert.assertEquals(0, postVoteDao.checkVote(upvotingUser, post));
+	public void checkCancelVoteTest() {
+		postVoteDao.votePost(userDummy, postDummy, 1);
+		
+		postVoteDao.cancelVote(userDummy, postDummy);
+		
+		Assert.assertEquals(0, postVoteDao.checkVote(userDummy, postDummy));
 	}
 	
 	@Test
-	public void changeUpvoteTest() {
-		final User upvotingUser = userDao.findByUsername(EXISTING_UPVOTING_USER_USERNAME).get();
-		postVoteDao.changeVote(upvotingUser, post);
-		Assert.assertEquals(-1, postVoteDao.checkVote(upvotingUser, post));
+	public void checkChangeUpvoteTest() {
+		postVoteDao.votePost(userDummy, postDummy, 1);
+		
+		postVoteDao.changeVote(userDummy, postDummy);
+		
+		Assert.assertEquals(-1, postVoteDao.checkVote(userDummy, postDummy));
 	}
 	
 	@Test
-	public void changeDownvoteTest() {
-		final User downvotingUser = userDao.findByUsername(EXISTING_DOWNVOTING_USER_USERNAME).get();
-		postVoteDao.changeVote(downvotingUser, post);
-		Assert.assertEquals(1, postVoteDao.checkVote(downvotingUser, post));
+	public void checkChangeDownvoteTest() {
+		postVoteDao.votePost(userDummy, postDummy, -1);
+
+		postVoteDao.changeVote(userDummy, postDummy);
+		
+		Assert.assertEquals(1, postVoteDao.checkVote(userDummy, postDummy));
 	}
 	
 	@After

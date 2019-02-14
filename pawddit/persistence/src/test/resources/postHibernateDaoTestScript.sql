@@ -32,9 +32,3 @@ CREATE TABLE IF NOT EXISTS posts (
 	FOREIGN KEY(groupName) REFERENCES groups(name) ON DELETE CASCADE,
 	FOREIGN KEY(imageid) REFERENCES images(token)
 );
-
-INSERT INTO users(userid, username, email, password, admin, enabled) VALUES (1, 'testUser', 'testEmail', 'testPassword', FALSE, TRUE);
-INSERT INTO groups(name, creationdate, description, owner) VALUES ('testGroup', '2018-09-21 19:15:40.5', 'testDescription', 1);
-INSERT INTO posts(postid, title, content, creationdate, groupname, userid, imageid) VALUES (1, 'testPost1', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);
-INSERT INTO posts(postid, title, content, creationdate, groupname, userid, imageid) VALUES (2, 'testPost2', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);
-INSERT INTO posts(postid, title, content, creationdate, groupname, userid, imageid) VALUES (3, 'testPost3', 'testContent', '2018-09-21 19:15:40.5', 'testGroup', 1, NULL);

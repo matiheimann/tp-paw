@@ -22,6 +22,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.itba.pawddit.model.Group;
+import ar.edu.itba.pawddit.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -42,7 +43,7 @@ public class GroupHibernateDaoTest {
 	private DataSource ds;
 	
 	@Autowired
-	private UserHibernateDao userDao; //User dao already tested successfully
+	private UserHibernateDao userDao;
 	
 	@Autowired
 	private GroupHibernateDao groupDao;
@@ -55,12 +56,15 @@ public class GroupHibernateDaoTest {
 	}
 	
 	@Test
-	public void createGroupTest() {
-		final Group group = groupDao.create(GROUP_NAME, GROUP_CREATION_DATE, GROUP_DESCRIPTION, userDao.findByUsername(GROUP_OWNER).get());
-		Assert.assertEquals(GROUP_NAME, group.getName());
-		Assert.assertEquals(GROUP_CREATION_DATE, group.getDate());
-		Assert.assertEquals(GROUP_DESCRIPTION, group.getDescription());
-		Assert.assertEquals(GROUP_OWNER, group.getOwner().getUsername());
+	public void createGroupTest() {		
+		final User userDummy = userDao.create("testUser", "testPassword", "testEmail", false, true);
+		
+		final Group groupToCreate = groupDao.create(GROUP_NAME, GROUP_CREATION_DATE, GROUP_DESCRIPTION, userDummy);
+		
+		Assert.assertEquals(GROUP_NAME, groupToCreate.getName());
+		Assert.assertEquals(GROUP_CREATION_DATE, groupToCreate.getDate());
+		Assert.assertEquals(GROUP_DESCRIPTION, groupToCreate.getDescription());
+		Assert.assertEquals(GROUP_OWNER, groupToCreate.getOwner().getUsername());
 	}
 	
 	@Test

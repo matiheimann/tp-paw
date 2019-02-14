@@ -15,6 +15,14 @@
 		  		{{group.suscriptors}} {{(group.suscriptors == 1 ? 'groupMember.message' : 'groupMembers.message') | translate}}
 		  	</strong>
 		</div>
+		<div ng-if="isLoggedIn && group.userSub" class="left-border-black">
+			<button class="app-btn-primary" role="button">
+				<span class="create-post-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-sticky-note"></i></span>
+				<span class="create-post-text">
+					{{'createPost.button.message' | translate}}
+				</span>
+			</button>
+		</div>
 		<div class="info-item margin-right-auto">
 			<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)" class="form-group">
 				<button ng-if="!group.userSub" class="app-btn-primary" ng-click="subscribe(group.name)">

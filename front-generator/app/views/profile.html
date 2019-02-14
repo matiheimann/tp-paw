@@ -21,18 +21,15 @@
 			<h6 class="margin-title lightgrey">
 				{{'profileActivity.message' | translate}}
 			</h6>
-			<nav class="activity">
-				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<a class="nav-item nav-link active" id="nav-posts-tab" data-toggle="tab" href="#nav-posts" role="tab" aria-controls="nav-posts" aria-selected="true">
-						{{'profilePosts.title' | translate}}
-					</a>
-					<a class="nav-item nav-link" id="nav-comments-tab" data-toggle="tab" href="#nav-comments" role="tab" aria-controls="nav-comments" aria-selected="false">
-						{{'profileComments.title' | translate}}
-					</a>
-		 		</div>
-			</nav>
-			<div class="tab-content center-posts" id="nav-tabContent">
-		  		<div class="tab-pane fade show active overflow-y-scroll width-full height-full padding-bottom-10" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
+			<div class="activity">
+				<div class ="btn-history clickable selected-history" id="lastNPosts" ng-click="lastNumberPosts()">
+					{{'profilePosts.title' | translate}}
+				</div>
+				<div class="btn-history clickable" id="lastNComments" ng-click="lastNumberComments()">
+					{{'profileComments.title' | translate}}
+				</div>
+			</div>
+			<div class="center-posts width-full height-full padding-bottom-10 overflow-y-scroll padding-right-5" id="profile-posts">
 					<div ng-if="lastPosts.length == 0">
 						<br>
 		  				<strong>
@@ -59,7 +56,7 @@
 						<div class="clickable post-center" ng-click="gotoPost(post.group.name, post.postid)">
 							<div class="post-center-text">
 								<h2 class="post-wrap">{{post.title}}</h2>
-								<div class="post-description-text post-wrap">
+								<div class="post-description-text post-wrap" style="background: -webkit-linear-gradient(rgba(0,0,0,1) 50px, rgba(0,0,0,0) 160px); -webkit-background-clip: text;-webkit-text-fill-color: transparent;">
 									{{post.content}}
 								</div>
 							</div>
@@ -80,14 +77,14 @@
 						</div>
 					</div>
 				</div>
-		  		<div class="tab-pane fade overflow-y-scroll width-full height-full padding-bottom-10" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
+		  		<div class="width-full height-full padding-bottom-10 display-none overflow-y-scroll" id="profile-comments">
 					<div ng-if="lastComments.length == 0">
 						<br>
 						<strong>
 							{{'userDoesNotHaveComments.message' | translate}}
 						</strong>
 					</div>
-					<div ng-if="lastComments.length > 0" ng-repeat="comment in lastComments" class="activity-comments-component">
+					<div ng-if="lastComments.length > 0" ng-repeat="comment in lastComments" class="activity-comments-component width-full height-full">
 						<div class="comment-header">
 							<span class="header-button clickable" ng-click="gotoProfile(comment.owner.username)">
 								{{comment.owner.username}}

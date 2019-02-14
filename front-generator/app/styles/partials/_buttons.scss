@@ -76,7 +76,7 @@
 
 .app-btn-outline:focus {
   outline-color: $primary-red;
-  color: $white
+  color: $primary-red;
 }
 
 .app-btn-outline:hover {
@@ -113,4 +113,13 @@
 	margin-left: auto;
 	display: inline-block;
 	padding: 2px;
+}
+
+.btn-history {
+  border-radius: 6px;
+  border: 1px solid $light-grey;
+  text-align: center;
+  padding: 8px 30px;
+  width: 35%;
+  max-height: 35px;
 }

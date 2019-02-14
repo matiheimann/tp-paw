@@ -20,6 +20,7 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 
+@Path("posts")
 @Component
 public class IndexController {
 	
@@ -29,7 +30,6 @@ public class IndexController {
 	private PostService ps;
 
 	@GET
-	@Path("/posts")
 	@Produces(value = { MediaType.APPLICATION_JSON, })
 	public Response getAllPosts(
 			@QueryParam("page") @DefaultValue("1") Integer page, 

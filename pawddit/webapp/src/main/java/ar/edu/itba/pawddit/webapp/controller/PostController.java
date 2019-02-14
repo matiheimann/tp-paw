@@ -45,7 +45,7 @@ import ar.edu.itba.pawddit.webapp.form.CreatePostForm;
 import ar.edu.itba.pawddit.webapp.form.ImageForm;
 import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
-@Path("/api/groups/{groupName}/posts")
+@Path("groups/{groupName}/posts")
 @Component
 public class PostController {
 	

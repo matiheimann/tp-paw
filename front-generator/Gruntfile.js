@@ -11,7 +11,28 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.registerTask('test', ['karma']);
+
+  grunt.loadNpmTasks('grunt-connect-proxy');
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
   grunt.initConfig({
+    karma: {
+      unit: {
+        options: {
+          frameworks: ['jasmine'],
+          singleRun: true,
+          browsers: ['PhantomJS'],
+          files: [
+             'bower_components/angular/angular.min.js',
+             'bower_components/angular-mocks/angular-mocks.js',
+             'app/scripts/**/*.js',
+             'app/tests/services/fibonacciTest.js'
+          ],
+        }
+      }
+    },
     yeoman: appConfig,
     connect: {
       options: {
@@ -19,6 +40,11 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [{
+        context: '/webapp',
+        host: 'localhost',
+        port: 8080
+      }],
       livereload: {
         options: {
           open: true,
@@ -26,7 +52,8 @@ module.exports = function (grunt) {
             return [
             connect.static('.tmp'),
             connect().use('/bower_components', connect.static('./bower_components')),
-            connect.static(appConfig.app)
+            connect.static(appConfig.app),
+            proxySnippet
             ];
           }
         }
@@ -461,6 +488,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'bower',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
@@ -492,10 +520,6 @@ module.exports = function (grunt) {
       'copy:dist',
       // minify css in: <<>> out: <<>>
       'cssmin',
-      // adds hash to file names in: <<>> out: <<>>
-      'filerev',
-      // Creates file map from filerev result in: <<>> out: <<>>
-      'jsrev',
       // ???
       'cdnify',
       // minify js in: <<>> out: <<>>

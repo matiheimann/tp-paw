@@ -38,7 +38,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
 import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
-@Path("/api/groups")
+@Path("groups")
 @Component
 public class GroupController {
 

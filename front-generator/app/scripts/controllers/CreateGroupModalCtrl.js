@@ -1,7 +1,7 @@
 'use strict';
 define(['pawddit', 'services/restService'], function(pawddit) {
 
-	pawddit.controller('CreateGroupModalCtrl', ['$scope', '$location', '$uibModalInstance', 'restService', function($scope, $location, $modal, restService) {
+	pawddit.controller('CreateGroupModalCtrl', ['$scope', '$rootScope', '$location', '$uibModalInstance', 'restService', function($scope, $rootScope, $location, $modal, restService) {
 		$scope.newGroup = {};
 
 		$scope.cancel = function() {
@@ -13,6 +13,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 			if ($scope.createGroupForm.$valid) {
 				restService.createGroup($scope.newGroup.name, $scope.newGroup.description).then(function(data) {             
 					$modal.dismiss();
+					$rootScope.$broadcast('userSubs:updated');
 					$location.url('/groups/' + data.name);
 				}).catch(function(response) {
 					if (response.status === 409) {

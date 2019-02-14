@@ -31,7 +31,6 @@
 			</div>
 			<div class="center-posts width-full height-full padding-bottom-10 overflow-y-scroll padding-right-5" id="profile-posts">
 					<div ng-if="lastPosts.length == 0">
-						<br>
 		  				<strong>
 		  					{{'userDoesNotHavePosts.message' | translate}}
 		  				</strong>
@@ -78,8 +77,7 @@
 					</div>
 				</div>
 		  		<div class="width-full height-full padding-bottom-10 display-none overflow-y-scroll" id="profile-comments">
-					<div ng-if="lastComments.length == 0">
-						<br>
+					<div ng-if="lastComments.length == 0" class="text-align-center">
 						<strong>
 							{{'userDoesNotHaveComments.message' | translate}}
 						</strong>

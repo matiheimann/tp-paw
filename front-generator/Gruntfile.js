@@ -14,6 +14,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.registerTask('test', ['karma']);
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
   grunt.initConfig({
     karma: {
       unit: {
@@ -37,6 +40,11 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [{
+        context: '/webapp',
+        host: 'localhost',
+        port: 8080
+      }],
       livereload: {
         options: {
           open: true,
@@ -44,7 +52,8 @@ module.exports = function (grunt) {
             return [
             connect.static('.tmp'),
             connect().use('/bower_components', connect.static('./bower_components')),
-            connect.static(appConfig.app)
+            connect.static(appConfig.app),
+            proxySnippet
             ];
           }
         }
@@ -479,6 +488,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'bower',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);

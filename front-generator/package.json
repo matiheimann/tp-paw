@@ -2,7 +2,8 @@
   "name": "pawddit",
   "version": "0.0.0",
   "dependencies": {
-    "grunt-cli": "^1.2.0"
+    "grunt-cli": "^1.2.0",
+    "grunt-karma": "^3.0.1"
   },
   "devDependencies": {
     "angular": "^1.6.6",
@@ -32,6 +33,10 @@
     "grunt-svgmin": "^0.4.0",
     "grunt-usemin": "^2.1.1",
     "grunt-wiredep": "^1.7.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-phantomjs-launcher": "^1.0.4",
     "load-grunt-tasks": "^0.4.0",
     "requirejs": "^2.1.11",
     "time-grunt": "^0.3.1"

@@ -11,7 +11,25 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.registerTask('test', ['karma']);
+
   grunt.initConfig({
+    karma: {
+      unit: {
+        options: {
+          frameworks: ['jasmine'],
+          singleRun: true,
+          browsers: ['PhantomJS'],
+          files: [
+             'bower_components/angular/angular.min.js',
+             'bower_components/angular-mocks/angular-mocks.js',
+             'app/scripts/**/*.js',
+             'app/tests/services/fibonacciTest.js'
+          ],
+        }
+      }
+    },
     yeoman: appConfig,
     connect: {
       options: {

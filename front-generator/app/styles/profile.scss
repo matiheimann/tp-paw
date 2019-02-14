@@ -47,7 +47,16 @@
 
 .activity {
 	margin-top: 20px;
+	margin-bottom: 10px;
+	padding-bottom: 17px;
 	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	height: 100px;
+}
+
+.selected-history {
+	font-weight: bolder;
 }
 
 .username-title {

@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS groups (
 );
 
 
-INSERT INTO users(userid, username, email, password, admin, enabled) VALUES (1, 'testUser', 'testEmail', 'testPassword', FALSE, TRUE);
+INSERT INTO users(userid, username, email, password, admin, enabled) VALUES (1, 'testUsername', 'testEmail', 'testPassword', FALSE, TRUE);
 INSERT INTO groups(name, creationdate, description, owner) VALUES ('createdTestGroup1', '2018-09-21 19:15:40.5', 'testDescription', 1);

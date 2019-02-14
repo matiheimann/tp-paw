@@ -44,7 +44,7 @@ import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateCommentForm;
 import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
-@Path("/api/groups/{groupName}/posts/{postId}/comments")
+@Path("groups/{groupName}/posts/{postId}/comments")
 @Component
 public class CommentController {
 	

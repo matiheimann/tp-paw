@@ -57,7 +57,7 @@ import ar.edu.itba.pawddit.webapp.form.ImageForm;
 import ar.edu.itba.pawddit.webapp.form.UserRegisterForm;
 import ar.edu.itba.pawddit.webapp.form.validators.DTOConstraintValidator;
 
-@Path("/api/users")
+@Path("users")
 @Component
 public class UserController {
 	

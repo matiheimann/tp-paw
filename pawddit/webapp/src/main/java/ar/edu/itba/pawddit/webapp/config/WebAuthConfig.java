@@ -21,14 +21,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import ar.edu.itba.pawddit.webapp.auth.PawdditLoginSuccessHandler;
 import ar.edu.itba.pawddit.webapp.auth.PawdditLogoutSuccessHandler;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
-import ar.edu.itba.pawddit.webapp.auth.WebSecurityCorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -79,8 +77,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 			.and().exceptionHandling()
 				.accessDeniedPage("/404")
 				.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-			.and().csrf().disable()
-				.addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
+			.and().csrf().disable();
 	}
 	
 	private String getRememberMeKey() {

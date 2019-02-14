@@ -1,7 +1,7 @@
 /* global paths */
 'use strict';
 require.config({
-    baseUrl: '/scripts',
+    baseUrl: 'scripts',
     paths: {
         affix: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix',
         alert: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert',
@@ -24,7 +24,6 @@ require.config({
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
-        'bootstrap-sass-official': '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
         'angular-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls',
         'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
         'angular-timeago': '../../bower_components/angular-timeago/dist/angular-timeago',

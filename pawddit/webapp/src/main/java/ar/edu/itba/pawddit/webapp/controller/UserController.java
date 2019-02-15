@@ -223,7 +223,7 @@ public class UserController {
 			final User user = userDetailsService.getLoggedUser();
 			if (user != null) {
 				String imageId = null;
-				if (imageForm != null && imageForm.getFileBytes() != null) {
+				if (imageForm != null && imageForm.getFileBodyPart() != null && imageForm.getFileBytes() != null) {
 					DTOValidator.validate(imageForm, "Failed to validate Image");
 					imageId = is.saveImage(imageForm.getFileBytes());
 				}

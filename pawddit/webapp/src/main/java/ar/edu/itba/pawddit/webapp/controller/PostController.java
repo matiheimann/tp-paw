@@ -113,7 +113,7 @@ public class PostController {
 			if (user != null) {
 				DTOValidator.validate(form, "Failed to validate Post");
 				String imageId = null;
-				if (imageForm != null && imageForm.getFileBytes() != null) {
+				if (imageForm != null && imageForm.getFileBodyPart() != null && imageForm.getFileBytes() != null) {
 					DTOValidator.validate(imageForm, "Failed to validate Image");
 					imageId = is.saveImage(imageForm.getFileBytes());
 				}

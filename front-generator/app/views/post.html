@@ -91,22 +91,6 @@
 							<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid) || (loggedUser.userid == comment.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: post.group, post: post, comment: comment}, 'comment')"></i>
 		               	</div>
 		               	<hr class="comment-separator">
-						<div ng-if="comment.replyTo" class="comment-reply">
-					        <div class="comment-header">
-					            <span class="header-button clickable comment-reply-button-color" ng-click="gotoProfile(comment.replyTo.owner.username)">
-					                {{comment.replyTo.owner.username}}
-					            </span>
-					            <span><strong>
-					                {{comment.replyTo.date | timeAgo}}
-					            </strong></span>
-					        </div>
-					        <hr class="comment-separator">
-					        <br>
-					        <div class="comment-component-content">
-					            {{comment.replyTo.content}}
-					        </div>
-					    </div>
-					    <br>
 		               	<div class="comment-component-content">
 		                 	{{comment.content}}
 		               	</div>
@@ -138,11 +122,11 @@
 								</strong>
 							</div>
 							<div class="info-item">
-								<strong ng-if="comment.replies == 1">
-									{{comment.replies}} {{'comments.moreReply.button.message' | translate}}
+								<strong ng-if="(comment.replies && !comment.repliesList && comment.replies == 1) || (comment.repliesList && comment.replies - comment.repliesList == 1)" ng-click="loadMoreReplies(comment)">
+									{{comment.replies - comment.repliesList}} {{'comments.moreReply.button.message' | translate}}
 								</strong>
-								<strong ng-if="comment.replies > 1">
-									{{comment.replies}} {{'comments.moreReplies.button.message' | translate}}
+								<strong ng-if="(comment.replies && !comment.repliesList && comment.replies > 1) || (comment.repliesList && comment.replies - comment.repliesList > 1)" ng-click="loadMoreReplies(comment)">
+									{{comment.replies - comment.repliesList}} {{'comments.moreReplies.button.message' | translate}}
 								</strong>						
 							</div>
 						</div>

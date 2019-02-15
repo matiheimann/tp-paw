@@ -24,7 +24,7 @@ define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawd
 		$scope.doSubmit = function() {
 			$scope.validImageFormatError = false;
 			if ($scope.createPostForm.$valid) {
-				restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, null).then(function(data) {           
+				restService.createPost($scope.newPost.group.name, $scope.newPost.title, $scope.newPost.content, $scope.newPost.file).then(function(data) {           
 					$modal.dismiss();
 					$location.url('/groups/' + data.group.name + '/posts/' + data.postid);
 				}).catch(function(response) {

@@ -35,7 +35,7 @@ public class GroupHibernateDao implements GroupDao {
 	
 	@Override
 	public List<Group> searchGroupsByString(final String name, final int limit, final int offset) {
-		final TypedQuery<Group> query = em.createQuery("from Group as g where upper(g.name) like upper(:name) order by g.name", Group.class);
+		final TypedQuery<Group> query = em.createQuery("from Group as g where upper(g.name) like upper(:name) or upper(g.description) like upper(:name) order by g.name", Group.class);
 		query.setParameter("name", "%" + name + "%");
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);

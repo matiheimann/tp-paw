@@ -77,18 +77,18 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 						document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});
 				} else {
-					restService.createComment($scope.post.group.name, $scope.post.postid, $scope.newCommentReply.content, replyTo).then(function(data) {            
+					restService.createComment($scope.post.group.name, $scope.post.postid, $scope.newCommentReply.content, replyTo.commentid).then(function(data) {            
 						$scope.newCommentReply.content = ''; 
 						activeReplyForm.slideUp();
       					activeReplyForm = null;
       					var index = $scope.comments.findIndex(function(comment) {
 							return comment.commentid === replyTo;
 						});
-						if (!$scope.comments[index].repliesList) {
-							$scope.comments[index].repliesList = [];
+						if (!replyTo.repliesList) {
+							replyTo.repliesList = [];
 						}
-						$scope.comments[index].repliesList.unshift(data);
-						$scope.comments[index].replies++;
+						replyTo.repliesList.unshift(data);
+						replyTo.replies++;
       					var commentsStartPos = $('.post-component-comments').offset().top;
       					document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});

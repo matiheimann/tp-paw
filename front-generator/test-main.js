@@ -118,9 +118,7 @@ require.config({
 
     ],
 
-    // ask Require.js to load these files (all our tests)
     deps: tests,
 
-    // start test run, once Require.js is done
-    callback: window.__karma__.start
-})
+    callback: window.__karma__.start()
+});

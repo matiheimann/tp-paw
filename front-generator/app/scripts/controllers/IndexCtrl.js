@@ -29,6 +29,8 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 				$scope.isLoggedIn = data.isLoggedIn;
         		if ($scope.isLoggedIn) {
 					getLoggedUser();
+				} else {
+					$scope.loggedUser = null;
 				}
 			});
 		});

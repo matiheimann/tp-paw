@@ -80,9 +80,81 @@
 				</h5>
 				<!-- Comment List -->
 				<div ng-if="comments.length > 0" infinite-scroll='loadMoreComments()' infinite-scroll-disabled="loadingComments || noMoreComments">
+<<<<<<< HEAD
 					<div ng-repeat="comment in comments">
 						<comment-directive comment="comment"></comment-directive>
 					</div>
+=======
+		            <div ng-repeat="comment in comments track by comment.commentid" class="comment">
+		               	<div class="comment-header">
+		                	<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
+		                		{{comment.owner.username}}
+		                	</span>
+		                 	<span><strong>
+		                 		{{comment.date | timeAgo}}
+		                 	</strong></span>
+							<i ng-if="(loggedUser.userid == post.group.owner.userid) || (loggedUser.admin) || (loggedUser.userid == post.owner.userid) || (loggedUser.userid == comment.owner.userid)" class="header-button-delete fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: post.group, post: post, comment: comment}, 'comment')"></i>
+		               	</div>
+		               	<hr class="comment-separator">
+		               	<div class="comment-component-content">
+		                 	{{comment.content}}
+		               	</div>
+						<div class="comment-footer">
+					 		<div class="info-item votes-controls">
+					 			<div ng-if="isLoggedIn">
+							 		<div class="form-group">
+							 			<button class="no-btn" ng-click="upvoteComment(post.group.name, post.postid, comment.commentid)">
+							 				<i ng-if="comment.userVote == 1" class="fas fa-arrow-up icon-color-selected"></i>
+							 				<i ng-if="comment.userVote != 1" class="fas fa-arrow-up icon-color"></i>
+							 			</button>
+							 		</div>
+					 			</div>
+					 			<strong class="score-count">
+					 				{{comment.votes}} {{(!loggedUser ? 'comments.votes' : '') | translate}}
+					 			</strong>
+					 			<div ng-if="isLoggedIn">
+							 		<div class="form-group">
+							 			<button class="no-btn" ng-click="downvoteComment(post.group.name, post.postid, comment.commentid)">
+							 				<i ng-if="comment.userVote == -1" class="fas fa-arrow-down icon-color-selected"></i>
+							 				<i ng-if="comment.userVote != -1" class="fas fa-arrow-down icon-color"></i>
+							 			</button>
+							 		</div>
+					 			</div>
+					 		</div>
+							<div ng-if="isLoggedIn" ng-click="showReplyForm($event)" class="comment-footer-button reply-button clickable">
+								<strong>
+									{{'comments.reply.button.message' | translate}}
+								</strong>
+							</div>
+							<div class="info-item">
+								<strong ng-if="(comment.replies && !comment.repliesList && comment.replies == 1) || (comment.repliesList && comment.replies - comment.repliesList == 1)" ng-click="loadMoreReplies(comment)">
+									{{comment.replies - comment.repliesList}} {{'comments.moreReply.button.message' | translate}}
+								</strong>
+								<strong ng-if="(comment.replies && !comment.repliesList && comment.replies > 1) || (comment.repliesList && comment.replies - comment.repliesList > 1)" ng-click="loadMoreReplies(comment)">
+									{{comment.replies - comment.repliesList}} {{'comments.moreReplies.button.message' | translate}}
+								</strong>						
+							</div>
+						</div>
+						<!-- Reply Comment Form   -->
+						<div class="reply-comment-form">
+							<form name="createCommentReplyForm" accept-charset="UTF-8" novalidate>
+								<div ng-if="isLoggedIn">
+									<div class="form-group">
+							   			<textarea path="content" class="form-control" id="reply-comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newCommentReply.content" ng-minlength="1" ng-maxlength="1000" ng-required="true"></textarea>
+							   			<span ng-show="((createCommentReplyForm.content.$error.required || createCommentReplyForm.content.$error.minlength || createCommentReplyForm.content.$error.maxlength) && submitted)" class="formError">
+		                        			{{'Size.createCommentForm.content' | translate}}
+		                    			</span>
+							   		</div>
+									<div class="button-to-the-right">
+						                  <button type="submit" ng-click="doSubmit(createCommentReplyForm, comment.commentid)" class="reply-button-submit create-comment-btn app-btn-primary">
+						                  	{{'createCommentConfirmation.button.message' | translate}}    
+						                  </button>
+									</div>
+								</div>
+							</form>
+						</div>	         
+		            </div>
+>>>>>>> 51f95d808b397fe27c3114fe3f5a35f664155409
 	        	</div>
           	</div>
        	</div>

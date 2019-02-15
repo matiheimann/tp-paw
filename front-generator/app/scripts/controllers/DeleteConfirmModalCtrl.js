@@ -13,6 +13,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 				case 'group': 
 					restService.deleteGroup(item.group.name).then(function(data) {
 						$modal.dismiss();
+						$rootScope.$broadcast('userSubs:updated');
 						$location.url('/');
 					});
 					break;

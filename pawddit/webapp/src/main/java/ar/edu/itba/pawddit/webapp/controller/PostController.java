@@ -36,6 +36,7 @@ import ar.edu.itba.pawddit.services.ImageService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
+import ar.edu.itba.pawddit.webapp.dto.ExceptionDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
 import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
@@ -112,7 +113,7 @@ public class PostController {
 			if (user != null) {
 				DTOValidator.validate(form, "Failed to validate Post");
 				String imageId = null;
-				if (imageForm != null && imageForm.getFileBytes() != null) {
+				if (imageForm != null && imageForm.getFileBodyPart() != null && imageForm.getFileBytes() != null) {
 					DTOValidator.validate(imageForm, "Failed to validate Image");
 					imageId = is.saveImage(imageForm.getFileBytes());
 				}
@@ -126,7 +127,7 @@ public class PostController {
 			}
 		}
 		catch (IOException e) {
-			return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.CONFLICT).entity(new ExceptionDto("InvalidImage")).build();
 		}
 	}
 	

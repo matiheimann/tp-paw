@@ -1,16 +1,26 @@
 'use strict';
-define(['pawddit', 'services/restService'], function(pawddit) {
+define(['pawddit', 'services/restService' , 'services/modalService'], function(pawddit) {
 
-	pawddit.controller('GroupsModalCtrl', ['$scope', '$rootScope', '$location', '$uibModalInstance', 'restService', 'groups', 'type', 'search', function($scope, $rootScope, $location, $modal, restService, groups, type, search) {
+	pawddit.controller('GroupsModalCtrl', ['$scope', '$rootScope', '$location', '$uibModalInstance', 'restService', 'modalService', 'groups', 'type', 'search', 'isLoggedIn', function($scope, $rootScope, $location, $modal, restService, modalService, groups, type, search, isLoggedIn) {
 		$scope.type = type;
 		$scope.search = search;
 		$scope.groupsPage = 1;
 		$scope.groups = groups;
+		$scope.isLoggedIn = isLoggedIn;
 
 		$scope.cancel = function() {
 			$scope.$dismiss();
 		};
 
+		$scope.createGroupFromModal = function() {
+			$scope.$dismiss();
+			modalService.createGroupModal();
+		}
+
+		$scope.login = function() {
+			$scope.$dismiss();
+			modalService.loginModal();
+		}
 		$scope.loadMoreGroups = function() {
 			$scope.loadingGroups = true;
 			$scope.groupsPage++;

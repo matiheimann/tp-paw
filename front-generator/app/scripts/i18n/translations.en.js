@@ -121,13 +121,13 @@ define([], function() {
 		'recommendedGroups.title': 'Recommended groups',
 
 		// Informative messages
-		'noPosts.made.signedOut.message': 'No posts were made. Log in and create a new one by clicking CREATE POST.',
-		'noPosts.made.signedIn.message': 'No posts were made. Create a new one by clicking CREATE POST.',
-		'noGroups.made.signedOut.message': 'No groups were created. Sign in and create a new one by clicking CREATE GROUP.',
-		'noGroups.made.signedIn.message': 'No groups were created. Create a new one by clicking CREATE GROUP.',
+		'noPosts.made.signedOut.message': 'No posts were made.',
+		'noPosts.made.signedIn.message': 'No posts were made.',
+		'noGroups.made.signedOut.message': 'No groups were created.',
+		'noGroups.made.signedIn.message': 'No groups were created.',
 		'noGroups.toRecommend.message': 'No groups to recommend. You might be subscribed to all groups or no groups were created.',
 		'noGroups.found.message': 'No groups found for your search. Make sure to write the name correctly.',
-		'noGroups.joined.message': 'No groups were joined. Search a group to join or create a new one by clicking CREATE GROUP.',
+		'noGroups.joined.message': 'No groups were joined.',
 		'postedIn.message': 'posted in',
 		'commentedIn.message': 'commented in',
 		'comments.message': 'Comments',

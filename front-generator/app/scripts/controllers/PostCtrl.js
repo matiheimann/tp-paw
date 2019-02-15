@@ -1,5 +1,5 @@
 'use strict';
-define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', 'directives/commentDirective'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', 'directives/commentItem'], function(pawddit) {
 
     pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'post', 'comments', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, post, comments, url) {
         $window.document.title = 'Pawddit. | ' + post.title;
@@ -81,10 +81,13 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 						$scope.newCommentReply.content = ''; 
 						activeReplyForm.slideUp();
       					activeReplyForm = null;
-      					$scope.comments.unshift(data);
       					var index = $scope.comments.findIndex(function(comment) {
 							return comment.commentid === replyTo;
 						});
+						if (!$scope.comments[index].repliesList) {
+							$scope.comments[index].repliesList = [];
+						}
+						$scope.comments[index].repliesList.unshift(data);
 						$scope.comments[index].replies++;
       					var commentsStartPos = $('.post-component-comments').offset().top;
       					document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
@@ -95,7 +98,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 		};
 
 		$scope.showReplyForm = function($event) {
-			var replyForm = $($event.currentTarget).parent().parent().find('.reply-comment-form');
+			var replyForm = $($event.currentTarget).parent().parent().find('.reply-comment-form').first();
       		if (replyForm.is(':hidden')) {
       			if (activeReplyForm) {
       				activeReplyForm.slideUp();

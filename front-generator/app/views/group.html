@@ -23,15 +23,13 @@
 				</span>
 			</button>
 		</div>
-		<div class="info-item margin-right-auto">
-			<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)" class="form-group">
-				<button ng-if="!group.userSub" class="app-btn-primary" ng-click="subscribe(group.name)">
-					{{'joinGroup.button.message' | translate}}
-				</button>
-				<button ng-if="group.userSub" class="app-btn-primary" ng-click="unsubscribe(group.name)">
-					{{'leaveGroup.button.message' | translate}}
-				</button>
-			</div>
+		<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)" class="margin-right-auto">
+			<button ng-if="!group.userSub" class="app-btn-primary margin-left-10" ng-click="subscribe(group.name)">
+				{{'joinGroup.button.message' | translate}}
+			</button>
+			<button ng-if="group.userSub" class="app-btn-primary margin-left-10" ng-click="unsubscribe(group.name)">
+				{{'leaveGroup.button.message' | translate}}
+			</button>
 		</div>
 		<i ng-if="loggedUser.userid == group.owner.userid || loggedUser.admin" class="header-button-delete-group fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: group}, 'group')"></i>
 	</div>

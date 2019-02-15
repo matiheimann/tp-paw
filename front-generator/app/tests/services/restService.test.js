@@ -10,6 +10,8 @@ define(['services/restService', 'angular-mocks'], function() {
 
         var RESPONSE_ERROR = {detail: 'Not found.'};
 
+        var DEFAULT_GETPOSTS_PARAMETERS = {page: 1, sort: 'new', time: 'all'};
+
     	beforeEach(module('pawddit'));
 
     	beforeEach(inject(function(_restService_, _url_, _$httpBackend_, _$q_) {
@@ -28,12 +30,12 @@ define(['services/restService', 'angular-mocks'], function() {
             var response;
 
             it('should be define', function() {
-                expect(restService.getUser).toBeDefined();
+                expect(restService.getGroup).toBeDefined();
             });
 
             it('should return a valid group given a groupname', function() {
 
-                $httpBackend.whenGET(url + '/groups/' + MOCK_GROUP.name).respond(200, $q.when(MOCK_USER));
+                $httpBackend.whenGET(url + '/groups/' + MOCK_GROUP.name).respond(200, $q.when(MOCK_GROUP));
 
                 restService.getGroup(MOCK_GROUP.name)
                 .then(function(res) {
@@ -49,14 +51,14 @@ define(['services/restService', 'angular-mocks'], function() {
 
                 $httpBackend.whenGET(url + '/groups/' + MOCK_GROUP.name).respond(404, RESPONSE_ERROR);
 
-                restService.getUser(MOCK_GROUP.name)
+                restService.getGroup(MOCK_GROUP.name)
                 .catch(function(res) {
                     response = res.data;
                 });
 
-                $httpBackend.flush(); 
+                $httpBackend.flush();
 
-                expect(response).toEqual(MOCK_GROUP);
+                expect(response).toEqual(RESPONSE_ERROR);
             });
 
         });
@@ -68,11 +70,11 @@ define(['services/restService', 'angular-mocks'], function() {
             it('should be defined', function() {
                 expect(restService.getPosts).toBeDefined();
             });
-           
-            it('should return a valid list of posts given no parameters', function() {
-                $httpBackend.whenGET(url + '/posts').respond(200, $q.when(MOCK_POSTS));
 
-                restService.getProducts()
+            it('should return a valid list of posts given default parameters', function() {
+                $httpBackend.whenGET(url + '/posts?page=1&sort=new&time=all').respond(200, $q.when(MOCK_POSTS));
+
+                restService.getPosts(DEFAULT_GETPOSTS_PARAMETERS)
                 .then(function(res) {
                     response = res;
                 });

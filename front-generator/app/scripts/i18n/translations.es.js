@@ -31,7 +31,7 @@ define([], function() {
 		// Create post form error messages
 		'Size.createPostForm.title': 'El título debe contener entre 4 y 60 caracteres',
 		'Size.createPostForm.content': 'El contenido debe contener entre 6 y 1000 caracteres',
-		'ValidImageFormat.createPostForm.file': 'Formato de imagen inválido, se soportan los formatos jpeg y png',
+		'ValidImageFormat.createPostForm.file': 'Formato de imagen inválido, o tamaño superior a 5 MB.',
 		'image.upload.failed.message': 'El cargado de la imagen falló',
 
 		// Button messages

@@ -26,9 +26,11 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 	
 	private boolean isValidFormat(ImageForm form) {
 		
-		if (form.getFileBodyPart() == null) {
+		if (form.getFileBodyPart() == null || form.getFileBytes() == null)
 			return false;
-		}
+		
+		if (form.getFileBytes().length > 5 * 1024 * 1024)
+			return false;
 			
 		boolean valid = false;
 		final String[] values = { "image/jpeg", "image/png" };
@@ -46,6 +48,7 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 			BufferedImage img = ImageIO.read(in);
 			if (img == null)
 				return false;
+			
 		} catch (IOException e) {
 			return false;
 		}

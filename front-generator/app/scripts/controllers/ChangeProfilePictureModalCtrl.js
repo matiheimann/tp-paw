@@ -25,6 +25,9 @@ define(['pawddit', 'services/restService'], function(pawddit) {
   							default:
   						}
 					});
+					if (response.data.message === 'InvalidFormat') {
+						$scope.validImageFormatError = true;
+					}
 				}
 			});
 		};

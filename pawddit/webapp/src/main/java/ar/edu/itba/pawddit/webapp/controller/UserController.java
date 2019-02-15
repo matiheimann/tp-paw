@@ -45,6 +45,7 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.UserService;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
+import ar.edu.itba.pawddit.webapp.dto.ExceptionDto;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
 import ar.edu.itba.pawddit.webapp.dto.IsLoggedInDto;
 import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
@@ -234,7 +235,7 @@ public class UserController {
 				return Response.status(Status.BAD_REQUEST).build();
 		}
 		catch (IOException e) {
-			return Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.CONFLICT).entity(new ExceptionDto("InvalidImage")).build();
 		}
 	}
 	

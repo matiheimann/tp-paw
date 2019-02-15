@@ -45,7 +45,7 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 			return false;
 		}
 		
-		return false;
+		return true;
 	}
 
 }

@@ -25,7 +25,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
   							default:
   						}
 					});
-					if (response.data.message === 'InvalidFormat') {
+					if (response.data.message === 'InvalidImage') {
 						$scope.validImageFormatError = true;
 					}
 				}

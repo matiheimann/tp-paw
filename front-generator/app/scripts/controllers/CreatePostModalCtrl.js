@@ -37,7 +37,7 @@ define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawd
   								default:
   							}
 						});
-						if (response.data.message === 'InvalidFormat') {
+						if (response.data.message === 'InvalidImage') {
 							$scope.validImageFormatError = true;
 						}
 					}

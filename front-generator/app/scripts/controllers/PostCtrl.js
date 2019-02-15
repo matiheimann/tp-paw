@@ -128,5 +128,17 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], 
 			});
 		};
 
+		$scope.loadMoreReplies = function(comment) {
+			console.log(1);
+			var params = {page: comment.repliesPage || 1};
+			restService.getCommentReplies(post.group.name, post.postid, comment.commentid, params).then(function(data) {
+				if (comment.repliesList) {
+					comment.repliesList.push.apply(comment.repliesList, data);
+				} else {
+					comment.repliesList = data;
+				}
+			});
+		};
+
     }]);
 });

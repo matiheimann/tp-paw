@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "grunt-cli": "^1.2.0",
-    "grunt-karma": "^3.0.1"
+    "grunt-karma": "^3.0.1",
+    "karma-requirejs": "^1.1.0"
   },
   "devDependencies": {
     "angular": "^1.6.6",
@@ -13,11 +14,11 @@
     "grunt-autoprefixer": "^0.7.3",
     "grunt-bower-requirejs": "^1.1.0",
     "grunt-concurrent": "^0.5.0",
+    "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-compass": "^0.7.2",
     "grunt-contrib-concat": "^0.4.0",
     "grunt-contrib-connect": "^0.7.1",
-    "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-cssmin": "^0.9.0",
     "grunt-contrib-htmlmin": "^0.3.0",
@@ -32,6 +33,7 @@
     "grunt-ng-annotate": "^0.3.0",
     "grunt-ng-constant": "^1.0.0",
     "grunt-svgmin": "^0.4.0",
+    "grunt-template-jasmine-nml": "^2.0.1",
     "grunt-usemin": "^2.1.1",
     "grunt-wiredep": "^1.7.0",
     "jasmine-core": "^3.3.0",

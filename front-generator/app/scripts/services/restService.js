@@ -183,6 +183,9 @@ define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
 			getComment: function(name, pid, cid) {
 				return httpGet('/groups/' + name + '/posts/' + pid + '/comments/' + cid, {});
 			},
+			getCommentReplies: function(name, pid, cid, params) {
+				return httpGet('/groups/' + name + '/posts/' + pid + '/comments/' + cid + '/replies', {page: params.page});
+			},
 			getImage: function(imageid) {
 				return httpGet('/images/' + imageid, {});
 			},

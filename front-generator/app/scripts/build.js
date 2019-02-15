@@ -36,6 +36,11 @@ require.config({
                 'jquery'
             ]
         },
+        'angular-mocks': {
+            deps: [
+                'angular'
+            ]
+        },
         'angular-route': {
             deps: [
                 'angular'

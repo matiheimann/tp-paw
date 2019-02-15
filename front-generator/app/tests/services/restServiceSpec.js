@@ -1,4 +1,4 @@
-define(['services/restService', 'angular-mocks'], function() {
+define(['services/restService'], function() {
 
     describe('Rest Service', function() {
     	var restService, url, $httpBackend, $q;

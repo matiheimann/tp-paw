@@ -1,11 +1,16 @@
-var tests = [];
-for (var file in window.__karma__.files) {
-  if (window.__karma__.files.hasOwnProperty(file)) {
-    if (/Spec\.js$/.test(file)) {
-      tests.push(file);
-    }
+var allTestFiles = []
+var TEST_REGEXP = /(spec|test)\.js$/i
+
+// Get a list of all the test files to include
+Object.keys(window.__karma__.files).forEach(function (file) {
+  if (TEST_REGEXP.test(file)) {
+    // Normalize paths to RequireJS module names.
+    // If you require sub-dependencies of test files to be loaded as-is (requiring file extension)
+    // then do not normalize the paths
+    var normalizedTestModule = file.replace(/^\/base\/|\.js$/g, '')
+    allTestFiles.push('../../' + normalizedTestModule)
   }
-}
+})
 
 require.config({
     // Karma serves files under /base, which is the basePath from your config file
@@ -33,17 +38,11 @@ require.config({
         tab: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab',
         tooltip: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip',
         transition: '../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition',
-        'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
         'angular-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls',
-        'angular-sanitize': '../../bower_components/angular-sanitize/angular-sanitize',
-        ngSanitize: '../../bower_components/ngSanitize/index',
-        ngstorage: '../../bower_components/ngstorage/ngStorage',
-        'livereload-js': '../../bower_components/livereload-js/dist/livereload',
-        'slick-carousel': '../../bower_components/slick-carousel/slick/slick',
-        'angular-slick-carousel': '../../bower_components/angular-slick-carousel/dist/angular-slick',
+        'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
+        'angular-timeago': '../../bower_components/angular-timeago/dist/angular-timeago',
         ngInfiniteScroll: '../../bower_components/ngInfiniteScroll/build/ng-infinite-scroll',
-        'angular-slick': '../../bower_components/angular-slick/dist/slick',
-        'angular-loading-bar': '../../bower_components/angular-loading-bar/build/loading-bar'
+        'angular-mocks': '../../bower_components/angular-mocks/angular-mocks'
     },
     shim: {
         angular: {
@@ -51,12 +50,12 @@ require.config({
                 'jquery'
             ]
         },
-        'angular-mocks': {
+        'angular-route': {
             deps: [
                 'angular'
             ]
         },
-        'angular-route': {
+        'angular-cookies': {
             deps: [
                 'angular'
             ]
@@ -82,24 +81,13 @@ require.config({
                 'angular'
             ]
         },
-        'angular-sanitize': {
-            deps: [
-                'angular'
-            ]
-        },
         'angular-bootstrap': {
             deps: [
                 'angular'
             ]
         },
-        'slick-carousel': {
+        'angular-timeago': {
             deps: [
-                'jquery'
-            ]
-        },
-        'angular-slick-carousel': {
-            deps: [
-                'slick-carousel',
                 'angular'
             ]
         },
@@ -107,11 +95,6 @@ require.config({
             deps: [
                 'angular'
             ]
-        },
-        'angular-loading-bar': {
-          deps: [
-                'angular'
-          ]
         }
     },
     packages: [
@@ -119,7 +102,7 @@ require.config({
     ],
 
     // ask Require.js to load these files (all our tests)
-    deps: tests,
+    deps: allTestFiles,
 
     // start test run, once Require.js is done
     callback:  window.__karma__.start

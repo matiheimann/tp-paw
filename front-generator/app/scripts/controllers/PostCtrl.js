@@ -73,6 +73,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 					restService.createComment($scope.post.group.name, $scope.post.postid, $scope.newComment.content, null).then(function(data) {            
 						$scope.newComment.content = '';
 						$scope.comments.unshift(data);
+						$scope.post.comments++;
 						var commentsStartPos = $('.post-component-comments').offset().top;
 						document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});
@@ -89,6 +90,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 						}
 						replyTo.repliesList.unshift(data);
 						replyTo.replies++;
+						$scope.post.comments++;
       					var commentsStartPos = $('.post-component-comments').offset().top;
       					document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});

@@ -5,7 +5,7 @@
 	</p>
 	<hr>
 	<div class="group-footer">
-		<div class="info-item owned-by margin-left-auto ">
+		<div class="info-item owned-by">
 			{{'groupMembers.owner.message' | translate}}
 			<span class="group-owner-btn clickable" ng-click="gotoProfile(group.owner.username)">{{group.owner.username}}</span>
 		</div>
@@ -23,7 +23,7 @@
 				</span>
 			</button>
 		</div>
-		<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)" class="margin-right-auto">
+		<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)">
 			<button ng-if="!group.userSub" class="app-btn-primary margin-left-10" ng-click="subscribe(group)">
 				{{'joinGroup.button.message' | translate}}
 			</button>
@@ -31,6 +31,6 @@
 				{{'leaveGroup.button.message' | translate}}
 			</button>
 		</div>
-		<i ng-if="loggedUser.userid == group.owner.userid || loggedUser.admin" class="header-button-delete-group fas fa-trash-alt clickable" ng-click="deleteConfirmModal({group: group}, 'group')"></i>
+		<i ng-if="loggedUser.userid == group.owner.userid || loggedUser.admin" class="header-button-delete-group fas fa-trash-alt clickable left-border-black padding-bottom-12 padding-top-12 margin-left-20" ng-click="deleteConfirmModal({group: group}, 'group')"></i>
 	</div>
 </div>

@@ -10,13 +10,13 @@ module.exports = function(config) {
     files: [
       'test-main.js',
       {pattern: 'bower_components/**/*.js', included: false},
-      {pattern: 'app/scripts/**/*.js', included: false},
-      {pattern: 'app/tests/**/*.js', included: false},
+      {pattern: 'app/scripts/**/*.js', included: true},
+      {pattern: 'app/tests/**/*.js', included: true},
     ],
 
     exclude: [
-        'app/scripts/build.js',
-        'bower_components/**/test/**'
+      'app/scripts/build.js',
+      'bower_components/**/test/**'
     ],
 
     preprocessors: {

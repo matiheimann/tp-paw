@@ -4,13 +4,20 @@ define(['services/restService', 'angular-mocks'], function() {
 
     	var restService, url, $httpBackend, $q;
         var MOCK_GROUP = {name: 'group', description: 'the best group'};
+
+        var MOCK_COMMENT = {name: 'jonathan', pid: 1, cid: 1, content: "mock_content"};
+
         var MOCK_POSTS = [{postid: '1', title: 'My first post', groupname: 'group', content:'My content', userid: '1'},
                           {postid: '2', title: 'My second post', groupname: 'group', content: 'My content', userid: '1'},
                           {postid: '3', title: 'My third post', groupname: 'group', content: 'Lorem ipsum', userid: '1'}];
 
+        var MOCK_IMAGE = {imageid: 1};
+
         var RESPONSE_ERROR = {detail: 'Not found.'};
 
         var DEFAULT_GETPOSTS_PARAMETERS = {page: 1, sort: 'new', time: 'all'};
+
+        var INVALID_GETPOSTS_PARAMETERS = {page: -1, sort: 'new', time: 'all'};
 
     	beforeEach(module('pawddit'));
 
@@ -29,7 +36,7 @@ define(['services/restService', 'angular-mocks'], function() {
 
             var response;
 
-            it('should be define', function() {
+            it('should be defined', function() {
                 expect(restService.getGroup).toBeDefined();
             });
 
@@ -83,6 +90,40 @@ define(['services/restService', 'angular-mocks'], function() {
 
                 expect(response).toEqual(MOCK_POSTS);
             });
+
+            it('should return with a 404 when called with invalid parameters', function() {
+
+                $httpBackend.whenGET(url + '/posts?page=-1&sort=new&time=all').respond(404, RESPONSE_ERROR);
+
+                restService.getPosts(INVALID_GETPOSTS_PARAMETERS)
+                .catch(function(res) {
+                    response = res.data;
+                });
+
+                $httpBackend.flush();
+
+                expect(response).toEqual(RESPONSE_ERROR);
+            });
+        });
+
+        describe('.getImage()', function() {
+
+          var response;
+
+          it('should return a valid image given a valid image id', function() {
+
+            $httpBackend.whenGET(url + '/images/1').respond(200, $q.when(MOCK_IMAGE));
+
+            restService.getImage(MOCK_IMAGE.imageid)
+            .then(function(res) {
+                response = res;
+            });
+
+            $httpBackend.flush();
+
+            expect(response).toEqual(MOCK_IMAGE);
+
+          });
         });
     });
 });

@@ -491,6 +491,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', 'Compiles app for production or release candidate', function () {
     grunt.task.run([
+      // test
+      'karma',
       'clean:dist',
       // copy stylesheets, in: app/styles/ out: .tmp/styles
       'copy:styles',

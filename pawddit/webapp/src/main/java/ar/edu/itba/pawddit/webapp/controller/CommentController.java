@@ -86,7 +86,7 @@ public class CommentController {
 			return Response.ok(PageCountDto.fromPageCount(count)).build();
 		}
 		else {
-			final List<Comment> comments = cs.findByPost(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
+			final List<Comment> comments = cs.findByPostNoReply(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
 			return Response.ok(
 					new GenericEntity<List<CommentDto>>(
 							comments.stream()
@@ -140,6 +140,35 @@ public class CommentController {
 		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
 		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
 		return Response.ok(CommentDto.fromCommentWithoutPost(comment)).build();
+	}
+	
+	@GET
+	@Path("/{commentId}/replies")
+	@Produces(value = { MediaType.APPLICATION_JSON, })
+	public Response getCommentReplies(
+			@PathParam("groupName") final String groupName, 
+			@PathParam("postId") final long postId,
+			@PathParam("commentId") final long commentId,
+			@QueryParam("page") @DefaultValue("1") Integer page) {
+		
+		final User user = userDetailsService.getLoggedUser();
+		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
+		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
+		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
+		if (page == 0) {
+			final int count = (cs.findRepliesByCommentCount(comment)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
+			return Response.ok(PageCountDto.fromPageCount(count)).build();
+		}
+		else {
+			final List<Comment> replies = cs.findRepliesByComment(user, comment, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
+			return Response.ok(
+					new GenericEntity<List<CommentDto>>(
+							replies.stream()
+							.map(CommentDto::fromCommentWithoutPostAndReplyTo)
+							.collect(Collectors.toList())
+							) {}
+					).build();
+		}
 	}
 	
 	@DELETE

@@ -1,10 +1,5 @@
 package ar.edu.itba.pawddit.webapp.form.validators;
 
-import java.io.IOException;
-import java.util.Iterator;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -21,27 +16,19 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 		context.disableDefaultConstraintViolation();
 		context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addNode("file").addConstraintViolation();
 		
-		return isValidFormat(form.getFileBytes());
+		return isValidFormat(form);
 	}
 	
-	private boolean isValidFormat(byte[] file) {
+	private boolean isValidFormat(ImageForm form) {
 		
-		if (file == null)
-			return true;
-		
-		ImageInputStream image = null;
-		try {
-			image = ImageIO.createImageInputStream(file);
-		} catch (IOException e1) {
-			return false;
+		final String[] values = { "image/jpeg", "image/png" };
+		String contentType = form.getFileBodyPart().getMediaType().toString();
+		for (String mediaType : values) {
+			if (mediaType.equals(contentType))
+				return true;
 		}
 		
-		Iterator<ImageReader> readers = ImageIO.getImageReaders(image);
-		
-		if(!readers.hasNext())
-			return false;
-		
-		return true;
+		return false;
 	}
 
 }

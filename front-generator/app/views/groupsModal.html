@@ -1,5 +1,5 @@
 <div class="modal-content">
-  <div class="modal-header">
+  <div class="modal-header group-modal-header">
     <h2 ng-if="type == 'allGroups' && search && groups.length > 0">
       {{'groupsSearchResult.title' | translate}}
     </h2>
@@ -27,11 +27,14 @@
     <h2 ng-if="type == 'recommendedGroups' && groups.length == 0">
       {{'noGroups.toRecommend.message' | translate}}
     </h2>
+    <span class="clickable group-modal-close" data-dismiss="modal" ng-click="cancel()" >
+      <i class="fas fa-times group-modal-close"></i>
+    </span>
   </div>
   <div class="modal-body modal-body-groups">
     <div ng-if="groups.length > 0" infinite-scroll='loadMoreGroups()' infinite-scroll-disabled="loadingGroups || noMoreGroups" infinite-scroll-container="'.modal-body-groups'">
-      <div ng-repeat="group in groups track by group.name" class="comment">
-        <div class="clickable group-list-component" ng-click=gotoGroup(group.name)>
+      <div ng-repeat="group in groups track by group.name">
+        <div class="clickable group-list-component margin-left-auto margin-right-auto margin-top-10 margin-bottom-10 " ng-click=gotoGroup(group.name)>
           <div class="group-list-component-header">
             <h5 class="group-list-component-name">
               {{group.name}}
@@ -52,10 +55,5 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="app-btn-secondary" data-dismiss="modal" ng-click="cancel()" >
-      {{'cancelGroupCreation.button.message' | translate}}
-    </button>
   </div>
 </div>

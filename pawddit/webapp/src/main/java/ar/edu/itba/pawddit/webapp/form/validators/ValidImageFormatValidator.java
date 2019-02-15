@@ -25,13 +25,16 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 	}
 	
 	private boolean isValidFormat(ImageForm form) {
-		
+		boolean valid = false;
 		final String[] values = { "image/jpeg", "image/png" };
 		String contentType = form.getFileBodyPart().getMediaType().toString();
 		for (String mediaType : values) {
 			if (mediaType.equals(contentType))
-				return true;
+				valid = true;
 		}
+		
+		if (!valid)
+			return false;
 		
 		try {
 			ByteArrayInputStream in = new ByteArrayInputStream(form.getFileBytes());

@@ -77,6 +77,8 @@ define([], function() {
 		'comments.reply.button.message': 'RESPONDER',
 		'comments.moreReply.button.message': 'Respuesta',
 		'comments.moreReplies.button.message': 'Respuestas',
+		'comments.showReplies.button.message': 'Mostrar respuestas',
+		'comments.showMoreReplies.button.message': 'Mostrar más respuestas',
 		'groupConfirmDelete.delete.button.message': 'Eliminar',
 		'groupConfirmDelete.cancel.button.message': 'Cancelar',
 		'search.button.message': 'Buscar',

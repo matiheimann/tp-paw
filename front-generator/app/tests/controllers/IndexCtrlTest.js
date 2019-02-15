@@ -13,7 +13,8 @@ define(['controllers/IndexCtrl', 'angular-mocks'], function() {
 		
 		describe('$scope.isLoggedIn', function() {
 			it('should be false', function() {
-				expect(scope.isLoggedIn).toBe(false);
+				getLoggedUser();
+				expect(scope.isLoggedIn).toBe(undefined);
 			});
 			
 		});

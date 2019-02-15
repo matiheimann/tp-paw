@@ -1,5 +1,10 @@
 package ar.edu.itba.pawddit.webapp.form.validators;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -26,6 +31,15 @@ public class ValidImageFormatValidator implements ConstraintValidator<ValidImage
 		for (String mediaType : values) {
 			if (mediaType.equals(contentType))
 				return true;
+		}
+		
+		try {
+			ByteArrayInputStream in = new ByteArrayInputStream(form.getFileBytes());
+			BufferedImage img = ImageIO.read(in);
+			if (img == null)
+				return false;
+		} catch (IOException e) {
+			return false;
 		}
 		
 		return false;

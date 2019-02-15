@@ -14,56 +14,45 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 		$scope.newCommentReply = {};
 		var activeReplyForm;
 
-		$scope.upvotePost = function(name, pid) {
-			restService.upvotePost(name, pid).then(function(data) {
-				updatePost(name, pid);
+		$scope.upvotePost = function(name, post) {
+			restService.upvotePost(name, post.postid).then(function(data) {
+				updatePost(name, post);
 			});
 		};
 
-		$scope.downvotePost = function(name, pid) {
-			restService.downvotePost(name, pid).then(function(data) {
-				updatePost(name, pid);
+		$scope.downvotePost = function(name, post) {
+			restService.downvotePost(name, post.postid).then(function(data) {
+				updatePost(name, post);
 			});
 		};
 
-		function updatePost(name, pid) {
-			restService.getPost(name, pid).then(function(data) {
-				$scope.post = data;
+		function updatePost(name, post) {
+			restService.getPost(name, post.postid).then(function(data) {
+				post = Object.assign(post, data);
 			});
 		}
 
-		$scope.upvoteComment = function(name, pid, cid) {
-			restService.upvoteComment(name, pid, cid).then(function(data) {
-				updateComment(name, pid, cid);
+		$scope.upvoteComment = function(name, pid, comment) {
+			restService.upvoteComment(name, pid, comment.commentid).then(function(data) {
+				updateComment(name, pid, comment);
 			});
 		};
 
-		$scope.downvoteComment = function(name, pid, cid) {
-			restService.downvoteComment(name, pid, cid).then(function(data) {
-				updateComment(name, pid, cid);
+		$scope.downvoteComment = function(name, pid, comment) {
+			restService.downvoteComment(name, pid, comment.commentid).then(function(data) {
+				updateComment(name, pid, comment);
 			});
 		};
 
-		function updateComment(name, pid, cid) {
-			restService.getComment(name, pid, cid).then(function(data) {
-				var index = $scope.comments.findIndex(function(comment) {
-					return comment.commentid === cid;
-				});
-				$scope.comments[index] = data;
+		function updateComment(name, pid, comment) {
+			restService.getComment(name, pid, comment.commentid).then(function(data) {
+				comment = Object.assign(comment, data);
 			});
 		}
 
 		$scope.$on('comment:deleted', function(event, deletedComment) {
-			var index = $scope.comments.findIndex(function(comment) {
-				return comment.commentid === deletedComment.commentid;
-			});
-			$scope.comments.splice(index, 1);
-			if (deletedComment.replyTo) {
-				index = $scope.comments.findIndex(function(comment) {
-					return comment.commentid === deletedComment.replyTo.commentid;
-				});
-				$scope.comments[index].replies--;
-			}
+			deletedComment = Object.assign(deletedComment, {commentid: null})
+			updatePost($scope.post.group.name, $scope.post);
 		});
 
 		$scope.doSubmit = function(form, replyTo) {
@@ -91,8 +80,6 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 						replyTo.repliesList.unshift(data);
 						replyTo.replies++;
 						$scope.post.comments++;
-      					var commentsStartPos = $('.post-component-comments').offset().top;
-      					document.body.scrollTop = document.documentElement.scrollTop = commentsStartPos;
 					});
 				}
 				$scope.submitted = false;
@@ -133,14 +120,15 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 		};
 
 		$scope.loadMoreReplies = function(comment) {
-			console.log(1);
-			var params = {page: comment.repliesPage || 1};
+			comment.repliesPage = comment.repliesPage || 1;
+			var params = {page: comment.repliesPage};
 			restService.getCommentReplies(post.group.name, post.postid, comment.commentid, params).then(function(data) {
 				if (comment.repliesList) {
 					comment.repliesList.push.apply(comment.repliesList, data);
 				} else {
 					comment.repliesList = data;
 				}
+				comment.repliesPage++;
 			});
 		};
 

@@ -33,7 +33,7 @@
 				<div ng-if="isLoggedIn" class="info-item votes-controls">
 				    <div>
 						<div class="form-group">
-							<button class="no-btn" ng-click="upvotePost(post.group.name, post.postid)">
+							<button class="no-btn" ng-click="upvotePost(post.group.name, post)">
 								<i ng-if="post.userVote == 1" class="fas fa-arrow-up icon-color-selected"></i>
 								<i ng-if="post.userVote != 1" class="fas fa-arrow-up icon-color"></i>
 							</button>
@@ -42,7 +42,7 @@
 					<strong class="score-count">{{post.votes}}</strong>
 				    <div>
 						<div class="form-group">
-							<button class="no-btn" ng-click="downvotePost(post.group.name, post.postid)">
+							<button class="no-btn" ng-click="downvotePost(post.group.name, post)">
 								<i ng-if="post.userVote == -1" class="fas fa-arrow-down icon-color-selected"></i>
 								<i ng-if="post.userVote != -1" class="fas fa-arrow-down icon-color"></i>
 							</button>
@@ -80,7 +80,7 @@
 				</h5>
 				<!-- Comment List -->
 				<div ng-if="comments.length > 0" infinite-scroll='loadMoreComments()' infinite-scroll-disabled="loadingComments || noMoreComments">
-					<div ng-repeat="comment in comments track by comment.commentid">
+					<div ng-repeat="comment in comments | unique: 'commentid'">
 						<comment-item></comment-item>
 					</div>
 	        	</div>

@@ -24,10 +24,10 @@
 			</button>
 		</div>
 		<div ng-if="isLoggedIn && (loggedUser.userid != group.owner.userid)" class="margin-right-auto">
-			<button ng-if="!group.userSub" class="app-btn-primary margin-left-10" ng-click="subscribe(group.name)">
+			<button ng-if="!group.userSub" class="app-btn-primary margin-left-10" ng-click="subscribe(group)">
 				{{'joinGroup.button.message' | translate}}
 			</button>
-			<button ng-if="group.userSub" class="app-btn-primary margin-left-10" ng-click="unsubscribe(group.name)">
+			<button ng-if="group.userSub" class="app-btn-primary margin-left-10" ng-click="unsubscribe(group)">
 				{{'leaveGroup.button.message' | translate}}
 			</button>
 		</div>

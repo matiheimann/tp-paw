@@ -28,23 +28,23 @@ define(['pawddit', 'services/restService', 'services/navbarService'], function(p
 
 		$scope.posts = posts;
 
-		$scope.subscribe = function(name) {
-			restService.subscribeGroup(name).then(function(data) {
-				updateGroup(name);
+		$scope.subscribe = function(group) {
+			restService.subscribeGroup(group.name).then(function(data) {
+				updateGroup(group);
 				$rootScope.$broadcast('userSubs:updated');
 			});
 		};
 
-		$scope.unsubscribe = function(name) {
-			restService.unsubscribeGroup(name).then(function(data) {
-				updateGroup(name);
+		$scope.unsubscribe = function(group) {
+			restService.unsubscribeGroup(group.name).then(function(data) {
+				updateGroup(group);
 				$rootScope.$broadcast('userSubs:updated');
 			});
 		};
 
-		function updateGroup(name) {
-			restService.getGroup(name).then(function(data) {
-				$scope.group = data;
+		function updateGroup(group) {
+			restService.getGroup(group.name).then(function(data) {
+				group = Object.assign(group, data);
 			});
 		}
 

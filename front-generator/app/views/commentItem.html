@@ -1,4 +1,4 @@
-<div class="comment">
+<div id="{{comment}}" class="comment">
    	<div class="comment-header">
     	<span class="header-button clickable" ng-click="gotoProfile(comment.owner.username)">
     		{{comment.owner.username}}
@@ -16,7 +16,7 @@
  		<div class="info-item votes-controls">
  			<div ng-if="isLoggedIn">
 		 		<div class="form-group">
-		 			<button class="no-btn" ng-click="upvoteComment(post.group.name, post.postid, comment.commentid)">
+		 			<button class="no-btn" ng-click="upvoteComment(post.group.name, post.postid, comment)">
 						<i ng-if="comment.userVote == 1" class="fas fa-arrow-up icon-color-selected"></i>
 						<i ng-if="comment.userVote != 1" class="fas fa-arrow-up icon-color"></i>
 					</button>
@@ -27,7 +27,7 @@
 			</strong>
 			<div ng-if="isLoggedIn">
 				<div class="form-group">
-					<button class="no-btn" ng-click="downvoteComment(post.group.name, post.postid, comment.commentid)">
+					<button class="no-btn" ng-click="downvoteComment(post.group.name, post.postid, comment)">
 						<i ng-if="comment.userVote == -1" class="fas fa-arrow-down icon-color-selected"></i>
 						<i ng-if="comment.userVote != -1" class="fas fa-arrow-down icon-color"></i>
 					</button>
@@ -39,12 +39,12 @@
 				{{'comments.reply.button.message' | translate}}
 			</strong>
 		</div>
-		<div ng-if="(!comment.repliesList && comment.replies > 0) || (comment.repliesList && comment.replies - comment.repliesList.length > 0)" class="info-item">
-			<strong ng-if="(!comment.repliesList && comment.replies == 1) || (comment.repliesList && comment.replies - comment.repliesList.length == 1)" ng-click="loadMoreReplies(comment)" class="clickable">
-				{{comment.repliesList ? (comment.replies - comment.repliesList.length) : comment.replies}} {{'comments.moreReply.button.message' | translate}}
+		<div ng-if="(!comment.repliesList && comment.replies > 0) || (comment.repliesList && comment.replies - (comment.repliesList | unique: 'commentid').length > 0)" class="info-item">
+			<strong ng-if="(!comment.repliesList && comment.replies == 1) || (comment.repliesList && comment.replies - (comment.repliesList | unique: 'commentid').length == 1)" ng-click="loadMoreReplies(comment)" class="clickable">
+				{{comment.repliesList ? (comment.replies - (comment.repliesList | unique: 'commentid').length) : comment.replies}} {{'comments.moreReply.button.message' | translate}}
 			</strong>
-			<strong ng-if="(!comment.repliesList && comment.replies > 1) || (comment.repliesList && comment.replies - comment.repliesList.length > 1)" ng-click="loadMoreReplies(comment)" class="clickable">
-				{{comment.repliesList ? (comment.replies - comment.repliesList.length) : comment.replies}} {{'comments.moreReplies.button.message' | translate}}
+			<strong ng-if="(!comment.repliesList && comment.replies > 1) || (comment.repliesList && comment.replies - (comment.repliesList | unique: 'commentid').length > 1)" ng-click="loadMoreReplies(comment)" class="clickable">
+				{{comment.repliesList ? (comment.replies - (comment.repliesList | unique: 'commentid').length) : comment.replies}} {{'comments.moreReplies.button.message' | translate}}
 			</strong>					
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 			</div>
 		</form>
 	</div>
-	<div ng-repeat="comment in comment.repliesList track by comment.commentid">
+	<div ng-repeat="comment in comment.repliesList | unique: 'commentid'"">
 		<comment-item></comment-item>
 	</div>	         
 </div>

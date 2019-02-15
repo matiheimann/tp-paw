@@ -11,15 +11,38 @@
     </h2>
     <h2 ng-if="type == 'allGroups' && !search && groups.length == 0 && isLoggedIn">
       {{'noGroups.made.signedIn.message' | translate}}
+      <br>
+      <a class="create-group" ng-click="createGroupFromModal()">
+        <button class="app-btn-secondary margin-top-10" role="button">
+          <span class="create-group-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-users"></i></span>
+          <span class="create-group-text">
+            {{'createGroup.button.message' | translate}}
+          </span>
+        </button>
+      </a>
     </h2>
     <h2 ng-if="type == 'allGroups' && !search && groups.length == 0 && !isLoggedIn">
       {{'noGroups.made.signedOut.message' | translate}}
+      <a class="login-btn" ng-click="login()">
+        <button  role="button" class="app-btn-primary login-btn">
+          {{'login.button.message' | translate}}
+        </button>
+      </a> 
     </h2>
     <h2 ng-if="type == 'myGroups' && groups.length > 0">
       {{'myGroups.title' | translate}}
     </h2>
     <h2 ng-if="type == 'myGroups' && groups.length == 0">
       {{'noGroups.joined.message' | translate}}
+      <br>
+      <a class="create-group" ng-click="createGroupFromModal()">
+        <button class="app-btn-secondary margin-top-10" role="button">
+          <span class="create-group-icon"><i class="plus-icon-margin fas fa-plus"></i><i class="fas fa-users"></i></span>
+          <span class="create-group-text">
+            {{'createGroup.button.message' | translate}}
+          </span>
+        </button>
+      </a>
     </h2>
     <h2 ng-if="type == 'recommendedGroups' && groups.length > 0">
       {{'recommendedGroups.title' | translate}}

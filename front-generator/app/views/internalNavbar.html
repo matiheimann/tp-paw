@@ -39,7 +39,7 @@
 			<a class="dropdown-item" ng-click="groupsModal('myGroups', null)"><i class="dropdown-icon fas fa-hand-holding-heart"></i>
 				{{'dropdown.button.myGroups.message' | translate}}
 			</a>
-			<a class="dropdown-item" ng-click="groupsModal('allGroups', null)"><i class="dropdown-icon fas fa-users"></i>
+			<a class="dropdown-item" ng-click="groupsModal('allGroups', null, true)"><i class="dropdown-icon fas fa-users"></i>
 				{{'dropdown.button.groups.message' | translate}}
 			</a>
 			<a class="dropdown-item" ng-click="groupsModal('recommendedGroups', null)"><i class="dropdown-icon fas fa-user-plus"></i>
@@ -91,7 +91,7 @@
 		    	<a ng-if="foundGroups.length > 0" ng-repeat="foundGroup in foundGroups track by foundGroup.name" ng-click="gotoFoundGroup(foundGroup.name)" class="list-group-item list-group-item-action list-group-item-light">{{foundGroup.name}}</a>
 		    </div>
 		</div>
-		<button class="app-btn-outline" role="button" ng-click="groupsModal('allGroups', searchGroup.name)">
+		<button class="app-btn-outline" role="button" ng-click="groupsModal('allGroups', searchGroup.name, true)">
 			{{'search.button.message' | translate}}
 		</button>
 	</div>

@@ -66,7 +66,7 @@ define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl'
 			});
 		};
 
-		this.groupsModal = function(type, search) {
+		this.groupsModal = function(type, search, isLoggedUser) {
 			return $uibModal.open({
 				templateUrl: 'views/groupsModal.html',
 				controller: 'GroupsModalCtrl',
@@ -90,6 +90,9 @@ define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl'
 					},
 					search: function() {
 						return search;
+					},
+					isLoggedIn: function() {
+						return isLoggedUser;
 					}
 				}
 			});

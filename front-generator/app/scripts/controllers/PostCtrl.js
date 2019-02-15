@@ -1,5 +1,5 @@
 'use strict';
-define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', 'directives/commentDirective'], function(pawddit) {
 
     pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'post', 'comments', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, post, comments, url) {
         $window.document.title = 'Pawddit. | ' + post.title;
@@ -8,7 +8,6 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], 
 
         $scope.post = post;
         $scope.comments = comments;
-
 		$scope.commentsPage = 1;
 
 		$scope.newComment = {};

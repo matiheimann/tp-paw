@@ -4,7 +4,6 @@ define(['routes',
 	'i18n/i18nLoader!',
 	'angular',
 	'angular-route',
-	'angular-cookies',
 	'angular-bootstrap',
 	'bootstrap',
 	'angular-translate',
@@ -13,7 +12,6 @@ define(['routes',
 	function(config, dependencyResolverFor, i18n) {
 		var pawddit = angular.module('pawddit', [
 			'ngRoute',
-			'ngCookies',
 			'pascalprecht.translate',
 			'ui.bootstrap',
 			'yaru22.angular-timeago',
@@ -29,8 +27,8 @@ define(['routes',
 				'$translateProvider',
 				'$qProvider',
 				'$locationProvider',
-				'$httpProvider',
-				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, $qProvider, $locationProvider, $httpProvider) {
+				'timeAgoSettings', 
+				function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $translateProvider, $qProvider, $locationProvider, timeAgoSettings) {
 
 					pawddit.controller = $controllerProvider.register;
 					pawddit.directive = $compileProvider.directive;
@@ -61,9 +59,18 @@ define(['routes',
 					$translateProvider.translations('preferredLanguage', i18n);
 					$translateProvider.preferredLanguage('preferredLanguage');
 
+					switch (i18n['Lang.code']) {
+						case 'en':
+							timeAgoSettings.overrideLang = 'en_US';
+							break;
+						case 'es':
+							timeAgoSettings.overrideLang = 'es_LA';
+							break;
+						default:
+					}
+
 					// $qProvider.errorOnUnhandledRejections(false);
 					$locationProvider.hashPrefix('');
-					$httpProvider.defaults.withCredentials = true;
 				}])
 			.run(['$rootScope', function($rootScope) {
 					$rootScope.$on('$routeChangeSuccess', function() {
@@ -71,7 +78,7 @@ define(['routes',
 					});
 			}])
 			// .value('url', 'http://pawserver.it.itba.edu.ar/paw-2018b-08/api')
-			.value('url', 'http://localhost:9000/webapp/api')
+			.value('url', 'http://localhost:8080/webapp/api')
 			// here we define our unique filter
 			.filter('unique', function() {
 			   	// we will return a function which will take in a collection

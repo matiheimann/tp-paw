@@ -1,40 +1,34 @@
 'use strict';
-define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 'services/navbarService'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/restService', 'services/authService', 'services/modalService', 'services/navbarService'], function(pawddit) {
 
-	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$route', '$location', 'restService', 'modalService', 'navbarService', 'url', 'timeAgoSettings', function($scope, $rootScope, $translate, $route, $location, restService, modalService, navbarService, url, timeAgoSettings) {
+	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$route', '$location', 'restService', 'authService', 'modalService', 'navbarService', 'url', function($scope, $rootScope, $translate, $route, $location, restService, authService, modalService, navbarService, url) {
 		$scope.navbar = navbarService;
 		$scope.searchGroup = {};
-
-		$translate('Lang.code').then(function(translatedValue) {
-            switch (translatedValue) {
-				case 'en':
-					timeAgoSettings.overrideLang = 'en_US';
-					break;
-				case 'es':
-					timeAgoSettings.overrideLang = 'es_LA';
-					break;
-				default:
-			}
-        });
 
         restService.isLoggedIn().then(function(data) {
         	$scope.isLoggedIn = data.isLoggedIn;
         	if ($scope.isLoggedIn) {
-				getLoggedUser();
+				restService.getLoggedUser().then(function(data) {
+		        	$scope.loggedUser = data;
+		        });
+				getLoggedUserSubsPageCount();
 			} else {
 				$scope.loggedUser = null;
 			}
-		});
+        });
 
 		$scope.$on('user:updated', function() {
 			restService.isLoggedIn().then(function(data) {
-				$scope.isLoggedIn = data.isLoggedIn;
-        		if ($scope.isLoggedIn) {
-					getLoggedUser();
+	        	$scope.isLoggedIn = data.isLoggedIn;
+	        	if ($scope.isLoggedIn) {
+					restService.getLoggedUser().then(function(data) {
+			        	$scope.loggedUser = data;
+			        });
+					getLoggedUserSubsPageCount();
 				} else {
 					$scope.loggedUser = null;
 				}
-			});
+	        });
 		});
 
 		$scope.$on('userSubs:updated', function() {
@@ -44,10 +38,9 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 		});
 
 		$scope.logout = function() {
-			restService.logoutUser().then(function(data) {
-				$rootScope.$broadcast('user:updated');
-				$scope.home(false);
-			});
+			authService.logoutUser();
+			$rootScope.$broadcast('user:updated');
+			$scope.home(false);
 		};
 
 		$scope.changeSort = function(sort) {
@@ -110,7 +103,6 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 
 		$scope.$on('$locationChangeSuccess', function(event) {
 			$scope.currentPath = $location.path();
-			console.log($scope.currentPath);
 		});
 		
 		$scope.registerModal = modalService.registerModal;
@@ -120,17 +112,6 @@ define(['pawddit', 'jquery', 'services/restService', 'services/modalService', 's
 		$scope.deleteConfirmModal = modalService.deleteConfirmModal;
 		$scope.groupsModal = modalService.groupsModal;
 		$scope.changeProfilePictureModal = modalService.changeProfilePictureModal;
-
-		function getLoggedUser() {
-			restService.getLoggedUser().then(function(data) {
-				$scope.loggedUser = data;
-				$scope.isLoggedIn = true;
-				getLoggedUserSubsPageCount();
-			}).catch(function(response) {
-				$scope.loggedUser = null;
-				$scope.isLoggedIn = false;
-			});
-        }
 
         function getLoggedUserSubsPageCount() {
         	restService.getMySubscribedGroupsPageCount({}).then(function(data) {

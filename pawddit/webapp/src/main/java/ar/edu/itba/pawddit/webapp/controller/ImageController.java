@@ -4,6 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ImageController {
 			@PathParam("token") final String token) {
 		
 		byte[] img = is.findByToken(token).orElseThrow(ImageNotFoundException::new);
-		return Response.ok(img).build();
+		final CacheControl cache = new CacheControl();
+		cache.setNoTransform(false);
+		cache.setMaxAge(31536000);
+		return Response.ok(img).cacheControl(cache).build();
 	}
 }

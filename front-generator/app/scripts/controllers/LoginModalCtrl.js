@@ -1,7 +1,7 @@
 'use strict';
-define(['pawddit', 'services/restService'], function(pawddit) {
+define(['pawddit', 'services/authService'], function(pawddit) {
 
-	pawddit.controller('LoginModalCtrl', ['$scope', '$rootScope', '$location', '$uibModalInstance', 'restService', function($scope, $rootScope, $location, $modal, restService) {
+	pawddit.controller('LoginModalCtrl', ['$scope', '$rootScope', '$location', '$uibModalInstance', 'authService', function($scope, $rootScope, $location, $modal, authService) {
 		$scope.loginUser = {};
 		$scope.loginUser.rememberMe = false;
 
@@ -12,7 +12,7 @@ define(['pawddit', 'services/restService'], function(pawddit) {
 		$scope.doSubmit = function() {
 			$scope.loginError = false;
 			if ($scope.loginForm.$valid) {
-				restService.loginUser($scope.loginUser.username, $scope.loginUser.password, $scope.loginUser.rememberMe).then(function(data) {             
+				authService.loginUser($scope.loginUser.username, $scope.loginUser.password, $scope.loginUser.rememberMe).then(function() {             
 					$modal.dismiss();
 					$rootScope.$broadcast('user:updated');
 				})

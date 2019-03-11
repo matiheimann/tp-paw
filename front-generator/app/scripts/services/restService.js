@@ -1,11 +1,11 @@
 'use strict';
-define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
+define(['pawddit', 'jquery', 'services/storageService', 'services/messageService'], function(pawddit) {
 
-	pawddit.factory('restService', ['$http', '$rootScope', '$location', '$cookies', '$q', 'messageService', 'url', function($http, $rootScope, $location, $cookies, $q, messageService, url) {
+	pawddit.factory('restService', ['$http', '$rootScope', '$location', '$q', 'storageService', 'messageService', 'url', function($http, $rootScope, $location, $q, storageService, messageService, url) {
 
 		function httpGet(path, params) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
-			return $http.get(url + path + params)
+			return $http.get(url + path + params, authConfig())
 				.then(function(response) { 
 					return response.data; 
 				})
@@ -63,7 +63,7 @@ define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
 
 		function httpDelete(path, params) {
 			params = Object.keys(params).length ? '?' + jQuery.param(params) : '';
-			return $http.delete(url + path + params)
+			return $http.delete(url + path + params, authConfig())
 				.then(function(response) { 
 					return response.data; 
 				})
@@ -73,22 +73,57 @@ define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
 				});
 		}
 
+		function authConfig() {
+			var authenticationToken = storageService.getAuthenticationToken();
+			if (authenticationToken) {
+				return {
+					headers: {
+						'X-AUTH-TOKEN': authenticationToken
+					}
+				};
+			} else {
+				return {};
+			}
+		}
+
 		function formConfig() {
-			return {
-				transformRequest: angular.identity,
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded'
-				}
-			};
+			var authenticationToken = storageService.getAuthenticationToken();
+			if (authenticationToken) {
+				return {
+					transformRequest: angular.identity,
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-AUTH-TOKEN': authenticationToken
+					}
+				};
+			} else {
+				return {
+					transformRequest: angular.identity,
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				};
+			}
 		}
 
 		function multipartConfig() {
-			return {
-				transformRequest: angular.identity,
-				headers: {
-					'Content-Type': undefined
-				}
-			};
+			var authenticationToken = storageService.getAuthenticationToken();
+			if (authenticationToken) {
+				return {
+					transformRequest: angular.identity,
+					headers: {
+						'Content-Type': undefined,
+						'X-AUTH-TOKEN': authenticationToken
+					}
+				};
+			} else {
+				return {
+					transformRequest: angular.identity,
+					headers: {
+						'Content-Type': undefined,
+					}
+				};
+			}
 		}
 
 		function dataURItoBlob(dataURI) {
@@ -202,6 +237,9 @@ define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
 			getProfileLastComments: function(name) {
 				return httpGet('/users/profile/' + name + '/lastComments', {});
 			},
+			isLoggedIn: function() {
+				return httpGet('/users/me', {});
+			},
 			getLoggedUser: function() {
 				return httpGet('/users/me/profile', {});
 			},
@@ -285,27 +323,10 @@ define(['pawddit', 'jquery', 'services/messageService'], function(pawddit) {
 				formData.append('createUser', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 				return httpPost('/users/register', formData, {}, true);
 			},
-			loginUser: function(username, password, rememberMe) {
-				var data;
-				if (rememberMe) {
-					data = {jUsername: username, jPassword: password, jRememberme: 'on'};
-				} else {
-					data = {jUsername: username, jPassword: password};
-				}
-				return httpPost('/users/login', data, {}, false);
-			},
-			logoutUser: function() {
-				return httpGet('/users/logout', {});
-			},
 			modifyProfilePicture: function(file) {
 				var formData = new FormData();
 				formData.append('image', dataURItoBlob(file));
 				return httpPut('/users/me', formData, {}, true);
-			},
-			isLoggedIn: function() {
-				return httpGet('/users/me', {}).then(function(data) {
-					return data;
-				});
 			}
 		};
 	}]);

@@ -218,7 +218,7 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/**/*.html'],
       css: ['<%= yeoman.dist %>/styles/**/*.css'],
-      imagesAndViews: ['<%= yeoman.dist %>/scripts/**/*.js', '<%= yeoman.dist %>/views/**/*.html'],
+      imagesAndViews: ['<%= yeoman.dist %>/scripts/**/*.js', '<%= yeoman.dist %>/*.html', '<%= yeoman.dist %>/views/**/*.html'],
       options: {
         assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images'],
         patterns: {
@@ -375,7 +375,7 @@ module.exports = function (grunt) {
           removeCombined: true,
           preserveLicenseComments: false,
           findNestedDependencies: true,
-          dir: 'dist/scripts',
+          dir: '<%= yeoman.dist %>/scripts',
           modules: [
             {
               name: 'build'
@@ -393,7 +393,6 @@ module.exports = function (grunt) {
         dist: {
             options: {
                 baseRoot: '<%= yeoman.dist %>/scripts',
-                baseUrl: 'scripts',
                 outputFile: '<%= yeoman.dist %>/scripts/paths.js'
             }
         }
@@ -432,6 +431,10 @@ module.exports = function (grunt) {
         return p.substr(0, p.length - path.extname(p).length);
     };
 
+    var replaceBackslash = function (p) {
+      return p.replace(/\\/g, "/");
+    };
+
     for (var longModule in assets) {
 
       if (assets.hasOwnProperty(longModule)) {
@@ -443,7 +446,7 @@ module.exports = function (grunt) {
           var shortPath = path.relative(options.baseRoot, longPath);
           var shortModule = path.relative(options.baseRoot, longModule);
 
-          mappings[removeExtension(shortModule)] = removeExtension(shortPath);
+          mappings[replaceBackslash(removeExtension(shortModule))] = replaceBackslash(removeExtension(shortPath));
       }
     }
 
@@ -463,8 +466,8 @@ module.exports = function (grunt) {
     }
 
     var content = grunt.template.process(templateString, {data: data});
-    grunt.file.write(options.outputFile, content);
-    grunt.log.writeln('File "' + options.outputFile + '" created.');
+    grunt.file.write(outFile, content);
+    grunt.log.writeln('File "' + outFile + '" created.');
   });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
@@ -512,6 +515,10 @@ module.exports = function (grunt) {
       'copy:dist',
       // minify css in: <<>> out: <<>>
       'cssmin',
+      // adds hash to file names in: <<>> out: <<>>
+      'filerev',
+      // Creates file map from filerev result in: <<>> out: <<>>
+      'jsrev',
       // ???
       'cdnify',
       // minify js in: <<>> out: <<>>

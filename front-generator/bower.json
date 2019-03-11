@@ -4,7 +4,6 @@
   "dependencies": {
     "angular": "~1.6.10",
     "angular-route": "~1.2.0",
-    "angular-cookies": "~1.6.7",
     "angular-translate": "~2.4.2",
     "bootstrap-sass-official": "~3.2.0",
     "es5-shim": "~3.1.0",

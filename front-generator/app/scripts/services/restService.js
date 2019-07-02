@@ -158,28 +158,29 @@ define(['pawddit', 'jquery', 'services/storageService', 'services/messageService
 				$rootScope.$broadcast('user:updated');
 				$location.url('');
 			} else if (response.status === 404) {
+				var text;
 				switch (response.data.message) {
 					case 'GroupNotFound':
-						messageService.text = 'errorGroupNotFound.message';
+						text = 'errorGroupNotFound.message';
 						break;
 					case 'PostNotFound':
-						messageService.text = 'errorPostNotFound.message';
+						text = 'errorPostNotFound.message';
 						break;
 					case 'CommentNotFound':
-						messageService.text = 'errorCommentNotFound.message';
+						text = 'errorCommentNotFound.message';
 						break;
 					case 'UserNotFound':
-						messageService.text = 'errorUserNotFound.message';
+						text = 'errorUserNotFound.message';
 						break;
 					case 'ImageNotFound':
-						messageService.text = 'errorImageNotFound.message';
+						text = 'errorImageNotFound.message';
 						break;
 					case 'VerificationTokenNotFound':
-						messageService.text = 'errorVerificationTokenNotFound.message';
+						text = 'errorVerificationTokenNotFound.message';
 						break;
 					default:
 				}
-				messageService.icon = 'fa-times';
+				messageService.setMessage(text, 'fa-times');
 				$location.url('/info');
 			}
 		}
@@ -188,15 +189,7 @@ define(['pawddit', 'jquery', 'services/storageService', 'services/messageService
 			getPosts: function(params) {
 				return httpGet('/posts', {page: params.page, sort: params.sort, time: params.time});
 			},
-			getPostsPageCount: function(params) {
-				params.page = 0;
-				return httpGet('/posts', {page: params.page, sort: params.sort, time: params.time});
-			},
 			getGroups: function(params) {
-				return httpGet('/groups', {page: params.page, search: params.search});
-			},
-			getGroupsPageCount: function(params) {
-				params.page = 0;
 				return httpGet('/groups', {page: params.page, search: params.search});
 			},
 			getGroup: function(name) {
@@ -205,18 +198,10 @@ define(['pawddit', 'jquery', 'services/storageService', 'services/messageService
 			getGroupPosts: function(name, params) {
 				return httpGet('/groups/' + name + '/posts', {page: params.page, sort: params.sort, time: params.time});
 			},
-			getGroupPostsPageCount: function(name, params) {
-				params.page = 0;
-				return httpGet('/groups/' + name + '/posts', {page: params.page, sort: params.sort, time: params.time});
-			},
 			getPost: function(name, id) {
 				return httpGet('/groups/' + name + '/posts/' + id, {});
 			},
 			getPostComments: function(name, id, params) {
-				return httpGet('/groups/' + name + '/posts/' + id + '/comments', {page: params.page});
-			},
-			getPostCommentsPageCount: function(name, id, params) {
-				params.page = 0;
 				return httpGet('/groups/' + name + '/posts/' + id + '/comments', {page: params.page});
 			},
 			getComment: function(name, pid, cid) {
@@ -246,18 +231,10 @@ define(['pawddit', 'jquery', 'services/storageService', 'services/messageService
 			getMySubscribedGroups: function(params) {
 				return httpGet('/users/me/subscribedGroups', {page: params.page});
 			},
-			getMySubscribedGroupsPageCount: function(params) {
-				params.page = 0;
-				return httpGet('/users/me/subscribedGroups', {page: params.page});
-			},
 			getConfirmation: function(params) {
 				return httpGet('/users/confirm', {token: params.token});
 			},
 			getMyFeedPosts: function(params) {
-				return httpGet('/users/me/feedPosts', {page: params.page, sort: params.sort, time: params.time});
-			},
-			getMyFeedPostsPageCount: function(params) {
-				params.page = 0;
 				return httpGet('/users/me/feedPosts', {page: params.page, sort: params.sort, time: params.time});
 			},
 			getRecommendedGroups: function() {

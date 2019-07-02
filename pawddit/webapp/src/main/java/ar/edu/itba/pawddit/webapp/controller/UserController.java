@@ -47,9 +47,10 @@ import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
 import ar.edu.itba.pawddit.webapp.dto.ExceptionDto;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
+import ar.edu.itba.pawddit.webapp.dto.GroupsDto;
 import ar.edu.itba.pawddit.webapp.dto.IsLoggedInDto;
-import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
+import ar.edu.itba.pawddit.webapp.dto.PostsDto;
 import ar.edu.itba.pawddit.webapp.dto.UserDto;
 import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.UserNotFoundException;
@@ -247,20 +248,16 @@ public class UserController {
 		
 		final User user = userDetailsService.getLoggedUser();
 		if (user != null) {
-			if (page == 0) {
-				final int count = (gs.findSubscribedByUserCount(user)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
-				return Response.ok(PageCountDto.fromPageCount(count)).build();
-			}
-			else {
-				final List<Group> groups = gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
-				return Response.ok(
-					new GenericEntity<List<GroupDto>>(
-						groups.stream()
-							.map(GroupDto::fromGroup)
-							.collect(Collectors.toList())
-					) {}
-				).build();
-			}
+			final List<Group> groups = gs.findSubscribedByUser(user, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
+			final int count = (gs.findSubscribedByUserCount(user)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
+			return Response.ok(
+				GroupsDto.fromGroups(
+					groups.stream()
+					.map(GroupDto::fromGroup)
+					.collect(Collectors.toList()), 
+					count
+				)
+			).build();
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -277,20 +274,16 @@ public class UserController {
 		
 		final User user = userDetailsService.getLoggedUser();
 		if (user != null) {
-			if (page == 0) {
-				final int count = (ps.findBySubscriptionsCount(user, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-				return Response.ok(PageCountDto.fromPageCount(count)).build();
-			}
-			else {
-				final List<Post> posts = ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
-				return Response.ok(
-					new GenericEntity<List<PostDto>>(
-						posts.stream()
-							.map(PostDto::fromPost)
-							.collect(Collectors.toList())
-					) {}
-				).build();
-			}
+			final List<Post> posts = ps.findBySubscriptions(user, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+			final int count = (ps.findBySubscriptionsCount(user, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+			return Response.ok(
+				PostsDto.fromPosts(
+					posts.stream()
+					.map(PostDto::fromPost)
+					.collect(Collectors.toList()), 
+					count
+				)
+			).build();
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).build();

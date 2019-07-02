@@ -3,8 +3,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], 
 
 	pawddit.controller('ProfileCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'profile', 'lastPosts', 'lastComments', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, profile, lastPosts, lastComments, url) {
 		$window.document.title = 'Pawddit. | ' + profile.username;
-		navbarService.currentPage = 'profile';
-		navbarService.currentPageText = profile.username;
+		navbarService.setCurrentPage('profile', profile.username);
 
 		$scope.profile = profile;
 		$scope.lastPosts = lastPosts;

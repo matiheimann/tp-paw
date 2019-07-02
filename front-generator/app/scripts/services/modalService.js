@@ -38,11 +38,6 @@ define(['pawddit', 'controllers/RegisterModalCtrl', 'controllers/LoginModalCtrl'
 							return restService.getMySubscribedGroups({page: 1});
 						}
 					},
-					subscribedGroupsPageCount: function() {
-						if (!group) {
-							return restService.getMySubscribedGroupsPageCount({});
-						}
-					},
 					group: function() {
 						return group;
 					}

@@ -21,8 +21,7 @@ define(['pawddit', 'services/restService', 'services/messageService'], function(
 				restService.registerUser($scope.newUser.email, $scope.newUser.username, 
 					$scope.newUser.password, $scope.newUser.confirmPassword).then(function(data) {             
 						$modal.dismiss();
-						messageService.text = 'verifyAccount.message';
-						messageService.icon = 'fa-envelope';
+						messageService.setMessage('verifyAccount.message', 'fa-envelope')
 						$location.url('/info');
 				}).catch(function(response) {
 					if (response.status === 409) {

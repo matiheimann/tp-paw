@@ -16,7 +16,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -32,7 +31,7 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.SubscriptionService;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.GroupDto;
-import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
+import ar.edu.itba.pawddit.webapp.dto.GroupsDto;
 import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.form.CreateGroupForm;
@@ -65,20 +64,16 @@ public class GroupController {
 			@QueryParam("page") @DefaultValue("1") int page, 
 			@QueryParam("search") @DefaultValue("") String search) {
 		
-		if (page == 0) {
-			final int count = (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
-		}
-		else {
-			final List<Group> groups = gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
-			return Response.ok(
-				new GenericEntity<List<GroupDto>>(
-					groups.stream()
-						.map(GroupDto::fromGroup)
-						.collect(Collectors.toList())
-				) {}
-			).build();
-		}
+		final List<Group> groups = gs.searchGroupsByString(search, GROUPS_PER_PAGE, (page-1)*GROUPS_PER_PAGE);
+		final int count = (gs.searchGroupsByStringCount(search)+GROUPS_PER_PAGE-1)/GROUPS_PER_PAGE;
+		return Response.ok(
+			GroupsDto.fromGroups(
+				groups.stream()
+				.map(GroupDto::fromGroup)
+				.collect(Collectors.toList()), 
+				count
+			)
+		).build();
 	}
 	
 	@POST

@@ -5,17 +5,10 @@ define(['pawddit', 'services/messageService', 'services/navbarService'], functio
 		$translate('info.title').then(function(translatedValue) {
 			$window.document.title = 'Pawddit. | ' + translatedValue;
 		});
-		navbarService.currentPage = 'info';
-		navbarService.currentPageText = 'dropdown.button.info.message';
+		navbarService.setCurrentPage('info', 'dropdown.button.info.message');
 
-		if (messageService.text && messageService.icon) {
-			$scope.message = {text: messageService.text, icon: messageService.icon};
-			messageService.text = null;
-			messageService.icon = null;
-		} else {
-			$scope.message = {text: 'errorLinkAccount.message', icon: 'fa-times'};
-		}
-		
+		$scope.message = messageService.getMessage();
+		messageService.clear();
 	}]);
 	
 });

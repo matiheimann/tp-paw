@@ -78,7 +78,7 @@ define(['routes',
 					});
 			}])
 			// .value('url', 'http://pawserver.it.itba.edu.ar/paw-2018b-08/api')
-			.value('url', 'http://localhost:8080/webapp/api')
+			.value('url', 'http://localhost:9000/webapp/api')
 			// here we define our unique filter
 			.filter('unique', function() {
 			   	// we will return a function which will take in a collection

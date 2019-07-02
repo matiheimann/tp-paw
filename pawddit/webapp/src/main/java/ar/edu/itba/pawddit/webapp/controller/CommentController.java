@@ -16,7 +16,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -36,7 +35,7 @@ import ar.edu.itba.pawddit.services.GroupService;
 import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.CommentDto;
-import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
+import ar.edu.itba.pawddit.webapp.dto.CommentsDto;
 import ar.edu.itba.pawddit.webapp.exceptions.CommentNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
@@ -81,20 +80,16 @@ public class CommentController {
 		final User user = userDetailsService.getLoggedUser();
 		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
-		if (page == 0) {
-			final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
-		}
-		else {
-			final List<Comment> comments = cs.findByPostNoReply(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
-			return Response.ok(
-					new GenericEntity<List<CommentDto>>(
-							comments.stream()
-							.map(CommentDto::fromCommentWithoutPost)
-							.collect(Collectors.toList())
-							) {}
-					).build();
-		}
+		final List<Comment> comments = cs.findByPostNoReply(user, post, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
+		final int count = (cs.findByPostCount(post)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
+		return Response.ok(
+			CommentsDto.fromComments(
+				comments.stream()
+				.map(CommentDto::fromCommentWithoutPost)
+				.collect(Collectors.toList()), 
+				count
+			)
+		).build();		
 	}
 	
 	@POST
@@ -155,20 +150,16 @@ public class CommentController {
 		final Group group = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
 		final Post post = ps.findById(user, group, postId).orElseThrow(PostNotFoundException::new);
 		final Comment comment = cs.findById(user, post, commentId).orElseThrow(CommentNotFoundException::new);
-		if (page == 0) {
-			final int count = (cs.findRepliesByCommentCount(comment)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
-		}
-		else {
-			final List<Comment> replies = cs.findRepliesByComment(user, comment, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
-			return Response.ok(
-					new GenericEntity<List<CommentDto>>(
-							replies.stream()
-							.map(CommentDto::fromCommentWithoutPostAndReplyTo)
-							.collect(Collectors.toList())
-							) {}
-					).build();
-		}
+		final List<Comment> replies = cs.findRepliesByComment(user, comment, COMMENTS_PER_PAGE, (page-1)*COMMENTS_PER_PAGE);
+		final int count = (cs.findRepliesByCommentCount(comment)+COMMENTS_PER_PAGE-1)/COMMENTS_PER_PAGE;
+		return Response.ok(
+				CommentsDto.fromComments(
+				replies.stream()
+				.map(CommentDto::fromCommentWithoutPostAndReplyTo)
+				.collect(Collectors.toList()), 
+				count
+			)
+		).build();		
 	}
 	
 	@DELETE

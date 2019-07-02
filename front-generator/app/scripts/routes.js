@@ -16,7 +16,8 @@ define(function() {
                         params.page = 1;
                         params.sort = 'new';
                         params.time = 'all';
-                        if (navbarService.feed) {
+                        var p = navbarService.getParams();
+                        if (p.feed) {
                             return restService.getMyFeedPosts(params);
                         } else {
                             return restService.getPosts(params);

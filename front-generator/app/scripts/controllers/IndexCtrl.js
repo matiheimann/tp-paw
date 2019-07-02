@@ -2,7 +2,7 @@
 define(['pawddit', 'jquery', 'services/restService', 'services/authService', 'services/modalService', 'services/navbarService'], function(pawddit) {
 
 	pawddit.controller('IndexCtrl', ['$scope', '$rootScope', '$translate', '$route', '$location', 'restService', 'authService', 'modalService', 'navbarService', 'url', function($scope, $rootScope, $translate, $route, $location, restService, authService, modalService, navbarService, url) {
-		$scope.navbar = navbarService;
+		$scope.navbar = navbarService.getNavbar();
 		$scope.searchGroup = {};
 
         restService.isLoggedIn().then(function(data) {
@@ -44,12 +44,12 @@ define(['pawddit', 'jquery', 'services/restService', 'services/authService', 'se
 		};
 
 		$scope.changeSort = function(sort) {
-			navbarService.sort = sort;
+			navbarService.setSort(sort);
 			$rootScope.$broadcast('posts:updated');
 		};
 
 		$scope.changeTime = function(time) {
-			navbarService.time = time;
+			navbarService.setTime(time);
 			$rootScope.$broadcast('posts:updated');
 		};
 
@@ -60,7 +60,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/authService', 'se
 				}
     			$scope.searchGroup.name = $scope.searchGroup.name.replace(/[^a-zA-Z0-9]/g, '');
     			restService.getGroups({page: 1, search: $scope.searchGroup.name}).then(function(data) {
-    				$scope.foundGroups = data;
+    				$scope.foundGroups = data.groups;
     			});
 			} else {
 				$scope.foundGroups = null;
@@ -74,17 +74,13 @@ define(['pawddit', 'jquery', 'services/restService', 'services/authService', 'se
 		};
 
 		$scope.home = function(feed) {
-			navbarService.page = 1;
-			navbarService.sort = 'new';
-			navbarService.time = 'all';
-			navbarService.feed = feed;
+			navbarService.resetParams();
+			navbarService.setFeed(feed);
 			$location.url('');
 			if (feed) {
-				navbarService.currentPage = 'feedPosts';
-				navbarService.currentPageText = 'dropdown.button.myfeed.message';
+				navbarService.setCurrentPage('feedPosts', 'dropdown.button.myfeed.message');
 			} else {
-				navbarService.currentPage = 'allPosts';
-				navbarService.currentPageText = 'dropdown.button.all.message';
+				navbarService.setCurrentPage('allPosts', 'dropdown.button.all.message');
 			}
 			$rootScope.$broadcast('posts:updated');
 		};
@@ -114,7 +110,7 @@ define(['pawddit', 'jquery', 'services/restService', 'services/authService', 'se
 		$scope.changeProfilePictureModal = modalService.changeProfilePictureModal;
 
         function getLoggedUserSubsPageCount() {
-        	restService.getMySubscribedGroupsPageCount({}).then(function(data) {
+        	restService.getMySubscribedGroups({page: 1}).then(function(data) {
 				$scope.loggedUser.subscribedGroupsPageCount = data.pageCount;
 			});
         }

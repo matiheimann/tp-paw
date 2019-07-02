@@ -18,7 +18,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -37,8 +36,8 @@ import ar.edu.itba.pawddit.services.PostService;
 import ar.edu.itba.pawddit.services.PostVoteService;
 import ar.edu.itba.pawddit.webapp.auth.PawdditUserDetailsService;
 import ar.edu.itba.pawddit.webapp.dto.ExceptionDto;
-import ar.edu.itba.pawddit.webapp.dto.PageCountDto;
 import ar.edu.itba.pawddit.webapp.dto.PostDto;
+import ar.edu.itba.pawddit.webapp.dto.PostsDto;
 import ar.edu.itba.pawddit.webapp.exceptions.DTOValidationException;
 import ar.edu.itba.pawddit.webapp.exceptions.GroupNotFoundException;
 import ar.edu.itba.pawddit.webapp.exceptions.PostNotFoundException;
@@ -83,20 +82,17 @@ public class PostController {
 		
 		final User user = userDetailsService.getLoggedUser();
 		final Group g = gs.findByName(user, groupName).orElseThrow(GroupNotFoundException::new);
-		if (page == 0) {
-			final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
-			return Response.ok(PageCountDto.fromPageCount(count)).build();
-		}
-		else {
-			final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
-			return Response.ok(
-					new GenericEntity<List<PostDto>>(
-							posts.stream()
-							.map(PostDto::fromPost)
-							.collect(Collectors.toList())
-							) {}
-					).build();
-		}
+		final List<Post> posts = ps.findByGroup(g, POSTS_PER_PAGE, (page-1)*POSTS_PER_PAGE, sort, time);
+		final int count = (ps.findByGroupCount(g, time)+POSTS_PER_PAGE-1)/POSTS_PER_PAGE;
+		return Response.ok(
+			PostsDto.fromPosts(
+				posts.stream()
+				.map(PostDto::fromPost)
+				.collect(Collectors.toList()), 
+				count
+			)
+		).build();
+
 	}
 	
 	@POST

@@ -5,7 +5,7 @@ define(['pawddit', 'services/restService' , 'services/modalService'], function(p
 		$scope.type = type;
 		$scope.search = search;
 		$scope.groupsPage = 1;
-		$scope.groups = groups;
+		$scope.groups = groups.groups;
 		$scope.isLoggedIn = isLoggedIn;
 
 		$scope.cancel = function() {
@@ -28,9 +28,9 @@ define(['pawddit', 'services/restService' , 'services/modalService'], function(p
 			if (type === 'allGroups' && search) {
 				params.search = search;
 				restService.getGroups(params).then(function(data) {
-					if (data.length > 0) {
-						$scope.groups.push.apply($scope.groups, data);
-						$scope.noMoreGroups = data.length < 5;
+					if (data.groups.length > 0) {
+						$scope.groups.push.apply($scope.groups, data.groups);
+						$scope.noMoreGroups = data.groups.length < 5;
 					} else {
 						$scope.noMoreGroups = true;
 					}
@@ -40,9 +40,9 @@ define(['pawddit', 'services/restService' , 'services/modalService'], function(p
 				});
 			} else if (type === 'allGroups' && !search) {
 				restService.getGroups(params).then(function(data) {
-					if (data.length > 0) {
-						$scope.groups.push.apply($scope.groups, data);
-						$scope.noMoreGroups = data.length < 5;
+					if (data.groups.length > 0) {
+						$scope.groups.push.apply($scope.groups, data.groups);
+						$scope.noMoreGroups = data.groups.length < 5;
 					} else {
 						$scope.noMoreGroups = true;
 					}
@@ -52,9 +52,9 @@ define(['pawddit', 'services/restService' , 'services/modalService'], function(p
 				});
 			} else if (type === 'myGroups') {
 				restService.getMySubscribedGroups(params).then(function(data) {
-					if (data.length > 0) {
-						$scope.groups.push.apply($scope.groups, data);
-						$scope.noMoreGroups = data.length < 5;
+					if (data.groups.length > 0) {
+						$scope.groups.push.apply($scope.groups, data.groups);
+						$scope.noMoreGroups = data.groups.length < 5;
 					} else {
 						$scope.noMoreGroups = true;
 					}

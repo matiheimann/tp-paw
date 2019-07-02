@@ -3,11 +3,10 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 
     pawddit.controller('PostCtrl', ['$scope', '$rootScope', '$location', '$window', 'restService', 'navbarService', 'post', 'comments', 'url', function($scope, $rootScope, $location, $window, restService, navbarService, post, comments, url) {
         $window.document.title = 'Pawddit. | ' + post.title;
-        navbarService.currentPage = 'post';
-		navbarService.currentPageText = post.group.name;
+		navbarService.setCurrentPage('post', post.group.name);
 
         $scope.post = post;
-        $scope.comments = comments;
+        $scope.comments = comments.comments;
 		$scope.commentsPage = 1;
 
 		$scope.newComment = {};
@@ -107,9 +106,9 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 			$scope.commentsPage++;
 			var params = {page: $scope.commentsPage};
 			restService.getPostComments(post.group.name, post.postid, params).then(function(data) {
-				if (data.length > 0) {
-					$scope.comments.push.apply($scope.comments, data);
-					$scope.noMoreComments = data.length < 5;
+				if (data.comments.length > 0) {
+					$scope.comments.push.apply($scope.comments, data.comments);
+					$scope.noMoreComments = data.comments.length < 5;
 				} else {
 					$scope.noMoreComments = true;
 				}
@@ -124,9 +123,9 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 			var params = {page: comment.repliesPage};
 			restService.getCommentReplies(post.group.name, post.postid, comment.commentid, params).then(function(data) {
 				if (comment.repliesList) {
-					comment.repliesList.push.apply(comment.repliesList, data);
+					comment.repliesList.push.apply(comment.repliesList, data.comments);
 				} else {
-					comment.repliesList = data;
+					comment.repliesList = data.comments;
 				}
 				comment.repliesPage++;
 			});

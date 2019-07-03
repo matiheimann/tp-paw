@@ -15,7 +15,7 @@ import io.jsonwebtoken.SignatureException;
 public class TokenHandler {
 
 	@Autowired
-	private String tokenSigningKey;
+	private String authTokenSecretKey;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -23,7 +23,7 @@ public class TokenHandler {
 	public UserDetails parseUserFromToken(final String token) {
 		try {
 			final String username = Jwts.parser()
-					.setSigningKey(tokenSigningKey)
+					.setSigningKey(authTokenSecretKey)
 					.parseClaimsJws(token)
 					.getBody()
 					.getSubject();
@@ -37,7 +37,7 @@ public class TokenHandler {
 		return Jwts.builder()
 				.setId(UUID.randomUUID().toString())
 				.setSubject(username)
-				.signWith(SignatureAlgorithm.HS512, tokenSigningKey)
+				.signWith(SignatureAlgorithm.HS512, authTokenSecretKey)
 				.compact();
 	}
 }

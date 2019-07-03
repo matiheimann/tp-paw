@@ -22,128 +22,127 @@
 				{{'profileActivity.message' | translate}}
 			</h6>
 			<div class="activity">
-				<div class ="btn-history clickable selected-history" id="lastNPosts" ng-click="lastNumberPosts()">
+				<div class ="btn-history clickable" ng-class="{'selected-history': selectedOption == 'lastPosts'}" id="lastNPosts" ng-click="selectedOption = 'lastPosts'">
 					{{'profilePosts.title' | translate}}
 				</div>
-				<div class="btn-history clickable" id="lastNComments" ng-click="lastNumberComments()">
+				<div class="btn-history clickable" ng-class="{'selected-history': selectedOption == 'lastComments'}" id="lastNComments" ng-click="selectedOption = 'lastComments'">
 					{{'profileComments.title' | translate}}
 				</div>
 			</div>
-			<div class="center-posts width-full height-full padding-bottom-10 overflow-y-scroll padding-right-5" id="profile-posts">
-					<div ng-if="lastPosts.length == 0">
-		  				<strong>
-		  					{{'userDoesNotHavePosts.message' | translate}}
-		  				</strong>
+			<div class="center-posts width-full height-full padding-bottom-10 overflow-y-scroll padding-right-5" ng-show="selectedOption == 'lastPosts'" id="profile-posts">
+				<div ng-if="lastPosts.length == 0">
+		  			<strong>
+		  				{{'userDoesNotHavePosts.message' | translate}}
+		  			</strong>
+				</div>
+				<!-- Posts -->
+				<div ng-if="lastPosts.length > 0" ng-repeat="post in lastPosts" class="activity-posts-component">
+					<div class="post-header">
+						<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
+							{{post.owner.username}}
+						</span>
+						<span><strong>
+							{{'postedIn.message' | translate}}
+						</strong></span>
+						<a class="no-underline" ng-href="#/groups/{{post.group.name}}">
+							<span class="header-button group-name">{{post.group.name}}</span>
+						</a>
+						<span><strong>
+							{{post.date | timeAgo}}
+						</strong></span>
 					</div>
-					<!-- Posts -->
-					<div ng-if="lastPosts.length > 0" ng-repeat="post in lastPosts" class="activity-posts-component">
-						<div class="post-header">
-							<span class="header-button clickable" ng-click="gotoProfile(post.owner.username)">
-								{{post.owner.username}}
-							</span>
-							<span><strong>
-								{{'postedIn.message' | translate}}
-							</strong></span>
-							<a class="no-underline" ng-href="#/groups/{{post.group.name}}">
-								<span class="header-button group-name">{{post.group.name}}</span>
-							</a>
-							<span><strong>
-								{{post.date | timeAgo}}
-							</strong></span>
-						</div>
-						<hr>
-						<div class="clickable post-center" ng-click="gotoPost(post.group.name, post.postid)">
-							<div class="post-center-text">
-								<h2 class="post-wrap">{{post.title}}</h2>
-								<br>
-								<div class="post-description-text post-wrap" style="background: -webkit-linear-gradient(rgba(0,0,0,1) 50px, rgba(0,0,0,0) 160px); -webkit-background-clip: text;-webkit-text-fill-color: transparent;">
-									{{post.content}}
-								</div>
+					<hr>
+					<div class="clickable post-center" ng-click="gotoPost(post.group.name, post.postid)">
+						<div class="post-center-text">
+							<h2 class="post-wrap">{{post.title}}</h2>
+							<br>
+							<div class="post-description-text post-wrap" style="background: -webkit-linear-gradient(rgba(0,0,0,1) 50px, rgba(0,0,0,0) 160px); -webkit-background-clip: text;-webkit-text-fill-color: transparent;">
+								{{post.content}}
 							</div>
-							<img ng-if="post.imageid != null" class="post-center-image" ng-src="{{getImageURL(post.imageid)}}"/>
 						</div>
-						<hr>
-						<div class="post-info">
-							<div class="info-item">
-					        	<strong><i class="fas fa-comment"></i>
-					         		{{post.comments}} {{'comments.message' | translate}}
-					         	</strong>
-					    	</div>
-							<div class="info-item">
-								<strong class="score-count">
-									{{post.votes}} {{'posts.votes' | translate}}
-								</strong>
-					    	</div>
-						</div>
+						<img ng-if="post.imageid != null" class="post-center-image" ng-src="{{getImageURL(post.imageid)}}"/>
+					</div>
+					<hr>
+					<div class="post-info">
+						<div class="info-item">
+					        <strong><i class="fas fa-comment"></i>
+					         	{{post.comments}} {{'comments.message' | translate}}
+					         </strong>
+					    </div>
+						<div class="info-item">
+							<strong class="score-count">
+								{{post.votes}} {{'posts.votes' | translate}}
+							</strong>
+					    </div>
 					</div>
 				</div>
-		  		<div class="width-full height-full padding-bottom-10 display-none overflow-y-scroll" id="profile-comments">
-					<div ng-if="lastComments.length == 0" class="text-align-center">
-						<strong>
-							{{'userDoesNotHaveComments.message' | translate}}
-						</strong>
-					</div>
-					<div ng-if="lastComments.length > 0" ng-repeat="comment in lastComments" class="activity-comments-component width-full height-full">
-						<div class="comment-header">
-							<span class="header-button clickable" ng-click="gotoProfile(comment.owner.username)">
-								{{comment.owner.username}}
-							</span>
-							<span><strong>
-								{{'commentedIn.message' | translate}}
-							</strong></span>
-							<a class="no-underline" ng-href="#/groups/{{comment.post.group.name}}/posts/{{comment.post.postid}}">
-								<span class="header-button group-name">
-									{{comment.post.title}}
-								</span>
-							</a>
-							<span><strong>
-								{{'postedIn.message' | translate}}
-							</strong></span>
-							<a class="no-underline" ng-href="#/groups/{{comment.post.group.name}}">
-								<span class="header-button group-name">
-									{{comment.post.group.name}}
-								</span>
-							</a>
-							<span><strong>
-								{{comment.date | timeAgo}}
-							</strong></span>
-						</div>
-						<hr class="comment-separator">
-						<div ng-if="comment.replyTo" class="comment-reply">
-				        	<div class="comment-header">
-				           		<span class="header-button clickable comment-reply-button-color" ng-click="gotoProfile(comment.replyTo.owner.username)">
-				                	{{comment.replyTo.owner.username}}
-				            	</span>
-				            	<span><strong>
-				                	{{comment.replyTo.date | timeAgo}}
-				            	</strong></span>
-				        	</div>
-				        	<hr class="comment-separator">
-				        	<div class="comment-component-content">
-				            	{{comment.replyTo.content}}
-				        	</div>
-				    	</div>
-				    	<br>
-						<div class="comment-component-content">
-							{{comment.content}}
-						</div>
-						<div class="comment-footer">
-							<div class="info-item votes-controls">
-								<strong class="score-count">
-									{{comment.votes}} {{'comments.votes' | translate}}
-								</strong>
-							</div>
-							<div class="info-item">
-								<strong ng-if="comment.replies == 1">
-									{{comment.replies}} {{'comments.moreReply.button.message' | translate}}
-								</strong>
-								<strong ng-if="comment.replies > 1">
-									{{comment.replies}} {{'comments.moreReplies.button.message' | translate}}
-								</strong>
-							</div>
-						</div>
-			    	</div>
+			</div>
+		  	<div class="width-full height-full padding-bottom-10 overflow-y-scroll" ng-show="selectedOption == 'lastComments'" id="profile-comments">
+				<div ng-if="lastComments.length == 0" class="text-align-center">
+					<strong>
+						{{'userDoesNotHaveComments.message' | translate}}
+					</strong>
 				</div>
+				<div ng-if="lastComments.length > 0" ng-repeat="comment in lastComments" class="activity-comments-component width-full height-full">
+					<div class="comment-header">
+						<span class="header-button clickable" ng-click="gotoProfile(comment.owner.username)">
+							{{comment.owner.username}}
+						</span>
+						<span><strong>
+							{{'commentedIn.message' | translate}}
+						</strong></span>
+						<a class="no-underline" ng-href="#/groups/{{comment.post.group.name}}/posts/{{comment.post.postid}}">
+							<span class="header-button group-name">
+								{{comment.post.title}}
+							</span>
+						</a>
+						<span><strong>
+							{{'postedIn.message' | translate}}
+						</strong></span>
+						<a class="no-underline" ng-href="#/groups/{{comment.post.group.name}}">
+							<span class="header-button group-name">
+								{{comment.post.group.name}}
+							</span>
+						</a>
+						<span><strong>
+							{{comment.date | timeAgo}}
+						</strong></span>
+					</div>
+					<hr class="comment-separator">
+					<div ng-if="comment.replyTo" class="comment-reply">
+				        <div class="comment-header">
+				           	<span class="header-button clickable comment-reply-button-color" ng-click="gotoProfile(comment.replyTo.owner.username)">
+				                {{comment.replyTo.owner.username}}
+				            </span>
+				            <span><strong>
+				                {{comment.replyTo.date | timeAgo}}
+				            </strong></span>
+				        </div>
+				        <hr class="comment-separator">
+				        <div class="comment-component-content">
+				            {{comment.replyTo.content}}
+				        </div>
+				    </div>
+				    <br>
+					<div class="comment-component-content">
+						{{comment.content}}
+					</div>
+					<div class="comment-footer">
+						<div class="info-item votes-controls">
+							<strong class="score-count">
+								{{comment.votes}} {{'comments.votes' | translate}}
+							</strong>
+						</div>
+						<div class="info-item">
+							<strong ng-if="comment.replies == 1">
+								{{comment.replies}} {{'comments.moreReply.button.message' | translate}}
+							</strong>
+							<strong ng-if="comment.replies > 1">
+								{{comment.replies}} {{'comments.moreReplies.button.message' | translate}}
+							</strong>
+						</div>
+					</div>
+			    </div>
 			</div>
 		</div>
 	</div>

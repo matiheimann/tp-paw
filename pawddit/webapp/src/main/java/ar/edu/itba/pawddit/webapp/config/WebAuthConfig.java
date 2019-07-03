@@ -91,7 +91,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public String tokenSigningKey() {
+	public String authTokenSecretKey() {
 		return Base64.getEncoder().encodeToString("576e5a7134743777217a25432a462d4a".getBytes());
 	}
 }

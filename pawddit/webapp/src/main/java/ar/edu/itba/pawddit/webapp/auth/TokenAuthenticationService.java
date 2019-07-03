@@ -20,7 +20,9 @@ public class TokenAuthenticationService {
 	private TokenHandler tokenHandler;
 
 	public void addAuthentication(final HttpServletResponse response, final Authentication authentication) {
-		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(authentication.getName()));
+		final String username = authentication.getName();
+		final String token = tokenHandler.createTokenForUser(username);
+		response.addHeader(AUTH_HEADER_NAME, token);
 	}
 
 	public Authentication getAuthentication(final HttpServletRequest request) {

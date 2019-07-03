@@ -8,6 +8,8 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], 
 		$scope.profile = profile;
 		$scope.lastPosts = lastPosts;
 		$scope.lastComments = lastComments;
+
+		$scope.selectedOption = 'lastPosts';
 		
 		$scope.getImageURL = function(imageid) {
 			return url + '/images/' + imageid;
@@ -18,24 +20,6 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService'], 
         		$scope.profile = data;
         	});
 		});
-
-		$scope.lastNumberComments = function() {
-			$("#lastNComments").addClass("selected-history");
-			$("#lastNPosts").removeClass("selected-history");
-			if(!$("#profile-comments").is(":visible") && $("#profile-posts").is(":visible")){
-				$("#profile-posts").toggle(400);
-				$("#profile-comments").toggle(400);
-			}
-		};
-		
-		$scope.lastNumberPosts = function() {
-			$("#lastNPosts").addClass("selected-history");
-			$("#lastNComments").removeClass("selected-history");
-			if(!$("#profile-posts").is(":visible") && $("#profile-comments").is(":visible")){	
-				$("#profile-comments").toggle(400);
-				$("#profile-posts").toggle(400);
-			}
-		};
 
 	}]);
 });

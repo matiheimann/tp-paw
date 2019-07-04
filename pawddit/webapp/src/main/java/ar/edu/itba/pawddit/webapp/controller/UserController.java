@@ -96,6 +96,9 @@ public class UserController {
 	@Autowired
 	private TemplateEngine htmlTemplateEngine;
 	
+	@Autowired
+	private String frontUrl;
+	
 	@Context
 	private UriInfo uriInfo;
 	
@@ -115,8 +118,7 @@ public class UserController {
 		
 		// Prepare the evaluation context
 		final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context(LocaleContextHolder.getLocale());
-		// final String confirmationUrl = uriInfo.getBaseUri().toString() + "#/users/confirm?token=" + token.getToken();
-		final String confirmationUrl = "http://localhost:9000/#/confirm?token=" + token.getToken();	
+		final String confirmationUrl = frontUrl + "confirm?token=" + token.getToken();
 		ctx.setVariable("username", user.getUsername());
 		ctx.setVariable("confirmationUrl", confirmationUrl);
 		final String htmlContent = this.htmlTemplateEngine.process(VERIFICATION_TOKEN_TEMPLATE_NAME, ctx);

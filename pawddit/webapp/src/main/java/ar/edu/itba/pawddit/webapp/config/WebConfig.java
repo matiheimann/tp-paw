@@ -76,6 +76,15 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		//ds.setPassword("eecRn7Xr5");
 		return ds;
 	}
+	
+	@Bean
+	public String frontUrl() {
+		//Test
+		return "http://localhost:9000/#/";
+		
+		//Deploy
+		//return "http://pawserver.it.itba.edu.ar/paw-2018b-08/#/";
+	}
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

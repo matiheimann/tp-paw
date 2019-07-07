@@ -31,6 +31,7 @@ public class ImageController {
 		final CacheControl cache = new CacheControl();
 		cache.setNoTransform(false);
 		cache.setMaxAge(31536000);
-		return Response.ok(img).cacheControl(cache).build();
+		
+		return Response.ok(img).cacheControl(cache).header("Pragma", null).build();
 	}
 }

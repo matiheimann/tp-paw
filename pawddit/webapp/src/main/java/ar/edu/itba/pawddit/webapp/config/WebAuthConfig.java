@@ -69,8 +69,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 			.and().exceptionHandling()
 				.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 			.and().csrf().disable()
-				.addFilterBefore(statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-				.headers().cacheControl().disable();
+				.addFilterBefore(statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override

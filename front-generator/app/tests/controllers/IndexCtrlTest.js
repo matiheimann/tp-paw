@@ -1,6 +1,6 @@
 define(['controllers/IndexCtrl', 'angular-mocks'], function() {
 
-	describe('Index Controller', function() {
+	describe('Index Controller test', function() {
 
 		var controller, scope;
 

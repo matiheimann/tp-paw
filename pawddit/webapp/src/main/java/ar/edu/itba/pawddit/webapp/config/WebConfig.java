@@ -2,7 +2,6 @@ package ar.edu.itba.pawddit.webapp.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -20,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.http.CacheControl;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -58,10 +56,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		final CacheControl cache = CacheControl.maxAge(31536000, TimeUnit.SECONDS);	
-		registry.addResourceHandler("/bower_components/**", "/images/**", "/scripts/**", "/styles/**", "/views/**")
-				.addResourceLocations("/bower_components/", "/images/", "/scripts/", "/styles/", "/views/")
-				.setCacheControl(cache);
+		registry.addResourceHandler("/resources/**")
+				.addResourceLocations("/resources/");
 	}
 
 	@Bean
@@ -84,10 +80,10 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	@Bean
 	public String frontUrl() {
 		//Test
-		return "http://localhost:9000/#/";
+		//return "http://localhost:9000/#/";
 		
 		//Deploy
-		//return "http://pawserver.it.itba.edu.ar/paw-2018b-08/#/";
+		return "http://pawserver.it.itba.edu.ar/paw-2018b-08/#/";
 	}
 
 	@Bean

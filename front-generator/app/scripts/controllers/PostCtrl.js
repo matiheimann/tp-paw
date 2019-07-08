@@ -50,8 +50,11 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 		}
 
 		$scope.$on('comment:deleted', function(event, deletedComment) {
+			var replyToId = deletedComment.replyTo.commentid;
 			deletedComment = Object.assign(deletedComment, {commentid: null})
 			updatePost($scope.post.group.name, $scope.post);
+			var replyTo = findComment($scope.comments, replyToId);
+			replyTo.replies--;
 		});
 
 		$scope.doSubmit = function(form, replyTo) {
@@ -130,6 +133,19 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 				comment.repliesPage++;
 			});
 		};
+
+		function findComment(comments, cid) {
+			var i = 0;
+			while(i < comments.length) {
+				if (comments[i].commentid == cid)
+					return comments[i];
+				var comment = comments[i].repliesList ? findComment(comments[i].repliesList, cid) : null;
+				if (comment != null)
+					return comment;
+				i++;
+			}
+			return null;
+		}
 
     }]);
 });

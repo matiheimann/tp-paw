@@ -23,7 +23,7 @@ public class ImageController {
 	
 	@GET
 	@Path("/{token}")
-	@Produces(value = { MediaType.IMAGE_JPEG_VALUE, })
+	@Produces(value = { MediaType.IMAGE_JPEG_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE, })
 	public Response getImage(
 			@PathParam("token") final String token) {
 		
@@ -31,7 +31,6 @@ public class ImageController {
 		final CacheControl cache = new CacheControl();
 		cache.setNoTransform(false);
 		cache.setMaxAge(31536000);
-		
-		return Response.ok(img).cacheControl(cache).header("Pragma", null).build();
+		return Response.ok(img).cacheControl(cache).build();
 	}
 }

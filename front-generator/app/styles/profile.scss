@@ -5,14 +5,15 @@
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
-	min-height: 850px;
-	max-height: 850px;
 	margin: 30px 10px 0 10px;
+	max-height: 850px;
+	max-width: 800px;
+	min-height: 850px;
+	position: relative;
 	overflow: hidden;
 	padding: 8px 15px;
 	width: 90%;
-	max-width: 800px;
-	position: relative;
+	/* added shadows */
 	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
 	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
 	box-shadow: 0px 4px 18px -4px $box-shadow;
@@ -21,11 +22,12 @@
 .activity-posts-component {
 	background-color: $white;
 	border-radius: 10px;
-	max-height: 450px;
 	margin-top: 30px;
+	max-height: 450px;
 	padding: 8px 15px;
-	width: 100%;
 	position: relative;
+	width: 100%;
+	/* added shadows */
 	-webkit-box-shadow: 0px 4px 18px -4px $box-shadow;
 	-moz-box-shadow: 0px 4px 18px -4px $box-shadow;
 	box-shadow: 0px 4px 18px -4px $box-shadow;
@@ -33,8 +35,8 @@
 
 .activity-comments-component {
 	border-left: 3px solid $light-grey;
-	padding: 10px;
 	margin-top: 15px;
+	padding: 10px;
 	width: 100%;
 }
 
@@ -46,13 +48,13 @@
 
 
 .activity {
-	margin-top: 20px;
+	display: flex;
+	height: 100px;
+	justify-content: space-around;
 	margin-bottom: 10px;
+	margin-top: 20px;
 	padding-bottom: 17px;
 	width: 100%;
-	display: flex;
-	justify-content: space-around;
-	height: 100px;
 }
 
 .selected-history {
@@ -73,21 +75,21 @@
 
 .user-image-container-in-modal-no-picture {
 	color: $light-grey;
-	text-align: center;
 	border: 2px solid $light-grey;
 	border-radius: 10px;
 	height: 60px;
-	min-height: 60px;
-	max-width: 60px;
 	margin: 10px auto;
+	max-width: 60px;
+	min-height: 60px;
 	padding: 4px;
+	text-align: center;
 }
 
 .user-image-container-in-modal {
-	display: inline-block;
-	margin: 10px auto;
 	border: 2px solid $light-grey;
 	border-radius: 3px;
+	display: inline-block;
+	margin: 10px auto;
 }
 
 .justify-content-center {
@@ -97,19 +99,19 @@
 
 .user-image-container-no-picture {
 	color: $light-grey;
-	text-align: center;
 	border: 2px solid $light-grey;
 	border-radius: 10px;
 	height: 60px;
-	min-height: 60px;
 	margin: 10px auto;
+	min-height: 60px;
 	padding: 4px;
+	text-align: center;
 }
 
 .user-image-container {
-	margin: 10px auto;
 	border: 2px solid $light-grey;
 	border-radius: 3px;
+	margin: 10px auto;
 }
 
 .edit-prfile-image-modal-opener {
@@ -129,7 +131,7 @@
 }
 
 .profile-picture {
+	max-height: 180px;
 	display: block;
 	max-width: 180px;
-	max-height: 180px;
 }

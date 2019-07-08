@@ -3,9 +3,9 @@ define(['controllers/PostCtrl', 'angular-mocks'], function() {
 	describe('Post controller test', function() {
 
     var $controller, restService, navbarService, $q, $rootScope;
-    var createGroupModalCtl;
     var $location = {};
     var $scope = {};
+		var postCtrl;
     var $window = {document: {title: ''}};
     var url = '';
 

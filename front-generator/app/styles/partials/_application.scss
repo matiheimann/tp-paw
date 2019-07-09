@@ -195,9 +195,15 @@ div .dropdown-menu {
 	color: $grey;
 	font-weight: bolder;
 	font-size: 12px;
-	margin-left: 30px;
 	padding-left: 5px;
 	margin-right: 5px;
+}
+
+.fix-position {
+	display: flex;
+	align-items: center;
+	position: fixed;
+	left: 400px;
 }
 
 .margin-left-100 {
@@ -205,6 +211,7 @@ div .dropdown-menu {
 }
 
 .create-post {
+	margin-left: auto;
   margin-right: 9px;
 }
 
@@ -427,8 +434,8 @@ textarea {
 .search-navbar {
 	align-items: center;
 	display: flex;
-	margin-left: auto;
-	margin-right: auto;
+	position: fixed;
+	left: 45%;
 }
 
 .search-navbar-form {
@@ -464,7 +471,7 @@ textarea {
 }
 
 .margin-left-180-150 {
-	margin-left: 180px;
+	margin-left: auto;
 }
 
 .padding-bottom-10 {
@@ -530,7 +537,7 @@ textarea {
 	}
 
   .create-group-icon {
-    display: inline-block ;
+    display: inline-block;
   }
 
 	.create-group-text {
@@ -554,17 +561,31 @@ textarea {
 	}
 
 	.margin-left-100 {
-		margin-left: 0;
+		margin-left: 30px;
+	}
+
+	.fix-position {
+		position: relative;
+		left: auto;
+	}
+
+	.search-navbar {
+		position: relative;
+		left: auto;
+	}
+
+	.margin-left-180-150 {
+		margin-left: 30px;
 	}
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 780px) {
 	.center-content {
 		padding-top: 170px;
 	}
 
-	.margin-left-180-150 {
-		margin-left: 100px;
+	.create-post {
+		margin-left: 30px;
 	}
 
 	.navbar-component {
@@ -581,5 +602,6 @@ textarea {
 		order: -1;
 		min-width: 290px;
 		flex: 1 0 80%;
+		position: relative;
 	}
 }

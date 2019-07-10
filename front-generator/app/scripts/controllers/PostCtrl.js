@@ -50,11 +50,15 @@ define(['pawddit', 'jquery', 'services/restService', 'services/navbarService', '
 		}
 
 		$scope.$on('comment:deleted', function(event, deletedComment) {
-			var replyToId = deletedComment.replyTo.commentid;
+			if (deletedComment.replyTo) {
+				var replyToId = deletedComment.replyTo.commentid;
+			}
 			deletedComment = Object.assign(deletedComment, {commentid: null})
 			updatePost($scope.post.group.name, $scope.post);
-			var replyTo = findComment($scope.comments, replyToId);
-			replyTo.replies--;
+			if (replyToId) {
+				var replyTo = findComment($scope.comments, replyToId);
+				replyTo.replies--;
+			}
 		});
 
 		$scope.doSubmit = function(form, replyTo) {

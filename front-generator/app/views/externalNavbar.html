@@ -43,35 +43,37 @@
 			</a>
 		</div>
 	</div>
-	<div ng-if="navbar.currentPage == 'group' || navbar.currentPage == 'allPosts' || navbar.currentPage == 'feedPosts'" class="sort-indicator">
-		{{'dropdown.sort.button.title' | translate}}
-	</div>
-	<div ng-if="navbar.currentPage == 'group' || navbar.currentPage == 'allPosts' || navbar.currentPage == 'feedPosts'" class="dropdown show">
-	  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	  		<div ng-if="navbar.sort == 'new'">
-				<i class="dropdown-icon fas fa-certificate"></i>
-				{{'dropdown.sort.button.new.message' | translate}}
-			</div>
-	  		<div ng-if="navbar.sort == 'top'">
-				<i class="dropdown-icon fas fa-fire"></i>
-				{{'dropdown.sort.button.top.message' | translate}}
-			</div>
-			<div ng-if="navbar.sort == 'controversial'">
-				<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
-				{{'dropdown.sort.button.controversial.message' | translate}}
-			</div>
-	  	</button>
-	  	<div class="dropdown-menu" aria-labelledby="dropdownSort">
-			<a ng-if="navbar.sort != 'new'" class="dropdown-item" ng-click="changeSort('new')"><i class="dropdown-icon fas fa-certificate"></i>
-				{{'dropdown.sort.button.new.message' | translate}}<br>
-			</a>
-	    	<a ng-if="navbar.sort != 'top'" class="dropdown-item" ng-click="changeSort('top')"><i class="dropdown-icon fas fa-fire"></i>
-				{{'dropdown.sort.button.top.message' | translate}}<br>
-			</a>
-			<a ng-if="navbar.sort != 'controversial'" class="dropdown-item" ng-click="changeSort('controversial')"><i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
-				{{'dropdown.sort.button.controversial.message' | translate}}<br>
-			</a>
-	  	</div>
+	<div class="fix-position">
+		<div ng-if="navbar.currentPage == 'group' || navbar.currentPage == 'allPosts' || navbar.currentPage == 'feedPosts'" class="sort-indicator">
+			{{'dropdown.sort.button.title' | translate}}
+		</div>
+		<div ng-if="navbar.currentPage == 'group' || navbar.currentPage == 'allPosts' || navbar.currentPage == 'feedPosts'" class="dropdown show">
+		  	<button class="dropdown-btn dropdown-toggle" href="" id="dropdownSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  		<div ng-if="navbar.sort == 'new'">
+					<i class="dropdown-icon fas fa-certificate"></i>
+					{{'dropdown.sort.button.new.message' | translate}}
+				</div>
+		  		<div ng-if="navbar.sort == 'top'">
+					<i class="dropdown-icon fas fa-fire"></i>
+					{{'dropdown.sort.button.top.message' | translate}}
+				</div>
+				<div ng-if="navbar.sort == 'controversial'">
+					<i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+					{{'dropdown.sort.button.controversial.message' | translate}}
+				</div>
+		  	</button>
+		  	<div class="dropdown-menu" aria-labelledby="dropdownSort">
+				<a ng-if="navbar.sort != 'new'" class="dropdown-item" ng-click="changeSort('new')"><i class="dropdown-icon fas fa-certificate"></i>
+					{{'dropdown.sort.button.new.message' | translate}}<br>
+				</a>
+		    	<a ng-if="navbar.sort != 'top'" class="dropdown-item" ng-click="changeSort('top')"><i class="dropdown-icon fas fa-fire"></i>
+					{{'dropdown.sort.button.top.message' | translate}}<br>
+				</a>
+				<a ng-if="navbar.sort != 'controversial'" class="dropdown-item" ng-click="changeSort('controversial')"><i class="dropdown-icon dropdown-bull fas fa-bullhorn"></i>
+					{{'dropdown.sort.button.controversial.message' | translate}}<br>
+				</a>
+		  	</div>
+		</div>
 	</div>
 	<div class="search-navbar">
 		<div class="flex-column-center">

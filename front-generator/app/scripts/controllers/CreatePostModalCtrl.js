@@ -3,13 +3,15 @@ define(['pawddit', 'services/restService', 'directives/fileRead'], function(pawd
 
 	pawddit.controller('CreatePostModalCtrl', ['$scope', '$location', '$uibModalInstance', 'restService', 'subscribedGroups', 'group', function($scope, $location, $modal, restService, subscribedGroups, group) {
 		$scope.newPost = {};
-		$scope.subscribedGroups = subscribedGroups.groups;
+		if (subscribedGroups) {
+			$scope.subscribedGroups = subscribedGroups.groups;
+		}
 		$scope.group = group;
 		if (group) {
 			$scope.newPost.group = group;
 			$scope.subscribedGroups = [group];
 		} else {
-			$scope.newPost.group = subscribedGroups[0];
+			$scope.newPost.group = $scope.subscribedGroups.subscribedGroups[0];
 			for (var i = 2; i <= subscribedGroups.pageCount; i++) {
 				restService.getMySubscribedGroups({page: i}).then(function(data) {
 					$scope.subscribedGroups.push.apply($scope.subscribedGroups, data.groups);

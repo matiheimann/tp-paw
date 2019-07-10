@@ -19,7 +19,7 @@
       </label>
       <br>
       <input type="file" path="file" id="profile-image" accept="image/*" file-read="newPicture.file" name="file"/>
-      <span ng-show="validImageFormatError && submitted" class="formError">
+      <span ng-if="validImageFormatError && submitted" class="formError">
         {{'ValidImageFormat.createPostForm.file' | translate}}
       </span>
     </div>

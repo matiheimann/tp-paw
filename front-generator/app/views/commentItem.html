@@ -54,7 +54,7 @@
 			<div ng-if="isLoggedIn">
 				<div class="form-group">
 					<textarea path="content" class="form-control" id="reply-comment-content" rows="3" placeholder="{{'addComment.placeholder' | translate}}" name="content" ng-model="newCommentReply.content" ng-minlength="1" ng-maxlength="1000" ng-required="true"></textarea>
-					<span ng-show="((createCommentReplyForm.content.$error.required || createCommentReplyForm.content.$error.minlength || createCommentReplyForm.content.$error.maxlength) && submitted)" class="formError">
+					<span ng-if="((createCommentReplyForm.content.$error.required || createCommentReplyForm.content.$error.minlength || createCommentReplyForm.content.$error.maxlength) && submitted)" class="formError">
 		                {{'Size.createCommentForm.content' | translate}}
 		            </span>
 				</div>

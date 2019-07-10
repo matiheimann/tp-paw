@@ -11,7 +11,7 @@
                     {{'loginUsernameField.title' | translate}}
                 </label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="{{'loginUsername.placeholder' | translate}}" ng-model="loginUser.username" ng-required="true"/>
-                <span ng-show="(loginForm.username.$error.required || loginForm.password.$error.required || loginError) && loginForm.$submitted" class="formError">
+                <span ng-if="(loginForm.username.$error.required || loginForm.password.$error.required || loginError) && loginForm.$submitted" class="formError">
                     {{'login.error.message' | translate}}
                 </span>
             </div>
